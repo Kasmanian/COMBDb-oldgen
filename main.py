@@ -15,7 +15,7 @@ def main():
     view = View()
     model = Model(view)
     controller = Controller(model)
-    view.init()
+    #view.init()
 
 if __name__=="__main__":
     main()
