@@ -65,7 +65,7 @@
      <string notr="true">background-color: rgb(193, 193, 193);</string>
     </property>
     <property name="text">
-     <string>Culture Report</string>
+     <string>Culture Order Forms</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -81,7 +81,7 @@
      <string notr="true">background-color: rgb(193, 193, 193);</string>
     </property>
     <property name="text">
-     <string>Waterline Test</string>
+     <string>Result Entry</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -97,7 +97,23 @@
      <string notr="true">background-color: rgb(193, 193, 193);</string>
     </property>
     <property name="text">
-     <string>Cavity Prone Test</string>
+     <string>Rejection Log Form</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>750</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(193, 193, 193);</string>
+    </property>
+    <property name="text">
+     <string>QA Manager</string>
     </property>
    </widget>
    <zorder>label</zorder>
@@ -105,6 +121,7 @@
    <zorder>label_4</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>pushButton_3</zorder>
+   <zorder>pushButton_4</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
