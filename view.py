@@ -28,7 +28,7 @@ class View(QApplication):
 class Window(QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
-        loadUi("./UI Screens/COMBdb_Login.ui", self)
+        loadUi("COMBdb/UI Screens/COMBdb_Login.ui", self)
         #self.initUI()
 
     #def initUI(self):
