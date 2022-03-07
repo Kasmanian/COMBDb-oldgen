@@ -30,7 +30,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Culture Order Form&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="culture">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -46,7 +46,7 @@
      <string>Culture</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="cat">
     <property name="geometry">
      <rect>
       <x>290</x>

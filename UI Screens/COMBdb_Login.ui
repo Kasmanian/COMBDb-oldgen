@@ -52,7 +52,7 @@
      <pixmap>../Icon/OMCDb.ico</pixmap>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="login">
     <property name="geometry">
      <rect>
       <x>770</x>
@@ -79,7 +79,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="usrnm">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -95,7 +95,7 @@ border-width: 1px</string>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="pswd">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -113,7 +113,7 @@ border-width: 1px</string>
     </layout>
    </widget>
    <zorder>label</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>login</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>label_4</zorder>
   </widget>
