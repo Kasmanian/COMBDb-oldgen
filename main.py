@@ -13,8 +13,9 @@ def main():
     # mycol = mydb["Clinician"]
     # mydict = Clinician('Jane', 'Doe', 'Address 1', 'Address 2', 'NC', 'Chapel Hill', 28390, '9103334444', '9102225555', 'email@url.com')
     # x = mycol.insert_one(mydict.data)
-    view = View()
-    model = Model(view)
+    model = Model()
+    #model.addAdmin('admin2', 'password')
+    view = View(model)
     controller = Controller(model)
     #view.init()
 

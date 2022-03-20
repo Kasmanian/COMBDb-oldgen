@@ -51,3 +51,31 @@ class WaterlineSample:
            'operatoryID': args[5],
               'comments': args[6]
       }
+
+class Admin:
+  #def __init__(username, password):
+  def __init__(self, *args):
+    if args is None:
+      self.data = None
+    elif isinstance(args, tuple):
+      self.data = args[0]
+    else:
+      print(args)
+      self.data = {
+        'username': args[0],
+        'password': args[1],
+      }
+
+class Guest:
+  #def __init__(key, lifespan):
+  def __init__(self, *args):
+    if args is None:
+      self.data = None
+    elif isinstance(args, dict):
+      self.data = args
+    else:
+      self.data = {
+        'password': args[0],
+        'timestmp': args[1],
+        'lifespan': args[2],
+      }

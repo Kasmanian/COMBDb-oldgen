@@ -5,9 +5,9 @@ from PyQt5.QtWidgets import *
 import sys
 
 class View(QApplication):
-    def __init__(self):
+    def __init__(self, model):
         app = QApplication(sys.argv)
-        welcome = Window()
+        welcome = Window(model)
         widget = QtWidgets.QStackedWidget()
         widget.addWidget(welcome)
         widget.setFixedHeight(1200)
@@ -17,27 +17,18 @@ class View(QApplication):
             sys.exit(app.exec())
         except:
             print("Exiting")
-        #super(View, self).__init__(sys.argv)
-        #self.win = Window()
-        #Window()
-
-    #def init(self):
-        #sys.exit(self.exec_())
 
 
 class Window(QMainWindow):
-    def __init__(self):
+    def __init__(self, model):
         super(Window, self).__init__()
+        self.model = model
         loadUi("COMBdb/UI Screens/COMBdb_Login.ui", self)
-        #self.initUI()
+        self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.login.clicked.connect(self.handleLoginPressed)
 
-    #def initUI(self):
-        #self.setWindowTitle('COMBdb')
-        #self.showMaximized()
-
-      
-      
-
-      
-      
-
+    def handleLoginPressed(self):
+        if self.model.adminLogin(self.usrnm.text(), self.pswd.text()):
+            print('Success! Logging you in...')
+            return
+        print('Wrong username or password')

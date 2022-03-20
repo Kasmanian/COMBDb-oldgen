@@ -1,50 +1,35 @@
 from pymongo import MongoClient
 from schemas import *
-import bcrypt
-import datetime
+import bcrypt, math, time
 
 class Model:
-  def __init__(self, view):
-    self.view = view
+  def __init__(self):
     self.jdrv = MongoClient('mongodb://localhost:27017/')['OMCDb']
 
   def addAdmin(self, un, pw):
-    bsalt = bcrypt.gensalt()
-    hshpw = bcrypt.hashpw(pw, bsalt)
-    self.jdrv['Admin'].insert_one({'username': un, 'password': hshpw})
+    # Insert new Admin into the database using:
+    # an given username (un) and password (pw)
+    self.jdrv['Admin'].insert_one({'username': un, 'password': self.encrypt(pw)})
 
   def addGuest(self, pw, ls):
-    bsalt = bcrypt.gensalt()
-    hshpw = bcrypt.hashpw(pw, bsalt)
-    ts = str(datetime.datetime.now())
-    ts = int(datetime.datetime(int(ts[0:4]), int(ts[5:7]), int(ts[8:10])).timestamp()/3600)
-    self.jdrv['Guest'].insert_one({'password': hshpw, 'timestmp': ts, 'lifespan': ls})
+    # Insert new Guest into the database using:
+    # a randomly generated key (pw), a timestamp (ts, hours since epoch to the nearest hundredth), and a lifespan (ls, hours)
+    self.jdrv['Guest'].insert_one({'password': self.encrypt(pw), 'timestmp': math.floor(time.time()/36)/100, 'lifespan': ls})
 
 
   def adminLogin(self, un, pw):
-    bsalt = bcrypt.gensalt()
-    hshpw = bcrypt.hashpw(pw, bsalt)
+    # Create Admin object modeled in schemas.py from the results of fetching an Admin using username (un)
     admin = Admin(self.jdrv['Admin'].find_one({'username': un}))
-    #print(admin)
-    if (admin.data['password']!=hshpw):
-      print('Not logged in')
-      return False
-    print('Success!')
-    return True
+    # If Admin's data is None, there is no such account; bcrypt will validate the password if the account exists
+    return admin.data is not None and bcrypt.checkpw(pw, admin.data['password'])
 
   def guestLogin(self, pw):
+    # Create Guest object modeled in schemas.py from the results of fetching a Guest using password (pw)
+    guest = Guest(self.jdrv['Guest'].find_one({'password': self.encrypt(pw)}))
+    # If Guest's data is None, there is no such account; bcrypt will validate the password and check expiry if the account exists
+    return guest.data is not None and bcrypt.checkpw(pw, guest.data['password']) and math.floor(time.time()/36)/100-guest.data['timestamp']>guest.data['lifespan']
+
+  def encrypt(tk):
+    # Salt and hash token (tk)
     bsalt = bcrypt.gensalt()
-    hshpw = bcrypt.hashpw(pw, bsalt)
-    guest = Guest(self.jdrv['Guest'].find_one({'password': hshpw}))
-    if (guest.data!=None):
-      if (int(datetime.datetime.now().timestamp()/3600)-int(guest.data.timestmp)>int(guest.data.lifespan)):
-        return False
-    else:
-      return False
-    return True
-
-  def encrypt():
-    return True
-
-  def decrypt():
-    return True
+    return bcrypt.hashpw(tk, bsalt)
