@@ -16,10 +16,7 @@ def main():
     view = View()
     model = Model(view)
     controller = Controller(model)
-    # view.init()
-    #print('Hello, world!')
-    #webbrowser.open('index.html')
-    model.adminLogin('admin1', 'password1')
+    #view.init()
 
 if __name__=="__main__":
     main()
