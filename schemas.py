@@ -55,8 +55,8 @@ class WaterlineSample:
 class Admin:
   #def __init__(username, password):
   def __init__(self, *args):
-    if   args is None:
-      self.data = {}
+    if args is None:
+      self.data = None
     elif isinstance(args, tuple):
       self.data = args[0]
     else:
@@ -69,7 +69,7 @@ class Admin:
 class Guest:
   #def __init__(key, lifespan):
   def __init__(self, *args):
-    if   args is None:
+    if args is None:
       self.data = None
     elif isinstance(args, dict):
       self.data = args
