@@ -62,7 +62,7 @@
      <string>CAT</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="duwl">
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -148,6 +148,22 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>0</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(193, 193, 193);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
     </property>
    </widget>
   </widget>

@@ -383,7 +383,7 @@ border-width: 1px</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="menu">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -476,6 +476,22 @@ border-width: 1px</string>
      <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="back">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>0</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(193, 193, 193);</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
     </property>
    </widget>
   </widget>

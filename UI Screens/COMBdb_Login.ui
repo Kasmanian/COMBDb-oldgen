@@ -1,216 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-	<class>
-		MainWindow
-	</class>
-	<widget class="QMainWindow" name="MainWindow">
-		<property name="enabled">
-			<bool>
-				true
-			</bool>
-		</property>
-		<property name="geometry">
-			<rect>
-				<x>
-					0
-				</x>
-				<y>
-					0
-				</y>
-				<width>
-					1600
-				</width>
-				<height>
-					1200
-				</height>
-			</rect>
-		</property>
-		<property name="windowTitle">
-			<string>
-				Login
-			</string>
-		</property>
-		<property name="styleSheet">
-			<string notr="true">
-				background-color: rgb(123, 175, 212);
-			</string>
-		</property>
-		<property name="toolButtonStyle">
-			<enum>
-				Qt::ToolButtonIconOnly
-			</enum>
-		</property>
-		<widget class="QWidget" name="centralwidget">
-			<widget class="QLabel" name="label">
-				<property name="geometry">
-					<rect>
-						<x>
-							660
-						</x>
-						<y>
-							500
-						</y>
-						<width>
-							311
-						</width>
-						<height>
-							61
-						</height>
-					</rect>
-				</property>
-				<property name="text">
-					<string>
-						&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Welcome to COMBdb&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
-					</string>
-				</property>
-			</widget>
-			<widget class="QLabel" name="label_4">
-				<property name="geometry">
-					<rect>
-						<x>
-							680
-						</x>
-						<y>
-							290
-						</y>
-						<width>
-							271
-						</width>
-						<height>
-							201
-						</height>
-					</rect>
-				</property>
-				<property name="text">
-					<string />
-				</property>
-				<property name="pixmap">
-					<pixmap>
-						../Icon/OMCDb.ico
-					</pixmap>
-				</property>
-			</widget>
-			<widget class="QPushButton" name="login">
-				<property name="geometry">
-					<rect>
-						<x>
-							770
-						</x>
-						<y>
-							650
-						</y>
-						<width>
-							75
-						</width>
-						<height>
-							23
-						</height>
-					</rect>
-				</property>
-				<property name="styleSheet">
-					<string notr="true">
-						background-color: rgb(193, 193, 193);
-					</string>
-				</property>
-				<property name="text">
-					<string>
-						Login
-					</string>
-				</property>
-			</widget>
-			<widget class="QWidget" name="layoutWidget">
-				<property name="geometry">
-					<rect>
-						<x>
-							670
-						</x>
-						<y>
-							570
-						</y>
-						<width>
-							281
-						</width>
-						<height>
-							67
-						</height>
-					</rect>
-				</property>
-				<layout class="QGridLayout" name="gridLayout">
-					<item row="0" column="1">
-						<widget class="QLineEdit" name="usrnm">
-							<property name="styleSheet">
-								<string notr="true">
-									background-color: rgb(255, 255, 255);
-									border-style: solid;
-									border-width: 1px
-								</string>
-							</property>
-						</widget>
-					</item>
-					<item row="1" column="0">
-						<widget class="QLabel" name="label_3">
-							<property name="text">
-								<string>
-									Password:
-								</string>
-							</property>
-						</widget>
-					</item>
-					<item row="1" column="1">
-						<widget class="QLineEdit" name="pswd">
-							<property name="styleSheet">
-								<string notr="true">
-									background-color: rgb(255, 255, 255);
-									border-style: solid;
-									border-width: 1px
-								</string>
-							</property>
-						</widget>
-					</item>
-					<item row="0" column="0">
-						<widget class="QLabel" name="label_2">
-							<property name="text">
-								<string>
-									Username:
-								</string>
-							</property>
-						</widget>
-					</item>
-				</layout>
-			</widget>
-			<zorder>
-				label
-			</zorder>
-			<zorder>
-				login
-			</zorder>
-			<zorder>
-				layoutWidget
-			</zorder>
-			<zorder>
-				label_4
-			</zorder>
-		</widget>
-		<widget class="QMenuBar" name="menubar">
-			<property name="geometry">
-				<rect>
-					<x>
-						0
-					</x>
-					<y>
-						0
-					</y>
-					<width>
-						1600
-					</width>
-					<height>
-						21
-					</height>
-				</rect>
-			</property>
-		</widget>
-		<widget class="QStatusBar" name="statusbar" />
-	</widget>
-	<resources />
-	<connections />
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>1200</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Login</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(123, 175, 212);</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>500</y>
+      <width>311</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Welcome to COMBdb&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>290</y>
+      <width>271</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../Icon/OMCDb.ico</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="login">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>650</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(193, 193, 193);</string>
+    </property>
+    <property name="text">
+     <string>Login</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>570</y>
+      <width>281</width>
+      <height>67</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="usrnm">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Password:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="pswd">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Username:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder>label</zorder>
+   <zorder>login</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>label_4</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>
