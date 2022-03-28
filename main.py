@@ -14,6 +14,7 @@ def main():
     # mydict = Clinician('Jane', 'Doe', 'Address 1', 'Address 2', 'NC', 'Chapel Hill', 28390, '9103334444', '9102225555', 'email@url.com')
     # x = mycol.insert_one(mydict.data)
     model = Model()
+    # 
     # model.addAdmin('admin2', 'password')
     view = View(model)
     controller = Controller(model)

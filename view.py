@@ -30,7 +30,12 @@ class View(QApplication):
         self.widget.addWidget(adminHomeScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showCultureOrderNav(self):
+    def showGuestHomeScreen(self):
+        guestHomeScreen = GuestHomeScreen(self.model, self)
+        self.widget.addWidget(guestHomeScreen)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showCultureOrderNav(self): # This is the Nav Menu for Culture Orders and below are subsequent screens
         cultureOrderNav = CultureOrderNav(self.model, self)
         self.widget.addWidget(cultureOrderNav)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
@@ -40,9 +45,24 @@ class View(QApplication):
         self.widget.addWidget(cultureOrderForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showGuestHomeScreen(self):
-        guestHomeScreen = GuestHomeScreen(self.model, self)
-        self.widget.addWidget(guestHomeScreen)
+    def showCATOrderForm(self):
+        catOrderForm = CATOrderForm(self.model, self)
+        self.widget.addWidget(catOrderForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showDUWLOrderForm(self):
+        duwlOrderForm = DUWLOrderForm(self.model, self)
+        self.widget.addWidget(duwlOrderForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showResultEntryNav(self): # This is the Nav Menu for Result Entry and below are subsequent screens
+        resultEntryNav = ResultEntryNav(self.model, self)
+        self.widget.addWidget(resultEntryNav)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showCultureResultForm(self):
+        cultureResultForm = CultureResultForm(self.model, self)
+        self.widget.addWidget(cultureResultForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     #def showPreviousScreen(self):
@@ -56,7 +76,7 @@ class LoginScreen(QMainWindow):
         self.view = view
         self.model = model
         # Load the .ui file of the Admin Login Screen
-        loadUi("COMBDb/UI Screens/COMBdb_Login.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_Admin_Login.ui", self)
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         # Handle 'Login' button clicked
         self.login.clicked.connect(self.handleLoginPressed)
@@ -97,13 +117,18 @@ class AdminHomeScreen(QMainWindow):
         self.view = view
         self.model = model
         # Load the .ui file of the Admin Main Screen 
-        loadUi("COMBDb/UI Screens/COMBdb_Main_Screen.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_Admin_Home_Screen.ui", self)
         # Handle 'Culture Order Forms' button clicked
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
+        # Handle 'Result Entry' button clicked
+        self.resultEntry.clicked.connect(self.handleResultEntryPressed)
 
     # Method for 'Culture Order Forms' button functionality
     def handleCultureOrderFormsPressed(self):
         self.view.showCultureOrderNav()
+
+    def handleResultEntryPressed(self):
+        self.view.showResultEntryNav()
 
 
 class GuestHomeScreen(QMainWindow):
@@ -113,7 +138,7 @@ class GuestHomeScreen(QMainWindow):
         self.view = view
         self.model = model
         # Load the .ui file of the Admin Main Screen 
-        loadUi("COMBDb/UI Screens/COMBdb_Guest_Main_Screen.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_Guest_Home_Screen.ui", self)
 
 
 class CultureOrderNav(QMainWindow):
@@ -123,15 +148,27 @@ class CultureOrderNav(QMainWindow):
         self.view = view
         self.model = model
         # Load the .ui file of the Culture Order Navigation Screen
-        loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Nav.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Forms_Nav.ui", self)
         # Handle 'Culture' button clicked
         self.culture.clicked.connect(self.handleCulturePressed)
+        # Handle 'CAT' button clicked
+        self.cat.clicked.connect(self.handleCATPressed)
+        # Handle 'DUWL' button clicked
+        self.duwl.clicked.connect(self.handleDUWLPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
 
     # Method for 'Culture' button functionality
     def handleCulturePressed(self):
         self.view.showCultureOrderForm()
+
+    # Method for 'CAT' button functionality
+    def handleCATPressed(self):
+        self.view.showCATOrderForm()
+
+    # Method for 'DUWL' button functionality
+    def handleDUWLPressed(self):
+        self.view.showDUWLOrderForm()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
@@ -155,6 +192,96 @@ class CultureOrderForm(QMainWindow):
     # Method for 'Back' button functionality
     def handleBackPressed(self):
         self.view.showCultureOrderNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+        #self.view.showPreviousScreen()
+
+
+class CATOrderForm(QMainWindow):
+    # Class for the Culture Order Form UI
+    def __init__(self, model, view):
+        super(CATOrderForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_CAT_Order_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showCultureOrderNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
+
+class DUWLOrderForm(QMainWindow):
+    # Class for the Culture Order Form UI
+    def __init__(self, model, view):
+        super(DUWLOrderForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showCultureOrderNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
+
+
+class ResultEntryNav(QMainWindow):
+    # Class for the Result Entry Nav UI
+    def __init__(self, model, view):
+        super(ResultEntryNav, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_Result_Entry_Forms_Nav.ui", self)
+        # Handle 'Culture' button clicked
+        self.culture.clicked.connect(self.handleCulturePressed)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+
+    # Method for 'Culture' button functionality
+    def handleCulturePressed(self):
+        self.view.showCultureResultForm()
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
+
+
+class CultureResultForm(QMainWindow):
+    # Class for the Culture Result Form UI
+    def __init__(self, model, view):
+        super(CultureResultForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Result Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_Culture_Result_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showResultEntryNav()
 
     # Method for 'Return to Main Menu' button functionality
     def handleReturnToMainMenuPressed(self):
