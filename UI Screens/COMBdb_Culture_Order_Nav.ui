@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>288</height>
+    <width>1600</width>
+    <height>1200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,8 +20,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>0</y>
+      <x>520</x>
+      <y>400</y>
       <width>541</width>
       <height>61</height>
      </rect>
@@ -33,14 +33,24 @@
    <widget class="QPushButton" name="culture">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>70</y>
+      <x>420</x>
+      <y>470</y>
       <width>221</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>Culture</string>
@@ -49,30 +59,50 @@
    <widget class="QPushButton" name="cat">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>70</y>
+      <x>670</x>
+      <y>470</y>
       <width>221</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>CAT</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="duwl">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>70</y>
+      <x>920</x>
+      <y>470</y>
       <width>221</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>DUWL</string>
@@ -81,8 +111,8 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>130</y>
+      <x>450</x>
+      <y>530</y>
       <width>160</width>
       <height>81</height>
      </rect>
@@ -121,8 +151,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>130</y>
+      <x>700</x>
+      <y>530</y>
       <width>151</width>
       <height>20</height>
      </rect>
@@ -137,8 +167,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>130</y>
+      <x>960</x>
+      <y>530</y>
       <width>151</width>
       <height>20</height>
      </rect>
@@ -150,13 +180,39 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="back">
+    <property name="geometry">
+     <rect>
+      <x>1500</x>
+      <y>0</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1600</width>
      <height>21</height>
     </rect>
    </property>

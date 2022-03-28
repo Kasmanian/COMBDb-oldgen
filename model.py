@@ -29,7 +29,7 @@ class Model:
     # If Guest's data is None, there is no such account; bcrypt will validate the password and check expiry if the account exists
     return guest.data is not None and bcrypt.checkpw(pw, guest.data['password']) and math.floor(time.time()/36)/100-guest.data['timestamp']>guest.data['lifespan']
 
-  def encrypt(tk):
+  def encrypt(self, tk):
     # Salt and hash token (tk)
     bsalt = bcrypt.gensalt()
     return bcrypt.hashpw(tk, bsalt)

@@ -1,0 +1,22 @@
+*************************General Selection Buttons*************************
+
+QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}
+
+*************************Button Appears as Link*************************
+
+background: none!important;
+border: none;
+padding: 0!important;
+text-decoration: underline;
+
+*************************Something Else*************************
