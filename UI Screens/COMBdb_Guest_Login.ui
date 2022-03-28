@@ -55,11 +55,11 @@
      <pixmap>../Icon/OMCDb.ico</pixmap>
     </property>
    </widget>
-   <widget class="QPushButton" name="login">
+   <widget class="QPushButton" name="guestLogin">
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>650</y>
+      <y>630</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -105,39 +105,23 @@ background-color: rgb(193, 193, 193);
       <x>660</x>
       <y>570</y>
       <width>281</width>
-      <height>61</height>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Username:</string>
+        <string>Token:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="usrnm">
+      <widget class="QLineEdit" name="token">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="pswd">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Password:</string>
        </property>
       </widget>
      </item>
@@ -153,52 +137,14 @@ border-width: 1px</string>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Admin Login&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="guestLogin">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>690</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="toolTip">
-     <string notr="true"/>
-    </property>
-    <property name="toolTipDuration">
-     <number>-1</number>
-    </property>
-    <property name="whatsThis">
-     <string/>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: none!important;
-border: none;
-padding: 0!important;
-text-decoration: underline;</string>
-    </property>
-    <property name="text">
-     <string>Sign in as guest</string>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Guest Login&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <zorder>label</zorder>
-   <zorder>login</zorder>
+   <zorder>guestLogin</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>label_4</zorder>
    <zorder>label_5</zorder>
-   <zorder>guestLogin</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

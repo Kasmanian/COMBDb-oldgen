@@ -20,6 +20,11 @@ class View(QApplication):
         except:
             print("Exiting")
 
+    def showGuestLoginScreen(self):
+        guestLoginScreen = GuestLoginScreen(self.model, self)
+        self.widget.addWidget(guestLoginScreen)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
     def showAdminHomeScreen(self):
         adminHomeScreen = AdminHomeScreen(self.model, self)
         self.widget.addWidget(adminHomeScreen)
@@ -33,6 +38,11 @@ class View(QApplication):
     def showCultureOrderForm(self):
         cultureOrderForm = CultureOrderForm(self.model, self)
         self.widget.addWidget(cultureOrderForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showGuestHomeScreen(self):
+        guestHomeScreen = GuestHomeScreen(self.model, self)
+        self.widget.addWidget(guestHomeScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     #def showPreviousScreen(self):
@@ -50,6 +60,7 @@ class LoginScreen(QMainWindow):
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         # Handle 'Login' button clicked
         self.login.clicked.connect(self.handleLoginPressed)
+        self.guestLogin.clicked.connect(self.handleGuestLoginPressed)
 
     def handleLoginPressed(self):
         # If credential check is successful, display Admin Home Screen
@@ -58,6 +69,25 @@ class LoginScreen(QMainWindow):
             self.view.showAdminHomeScreen()
             return
         print('Wrong username or password')
+
+    # Method for 'Sign in as guest' button functionality
+    def handleGuestLoginPressed(self):
+        self.view.showGuestLoginScreen()
+
+
+class GuestLoginScreen(QMainWindow):
+    # Class for the Guest Login Screen UI
+    def __init__(self, model, view):
+        super(GuestLoginScreen, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Guest Login Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Guest_Login.ui", self)
+        # Handle 'Login' button clicked
+        self.guestLogin.clicked.connect(self.handleGuestLoginPressed)
+    
+    def handleGuestLoginPressed(self):
+        self.view.showGuestHomeScreen()
 
 
 class AdminHomeScreen(QMainWindow):
@@ -68,12 +98,22 @@ class AdminHomeScreen(QMainWindow):
         self.model = model
         # Load the .ui file of the Admin Main Screen 
         loadUi("COMBDb/UI Screens/COMBdb_Main_Screen.ui", self)
-        #Handle 'Culture Order Forms' button clicked
+        # Handle 'Culture Order Forms' button clicked
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
 
     # Method for 'Culture Order Forms' button functionality
     def handleCultureOrderFormsPressed(self):
         self.view.showCultureOrderNav()
+
+
+class GuestHomeScreen(QMainWindow):
+    # Class for the Guest Home Screen UI
+    def __init__(self, model, view):
+        super(GuestHomeScreen, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Guest_Main_Screen.ui", self)
 
 
 class CultureOrderNav(QMainWindow):

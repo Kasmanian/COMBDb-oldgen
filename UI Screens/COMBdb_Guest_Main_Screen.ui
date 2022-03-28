@@ -75,93 +75,12 @@ background-color: rgb(193, 193, 193);
 }</string>
     </property>
     <property name="text">
-     <string>Culture Order Forms</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="resultEntry">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>630</y>
-      <width>221</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-    </property>
-    <property name="text">
-     <string>Result Entry</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="rejectionLogForm">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>690</y>
-      <width>221</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-    </property>
-    <property name="text">
-     <string>Rejection Log Form</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="qaManager">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>750</y>
-      <width>221</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-    </property>
-    <property name="text">
-     <string>QA Manager</string>
+     <string>Query Data</string>
     </property>
    </widget>
    <zorder>label</zorder>
    <zorder>cultureOrder</zorder>
    <zorder>label_4</zorder>
-   <zorder>resultEntry</zorder>
-   <zorder>rejectionLogForm</zorder>
-   <zorder>qaManager</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
