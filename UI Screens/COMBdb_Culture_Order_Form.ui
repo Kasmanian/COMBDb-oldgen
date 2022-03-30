@@ -121,7 +121,7 @@ border-width: 1px</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="clinicianDropDown">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -167,7 +167,7 @@ border-width: 1px</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="cultureTypeDropDown">
     <property name="geometry">
      <rect>
       <x>790</x>
@@ -223,7 +223,7 @@ border-width: 1px</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="clinicLocationDropDown">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -295,7 +295,7 @@ border-width: 1px</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit">
+   <widget class="QDateEdit" name="collectionDate">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -337,7 +337,7 @@ border-width: 1px</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit_2">
+   <widget class="QDateEdit" name="receivedDate">
     <property name="geometry">
      <rect>
       <x>790</x>
@@ -403,7 +403,7 @@ border-width: 1px</string>
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>660</y>
+      <y>720</y>
       <width>161</width>
       <height>31</height>
      </rect>
@@ -428,7 +428,7 @@ background-color: rgb(193, 193, 193);
      <string>Return to Main Menu</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="print">
     <property name="geometry">
      <rect>
       <x>1020</x>
@@ -444,7 +444,7 @@ background-color: rgb(193, 193, 193);
      <string>Print</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="rejectionLog">
     <property name="geometry">
      <rect>
       <x>1140</x>
@@ -460,7 +460,7 @@ background-color: rgb(193, 193, 193);
      <string>Rejection Log</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="nonUNCClinicians">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -476,7 +476,7 @@ background-color: rgb(193, 193, 193);
      <string>NON-UNC Clinicians</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="uncClinicians">
     <property name="geometry">
      <rect>
       <x>440</x>
@@ -534,6 +534,35 @@ background-color: rgb(193, 193, 193);
     </property>
     <property name="text">
      <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>660</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Save</string>
     </property>
    </widget>
   </widget>
