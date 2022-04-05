@@ -16,6 +16,8 @@ def main():
     model = Model()
     # 
     # model.addAdmin('admin2', 'password')
+    # model.addPatientSample('Jane', 'Doe', 'Clinician 2', 'Endo', 0, '3/30/2022', '3/30/2022', 'Private', 'rad')
+    # model.addWaterlineSample('Clinician 1', '04/05/2022', '04/05/2022', '04/05/2022', 12345, 'foo')
     view = View(model)
     controller = Controller(model)
     #view.init()

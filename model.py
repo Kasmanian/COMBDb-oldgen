@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from schemas import *
 import bcrypt, math, time
+from datetime import date
 
 class Model:
   def __init__(self):
@@ -16,6 +17,40 @@ class Model:
     # a randomly generated key (pw), a timestamp (ts, hours since epoch to the nearest hundredth), and a lifespan (ls, hours)
     self.jdrv['Guest'].insert_one({'password': self.encrypt(pw), 'timestmp': math.floor(time.time()/36)/100, 'lifespan': ls})
 
+  def addPatientSample(self, first, last, clinician, cultureType, chartNumber, collectionDate, receiveDate, location, comments):
+    try:
+      sampleList = list(self.jdrv['PatientSample'].find().sort('sampleID', -1).limit(1))
+      sampleID = int(str(date.today().year)[2:]+'0001') if len(sampleList)<1 else int(str(int(sampleList[0]['sampleID'])+1).zfill(4))
+      self.jdrv['PatientSample'].insert_one({
+        'sampleID': sampleID, 
+        'first': first,
+        'last': last,
+        'clinician': clinician,
+        'cultureType': cultureType,
+        'chartNumber': chartNumber,
+        'collectionDate': collectionDate,
+        'receiveDate': receiveDate,
+        'location': location,
+        'comments': comments
+    })
+    except Exception as e:
+      print(e)
+  
+  def addWaterlineSample(self, clinician, shipDate, collectionDate, receiveDate, operatoryID, comments):
+    try:
+      sampleList = list(self.jdrv['WaterlineSample'].find().sort('sampleID', -1).limit(1))
+      sampleID = int(str(date.today().year)[2:]+'0001') if len(sampleList)<1 else int(str(int(sampleList[0]['sampleID'])+1).zfill(4))
+      self.jdrv['WaterlineSample'].insert_one({
+        'sampleID': sampleID, 
+        'clinician': clinician,
+        'shipDate': shipDate,
+        'collectionDate': collectionDate,
+        'receiveDate': receiveDate,
+        'operatoryID': operatoryID,
+        'comments': comments
+    })
+    except Exception as e:
+      print(e)
 
   def adminLogin(self, un, pw):
     # Create Admin object modeled in schemas.py from the results of fetching an Admin using username (un)
