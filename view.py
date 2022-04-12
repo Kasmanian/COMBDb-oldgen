@@ -9,7 +9,7 @@ class View(QApplication):
         self.model = model
         app = QApplication(sys.argv)
         # Launch application straight to Admin Login Screen
-        screen = LoginScreen(model, self)
+        screen = AdminLoginScreen(model, self)
         self.widget = QtWidgets.QStackedWidget()
         self.widget.addWidget(screen)
         self.widget.setFixedHeight(1200)
@@ -19,6 +19,11 @@ class View(QApplication):
             sys.exit(app.exec())
         except:
             print("Exiting")
+
+    def showAdminLoginScreen(self):
+        adminLoginScreen = AdminLoginScreen(self.model, self)
+        self.widget.addWidget(adminLoginScreen)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showGuestLoginScreen(self):
         guestLoginScreen = GuestLoginScreen(self.model, self)
@@ -50,9 +55,21 @@ class View(QApplication):
         self.widget.addWidget(catOrderForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showDUWLNav(self): # This is a sub Nav Menu for DUWL Order Culture or Receive Culture
+        self.duwlNav = DUWLNav(self.model, self)
+        self.duwlNav.show()
+        # self.widget.addWidget(duwlNav)
+        # self.widget.show()
+        # self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
     def showDUWLOrderForm(self):
         duwlOrderForm = DUWLOrderForm(self.model, self)
         self.widget.addWidget(duwlOrderForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showDUWLReceiveForm(self):
+        duwlReceiveForm = DUWLReceiveForm(self.model, self)
+        self.widget.addWidget(duwlReceiveForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showResultEntryNav(self): # This is the Nav Menu for Result Entry and below are subsequent screens
@@ -65,14 +82,24 @@ class View(QApplication):
         self.widget.addWidget(cultureResultForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showCATResultForm(self):
+        catResultForm = CATResultForm(self.model, self)
+        self.widget.addWidget(catResultForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showDUWLResultForm(self):
+        duwlResultForm = DUWLResultForm(self.model, self)
+        self.widget.addWidget(duwlResultForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
     #def showPreviousScreen(self):
         #elf.widget.setCurrentIndex(self.widget.currentIndex()-1)
 
 
-class LoginScreen(QMainWindow):
+class AdminLoginScreen(QMainWindow):
     # Class for the Login Screen UI
     def __init__(self, model, view):
-        super(LoginScreen, self).__init__()
+        super(AdminLoginScreen, self).__init__()
         self.view = view
         self.model = model
         # Load the .ui file of the Admin Login Screen
@@ -122,13 +149,21 @@ class AdminHomeScreen(QMainWindow):
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
         # Handle 'Result Entry' button clicked
         self.resultEntry.clicked.connect(self.handleResultEntryPressed)
+        # Handle 'Logout' button clicked
+        self.logout.clicked.connect(self.handleLogoutPressed)
 
     # Method for 'Culture Order Forms' button functionality
     def handleCultureOrderFormsPressed(self):
         self.view.showCultureOrderNav()
 
+    # Method for 'Result Entry' button functionality
     def handleResultEntryPressed(self):
         self.view.showResultEntryNav()
+
+    # Method for 'Logout' button functionality
+    def handleLogoutPressed(self):
+        print('Logged out...')
+        self.view.showAdminLoginScreen()
 
 
 class GuestHomeScreen(QMainWindow):
@@ -139,6 +174,13 @@ class GuestHomeScreen(QMainWindow):
         self.model = model
         # Load the .ui file of the Admin Main Screen 
         loadUi("COMBDb/UI Screens/COMBdb_Guest_Home_Screen.ui", self)
+        # Handle 'Logout' button clicked
+        self.logout.clicked.connect(self.handleLogoutPressed)
+
+    # Method for 'Culture' button functionality
+    def handleLogoutPressed(self):
+        print('Logged out...')
+        self.view.showAdminLoginScreen()
 
 
 class CultureOrderNav(QMainWindow):
@@ -168,7 +210,8 @@ class CultureOrderNav(QMainWindow):
 
     # Method for 'DUWL' button functionality
     def handleDUWLPressed(self):
-        self.view.showDUWLOrderForm()
+        # self.view.showDUWLOrderForm()
+        self.view.showDUWLNav()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
@@ -221,6 +264,37 @@ class CATOrderForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
 
+class DUWLNav(QWidget):
+    def __init__(self, model, view):
+        super(DUWLNav, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Nav.ui", self)
+        # Handle 'Order Culture' button clicked
+        self.orderCulture.clicked.connect(self.handleOrderCulturePressed)
+
+        # Handle 'Receiving Culture' button clicked
+        self.receivingCulture.clicked.connect(self.handleReceivingCulturePressed)
+
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+
+    # Method for 'Order Culture' button functionality
+    def handleOrderCulturePressed(self):
+        self.close()
+        self.view.showDUWLOrderForm()
+
+    # Method for 'Receiving Culture' button functionality
+    def handleReceivingCulturePressed(self):
+        self.close()
+        self.view.showDUWLReceiveForm()
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.close()
+
+
 class DUWLOrderForm(QMainWindow):
     # Class for the Culture Order Form UI
     def __init__(self, model, view):
@@ -243,6 +317,27 @@ class DUWLOrderForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
 
+class DUWLReceiveForm(QMainWindow):
+    # Class for the Culture Order Form UI
+    def __init__(self, model, view):
+        super(DUWLReceiveForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showCultureOrderNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
 
 class ResultEntryNav(QMainWindow):
     # Class for the Result Entry Nav UI
@@ -254,12 +349,24 @@ class ResultEntryNav(QMainWindow):
         loadUi("COMBDb/UI Screens/COMBdb_Result_Entry_Forms_Nav.ui", self)
         # Handle 'Culture' button clicked
         self.culture.clicked.connect(self.handleCulturePressed)
+        # Handle 'CAT' button clicked
+        self.cat.clicked.connect(self.handleCATPressed)
+        # Handle 'DUWL' button clicked
+        self.duwl.clicked.connect(self.handleDUWLPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
 
     # Method for 'Culture' button functionality
     def handleCulturePressed(self):
         self.view.showCultureResultForm()
+
+    # Method for 'CAT' button functionality
+    def handleCATPressed(self):
+        self.view.showCATResultForm()
+
+    # Method for 'DUWL' button functionality
+    def handleDUWLPressed(self):
+        self.view.showDUWLResultForm()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
@@ -287,3 +394,47 @@ class CultureResultForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
         #self.view.showPreviousScreen()
+
+
+class CATResultForm(QMainWindow):
+    # Class for the Culture Order Form UI
+    def __init__(self, model, view):
+        super(CATResultForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_CAT_Result_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showResultEntryNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
+
+class DUWLResultForm(QMainWindow):
+    # Class for the Culture Order Form UI
+    def __init__(self, model, view):
+        super(DUWLResultForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Result_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showResultEntryNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()

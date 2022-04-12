@@ -81,9 +81,39 @@ background-color: rgb(193, 193, 193);
      <string>Query Data</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="logout">
+    <property name="geometry">
+     <rect>
+      <x>1510</x>
+      <y>1100</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Logout</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>cultureOrder</zorder>
    <zorder>label_4</zorder>
+   <zorder>logout</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

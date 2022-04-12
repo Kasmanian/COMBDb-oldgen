@@ -168,12 +168,72 @@ background-color: rgb(193, 193, 193);
      <string>QA Manager</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="logout">
+    <property name="geometry">
+     <rect>
+      <x>1500</x>
+      <y>1100</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Logout</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="settings">
+    <property name="geometry">
+     <rect>
+      <x>1430</x>
+      <y>1100</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Settings</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>cultureOrder</zorder>
    <zorder>label_4</zorder>
    <zorder>resultEntry</zorder>
    <zorder>rejectionLogForm</zorder>
    <zorder>qaManager</zorder>
+   <zorder>logout</zorder>
+   <zorder>settings</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
