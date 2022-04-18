@@ -49,19 +49,25 @@ class View(QApplication):
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showCultureOrderNav(self): # This is the Nav Menu for Culture Orders and below are subsequent screens
-        cultureOrderNav = CultureOrderNav(self.model, self)
-        self.widget.addWidget(cultureOrderNav)
-        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+        self.cultureOrderNav = CultureOrderNav(self.model, self)
+        self.cultureOrderNav.show()
+        # self.widget.addWidget(cultureOrderNav)
+        # self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showCultureOrderForm(self):
         cultureOrderForm = CultureOrderForm(self.model, self)
         self.widget.addWidget(cultureOrderForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showCATOrderForm(self):
-        catOrderForm = CATOrderForm(self.model, self)
-        self.widget.addWidget(catOrderForm)
+    def showAddClinicianScreen(self):
+        addClinician = AddClinician(self.model, self)
+        self.widget.addWidget(addClinician)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    #def showCATOrderForm(self):
+        #catOrderForm = CATOrderForm(self.model, self)
+        #self.widget.addWidget(catOrderForm)
+        #self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showDUWLNav(self): # This is a sub Nav Menu for DUWL Order Culture or Receive Culture
         self.duwlNav = DUWLNav(self.model, self)
@@ -219,12 +225,14 @@ class CultureOrderNav(QMainWindow):
         super(CultureOrderNav, self).__init__()
         self.view = view
         self.model = model
+        self.setFixedHeight(328)
+        self.setFixedWidth(634)
         # Load the .ui file of the Culture Order Navigation Screen
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Forms_Nav.ui", self)
         # Handle 'Culture' button clicked
         self.culture.clicked.connect(self.handleCulturePressed)
         # Handle 'CAT' button clicked
-        self.cat.clicked.connect(self.handleCATPressed)
+        # self.cat.clicked.connect(self.handleCATPressed)
         # Handle 'DUWL' button clicked
         self.duwl.clicked.connect(self.handleDUWLPressed)
         # Handle 'Back' button clicked
@@ -233,19 +241,21 @@ class CultureOrderNav(QMainWindow):
     # Method for 'Culture' button functionality
     def handleCulturePressed(self):
         self.view.showCultureOrderForm()
+        self.close()
 
     # Method for 'CAT' button functionality
-    def handleCATPressed(self):
-        self.view.showCATOrderForm()
+    # def handleCATPressed(self):
+        # self.view.showCATOrderForm()
 
     # Method for 'DUWL' button functionality
     def handleDUWLPressed(self):
         # self.view.showDUWLOrderForm()
         self.view.showDUWLNav()
+        self.close()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
-        self.view.showAdminHomeScreen()
+        self.close()
         #self.view.showPreviousScreen()
 
 
@@ -257,10 +267,16 @@ class CultureOrderForm(QMainWindow):
         self.model = model
         # Load the .ui file of the Culture Order Form Screen
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
+        # Handle 'Add New Clinician' button clicked
+        self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Add New Clinicians functionality
+    def handleAddNewClinicianPressed(self):
+        self.view.showAddClinicianScreen()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
@@ -272,7 +288,36 @@ class CultureOrderForm(QMainWindow):
         #self.view.showPreviousScreen()
 
 
-class CATOrderForm(QMainWindow):
+class AddClinician(QMainWindow):
+    # Class for the Culture Order Form UI
+    def __init__(self, model, view):
+        super(AddClinician, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Culture Order Form Screen
+        loadUi("COMBDb/UI Screens/COMBdb_Add_New_Clinician.ui", self)
+        # Handle 'Add New Clinician' button clicked
+        #self.save.clicked.connect(self.handleSavePressed)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Add New Clinicians functionality
+    #def handleSavePressed(self):
+        # Save the form and add Clinician to database
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showCultureOrderForm()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+        #self.view.showPreviousScreen()
+
+
+""" class CATOrderForm(QMainWindow):
     # Class for the Culture Order Form UI
     def __init__(self, model, view):
         super(CATOrderForm, self).__init__()
@@ -292,7 +337,7 @@ class CATOrderForm(QMainWindow):
     # Method for 'Return to Main Menu' button functionality
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
-
+"""
 
 class DUWLNav(QWidget):
     def __init__(self, model, view):
@@ -325,6 +370,7 @@ class DUWLNav(QWidget):
     # Method for 'Back' button functionality
     def handleBackPressed(self):
         self.close()
+        self.view.showCultureOrderNav()
 
 
 class DUWLOrderForm(QMainWindow):

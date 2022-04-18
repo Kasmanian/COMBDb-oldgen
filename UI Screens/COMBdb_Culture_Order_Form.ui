@@ -534,7 +534,7 @@ background-color: rgb(193, 193, 193);
      <string>Rejection Log</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="uncClinicians">
+   <widget class="QPushButton" name="addClinician">
     <property name="geometry">
      <rect>
       <x>440</x>
