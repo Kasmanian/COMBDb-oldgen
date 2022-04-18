@@ -12,9 +12,12 @@ class View(QApplication):
         screen = AdminLoginScreen(model, self)
         self.widget = QtWidgets.QStackedWidget()
         self.widget.addWidget(screen)
-        self.widget.setFixedHeight(1200)
-        self.widget.setFixedWidth(1600)
-        self.widget.show()
+        # self.widget.setFixedHeight(1200)
+        # self.widget.setFixedWidth(1600)
+        # self.widget.setWindowTitle("Login Screen")
+        self.widget.setGeometry(10,10,1000,800)
+        self.widget.showMaximized()
+        #self.widget.show()
         try:
             sys.exit(app.exec())
         except:

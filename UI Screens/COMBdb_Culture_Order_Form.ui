@@ -183,7 +183,17 @@ border-width: 1px</string>
     </property>
     <item>
      <property name="text">
+      <string/>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>Candida</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Caries</string>
      </property>
     </item>
     <item>

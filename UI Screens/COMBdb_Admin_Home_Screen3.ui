@@ -17,12 +17,15 @@
    <string>Login</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(123, 175, 212);</string>
+   <string notr="true"/>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(123, 175, 212);</string>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="6" column="0">
      <spacer name="verticalSpacer_3">
@@ -81,7 +84,7 @@
     <item row="5" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="cultureOrder">
+       <widget class="QPushButton" name="cultureOrder_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -132,13 +135,13 @@ background-color: rgb(193, 193, 193);
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>8</height>
+          <height>5</height>
          </size>
         </property>
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="resultEntry">
+       <widget class="QPushButton" name="resultEntry_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -183,13 +186,13 @@ background-color: rgb(193, 193, 193);
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>8</height>
+          <height>5</height>
          </size>
         </property>
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="rejectionLogForm">
+       <widget class="QPushButton" name="rejectionLogForm_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -234,13 +237,13 @@ background-color: rgb(193, 193, 193);
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>8</height>
+          <height>5</height>
          </size>
         </property>
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="qaManager">
+       <widget class="QPushButton" name="qaManager_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -293,7 +296,7 @@ background-color: rgb(193, 193, 193);
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QPushButton" name="settings">
+         <widget class="QPushButton" name="settings_2">
           <property name="minimumSize">
            <size>
             <width>75</width>
@@ -344,7 +347,7 @@ background-color: rgb(193, 193, 193);
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QPushButton" name="logout">
+         <widget class="QPushButton" name="logout_2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>
