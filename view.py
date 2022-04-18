@@ -35,6 +35,11 @@ class View(QApplication):
         self.widget.addWidget(adminHomeScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showSettingsScreen(self):
+        settingsScreen = SettingsScreen(self.model, self)
+        self.widget.addWidget(settingsScreen)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
     def showGuestHomeScreen(self):
         guestHomeScreen = GuestHomeScreen(self.model, self)
         self.widget.addWidget(guestHomeScreen)
@@ -149,6 +154,8 @@ class AdminHomeScreen(QMainWindow):
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
         # Handle 'Result Entry' button clicked
         self.resultEntry.clicked.connect(self.handleResultEntryPressed)
+        # Handle 'Settings' button clicked
+        self.settings.clicked.connect(self.handleSettingsPressed)
         # Handle 'Logout' button clicked
         self.logout.clicked.connect(self.handleLogoutPressed)
 
@@ -160,10 +167,30 @@ class AdminHomeScreen(QMainWindow):
     def handleResultEntryPressed(self):
         self.view.showResultEntryNav()
 
+    # Method for 'Setting' button functionality
+    def handleSettingsPressed(self):
+        self.view.showSettingsScreen()
+
     # Method for 'Logout' button functionality
     def handleLogoutPressed(self):
         print('Logged out...')
         self.view.showAdminLoginScreen()
+
+
+class SettingsScreen(QMainWindow):
+     # Class for the Settings Screen UI
+    def __init__(self, model, view):
+        super(SettingsScreen, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Screen.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
 
 
 class GuestHomeScreen(QMainWindow):
@@ -269,6 +296,8 @@ class DUWLNav(QWidget):
         super(DUWLNav, self).__init__()
         self.view = view
         self.model = model
+        self.setFixedHeight(250)
+        self.setFixedWidth(600)
         # Load the .ui file of the Culture Order Form Screen
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Nav.ui", self)
         # Handle 'Order Culture' button clicked
