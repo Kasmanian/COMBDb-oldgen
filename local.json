@@ -1,0 +1,55 @@
+{
+    "DBQ": "C:\\Users\\simmsk\\Desktop\\COMBDb_fe.accdb;",
+    "PrefixToBacteria": {
+        "AA": "Actinobacillus Actinomycetemco",
+        "AS": "Alpha-Hemolytic Streptococcus",
+        "BF": "Bacteriodes Fragilis",
+        "BU": "Bacteriodes Ureolyticus Groups",
+        "BA": "Beta-Hemolytic Streptococcus Group A",
+        "BS": "Beta-Hemolytic Streptococcus",
+        "CA": "Candida Albicans",
+        "CC": "Capnocytophaga SPP",
+        "CN": "Candida Non-Albicans",
+        "CS": "CON Staphylococcus",
+        "CW": "Campylobacter / Wolinella",
+        "EC": "Enterococcus",
+        "EN": "Eiknella Corrodens",
+        "EP": "Enteric Pathogens",
+        "FN": "Fusobacterium Nucleatum",
+        "PG": "Porphyromonas Gingivalis",
+        "PI": "Prevotella Intermedia",
+        "PM": "Pseudomonas",
+        "PS": "Peptostreptococcus SP",
+        "TF": "Tannerella Forsythus"
+    },
+    "PrefixToAntibiotics": {
+        "AMC": "Amoxicillin / Clavulanate",
+        "AMP": "Ampicillin",
+        "CC" : "Clindamycin",
+        "CF" : "Cephalothin",
+        "CIP": "Ciprofloxacin",
+        "DOR": "Doripenem",
+        "ERY": "Erythromycin",
+        "GM" : "Gentamicin",
+        "LZD": "Linezolid",
+        "MET": "Metronidazole",
+        "PEN": "Penicillin",
+        "SXT": "Trimethoprim-Sulfamethoxazole",
+        "TET": "Tetracycline"
+    },
+    "PrefixToB-Lac": {
+        "P": "Beta Lactomase Detected",
+        "N": "Beta Lactomase Not Detected"
+    },
+    "PrefixToGrowth": {
+        "NI": "Not Isolated",
+        "L" : "Light",
+        "M" : "Moderate",
+        "H" : "Heavy"
+    },
+    "PrefixToSusceptibility": {
+        "S": "Susceptible",
+        "I": "Intermediate",
+        "R": "Resistant"
+    }
+}

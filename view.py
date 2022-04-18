@@ -84,7 +84,7 @@ class LoginScreen(QMainWindow):
 
     def handleLoginPressed(self):
         # If credential check is successful, display Admin Home Screen
-        if self.model.adminLogin(self.usrnm.text(), self.pswd.text().encode('utf-8')):
+        if self.model.adminLogin(self.usrnm.text(), self.pswd.text()):
             print('Success! Logging you in...')
             self.view.showAdminHomeScreen()
             return
