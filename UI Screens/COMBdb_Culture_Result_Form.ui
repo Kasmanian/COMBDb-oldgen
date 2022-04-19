@@ -140,7 +140,7 @@ border-width: 1px</string>
    <widget class="QPushButton" name="menu">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>700</x>
       <y>1090</y>
       <width>161</width>
       <height>31</height>
@@ -166,116 +166,120 @@ background-color: rgb(193, 193, 193);
      <string>Return to Main Menu</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="print">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>1090</y>
+      <x>1220</x>
+      <y>1000</y>
       <width>101</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>Print</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="directSmears">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>1040</y>
+      <x>570</x>
+      <y>1000</y>
       <width>131</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
-    </property>
-    <property name="text">
-     <string>No Growth</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>1040</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>Direct Smears</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="preliminary">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>1040</y>
+      <x>720</x>
+      <y>1000</y>
       <width>131</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>Preliminary</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="perio">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>1040</y>
+      <x>870</x>
+      <y>1000</y>
       <width>131</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
-    </property>
-    <property name="text">
-     <string>Surgical</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>1040</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
     </property>
     <property name="text">
      <string>Perio</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_9">
-    <property name="geometry">
-     <rect>
-      <x>1040</x>
-      <y>1040</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(193, 193, 193);</string>
-    </property>
-    <property name="text">
-     <string>Perio/Comment</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="firstName_2">
@@ -504,9 +508,10 @@ border-width: 1px</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
+     <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
-border-width: 1px</string>
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
     </property>
     <item>
      <property name="text">
@@ -4369,9 +4374,10 @@ border-width: 1px</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
+     <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
-border-width: 1px</string>
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
     </property>
     <item>
      <property name="text">
@@ -4444,9 +4450,10 @@ border-width: 1px</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
+     <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
-border-width: 1px</string>
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
     </property>
     <item>
      <property name="text">
@@ -4669,9 +4676,10 @@ border-width: 1px</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
+     <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
-border-width: 1px</string>
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
     </property>
     <item>
      <property name="text">
@@ -5061,6 +5069,64 @@ background-color: rgb(193, 193, 193);
     </property>
     <property name="text">
      <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="plus">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>520</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="plus2">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>750</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>+</string>
     </property>
    </widget>
   </widget>

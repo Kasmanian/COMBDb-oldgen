@@ -27,13 +27,13 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>500</y>
+      <y>510</y>
       <width>321</width>
       <height>61</height>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Select your option:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;SETTINGS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -52,13 +52,13 @@
      <pixmap>../Icon/OMCDb.ico</pixmap>
     </property>
    </widget>
-   <widget class="QPushButton" name="cultureOrder">
+   <widget class="QPushButton" name="back">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>570</y>
-      <width>221</width>
-      <height>41</height>
+      <x>1500</x>
+      <y>0</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="cursor">
@@ -78,42 +78,9 @@ background-color: rgb(193, 193, 193);
 }</string>
     </property>
     <property name="text">
-     <string>Query Data</string>
+     <string>Back</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="logout">
-    <property name="geometry">
-     <rect>
-      <x>1510</x>
-      <y>1100</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-    </property>
-    <property name="text">
-     <string>Logout</string>
-    </property>
-   </widget>
-   <zorder>label</zorder>
-   <zorder>cultureOrder</zorder>
-   <zorder>label_4</zorder>
-   <zorder>logout</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
