@@ -125,7 +125,7 @@ class AdminLoginScreen(QMainWindow):
 
     def handleLoginPressed(self):
         # If credential check is successful, display Admin Home Screen
-        if self.model.adminLogin(self.usrnm.text(), self.pswd.text().encode('utf-8')):
+        if self.model.techLogin(self.usrnm.text(), self.pswd.text()):
             print('Success! Logging you in...')
             self.view.showAdminHomeScreen()
             return
@@ -273,6 +273,8 @@ class CultureOrderForm(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+        # Handle 'Save' button clicked
+        self.save.clicked.connect(self.handleSavePressed)
 
     # Method for 'Add New Clinicians functionality
     def handleAddNewClinicianPressed(self):
@@ -286,7 +288,27 @@ class CultureOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
         #self.view.showPreviousScreen()
-
+    
+    # Method for entering new Patient Sample Data
+    def handleSavePressed(self):
+        print(self.clinicianDropDown.currentText())
+        print(self.cultureTypeDropDown.currentText())
+        print(self.chartNum.text())
+        print(str(self.collectionDate.date()))
+        print(str(self.receivedDate.date()))
+        print(self.clinicLocationDropDown.currentText())
+        print(self.comment.toPlainText())
+        self.view.model.addPatientSample(
+            self.firstName.text(),
+            self.lastName.text(),
+            self.clinicianDropDown.currentText(),
+            self.cultureTypeDropDown.currentText(),
+            self.chartNum.text(),
+            str(self.collectionDate.date()),
+            str(self.receivedDate.date()),
+            self.clinicLocationDropDown.currentText(),
+            self.comment.toPlainText()
+        )
 
 class AddClinician(QMainWindow):
     # Class for the Culture Order Form UI
@@ -472,7 +494,6 @@ class CultureResultForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
         #self.view.showPreviousScreen()
-
 
 class CATResultForm(QMainWindow):
     # Class for the Culture Order Form UI
