@@ -87,9 +87,10 @@ class View(QApplication):
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showResultEntryNav(self): # This is the Nav Menu for Result Entry and below are subsequent screens
-        resultEntryNav = ResultEntryNav(self.model, self)
-        self.widget.addWidget(resultEntryNav)
-        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+        self.resultEntryNav = ResultEntryNav(self.model, self)
+        self.resultEntryNav.show()
+        # self.widget.addWidget(resultEntryNav)
+        # self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showCultureResultForm(self):
         cultureResultForm = CultureResultForm(self.model, self)
@@ -225,8 +226,8 @@ class CultureOrderNav(QMainWindow):
         super(CultureOrderNav, self).__init__()
         self.view = view
         self.model = model
-        self.setFixedHeight(328)
-        self.setFixedWidth(634)
+        #self.setFixedHeight(328)
+        #self.setFixedWidth(634)
         # Load the .ui file of the Culture Order Navigation Screen
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Forms_Nav.ui", self)
         # Handle 'Culture' button clicked
@@ -339,13 +340,13 @@ class AddClinician(QMainWindow):
         self.view.showAdminHomeScreen()
 """
 
-class DUWLNav(QWidget):
+class DUWLNav(QMainWindow):
     def __init__(self, model, view):
         super(DUWLNav, self).__init__()
         self.view = view
         self.model = model
-        self.setFixedHeight(250)
-        self.setFixedWidth(600)
+        #self.setFixedHeight(250)
+        #self.setFixedWidth(600)
         # Load the .ui file of the Culture Order Form Screen
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Nav.ui", self)
         # Handle 'Order Culture' button clicked
@@ -436,19 +437,22 @@ class ResultEntryNav(QMainWindow):
 
     # Method for 'Culture' button functionality
     def handleCulturePressed(self):
+        self.close()
         self.view.showCultureResultForm()
 
     # Method for 'CAT' button functionality
     def handleCATPressed(self):
+        self.close()
         self.view.showCATResultForm()
 
     # Method for 'DUWL' button functionality
     def handleDUWLPressed(self):
+        self.close()
         self.view.showDUWLResultForm()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
-        self.view.showAdminHomeScreen()
+        self.close()
 
 
 class CultureResultForm(QMainWindow):
