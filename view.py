@@ -60,9 +60,10 @@ class View(QApplication):
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showAddClinicianScreen(self):
-        addClinician = AddClinician(self.model, self)
-        self.widget.addWidget(addClinician)
-        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+        self.addClinician = AddClinician(self.model, self)
+        self.addClinician.show()
+        #self.widget.addWidget(addClinician)
+        #self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     #def showCATOrderForm(self):
         #catOrderForm = CATOrderForm(self.model, self)
@@ -122,7 +123,7 @@ class AdminLoginScreen(QMainWindow):
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         # Handle 'Login' button clicked
         self.login.clicked.connect(self.handleLoginPressed)
-        self.guestLogin.clicked.connect(self.handleGuestLoginPressed)
+        # self.guestLogin.clicked.connect(self.handleGuestLoginPressed)
 
     def handleLoginPressed(self):
         # If credential check is successful, display Admin Home Screen
@@ -310,11 +311,12 @@ class AddClinician(QMainWindow):
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
-        self.view.showCultureOrderForm()
+        self.close()
 
     # Method for 'Return to Main Menu' button functionality
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+        self.close()
         #self.view.showPreviousScreen()
 
 
@@ -382,10 +384,16 @@ class DUWLOrderForm(QMainWindow):
         self.model = model
         # Load the .ui file of the Culture Order Form Screen
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
+        # Handle 'Add New Clinician' button clicked
+        self.addClinician.clicked.connect(self.handleAddClinicianPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Add New Clinician' button functionality
+    def handleAddClinicianPressed(self):
+        self.view.showAddClinicianScreen()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
