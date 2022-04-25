@@ -344,7 +344,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QLineEdit" name="sampleNum">
+           <widget class="QLineEdit" name="sampleID">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -774,7 +774,7 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>sampleNum</tabstop>
+  <tabstop>sampleID</tabstop>
   <tabstop>clinicianDropDown</tabstop>
   <tabstop>cultureTypeDropDown</tabstop>
   <tabstop>kitNumber</tabstop>

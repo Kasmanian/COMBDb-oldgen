@@ -699,7 +699,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QLineEdit" name="sampleNum_2">
+           <widget class="QLineEdit" name="sampleID">
             <property name="minimumSize">
              <size>
               <width>200</width>
