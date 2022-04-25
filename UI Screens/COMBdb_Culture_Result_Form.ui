@@ -749,49 +749,8 @@ border-width: 1px</string>
           <property name="verticalSpacing">
            <number>13</number>
           </property>
-          <item row="5" column="3">
-           <widget class="QComboBox" name="comboBox_40">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="11">
-           <widget class="QComboBox" name="comboBox_28">
+          <item row="4" column="11">
+           <widget class="QComboBox" name="comboBox_38">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -831,8 +790,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="3" column="10">
-           <widget class="QComboBox" name="comboBox_27">
+          <item row="4" column="12">
+           <widget class="QComboBox" name="comboBox_39">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -872,59 +831,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="3" column="12">
-           <widget class="QComboBox" name="comboBox_29">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QLabel" name="label_51">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Growth&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="4">
-           <widget class="QComboBox" name="comboBox_61">
+          <item row="5" column="4">
+           <widget class="QComboBox" name="comboBox_41">
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -947,8 +855,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="5">
-           <widget class="QComboBox" name="comboBox_62">
+          <item row="5" column="5">
+           <widget class="QComboBox" name="comboBox_42">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -988,8 +896,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="6" column="10">
-           <widget class="QComboBox" name="comboBox_57">
+          <item row="5" column="12">
+           <widget class="QComboBox" name="comboBox_49">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -1029,8 +937,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QComboBox" name="comboBox_18">
+          <item row="5" column="11">
+           <widget class="QComboBox" name="comboBox_48">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -1043,6 +951,76 @@ border-width: 1px</string>
               <height>22</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="5" column="9">
+           <widget class="QComboBox" name="comboBox_46">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QComboBox" name="comboBox_31">
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -1061,1040 +1039,6 @@ border-width: 1px</string>
             <item>
              <property name="text">
               <string>P</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="5">
-           <widget class="QComboBox" name="comboBox_16">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="6">
-           <widget class="QComboBox" name="comboBox_14">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="7">
-           <widget class="QComboBox" name="comboBox_15">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <spacer name="horizontalSpacer_9">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="plus_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-            </property>
-            <property name="text">
-             <string>+</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="comboBox_71">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(240, 240, 240);
-border-style: solid;
-border-width: 1px;
-border-color: rgb(0, 0, 0);</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Candida Albicans</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Staphylococcus Aureus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Beta Hemolytic Streptococcus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Pseudomonas</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Enteric Pathogens</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QComboBox" name="comboBox_81">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Candida Albicans</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Staphylococcus Aureus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Beta Hemolytic Streptococcus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Pseudomonas</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Enteric Pathogens</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QComboBox" name="comboBox_93">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Candida Albicans</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Staphylococcus Aureus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Beta Hemolytic Streptococcus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Pseudomonas</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Enteric Pathogens</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QComboBox" name="comboBox_94">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Candida Albicans</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Staphylococcus Aureus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Beta Hemolytic Streptococcus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Pseudomonas</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Enteric Pathogens</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QComboBox" name="comboBox_92">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Candida Albicans</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Staphylococcus Aureus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Beta Hemolytic Streptococcus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Pseudomonas</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Enteric Pathogens</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QComboBox" name="comboBox_19">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="5">
-           <widget class="QLabel" name="label_53">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Pen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="6">
-           <widget class="QLabel" name="label_54">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Amp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="8">
-           <widget class="QComboBox" name="comboBox_13">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="7">
-           <widget class="QLabel" name="label_55">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;AMC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="8">
-           <widget class="QLabel" name="label_56">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Cc&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="9">
-           <widget class="QLabel" name="label_57">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Tet&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="10">
-           <widget class="QLabel" name="label_58">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Cep&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="11">
-           <widget class="QLabel" name="label_59">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Ery&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="comboBox_141">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(240, 240, 240);
-border-style: solid;
-border-width: 1px;
-border-color: rgb(0, 0, 0);</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Candida Albicans</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Staphylococcus Aureus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Beta Hemolytic Streptococcus</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Pseudomonas</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Enteric Pathogens</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="12">
-           <widget class="QLabel" name="label_60">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Met&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" colspan="10">
-           <widget class="QLabel" name="label_44">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Antibiotic Susceptibilty Test Results&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="9">
-           <widget class="QComboBox" name="comboBox_56">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="11">
-           <widget class="QComboBox" name="comboBox_58">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="12">
-           <widget class="QComboBox" name="comboBox_59">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <widget class="QLabel" name="label_52">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;B-lac&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="9">
-           <widget class="QComboBox" name="comboBox_12">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QComboBox" name="comboBox_30">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="4">
-           <widget class="QComboBox" name="comboBox_21">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>N</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>P</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="5">
-           <widget class="QComboBox" name="comboBox_22">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="6">
-           <widget class="QComboBox" name="comboBox_23">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="7">
-           <widget class="QComboBox" name="comboBox_24">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
              </property>
             </item>
            </widget>
@@ -2109,8 +1053,8 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="8">
-           <widget class="QComboBox" name="comboBox_25">
+          <item row="3" column="7">
+           <widget class="QComboBox" name="comboBox_24">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2191,8 +1135,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="2" column="11">
-           <widget class="QComboBox" name="comboBox_10">
+          <item row="3" column="8">
+           <widget class="QComboBox" name="comboBox_25">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2234,6 +1178,47 @@ border-width: 1px</string>
           </item>
           <item row="2" column="10">
            <widget class="QComboBox" name="comboBox_11">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="11">
+           <widget class="QComboBox" name="comboBox_10">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2355,49 +1340,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="6" column="3">
-           <widget class="QComboBox" name="comboBox_50">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="7" column="7">
-           <widget class="QComboBox" name="comboBox_64">
+          <item row="3" column="6">
+           <widget class="QComboBox" name="comboBox_23">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2437,8 +1381,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="6">
-           <widget class="QComboBox" name="comboBox_63">
+          <item row="5" column="10">
+           <widget class="QComboBox" name="comboBox_47">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2478,8 +1422,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="9">
-           <widget class="QComboBox" name="comboBox_66">
+          <item row="5" column="8">
+           <widget class="QComboBox" name="comboBox_45">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2519,8 +1463,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="8">
-           <widget class="QComboBox" name="comboBox_65">
+          <item row="5" column="6">
+           <widget class="QComboBox" name="comboBox_43">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2560,8 +1504,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="10">
-           <widget class="QComboBox" name="comboBox_67">
+          <item row="5" column="7">
+           <widget class="QComboBox" name="comboBox_44">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2601,8 +1545,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="11">
-           <widget class="QComboBox" name="comboBox_68">
+          <item row="2" column="6">
+           <widget class="QComboBox" name="comboBox_14">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2642,8 +1586,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="7" column="12">
-           <widget class="QComboBox" name="comboBox_69">
+          <item row="2" column="7">
+           <widget class="QComboBox" name="comboBox_15">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2683,8 +1627,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="6" column="8">
-           <widget class="QComboBox" name="comboBox_55">
+          <item row="2" column="4">
+           <widget class="QComboBox" name="comboBox_18">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -2697,76 +1641,6 @@ border-width: 1px</string>
               <height>22</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="7" column="3">
-           <widget class="QComboBox" name="comboBox_60">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="4">
-           <widget class="QComboBox" name="comboBox_31">
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -2787,6 +1661,651 @@ border-width: 1px</string>
               <string>P</string>
              </property>
             </item>
+           </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QComboBox" name="comboBox_16">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="comboBox_81">
+            <property name="minimumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Candida Albicans</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Staphylococcus Aureus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Beta Hemolytic Streptococcus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pseudomonas</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Enteric Pathogens</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_71">
+            <property name="minimumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(240, 240, 240);
+border-style: solid;
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Candida Albicans</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Staphylococcus Aureus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Beta Hemolytic Streptococcus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pseudomonas</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Enteric Pathogens</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="plus_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>21</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>21</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+            </property>
+            <property name="text">
+             <string>+</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBox_93">
+            <property name="minimumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Candida Albicans</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Staphylococcus Aureus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Beta Hemolytic Streptococcus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pseudomonas</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Enteric Pathogens</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="QLabel" name="label_54">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Amp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QComboBox" name="comboBox_19">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>NI</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>H</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>L</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>M</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QLabel" name="label_53">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Pen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7">
+           <widget class="QLabel" name="label_55">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;AMC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="8">
+           <widget class="QComboBox" name="comboBox_13">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="8">
+           <widget class="QLabel" name="label_56">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Cc&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3" colspan="10">
+           <widget class="QLabel" name="label_44">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Antibiotic Susceptibilty Test Results&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="9">
+           <widget class="QComboBox" name="comboBox_12">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="label_52">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;B-lac&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QComboBox" name="comboBox_30">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>NI</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>H</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>L</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>M</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QComboBox" name="comboBox_21">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>N</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>P</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="5">
+           <widget class="QComboBox" name="comboBox_22">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="9">
+           <widget class="QLabel" name="label_57">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Tet&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="10">
+           <widget class="QLabel" name="label_58">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Cep&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="11">
+           <widget class="QLabel" name="label_59">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Ery&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="comboBox_141">
+            <property name="minimumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(240, 240, 240);
+border-style: solid;
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Candida Albicans</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Staphylococcus Aureus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Beta Hemolytic Streptococcus</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pseudomonas</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Enteric Pathogens</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="12">
+           <widget class="QLabel" name="label_60">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Met&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
            </widget>
           </item>
           <item row="4" column="6">
@@ -3035,8 +2554,49 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="4" column="11">
-           <widget class="QComboBox" name="comboBox_38">
+          <item row="5" column="3">
+           <widget class="QComboBox" name="comboBox_40">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>NI</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>H</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>L</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>M</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="11">
+           <widget class="QComboBox" name="comboBox_28">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -3076,8 +2636,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="4" column="12">
-           <widget class="QComboBox" name="comboBox_39">
+          <item row="3" column="10">
+           <widget class="QComboBox" name="comboBox_27">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -3117,32 +2677,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="5" column="4">
-           <widget class="QComboBox" name="comboBox_41">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>N</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>P</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="5">
-           <widget class="QComboBox" name="comboBox_42">
+          <item row="3" column="12">
+           <widget class="QComboBox" name="comboBox_29">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -3182,438 +2718,14 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="5" column="7">
-           <widget class="QComboBox" name="comboBox_44">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
+          <item row="1" column="3">
+           <widget class="QLabel" name="label_51">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Growth&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="6">
-           <widget class="QComboBox" name="comboBox_43">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="8">
-           <widget class="QComboBox" name="comboBox_45">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="10">
-           <widget class="QComboBox" name="comboBox_47">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="9">
-           <widget class="QComboBox" name="comboBox_46">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="11">
-           <widget class="QComboBox" name="comboBox_48">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="12">
-           <widget class="QComboBox" name="comboBox_49">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="4">
-           <widget class="QComboBox" name="comboBox_51">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>N</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>P</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="5">
-           <widget class="QComboBox" name="comboBox_52">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="7">
-           <widget class="QComboBox" name="comboBox_54">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="6">
-           <widget class="QComboBox" name="comboBox_53">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
            </widget>
           </item>
          </layout>
@@ -3696,129 +2808,6 @@ border-width: 1px</string>
           <property name="verticalSpacing">
            <number>13</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="plus2_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-            </property>
-            <property name="text">
-             <string>+</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="comboBox_143">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(240, 240, 240);
-border-style: solid;
-border-width: 1px;
-border-color: rgb(0, 0, 0);</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Actinobacillus Actinomycetemco</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Prevotella Intermedia</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Porphyromonas Gingivalis</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Fusobacterium Nucleatum</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Capnocytophaga SPP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Peptostreptococcus SP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bacteriodes Fraqilis</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bacteriodes Ureolyticus Groups</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Eiknella Corrodens</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Campylobacter / Wolinella</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Tannerella Forsythus</string>
-             </property>
-            </item>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QLabel" name="label_45">
             <property name="text">
@@ -3848,87 +2837,6 @@ border-color: rgb(0, 0, 0);</string>
 border-style: solid;
 border-width: 1px;
 border-color: rgb(0, 0, 0);</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Actinobacillus Actinomycetemco</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Prevotella Intermedia</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Porphyromonas Gingivalis</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Fusobacterium Nucleatum</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Capnocytophaga SPP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Peptostreptococcus SP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bacteriodes Fraqilis</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bacteriodes Ureolyticus Groups</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Eiknella Corrodens</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Campylobacter / Wolinella</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Tannerella Forsythus</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QComboBox" name="comboBox_145">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
             </property>
             <item>
              <property name="text">
@@ -4073,8 +2981,131 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="5" column="1">
-           <widget class="QComboBox" name="comboBox_146">
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_143">
+            <property name="minimumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>211</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(240, 240, 240);
+border-style: solid;
+border-width: 1px;
+border-color: rgb(0, 0, 0);</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Actinobacillus Actinomycetemco</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Prevotella Intermedia</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Porphyromonas Gingivalis</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Fusobacterium Nucleatum</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Capnocytophaga SPP</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Peptostreptococcus SP</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Bacteriodes Fraqilis</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Bacteriodes Ureolyticus Groups</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Eiknella Corrodens</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Campylobacter / Wolinella</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tannerella Forsythus</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="plus2_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>21</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>21</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+            </property>
+            <property name="text">
+             <string>+</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="comboBox_145">
             <property name="minimumSize">
              <size>
               <width>211</width>
@@ -4154,85 +3185,14 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="6" column="1">
-           <widget class="QComboBox" name="comboBox_147">
-            <property name="minimumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
+          <item row="0" column="12">
+           <widget class="QLabel" name="label_39">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Met&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>211</width>
-              <height>22</height>
-             </size>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Actinobacillus Actinomycetemco</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Prevotella Intermedia</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Porphyromonas Gingivalis</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Fusobacterium Nucleatum</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Capnocytophaga SPP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Peptostreptococcus SP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bacteriodes Fraqilis</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bacteriodes Ureolyticus Groups</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Eiknella Corrodens</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Campylobacter / Wolinella</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Tannerella Forsythus</string>
-             </property>
-            </item>
            </widget>
           </item>
           <item row="0" column="2">
@@ -4261,10 +3221,10 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="12">
-           <widget class="QLabel" name="label_39">
+          <item row="0" column="9">
+           <widget class="QLabel" name="label_36">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Met&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Tet&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4281,10 +3241,10 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="9">
-           <widget class="QLabel" name="label_36">
+          <item row="0" column="7">
+           <widget class="QLabel" name="label_34">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Tet&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;AMC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4301,20 +3261,20 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="7">
-           <widget class="QLabel" name="label_34">
+          <item row="0" column="6">
+           <widget class="QLabel" name="label_33">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;AMC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Amp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="0" column="6">
-           <widget class="QLabel" name="label_33">
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_30">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Amp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Growth&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -4341,18 +3301,8 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
-           <widget class="QLabel" name="label_30">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Growth&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QComboBox" name="comboBox_82">
+          <item row="1" column="5">
+           <widget class="QComboBox" name="comboBox_84">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -4372,22 +3322,22 @@ border-width: 1px</string>
             </property>
             <item>
              <property name="text">
-              <string>NI</string>
+              <string/>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>H</string>
+              <string>I</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>L</string>
+              <string>R</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>M</string>
+              <string>S</string>
              </property>
             </item>
            </widget>
@@ -4428,8 +3378,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="1" column="5">
-           <widget class="QComboBox" name="comboBox_84">
+          <item row="1" column="3">
+           <widget class="QComboBox" name="comboBox_82">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -4449,22 +3399,22 @@ border-width: 1px</string>
             </property>
             <item>
              <property name="text">
-              <string/>
+              <string>NI</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>I</string>
+              <string>H</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>R</string>
+              <string>L</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>S</string>
+              <string>M</string>
              </property>
             </item>
            </widget>
@@ -4510,8 +3460,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="1" column="7">
-           <widget class="QComboBox" name="comboBox_86">
+          <item row="1" column="8">
+           <widget class="QComboBox" name="comboBox_87">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -4551,8 +3501,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="1" column="8">
-           <widget class="QComboBox" name="comboBox_87">
+          <item row="1" column="7">
+           <widget class="QComboBox" name="comboBox_86">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -4674,8 +3624,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="1" column="11">
-           <widget class="QComboBox" name="comboBox_90">
+          <item row="2" column="3">
+           <widget class="QComboBox" name="comboBox_105">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -4695,22 +3645,22 @@ border-width: 1px</string>
             </property>
             <item>
              <property name="text">
-              <string/>
+              <string>NI</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>I</string>
+              <string>H</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>R</string>
+              <string>L</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>S</string>
+              <string>M</string>
              </property>
             </item>
            </widget>
@@ -4756,47 +3706,6 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="2" column="3">
-           <widget class="QComboBox" name="comboBox_105">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
           <item row="2" column="4">
            <widget class="QComboBox" name="comboBox_106">
             <property name="minimumSize">
@@ -4829,6 +3738,47 @@ border-width: 1px</string>
             <item>
              <property name="text">
               <string>P</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="11">
+           <widget class="QComboBox" name="comboBox_90">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
              </property>
             </item>
            </widget>
@@ -4956,88 +3906,6 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="2" column="8">
-           <widget class="QComboBox" name="comboBox_110">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="9">
-           <widget class="QComboBox" name="comboBox_111">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
           <item row="2" column="10">
            <widget class="QComboBox" name="comboBox_112">
             <property name="minimumSize">
@@ -5120,6 +3988,88 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
+          <item row="2" column="9">
+           <widget class="QComboBox" name="comboBox_111">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="8">
+           <widget class="QComboBox" name="comboBox_110">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item row="2" column="12">
            <widget class="QComboBox" name="comboBox_114">
             <property name="minimumSize">
@@ -5157,6 +4107,42 @@ border-width: 1px</string>
             <item>
              <property name="text">
               <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QComboBox" name="comboBox_73">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>N</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>P</string>
              </property>
             </item>
            </widget>
@@ -5202,8 +4188,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="3" column="4">
-           <widget class="QComboBox" name="comboBox_73">
+          <item row="3" column="8">
+           <widget class="QComboBox" name="comboBox_77">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -5228,12 +4214,17 @@ border-width: 1px</string>
             </item>
             <item>
              <property name="text">
-              <string>N</string>
+              <string>I</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>P</string>
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
              </property>
             </item>
            </widget>
@@ -5361,131 +4352,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="3" column="8">
-           <widget class="QComboBox" name="comboBox_77">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="9">
-           <widget class="QComboBox" name="comboBox_78">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
           <item row="3" column="10">
            <widget class="QComboBox" name="comboBox_79">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="11">
-           <widget class="QComboBox" name="comboBox_80">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -5566,49 +4434,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="4" column="3">
-           <widget class="QComboBox" name="comboBox_96">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="4">
-           <widget class="QComboBox" name="comboBox_97">
+          <item row="3" column="9">
+           <widget class="QComboBox" name="comboBox_78">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -5633,12 +4460,58 @@ border-width: 1px</string>
             </item>
             <item>
              <property name="text">
-              <string>N</string>
+              <string>I</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>P</string>
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="11">
+           <widget class="QComboBox" name="comboBox_80">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>I</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>S</string>
              </property>
             </item>
            </widget>
@@ -5684,8 +4557,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="4" column="6">
-           <widget class="QComboBox" name="comboBox_99">
+          <item row="4" column="4">
+           <widget class="QComboBox" name="comboBox_97">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -5710,17 +4583,53 @@ border-width: 1px</string>
             </item>
             <item>
              <property name="text">
-              <string>I</string>
+              <string>N</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>R</string>
+              <string>P</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QComboBox" name="comboBox_96">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>69</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>NI</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>S</string>
+              <string>H</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>L</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>M</string>
              </property>
             </item>
            </widget>
@@ -5848,8 +4757,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="4" column="10">
-           <widget class="QComboBox" name="comboBox_103">
+          <item row="4" column="6">
+           <widget class="QComboBox" name="comboBox_99">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -5971,777 +4880,8 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="5" column="3">
-           <widget class="QComboBox" name="comboBox_125">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="4">
-           <widget class="QComboBox" name="comboBox_126">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>N</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>P</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="5">
-           <widget class="QComboBox" name="comboBox_127">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="6">
-           <widget class="QComboBox" name="comboBox_128">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="7">
-           <widget class="QComboBox" name="comboBox_129">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="8">
-           <widget class="QComboBox" name="comboBox_130">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="9">
-           <widget class="QComboBox" name="comboBox_131">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="10">
-           <widget class="QComboBox" name="comboBox_132">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="11">
-           <widget class="QComboBox" name="comboBox_133">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="12">
-           <widget class="QComboBox" name="comboBox_134">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="3">
-           <widget class="QComboBox" name="comboBox_116">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>NI</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>H</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>M</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="4">
-           <widget class="QComboBox" name="comboBox_117">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>N</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>P</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="5">
-           <widget class="QComboBox" name="comboBox_118">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="6">
-           <widget class="QComboBox" name="comboBox_119">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="7">
-           <widget class="QComboBox" name="comboBox_120">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="8">
-           <widget class="QComboBox" name="comboBox_121">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="9">
-           <widget class="QComboBox" name="comboBox_122">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="10">
-           <widget class="QComboBox" name="comboBox_123">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="11">
-           <widget class="QComboBox" name="comboBox_124">
-            <property name="minimumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>69</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string/>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>I</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>S</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="6" column="12">
-           <widget class="QComboBox" name="comboBox_135">
+          <item row="4" column="10">
+           <widget class="QComboBox" name="comboBox_103">
             <property name="minimumSize">
              <size>
               <width>69</width>
@@ -6989,57 +5129,6 @@ background-color: rgb(193, 193, 193);
       </item>
       <item>
        <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="print">
-        <property name="minimumSize">
-         <size>
-          <width>101</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>101</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-        </property>
-        <property name="text">
-         <string>Print</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_4">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>

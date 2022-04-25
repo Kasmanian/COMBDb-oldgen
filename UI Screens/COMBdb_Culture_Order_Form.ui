@@ -779,7 +779,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Add New Clinician</string>
+           <string>Add Clinician</string>
           </property>
          </widget>
         </item>

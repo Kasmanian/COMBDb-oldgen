@@ -297,7 +297,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
+          <item row="3" column="2" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_15">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Shipping Date:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -333,7 +333,7 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="2" column="2">
+          <item row="2" column="2" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_9">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Culture Type:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -465,7 +465,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Add New Clinician</string>
+           <string>Add Clinician</string>
           </property>
          </widget>
         </item>
