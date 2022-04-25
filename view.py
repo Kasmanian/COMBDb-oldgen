@@ -1,10 +1,18 @@
+from __future__ import print_function
 from tkinter import CENTER, Button
 from PyQt5.uic import loadUi
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtPrintSupport, QtCore
 from PyQt5.QtWidgets import *
-import sys
+import sys, shutil, os, webbrowser
+import win32com.client as win32
+from mailmerge import MailMerge
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtCore import QUrl, Qt
 
-class View(QApplication):
+def passPrintPrompt(boolean):
+        print('Done printing')
+
+class View:
     def __init__(self, model):
         self.model = model
         app = QApplication(sys.argv)
@@ -105,6 +113,36 @@ class View(QApplication):
         duwlResultForm = DUWLResultForm(self.model, self)
         self.widget.addWidget(duwlResultForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def printFromTemplate(self, template, fieldData):
+        dst = template.split('\\')
+        dst[len(dst)-1] = 'temp.docx'
+        dst = '\\'.join(dst)
+        shutil.copyfile(template, dst)
+        document = MailMerge(dst)
+
+        pass
+
+    def showPrintNav(self, path):
+        self.printNav = PrintNav(path)
+        self.printNav.show()
+
+    def showPrintPreview(self, path):
+        self.web = QWebEngineView()
+        self.web.setContextMenuPolicy(Qt.ActionsContextMenu)
+        printAction = QAction('Print', self.web)
+        printAction.triggered.connect(self.showPrintPrompt)
+        self.web.addAction(printAction)
+        self.web.load(QUrl.fromLocalFile(path))
+        self.web.showMaximized()
+        # self.web.page().windowCloseRequested.connect(self.showPrintPrompt)
+
+    def showPrintPrompt(self):
+        print('Print prompt entered')
+        self.dialog = QtPrintSupport.QPrintDialog()
+        if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
+            self.web.page().print(self.dialog.printer(), passPrintPrompt)
+            print('Clicked print!')
 
     #def showPreviousScreen(self):
         #elf.widget.setCurrentIndex(self.widget.currentIndex()-1)
@@ -265,8 +303,24 @@ class CultureOrderForm(QMainWindow):
         super(CultureOrderForm, self).__init__()
         self.view = view
         self.model = model
+        self.clinicians = model.selectClinicians()
         # Load the .ui file of the Culture Order Form Screen
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
+        self.entries = {}
+        try:
+            c = []
+            for clinician in self.clinicians:
+                entry = clinician[0]
+                first = clinician[1] if clinician[1] is not None else ''
+                last = clinician[2]+', ' if clinician[2] is not None else ''
+                name = last+first if  clinician[3] is None else clinician[3]
+                c.append(name)
+                self.entries[name] = entry
+            c.sort()
+            self.clinicianDropDown.clear()
+            self.clinicianDropDown.addItems(c)
+        except Exception as e:
+            print(e)
         # Handle 'Add New Clinician' button clicked
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         # Handle 'Back' button clicked
@@ -275,6 +329,8 @@ class CultureOrderForm(QMainWindow):
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
         # Handle 'Save' button clicked
         self.save.clicked.connect(self.handleSavePressed)
+
+        self.print.clicked.connect(self.handlePrintPressed)
 
     # Method for 'Add New Clinicians functionality
     def handleAddNewClinicianPressed(self):
@@ -291,24 +347,47 @@ class CultureOrderForm(QMainWindow):
     
     # Method for entering new Patient Sample Data
     def handleSavePressed(self):
-        print(self.clinicianDropDown.currentText())
-        print(self.cultureTypeDropDown.currentText())
-        print(self.chartNum.text())
-        print(str(self.collectionDate.date()))
-        print(str(self.receivedDate.date()))
-        print(self.clinicLocationDropDown.currentText())
-        print(self.comment.toPlainText())
-        self.view.model.addPatientSample(
+        table = 'CATs' if self.cultureTypeDropDown.currentText()=='Caries' else 'Cultures'
+        sampleID = self.view.model.addPatientOrder(
+            table,
+            self.chartNum.text(),
+            self.entries[self.clinicianDropDown.currentText()],
             self.firstName.text(),
             self.lastName.text(),
-            self.clinicianDropDown.currentText(),
-            self.cultureTypeDropDown.currentText(),
-            self.chartNum.text(),
-            str(self.collectionDate.date()),
-            str(self.receivedDate.date()),
-            self.clinicLocationDropDown.currentText(),
+            self.collectionDate.date(),
+            self.receivedDate.date(),
             self.comment.toPlainText()
         )
+        if sampleID:
+            self.sampleNum.setText(str(sampleID))
+    
+    def handlePrintPressed(self):
+        template = r'C:\Users\simmsk\Desktop\templates\culture_worksheet_template.docx'
+        dst = template.split('\\')
+        dst[len(dst)-1] = 'temp.docx'
+        dst = '\\'.join(dst)
+        # shutil.copyfile(template, dst)
+        document = MailMerge(template)
+        document.merge(
+            patientName=f'{self.lastName.text()}, {self.firstName.text()}',
+            comments=self.comment.toPlainText()
+        )
+        document.write(dst)
+        word = win32.gencache.EnsureDispatch('Word.Application')
+        document = word.Documents.Open(dst)
+        txt_path = dst.split('.')[0] + '.html'
+        document.SaveAs(txt_path, 10)
+        document.Close()
+        try:
+            word.ActiveDocument()
+        except Exception:
+            word.Quit()
+        os.remove(dst)
+        # webbrowser.open(txt_path)
+        try:
+            self.view.showPrintPreview(txt_path)
+        except Exception as e:
+            print(e)
 
 class AddClinician(QMainWindow):
     # Class for the Culture Order Form UI
@@ -537,3 +616,74 @@ class DUWLResultForm(QMainWindow):
     # Method for 'Return to Main Menu' button functionality
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+
+class PrintNav(QtWidgets.QWidget):
+    def __init__(self, path):
+        super(PrintNav, self).__init__()
+        self.setWindowTitle('Document Printer')
+        self.editor = QtWidgets.QTextEdit(self)
+        self.editor.area.setWidgetResizable(True)
+        self.editor.textChanged.connect(self.handleTextChanged)
+        self.buttonOpen = QtWidgets.QPushButton('Open', self)
+        self.buttonOpen.clicked.connect(self.handleOpen)
+        self.buttonPrint = QtWidgets.QPushButton('Print', self)
+        self.buttonPrint.clicked.connect(self.handlePrint)
+        self.buttonPreview = QtWidgets.QPushButton('Preview', self)
+        self.buttonPreview.clicked.connect(self.handlePreview)
+        layout = QtWidgets.QGridLayout(self)
+        layout.addWidget(self.editor, 0, 0, 1, 3)
+        layout.addWidget(self.buttonOpen, 1, 0)
+        layout.addWidget(self.buttonPrint, 1, 1)
+        layout.addWidget(self.buttonPreview, 1, 2)
+        self.handleTextChanged()
+        if path:
+            file = QtCore.QFile(path)
+            if file.open(QtCore.QIODevice.ReadOnly):
+                stream = QtCore.QTextStream(file)
+                text = stream.readAll()
+                info = QtCore.QFileInfo(path)
+                if info.completeSuffix() == 'html':
+                    self.editor.setHtml(text)
+                else:
+                    self.editor.setPlainText(text)
+                file.close()
+
+    def handleOpen(self):
+        path = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Open file', '',
+            'HTML files (*.html);;Text files (*.txt);; Word Docs (*.docx)')[0]
+        if path:
+            file = QtCore.QFile(path)
+            if file.open(QtCore.QIODevice.ReadOnly):
+                stream = QtCore.QTextStream(file)
+                text = stream.readAll()
+                info = QtCore.QFileInfo(path)
+                if info.completeSuffix() == 'html':
+                    self.editor.setHtml(text)
+                else:
+                    self.editor.setPlainText(text)
+                file.close()
+
+    def handlePrint(self):
+        dialog = QtPrintSupport.QPrintDialog()
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            self.editor.document().print_(dialog.printer())
+
+    def handlePreview(self):
+        dialog = QtPrintSupport.QPrintPreviewDialog()
+        dialog.paintRequested.connect(self.editor.print_)
+        dialog.exec_()
+
+    def handleTextChanged(self):
+        enable = not self.editor.document().isEmpty()
+        self.buttonPrint.setEnabled(enable)
+        self.buttonPreview.setEnabled(enable)
+
+class WebView(QWebEngineView):
+    def __init__(self, onClose):
+        super(WebView, self).__init__()
+        self.onClose = onClose
+
+    def closeEvent(self, event):
+        self.onClose()
+        # event.accept()
