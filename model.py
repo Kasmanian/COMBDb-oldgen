@@ -21,7 +21,7 @@ class Model:
   def close(self):
     self.db.close()
 
-  def addTech(self, first, last, middle, username, password):
+  def addTech(self, first, middle, last, username, password):
     # Insert new Admin into the database using a given username and password
     try:
       cursor = self.db.cursor()
@@ -49,7 +49,7 @@ class Model:
 
   def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, comments):
     try:
-      yy = int(self.date[-1:-2])
+      yy = self.date.year-2000
       cursor = self.db.cursor()
       query = (
         f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000'
@@ -57,17 +57,19 @@ class Model:
       cursor.execute(query)
       lastPatientOrder = cursor.fetchone()
       sampleID = (yy*10000)+lastPatientOrder[0]+1 if lastPatientOrder is not None else (yy*10000)+1
+      print(type(sampleID),type(chartID),type(clinician),type(first),type(last),type(collected),type(received),type(comments))
       query = (
         f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
       )
       #  f'VALUES({sampleID}, {chartID}, {clinician}, {first}, {last}, {collected}, {received}, {comments})'
-      cursor.execute(query, sampleID, chartID, clinician, first, last, collected, received, comments)
+      cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), comments)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
       return False
     finally:
       cursor.close()
+      return sampleID
 
   def addCATResult(self, sampleID, chartID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments):
     try:
@@ -208,7 +210,7 @@ class Model:
   def selectClinicians(self):
     try:
       cursor = self.db.cursor()
-      query = 'SELECT * FROM Clinicians'
+      query = 'SELECT Entry, First, Last, Designation FROM Clinicians'
       cursor.execute(query)
       return cursor.fetchall()
     except (Exception, pyodbc.Error) as e:
@@ -226,7 +228,7 @@ class Model:
       for tech in cursor.fetchall():
         print(tech)
         if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
-          self.date = date.today().strftime('%m/%d/%y')
+          self.date = date.today()
           self.tech = tech
           return True
         return False
@@ -247,3 +249,8 @@ class Model:
     # Salt and hash token (tk)
     bsalt = bcrypt.gensalt()
     return bcrypt.hashpw(token.encode('utf-8'), bsalt)
+
+  def fQtDate(self, qtDate):
+    # Convert QtDate to MS Access Data
+    # return f'#{date.month()}/{date.day()}/{date.year()}#'
+    return date(qtDate.year(), qtDate.month(), qtDate.day())

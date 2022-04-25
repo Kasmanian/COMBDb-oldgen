@@ -9,7 +9,10 @@ import webbrowser
 def main():
     model = Model()
     model.connect()
-    # model.addAdmin('John', 'Doe', 'Admin', 'Password')
+    try:
+        model.addTech(None, None, 'Doe', 'Admin', 'Password')
+    except Exception as e:
+        print(e)
     # model.adminLogin('rmaik', 'password1')
     view = View(model)
     # controller = Controller(model)
