@@ -471,10 +471,17 @@ class CultureResultForm(QMainWindow):
         self.model = model
         # Load the .ui file of the Culture Result Form Screen
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Result_Form.ui", self)
+        # Handle 'Search button clicked
+        #self.search.clicked.connect(self.handleSearchPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Search' button functionality
+    #def handleSearchPressed(self):
+        #do stuff
+        #print("You searched")
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
