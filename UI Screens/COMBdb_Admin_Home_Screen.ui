@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
-    <height>1203</height>
+    <width>1306</width>
+    <height>996</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>40</height>
+        <height>0</height>
        </size>
       </property>
      </spacer>
@@ -188,43 +188,21 @@ background-color: rgb(193, 193, 193);
         </property>
        </spacer>
       </item>
-      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="rejectionLogForm">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="Line" name="line">
         <property name="minimumSize">
          <size>
-          <width>221</width>
-          <height>41</height>
+          <width>200</width>
+          <height>5</height>
          </size>
         </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-        </property>
-        <property name="text">
-         <string>Rejection Log Form</string>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_7">
+       <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -239,45 +217,10 @@ background-color: rgb(193, 193, 193);
         </property>
        </spacer>
       </item>
-      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="qaManager">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>221</width>
-          <height>41</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-        </property>
-        <property name="text">
-         <string>QA Manager</string>
-        </property>
-       </widget>
-      </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="topMargin">
-         <number>25</number>
+         <number>0</number>
         </property>
         <item>
          <spacer name="horizontalSpacer">
@@ -292,7 +235,7 @@ background-color: rgb(193, 193, 193);
           </property>
          </spacer>
         </item>
-        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <item>
          <widget class="QPushButton" name="settings">
           <property name="minimumSize">
            <size>
@@ -302,7 +245,7 @@ background-color: rgb(193, 193, 193);
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>75</width>
             <height>41</height>
            </size>
           </property>
@@ -333,17 +276,17 @@ background-color: rgb(193, 193, 193);
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
+           <enum>QSizePolicy::Minimum</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
+            <width>35</width>
             <height>20</height>
            </size>
           </property>
          </spacer>
         </item>
-        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <item>
          <widget class="QPushButton" name="logout">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -397,6 +340,29 @@ background-color: rgb(193, 193, 193);
           </property>
          </spacer>
         </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>8</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="topMargin">
+         <number>25</number>
+        </property>
        </layout>
       </item>
      </layout>
@@ -453,7 +419,7 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1600</width>
+     <width>1306</width>
      <height>21</height>
     </rect>
    </property>

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
-    <height>1200</height>
+    <width>1541</width>
+    <height>988</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -58,6 +58,12 @@
           <height>20</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>225</width>
+          <height>20</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -92,6 +98,12 @@ border-width: 1px</string>
         <property name="minimumSize">
          <size>
           <width>225</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>220</width>
           <height>20</height>
          </size>
         </property>
@@ -176,6 +188,18 @@ border-width: 1px</string>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>81</width>
+        <height>31</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>81</width>
+        <height>31</height>
+       </size>
+      </property>
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
@@ -212,53 +236,6 @@ background-color: rgb(193, 193, 193);
       </property>
      </widget>
     </item>
-    <item row="9" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QPushButton" name="guestLogin">
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="toolTipDuration">
-       <number>-1</number>
-      </property>
-      <property name="whatsThis">
-       <string/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: none!important;
-border: none;
-padding: 0!important;
-text-decoration: underline;</string>
-      </property>
-      <property name="text">
-       <string>Sign in as guest</string>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <spacer name="verticalSpacer_5">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>15</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
      <widget class="QLabel" name="label_8">
       <property name="sizePolicy">
@@ -285,6 +262,22 @@ text-decoration: underline;</string>
       </property>
      </widget>
     </item>
+    <item row="6" column="0">
+     <spacer name="verticalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>15</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item row="0" column="0">
      <spacer name="verticalSpacer">
       <property name="orientation">
@@ -301,7 +294,7 @@ text-decoration: underline;</string>
       </property>
      </spacer>
     </item>
-    <item row="10" column="0">
+    <item row="9" column="0">
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -313,22 +306,6 @@ text-decoration: underline;</string>
        <size>
         <width>20</width>
         <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="8" column="0">
-     <spacer name="verticalSpacer_6">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
        </size>
       </property>
      </spacer>
@@ -355,6 +332,22 @@ text-decoration: underline;</string>
       </property>
      </widget>
     </item>
+    <item row="8" column="0">
+     <spacer name="verticalSpacer_6">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -362,7 +355,7 @@ text-decoration: underline;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1600</width>
+     <width>1541</width>
      <height>21</height>
     </rect>
    </property>
@@ -373,7 +366,6 @@ text-decoration: underline;</string>
   <tabstop>usrnm</tabstop>
   <tabstop>pswd</tabstop>
   <tabstop>login</tabstop>
-  <tabstop>guestLogin</tabstop>
  </tabstops>
  <resources/>
  <connections/>
