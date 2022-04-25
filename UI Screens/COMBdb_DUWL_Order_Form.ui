@@ -362,6 +362,12 @@ border-width: 1px</string>
 border-style: solid;
 border-width: 1px</string>
             </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>xxxxxx</string>
+            </property>
            </widget>
           </item>
           <item row="1" column="2">
