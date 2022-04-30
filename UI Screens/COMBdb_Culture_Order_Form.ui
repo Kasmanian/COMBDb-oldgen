@@ -368,7 +368,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QDateEdit" name="collectionDat">
+           <widget class="QDateEdit" name="collectionDate">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -699,7 +699,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QLineEdit" name="sampleNum_2">
+           <widget class="QLineEdit" name="sampleID">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -966,6 +966,63 @@ background-color: rgb(193, 193, 193);
        </layout>
       </item>
       <item>
+       <spacer name="verticalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>15</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="clear">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>101</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>101</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Clear</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer_5">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -976,7 +1033,7 @@ background-color: rgb(193, 193, 193);
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>25</height>
+          <height>15</height>
          </size>
         </property>
        </spacer>
@@ -1040,12 +1097,20 @@ background-color: rgb(193, 193, 193);
  </widget>
  <tabstops>
   <tabstop>firstName</tabstop>
+  <tabstop>lastName</tabstop>
+  <tabstop>collectionDate</tabstop>
+  <tabstop>receivedDate</tabstop>
+  <tabstop>clinicianDropDown</tabstop>
+  <tabstop>cultureTypeDropDown</tabstop>
+  <tabstop>chartNum</tabstop>
   <tabstop>comment</tabstop>
   <tabstop>addClinician</tabstop>
   <tabstop>save</tabstop>
   <tabstop>print</tabstop>
+  <tabstop>clear</tabstop>
   <tabstop>menu</tabstop>
   <tabstop>back</tabstop>
+  <tabstop>sampleID</tabstop>
  </tabstops>
  <resources/>
  <connections/>
