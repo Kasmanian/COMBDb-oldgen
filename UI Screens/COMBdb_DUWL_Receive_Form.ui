@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1567</width>
-    <height>982</height>
+    <width>1342</width>
+    <height>753</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -696,6 +696,57 @@ background-color: rgb(193, 193, 193);
        </layout>
       </item>
       <item>
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>15</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="clear">
+        <property name="minimumSize">
+         <size>
+          <width>101</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>101</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Clear</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer_8">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -706,7 +757,7 @@ background-color: rgb(193, 193, 193);
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>20</height>
+          <height>15</height>
          </size>
         </property>
        </spacer>
@@ -873,7 +924,7 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1567</width>
+     <width>1342</width>
      <height>21</height>
     </rect>
    </property>
@@ -881,11 +932,19 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
+  <tabstop>clinicianDropDown</tabstop>
   <tabstop>operatory</tabstop>
+  <tabstop>procedure</tabstop>
+  <tabstop>collectedDate</tabstop>
+  <tabstop>receivedDate</tabstop>
+  <tabstop>product</tabstop>
+  <tabstop>comment</tabstop>
   <tabstop>save</tabstop>
   <tabstop>print</tabstop>
+  <tabstop>clear</tabstop>
   <tabstop>menu</tabstop>
   <tabstop>back</tabstop>
+  <tabstop>sampleNum_2</tabstop>
  </tabstops>
  <resources/>
  <connections/>
