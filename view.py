@@ -38,9 +38,13 @@ class View(QApplication):
         self.widget.addWidget(adminHomeScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showSettingsScreen(self):
-        settingsScreen = SettingsScreen(self.model, self)
-        self.widget.addWidget(settingsScreen)
+    def showSettingsNav(self):
+        self.settingsNav = SettingsNav(self.model, self)
+        self.settingsNav.show()
+
+    def showSettingsManageTechnicianForm(self):
+        settingsManageTechnicianForm = SettingsManageTechnicianForm(self.model, self)
+        self.widget.addWidget(settingsManageTechnicianForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showGuestHomeScreen(self):
@@ -180,7 +184,7 @@ class AdminHomeScreen(QMainWindow):
 
     # Method for 'Setting' button functionality
     def handleSettingsPressed(self):
-        self.view.showSettingsScreen()
+        self.view.showSettingsNav()
 
     # Method for 'Logout' button functionality
     def handleLogoutPressed(self):
@@ -188,19 +192,59 @@ class AdminHomeScreen(QMainWindow):
         self.view.showAdminLoginScreen()
 
 
-class SettingsScreen(QMainWindow):
-     # Class for the Settings Screen UI
+class SettingsNav(QMainWindow):
+    # Class for the Settings Nav UI
     def __init__(self, model, view):
-        super(SettingsScreen, self).__init__()
+        super(SettingsNav, self).__init__()
         self.view = view
         self.model = model
         # Load the .ui file of the Admin Main Screen 
-        loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Screen.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
+        # Handle 'Technician Settings' button clicked
+        self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
+        # Handle 'Manage Archives' button clicked
+        #self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
+        # Handle 'Manage Prefixes' button clicked
+        #self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
 
+    # Method for 'Technician Settings' button functionality
+    def handleTechnicianSettingsPressed(self):
+        self.view.showSettingsManageTechnicianForm()
+        self.close()
+
+    # Method for 'Manage Archives' button functionality
+    #def handleManageArchivesPressed(self):
+        #self.view.showAdminHomeScreen()
+
+    # Method for 'Manage Prefixes' button functionality
+    #def handleManagePrefixesPressed(self):
+        #self.view.showAdminHomeScreen()
+
     # Method for 'Back' button functionality
     def handleBackPressed(self):
+        self.close()
+
+class SettingsManageTechnicianForm(QMainWindow):
+     # Class for the Settings Screen UI
+    def __init__(self, model, view):
+        super(SettingsManageTechnicianForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showSettingsNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
 
