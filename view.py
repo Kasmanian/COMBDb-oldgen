@@ -47,6 +47,10 @@ class View(QApplication):
         self.widget.addWidget(settingsManageTechnicianForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showEditTechnician(self):
+        self.settingsEditTechnician = SettingsEditTechnician(self.model, self)
+        self.settingsEditTechnician.show()
+
     def showGuestHomeScreen(self):
         guestHomeScreen = GuestHomeScreen(self.model, self)
         self.widget.addWidget(guestHomeScreen)
@@ -234,10 +238,16 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.model = model
         # Load the .ui file of the Admin Main Screen 
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
+        # Handle 'Edit' button clicked
+        self.edit.clicked.connect(self.handleEditPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Edit' button functionality
+    def handleEditPressed(self):
+        self.view.showEditTechnician()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
@@ -246,6 +256,29 @@ class SettingsManageTechnicianForm(QMainWindow):
     # Method for 'Return to Main Menu' button functionality
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+
+
+class SettingsEditTechnician(QMainWindow):
+    # Class for the Guest Home Screen UI
+    def __init__(self, model, view):
+        super(SettingsEditTechnician, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.close()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+        self.close()
 
 
 class GuestHomeScreen(QMainWindow):
