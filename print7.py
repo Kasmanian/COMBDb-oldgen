@@ -19,6 +19,7 @@ class PrintPrompt(QApplication):
         quitAction.triggered.connect(self.printDialogue)
         self.web.addAction(quitAction)
         url = r'C:\Users\simmsk\Desktop\templates\temp.html'
+        self.web.setWindowTitle(url)
         self.web.load(QUrl.fromLocalFile(url))
         self.web.show()
         sys.exit(self.exec_())

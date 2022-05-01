@@ -47,6 +47,21 @@ class Model:
     # self.jdrv['Guest'].insert_one({'password': self.encrypt(pw), 'timestmp': math.floor(time.time()/36)/100, 'lifespan': ls})
     pass
 
+  def addClinician(self, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, enrolled, inactive, comments):
+    try:
+      cursor = self.db.cursor()
+      query = (
+        'INSERT INTO Clinicians(Prefix, First, Last, Designation, Phone, Fax, Email, '
+        '[Address 1], [Address 2], City, State, Zip, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      )
+      cursor.execute(query, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, comments)
+      self.db.commit()
+    except Exception as e:
+      print(f'Error in connection: {e}')
+      return False
+    finally:
+      cursor.close()
+
   def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, comments):
     try:
       yy = self.date.year-2000
@@ -57,7 +72,6 @@ class Model:
       cursor.execute(query)
       lastPatientOrder = cursor.fetchone()
       sampleID = (yy*10000)+lastPatientOrder[0]+1 if lastPatientOrder is not None else (yy*10000)+1
-      print(type(sampleID),type(chartID),type(clinician),type(first),type(last),type(collected),type(received),type(comments))
       query = (
         f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
       )
@@ -198,8 +212,21 @@ class Model:
   def findClinician(self, entry):
     try:
       cursor = self.db.cursor()
-      query = 'SELECT * FROM Clinicians WHERE Entry=?'
+      query = 'SELECT Prefix, First, Last FROM Clinicians WHERE Entry=?'
       cursor.execute(query, entry)
+      return cursor.fetchone()
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return None
+    finally:
+      cursor.close()
+
+  def findSample(self, table, sampleID):
+    try:
+      cursor = self.db.cursor()
+      extraf = ' Shipped,' if table=='Waterlines' else ''
+      query = f'SELECT chartID, Clinician, First, Last,{extraf} Collected, Received, Comments FROM {table} WHERE sampleID=?'
+      cursor.execute(query, sampleID)
       return cursor.fetchone()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -219,6 +246,18 @@ class Model:
     finally:
       cursor.close()
 
+  def selectTechs(self, columns):
+    try:
+      cursor = self.db.cursor()
+      query = f'SELECT {columns} FROM Techs'
+      cursor.execute(query)
+      return cursor.fetchall()
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return None
+    finally:
+      cursor.close()
+
   def techLogin(self, username, password):
     # Pull from Techs table matching & validating user input
     try:
@@ -226,7 +265,6 @@ class Model:
       query = 'SELECT * FROM Techs WHERE username=?'
       cursor.execute(query, username)
       for tech in cursor.fetchall():
-        print(tech)
         if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
           self.date = date.today()
           self.tech = tech
