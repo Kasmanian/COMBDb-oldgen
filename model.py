@@ -246,6 +246,18 @@ class Model:
     finally:
       cursor.close()
 
+  def selectTechs(self, columns):
+    try:
+      cursor = self.db.cursor()
+      query = f'SELECT {columns} FROM Techs'
+      cursor.execute(query)
+      return cursor.fetchall()
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return None
+    finally:
+      cursor.close()
+
   def techLogin(self, username, password):
     # Pull from Techs table matching & validating user input
     try:

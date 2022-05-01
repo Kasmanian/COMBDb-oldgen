@@ -291,6 +291,18 @@ class SettingsManageTechnicianForm(QMainWindow):
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
 
+        techs = self.model.selectTechs('Username, Active')
+        self.technicianTable.setRowCount(len(techs)) 
+        self.technicianTable.setColumnCount(2) 
+        print(techs)
+        try:
+            for i in range(0, len(techs)):
+                print('hello')
+                self.technicianTable.setItem(i,0, QTableWidgetItem(techs[i][0]))
+                self.technicianTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
+        except Exception as e:
+            print(e)
+
     # Method for 'Back' button functionality
     def handleBackPressed(self):
         self.view.showSettingsNav()
