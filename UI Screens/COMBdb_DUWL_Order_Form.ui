@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>605</height>
+    <width>1142</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1230</width>
-    <height>605</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -53,7 +53,7 @@
     <item row="3" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="bottomMargin">
-       <number>20</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QLabel" name="label_3">
@@ -284,6 +284,12 @@ border-width: 1px</string>
           </item>
           <item row="1" column="4" rowspan="4">
            <widget class="QTextEdit" name="comment">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>150</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
               <width>200</width>
@@ -308,42 +314,6 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QComboBox" name="cultureTypeDropDown">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>DUWL</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Culture Type:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
            <widget class="QLineEdit" name="sampleID">
             <property name="minimumSize">
              <size>
@@ -370,7 +340,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
+          <item row="2" column="2" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_14">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -408,7 +378,7 @@ border-width: 1px</string>
         <property name="sizeHint" stdset="0">
          <size>
           <width>10</width>
-          <height>20</height>
+          <height>5</height>
          </size>
         </property>
        </spacer>
@@ -549,6 +519,57 @@ background-color: rgb(193, 193, 193);
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="next">
+          <property name="minimumSize">
+           <size>
+            <width>101</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>101</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+          </property>
+          <property name="text">
+           <string>Next</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>30</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QPushButton" name="print">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -636,31 +657,58 @@ background-color: rgb(193, 193, 193);
         </property>
        </spacer>
       </item>
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="clear">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>101</width>
-          <height>31</height>
-         </size>
+        <property name="topMargin">
+         <number>0</number>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>101</width>
-          <height>31</height>
-         </size>
+        <property name="rightMargin">
+         <number>0</number>
         </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
+        <property name="bottomMargin">
+         <number>0</number>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton:hover {
+        <item>
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="clear">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>101</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>101</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover {
 
 background-color: rgb(210, 210, 210);
 
@@ -671,11 +719,77 @@ QPushButton {
 background-color: rgb(193, 193, 193);
 
 }</string>
-        </property>
-        <property name="text">
-         <string>Clear</string>
-        </property>
-       </widget>
+          </property>
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_13">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>30</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="clearAll">
+          <property name="minimumSize">
+           <size>
+            <width>101</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>101</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+          </property>
+          <property name="text">
+           <string>Clear All</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_12">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="verticalSpacer_6">
@@ -823,7 +937,7 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1230</width>
+     <width>1142</width>
      <height>21</height>
     </rect>
    </property>
@@ -833,16 +947,17 @@ background-color: rgb(193, 193, 193);
  <tabstops>
   <tabstop>clinicianDropDown</tabstop>
   <tabstop>kitNumber</tabstop>
-  <tabstop>cultureTypeDropDown</tabstop>
+  <tabstop>sampleID</tabstop>
   <tabstop>shippingDate</tabstop>
   <tabstop>comment</tabstop>
   <tabstop>addClinician</tabstop>
   <tabstop>save</tabstop>
+  <tabstop>next</tabstop>
   <tabstop>print</tabstop>
   <tabstop>clear</tabstop>
+  <tabstop>clearAll</tabstop>
   <tabstop>menu</tabstop>
   <tabstop>back</tabstop>
-  <tabstop>sampleID</tabstop>
  </tabstops>
  <resources/>
  <connections/>

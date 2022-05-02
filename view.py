@@ -27,6 +27,10 @@ class View:
         except Exception as e:
             print(e)
 
+    def showSetFilePathScreen(self):
+        self.setFilePathScreen = SetFilePathScreen(self.model, self)
+        self.setFilePathScreen.show()
+
     def showAdminLoginScreen(self):
         adminLoginScreen = AdminLoginScreen(self.model, self)
         self.widget.addWidget(adminLoginScreen)
@@ -177,6 +181,21 @@ class View:
             self.names.sort()
         except Exception as e:
             print(e)
+
+
+class SetFilePathScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetFilePathScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Set_File_Path_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.close()
+
 
 class AdminLoginScreen(QMainWindow):
     def __init__(self, model, view):
