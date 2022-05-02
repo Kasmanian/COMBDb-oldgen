@@ -21,6 +21,7 @@ class View:
         self.widget.addWidget(screen)
         self.widget.setGeometry(10,10,1000,800)
         self.widget.showMaximized()
+        self.setClinicianList()
         try:
             sys.exit(app.exec())
         except Exception as e:
@@ -164,6 +165,19 @@ class View:
         else:
             return f'{date.month()}/{date.day()}/{date.year()}'
 
+    def setClinicianList(self):
+        try:
+            self.clinicians = self.model.selectClinicians('Entry, Prefix, First, Last, Designation, Phone, Fax, Email, [Address 1], [Address 2], City, State, Zip, Enrolled, Inactive, Comments')
+            self.entries = {}
+            self.names = []
+            for clinician in self.clinicians:
+                name = self.fClinicianName(clinician[1], clinician[2], clinician[3], clinician[4])
+                self.names.append(name)
+                self.entries[name] = clinician[0]
+            self.names.sort()
+        except Exception as e:
+            print(e)
+
 class AdminLoginScreen(QMainWindow):
     def __init__(self, model, view):
         super(AdminLoginScreen, self).__init__()
@@ -257,6 +271,19 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+        self.technicianTable.itemSelectionChanged.connect(self.handleTechnicianSelected)
+        self.activate.clicked.connect(self.handleActivatePressed)
+        self.deactivate.clicked.connect(self.handleDeactivatePressed)
+        techs = self.model.selectTechs('Entry, Username, Active')
+        self.technicianTable.setRowCount(len(techs)) 
+        self.technicianTable.setColumnCount(3)
+        try:
+            for i in range(0, len(techs)):
+                self.technicianTable.setItem(i,0, QTableWidgetItem(str(techs[i][0])))
+                self.technicianTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
+                self.technicianTable.setItem(i,2, QTableWidgetItem(techs[i][2]))
+        except Exception as e:
+            print(e)
 
     # Method for 'Edit' button functionality
     def handleEditPressed(self):
@@ -269,6 +296,33 @@ class SettingsManageTechnicianForm(QMainWindow):
     # Method for 'Return to Main Menu' button functionality
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+
+    def handleTechnicianSelected(self):
+        self.selectedTechnician = [
+            self.technicianTable.currentRow(), 
+            int(self.technicianTable.item(self.technicianTable.currentRow(), 0).text()),
+            self.technicianTable.item(self.technicianTable.currentRow(), 1).text(),
+            self.technicianTable.item(self.technicianTable.currentRow(), 2).text(),
+        ]
+        self.technician.setText(self.technicianTable.item(self.technicianTable.currentRow(), 1).text())
+    
+    def handleActivatePressed(self):
+        try:
+            if self.selectedTechnician[3] != 'Yes':
+                if self.model.toggleTech(self.selectedTechnician[1], 'Yes'):
+                    self.selectedTechnician[3] = 'Yes'
+                    self.technicianTable.item(self.selectedTechnician[0], 2).setText('Yes')
+        except Exception as e:
+            print(e)
+
+    def handleDeactivatePressed(self):
+        try:
+            if self.selectedTechnician[3] != 'No':
+                if self.model.toggleTech(self.selectedTechnician[1], 'No'):
+                    self.selectedTechnician[3] = 'No'
+                    self.technicianTable.item(self.selectedTechnician[0], 2).setText('No')
+        except Exception as e:
+            print(e)
 
 
 class SettingsEditTechnician(QMainWindow):
@@ -305,52 +359,12 @@ class SettingsManageArchivesForm(QMainWindow):
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
-        self.technicianTable.itemSelectionChanged.connect(self.handleTechnicianSelected)
-        self.activate.clicked.connect(self.handleActivatePressed)
-        self.deactivate.clicked.connect(self.handleDeactivatePressed)
-        techs = self.model.selectTechs('Entry, Username, Active')
-        self.technicianTable.setRowCount(len(techs)) 
-        self.technicianTable.setColumnCount(3)
-        try:
-            for i in range(0, len(techs)):
-                self.technicianTable.setItem(i,0, QTableWidgetItem(str(techs[i][0])))
-                self.technicianTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
-                self.technicianTable.setItem(i,2, QTableWidgetItem(techs[i][2]))
-        except Exception as e:
-            print(e)
 
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
-
-    def handleTechnicianSelected(self):
-        self.selectedTechnician = [
-            self.technicianTable.currentRow(), 
-            int(self.technicianTable.item(self.technicianTable.currentRow(), 0).text()),
-            self.technicianTable.item(self.technicianTable.currentRow(), 1).text(),
-            self.technicianTable.item(self.technicianTable.currentRow(), 2).text(),
-        ]
-        self.technician.setText(self.technicianTable.item(self.technicianTable.currentRow(), 1).text())
-    
-    def handleActivatePressed(self):
-        try:
-            if self.selectedTechnician[3] != 'Yes':
-                if self.model.toggleTech(self.selectedTechnician[1], 'Yes'):
-                    self.selectedTechnician[3] = 'Yes'
-                    self.technicianTable.item(self.selectedTechnician[0], 2).setText('Yes')
-        except Exception as e:
-            print(e)
-
-    def handleDeactivatePressed(self):
-        try:
-            if self.selectedTechnician[3] != 'No':
-                if self.model.toggleTech(self.selectedTechnician[1], 'No'):
-                    self.selectedTechnician[3] = 'No'
-                    self.technicianTable.item(self.selectedTechnician[0], 2).setText('No')
-        except Exception as e:
-            print(e)
 
 class GuestHomeScreen(QMainWindow):
     def __init__(self, model, view):
@@ -389,26 +403,29 @@ class CultureOrderForm(QMainWindow):
         super(CultureOrderForm, self).__init__()
         self.view = view
         self.model = model
-        self.clinicians = model.selectClinicians('Entry, Prefix, First, Last, Designation')
+        # self.clinicians = model.selectClinicians('Entry, Prefix, First, Last, Designation')
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
-        self.entries = {}
-        try:
-            c = []
-            for clinician in self.clinicians:
-                entry = clinician[0]
-                name = self.view.fClinicianName(clinician[1], clinician[2], clinician[3], clinician[4])
-                c.append(name)
-                self.entries[name] = entry
-            c.sort()
-            self.clinicianDropDown.clear()
-            self.clinicianDropDown.addItems(c)
-        except Exception as e:
-            print(e)
+        # self.entries = {}
+        # try:
+        #     c = []
+        #     for clinician in self.clinicians:
+        #         entry = clinician[0]
+        #         name = self.view.fClinicianName(clinician[1], clinician[2], clinician[3], clinician[4])
+        #         c.append(name)
+        #         self.entries[name] = entry
+        #     c.sort()
+        #     self.clinicianDropDown.clear()
+        #     self.clinicianDropDown.addItems(c)
+        # except Exception as e:
+        #     print(e)
+        self.clinicianDropDown.clear()
+        self.clinicianDropDown.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
         self.print.clicked.connect(self.handlePrintPressed)
+        self.clear.clicked.connect(self.handleClearPressed)
 
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinicianDropDown)
@@ -425,15 +442,15 @@ class CultureOrderForm(QMainWindow):
             sampleID = self.view.model.addPatientOrder(
                 table,
                 self.chartNum.text(),
-                self.entries[self.clinicianDropDown.currentText()],
+                self.view.entries[self.clinicianDropDown.currentText()],
                 self.firstName.text(),
                 self.lastName.text(),
-                self.collectionDat.date(),
+                self.collectionDate.date(),
                 self.receivedDate.date(),
                 self.comment.toPlainText()
             )
             if sampleID:
-                self.sampleNum_2.setText(str(sampleID))
+                self.sampleID.setText(str(sampleID))
         except Exception as e:
             print(e)
     
@@ -453,6 +470,18 @@ class CultureOrderForm(QMainWindow):
         except Exception as e:
             print(e)
 
+    def handleClearPressed(self):
+        try:
+            self.firstName.clear()
+            self.lastName.clear()
+            self.collectionDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+            self.receivedDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+            self.sampleID.setText('xxxxxx')
+            self.chartNum.clear()
+            self.comment.clear()
+        except Exception as e:
+            print(e)
+
 class AddClinician(QMainWindow):
     def __init__(self, model, view, dropdown):
         super(AddClinician, self).__init__()
@@ -466,15 +495,15 @@ class AddClinician(QMainWindow):
 
     def handleSavePressed(self):
         try:
-            clinician = self.view.fClinicianName(
-                self.title.text(),
-                self.firstName.text(),
-                self.lastName.text(),
-                self.designation.text()
-            )
-            self.dropdown.addItem(clinician)
+            # clinician = self.view.fClinicianName(
+            #     self.title.text(),
+            #     self.firstName.text(),
+            #     self.lastName.text(),
+            #     self.designation.text()
+            # )
+            # self.dropdown.addItem(clinician)
             self.model.addClinician(
-                self.title.text(),
+                self.title.currentText(),
                 self.firstName.text(),
                 self.lastName.text(),
                 self.designation.text(),
@@ -484,12 +513,15 @@ class AddClinician(QMainWindow):
                 self.address1.text(),
                 self.address2.text(),
                 self.city.text(),
-                self.state.text(),
+                self.state.currentText(),
                 self.zip.text(),
                 None,
                 None,
                 self.comment.toPlainText()
             )
+            self.view.setClinicianList()
+            self.dropdown.clear()
+            self.dropdown.addItems(self.view.names)
         except Exception as e:
             print(e)
         finally:
@@ -530,12 +562,17 @@ class DUWLOrderForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
+        self.currentKit = 0
+        self.kitNumber.setText('0')
+        self.clinicianDropDown.clear()
+        self.clinicianDropDown.addItems(self.view.names)
+        self.shippingDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.addClinician.clicked.connect(self.handleAddClinicianPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
 
     def handleAddClinicianPressed(self):
-        self.view.showAddClinicianScreen()
+        self.view.showAddClinicianScreen(self.clinicianDropDown)
 
     def handleBackPressed(self):
         self.view.showCultureOrderNav()
@@ -543,6 +580,24 @@ class DUWLOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
+    def handleSavePressed(self):
+        try:
+            sampleID = self.view.model.addWaterlineOrder(
+                self.view.entries[self.clinicianDropDown.currentText()],
+                self.shippingDate.date(),
+                self.comment.toPlainText()
+            )
+            if sampleID:
+                self.sampleID.setText(str(sampleID))
+                self.currentKit += 1
+                self.handleClearPressed()
+        except Exception as e:
+            print(e)
+
+    def handleClearPressed(self):
+        self.kitNumber.setText(str(self.currentKit))
+        self.sampleID.setText('xxxxxx')
+        self.comments.clear()
 
 class DUWLReceiveForm(QMainWindow):
     def __init__(self, model, view):
