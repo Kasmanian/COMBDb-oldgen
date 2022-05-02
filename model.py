@@ -41,6 +41,23 @@ class Model:
     finally:
       cursor.close()
 
+  def toggleTech(self, entry, active):
+    try:
+      cursor = self.db.cursor()
+      query = (
+        'UPDATE Techs '
+        f'SET Active=? '
+        f'WHERE Entry=?'
+      )
+      cursor.execute(query, active, entry)
+      self.db.commit()
+      return True
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return False
+    finally:
+      cursor.close()
+
   def addGuest(self, pw, ls):
     # Insert new Guest into the database using:
     # a randomly generated key (pw), a timestamp (ts, hours since epoch to the nearest hundredth), and a lifespan (ls, hours)
@@ -234,10 +251,10 @@ class Model:
     finally:
       cursor.close()
 
-  def selectClinicians(self):
+  def selectClinicians(self, columns):
     try:
       cursor = self.db.cursor()
-      query = 'SELECT Entry, First, Last, Designation FROM Clinicians'
+      query = f'SELECT {columns} FROM Clinicians'
       cursor.execute(query)
       return cursor.fetchall()
     except (Exception, pyodbc.Error) as e:
