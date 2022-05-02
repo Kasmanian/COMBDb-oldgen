@@ -810,7 +810,7 @@ border-width: 1px</string>
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(230, 230, 230);
+             <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
 border-width: 1px</string>
             </property>
@@ -1154,7 +1154,7 @@ background-color: rgb(193, 193, 193);
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(230, 230, 230);
+             <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
 border-width: 1px</string>
             </property>

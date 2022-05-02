@@ -31,6 +31,18 @@ class View:
         self.setFilePathScreen = SetFilePathScreen(self.model, self)
         self.setFilePathScreen.show()
 
+    def showErrorScreen(self):
+        self.setErrorScreen = SetErrorScreen(self.model, self)
+        self.setErrorScreen.show()
+
+    def showConfirmationScreen(self):
+        self.setConfirmationScreen = SetConfirmationScreen(self.model, self)
+        self.setConfirmationScreen.show()
+
+    def showArchiveReminderScreen(self):
+        self.setArchiveReminderScreen = SetArchiveReminderScreen(self.model, self)
+        self.setArchiveReminderScreen.show()
+
     def showAdminLoginScreen(self):
         adminLoginScreen = AdminLoginScreen(self.model, self)
         self.widget.addWidget(adminLoginScreen)
@@ -194,6 +206,48 @@ class SetFilePathScreen(QMainWindow):
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
+        self.close()
+
+
+class SetErrorScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetErrorScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Error_Window.ui", self)
+        # Handle 'OK' button clicked
+        self.ok.clicked.connect(self.handleOKPressed)
+
+    # Method for 'OK' button functionality
+    def handleOKPressed(self):
+        self.close()
+
+
+class SetConfirmationScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetConfirmationScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Confirmation_Window.ui", self)
+        # Handle 'Cancel' button clicked
+        self.Cancel.clicked.connect(self.handleCancelPressed)
+
+    # Method for 'OK' button functionality
+    def handleCancelPressed(self):
+        self.close()
+
+
+class SetArchiveReminderScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetArchiveReminderScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Archive_Prompt.ui", self)
+        # Handle 'No' button clicked
+        self.no.clicked.connect(self.handleNoPressed)
+
+    # Method for 'No' button functionality
+    def handleNoPressed(self):
         self.close()
 
 
