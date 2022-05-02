@@ -205,7 +205,7 @@ background-color: rgb(193, 193, 193);
           <property name="verticalSpacing">
            <number>12</number>
           </property>
-          <item row="5" column="0">
+          <item row="5" column="0" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_40">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

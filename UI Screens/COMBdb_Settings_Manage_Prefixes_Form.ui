@@ -305,7 +305,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="0" column="4">
-             <widget class="QLineEdit" name="technician">
+             <widget class="QLineEdit" name="prefix">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -346,7 +346,7 @@ border-width: 1px</string>
                <number>0</number>
               </property>
               <item>
-               <widget class="QPushButton" name="activate">
+               <widget class="QPushButton" name="add">
                 <property name="minimumSize">
                  <size>
                   <width>75</width>
@@ -399,7 +399,7 @@ background-color: rgb(193, 193, 193);
              </spacer>
             </item>
             <item row="0" column="1">
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QComboBox" name="type">
               <property name="minimumSize">
                <size>
                 <width>100</width>
@@ -420,7 +420,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="0" column="7">
-             <widget class="QLineEdit" name="technician_2">
+             <widget class="QLineEdit" name="word">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -526,7 +526,7 @@ border-width: 1px</string>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>10</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -721,8 +721,8 @@ background-color: rgb(193, 193, 193);
  </widget>
  <tabstops>
   <tabstop>prefixTable</tabstop>
-  <tabstop>technician</tabstop>
-  <tabstop>activate</tabstop>
+  <tabstop>prefix</tabstop>
+  <tabstop>add</tabstop>
   <tabstop>menu</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
