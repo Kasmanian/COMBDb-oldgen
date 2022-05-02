@@ -133,7 +133,7 @@ class View:
     def convertAndPrint(self, document, path):
         try:
             document.write(path)
-            word = win32.gencache.EnsureDispatch('Word.Application')
+            word = win32.DispatchEx('Word.Application')
             document = word.Documents.Open(path)
             tempPath = path.split('.')[0] + '.html'
             document.SaveAs(tempPath, 10)
@@ -422,21 +422,7 @@ class CultureOrderForm(QMainWindow):
         super(CultureOrderForm, self).__init__()
         self.view = view
         self.model = model
-        # self.clinicians = model.selectClinicians('Entry, Prefix, First, Last, Designation')
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
-        # self.entries = {}
-        # try:
-        #     c = []
-        #     for clinician in self.clinicians:
-        #         entry = clinician[0]
-        #         name = self.view.fClinicianName(clinician[1], clinician[2], clinician[3], clinician[4])
-        #         c.append(name)
-        #         self.entries[name] = entry
-        #     c.sort()
-        #     self.clinicianDropDown.clear()
-        #     self.clinicianDropDown.addItems(c)
-        # except Exception as e:
-        #     print(e)
         self.clinicianDropDown.clear()
         self.clinicianDropDown.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
@@ -514,13 +500,6 @@ class AddClinician(QMainWindow):
 
     def handleSavePressed(self):
         try:
-            # clinician = self.view.fClinicianName(
-            #     self.title.text(),
-            #     self.firstName.text(),
-            #     self.lastName.text(),
-            #     self.designation.text()
-            # )
-            # self.dropdown.addItem(clinician)
             self.model.addClinician(
                 self.title.currentText(),
                 self.firstName.text(),
@@ -581,14 +560,23 @@ class DUWLOrderForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
-        self.currentKit = 0
-        self.kitNumber.setText('0')
+        self.currentKit = 1
+        self.kitList = []
+        self.kitNumber.setText('1')
         self.clinicianDropDown.clear()
         self.clinicianDropDown.addItems(self.view.names)
+        self.next.setEnabled(False)
+        self.print.setEnabled(False)
         self.shippingDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.addClinician.clicked.connect(self.handleAddClinicianPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+        self.save.clicked.connect(self.handleSavePressed)
+        self.next.clicked.connect(self.handleNextPressed)
+        self.clear.clicked.connect(self.handleClearPressed)
+        self.clearAll.clicked.connect(self.handleClearAllPressed)
+        self.print.clicked.connect(self.handlePrintPressed)
+
 
     def handleAddClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinicianDropDown)
@@ -608,15 +596,51 @@ class DUWLOrderForm(QMainWindow):
             )
             if sampleID:
                 self.sampleID.setText(str(sampleID))
-                self.currentKit += 1
-                self.handleClearPressed()
+                self.save.setEnabled(False)
+                self.next.setEnabled(True)
+                self.clear.setEnabled(False)
+                self.print.setEnabled(True)
+                self.kitList.append({
+                    'sampleID': f'{str(sampleID)[0:2]}-{str(sampleID)[2:]}',
+                    'operatory': 'Operatory___________________________',
+                    'collected': 'Collection Date______________________',
+                    'clngagent': 'Cleaning Agent______________________'
+                })
         except Exception as e:
             print(e)
+
+    def handleNextPressed(self):
+        self.currentKit += 1
+        self.handleClearPressed()
+        self.save.setEnabled(True)
+        self.next.setEnabled(False)
+        self.clear.setEnabled(True)
+        self.print.setEnabled(False)
 
     def handleClearPressed(self):
         self.kitNumber.setText(str(self.currentKit))
         self.sampleID.setText('xxxxxx')
-        self.comments.clear()
+        self.comment.clear()
+        self.save.setEnabled(True)
+        self.clear.setEnabled(True)
+
+    def handleClearAllPressed(self):
+        self.kitList.clear()
+        self.currentKit = 1
+        self.handleClearPressed()
+
+    def handlePrintPressed(self):
+        try:
+            template = r'C:\Users\simmsk\Desktop\templates\duwl_label_template.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            document.merge_rows('sampleID', self.kitList)
+        except Exception as e:
+            print(e)
+        try:
+            self.view.convertAndPrint(document, dst)
+        except Exception as e:
+            print(e)
 
 class DUWLReceiveForm(QMainWindow):
     def __init__(self, model, view):

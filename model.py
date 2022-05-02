@@ -78,8 +78,8 @@ class Model:
         f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000'
       )
       cursor.execute(query)
-      lastPatientOrder = cursor.fetchone()
-      sampleID = (yy*10000)+lastPatientOrder[0]+1 if lastPatientOrder is not None else (yy*10000)+1
+      lastOrder = cursor.fetchone()
+      sampleID = (yy*10000)+lastOrder[0]+1 if lastOrder is not None else (yy*10000)+1
       query = (
         f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
       )
@@ -100,7 +100,7 @@ class Model:
         f'SET ChartID=?, Clinician=?, First=?, Last=?, Tech=?, Reported=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, pH=?, '
         f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, Comments=? WHERE SampleID=?'
       )
-      cursor.execute(query, chartID, clinician, first, last, self.tech[0], reported, volume, time, flow, pH, bc, sm, lb, comments, sampleID)
+      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), volume, time, flow, pH, bc, sm, lb, comments, sampleID)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -114,7 +114,7 @@ class Model:
       query = (
         'UPDATE Cultures SET ChartID=?, Clinician=?, First=?, Last=?, Tech=?, Reported=?, Results=?, Comments=? WHERE SampleID=?'
       )
-      cursor.execute(query, chartID, clinician, first, last, self.tech[0], reported, results, comments, sampleID)
+      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), results, comments, sampleID)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -124,17 +124,18 @@ class Model:
   
   def addWaterlineOrder(self, clinician, shipped, comments):
     try:
-      yy = int(self.date[-1:-2])
+      yy = self.date.year-2000
       cursor = self.db.cursor()
       query = (
         f'SELECT COUNT(*) FROM Waterlines WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000'
       )
       cursor.execute(query)
-      sampleID = (yy*10000)+cursor.fetchone()[0]+1
+      lastOrder = cursor.fetchone()
+      sampleID = (yy*10000)+lastOrder[0]+1 if lastOrder is not None else (yy*10000)+1
       query = (
         'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments) VALUES(?, ?, ?, ?)'
       )
-      cursor.execute(query, sampleID, clinician, shipped, comments)
+      cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -149,7 +150,7 @@ class Model:
       query = (
         'UPDATE Waterlines SET OperatoryID=?, Clinician=?, Collected=?, Received=?, Product=?, Procedure=?, Comments=? WHERE SampleID=?'
       )
-      cursor.execute(query, operatoryID, clinician, collected, received, product, procedure, comments, sampleID)
+      cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, sampleID)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -163,7 +164,7 @@ class Model:
       query = (
         'UPDATE Waterlines SET Clinician=?, Reported=?, [Bacterial Count]=?, [CDC/ADA]=?, Comments=? WHERE SampleID=?'
       )
-      cursor.execute(query, clinician, reported, count, cdcada, comments, sampleID)
+      cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, sampleID)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
