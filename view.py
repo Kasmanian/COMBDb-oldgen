@@ -50,6 +50,15 @@ class View:
         self.widget.addWidget(settingsManageTechnicianForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showEditTechnician(self):
+        self.settingsEditTechnician = SettingsEditTechnician(self.model, self)
+        self.settingsEditTechnician.show()
+
+    def showSettingsManageArchivesForm(self):
+        settingsManageArchivesForm = SettingsManageArchivesForm(self.model, self)
+        self.widget.addWidget(settingsManageArchivesForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
     def showGuestHomeScreen(self):
         guestHomeScreen = GuestHomeScreen(self.model, self)
         self.widget.addWidget(guestHomeScreen)
@@ -212,12 +221,27 @@ class SettingsNav(QMainWindow):
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
+        # Handle 'Manage Archives' button clicked
+        self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
+        # Handle 'Manage Prefixes' button clicked
+        #self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
+        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
 
     def handleTechnicianSettingsPressed(self):
         self.view.showSettingsManageTechnicianForm()
         self.close()
 
+    # Method for 'Manage Archives' button functionality
+    def handleManageArchivesPressed(self):
+        self.view.showSettingsManageArchivesForm()
+        self.close()
+
+    # Method for 'Manage Prefixes' button functionality
+    #def handleManagePrefixesPressed(self):
+        #self.view.showAdminHomeScreen()
+
+    # Method for 'Back' button functionality
     def handleBackPressed(self):
         self.close()
 
@@ -227,6 +251,58 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
+        # Handle 'Edit' button clicked
+        self.edit.clicked.connect(self.handleEditPressed)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Edit' button functionality
+    def handleEditPressed(self):
+        self.view.showEditTechnician()
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.view.showSettingsNav()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
+
+class SettingsEditTechnician(QMainWindow):
+    # Class for the Edit Technician UI
+    def __init__(self, model, view):
+        super(SettingsEditTechnician, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    # Method for 'Back' button functionality
+    def handleBackPressed(self):
+        self.close()
+
+    # Method for 'Return to Main Menu' button functionality
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+        self.close()
+
+
+class SettingsManageArchivesForm(QMainWindow):
+    # Class for the Settings Screen UI
+    def __init__(self, model, view):
+        super(SettingsManageArchivesForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Archives_Form.ui", self)
+        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
         self.technicianTable.itemSelectionChanged.connect(self.handleTechnicianSelected)
