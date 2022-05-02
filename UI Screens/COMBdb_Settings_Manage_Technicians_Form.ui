@@ -147,7 +147,7 @@
              <cursorShape>ArrowCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
+             <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
 border-width: 1px</string>
             </property>
@@ -506,7 +506,7 @@ border-width: 1px</string>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>10</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -720,7 +720,7 @@ border-width: 1px</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>10</height>
+                <height>20</height>
                </size>
               </property>
              </spacer>

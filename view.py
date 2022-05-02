@@ -31,6 +31,18 @@ class View:
         self.setFilePathScreen = SetFilePathScreen(self.model, self)
         self.setFilePathScreen.show()
 
+    def showErrorScreen(self):
+        self.setErrorScreen = SetErrorScreen(self.model, self)
+        self.setErrorScreen.show()
+
+    def showConfirmationScreen(self):
+        self.setConfirmationScreen = SetConfirmationScreen(self.model, self)
+        self.setConfirmationScreen.show()
+
+    def showArchiveReminderScreen(self):
+        self.setArchiveReminderScreen = SetArchiveReminderScreen(self.model, self)
+        self.setArchiveReminderScreen.show()
+
     def showAdminLoginScreen(self):
         adminLoginScreen = AdminLoginScreen(self.model, self)
         self.widget.addWidget(adminLoginScreen)
@@ -62,6 +74,11 @@ class View:
     def showSettingsManageArchivesForm(self):
         settingsManageArchivesForm = SettingsManageArchivesForm(self.model, self)
         self.widget.addWidget(settingsManageArchivesForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showSettingsManagePrefixesForm(self):
+        settingsManagePrefixesForm = SettingsManagePrefixesForm(self.model, self)
+        self.widget.addWidget(settingsManagePrefixesForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showGuestHomeScreen(self):
@@ -197,6 +214,48 @@ class SetFilePathScreen(QMainWindow):
         self.close()
 
 
+class SetErrorScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetErrorScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Error_Window.ui", self)
+        # Handle 'OK' button clicked
+        self.ok.clicked.connect(self.handleOKPressed)
+
+    # Method for 'OK' button functionality
+    def handleOKPressed(self):
+        self.close()
+
+
+class SetConfirmationScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetConfirmationScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Confirmation_Window.ui", self)
+        # Handle 'Cancel' button clicked
+        self.Cancel.clicked.connect(self.handleCancelPressed)
+
+    # Method for 'OK' button functionality
+    def handleCancelPressed(self):
+        self.close()
+
+
+class SetArchiveReminderScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(SetArchiveReminderScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_Archive_Prompt.ui", self)
+        # Handle 'No' button clicked
+        self.no.clicked.connect(self.handleNoPressed)
+
+    # Method for 'No' button functionality
+    def handleNoPressed(self):
+        self.close()
+
+
 class AdminLoginScreen(QMainWindow):
     def __init__(self, model, view):
         super(AdminLoginScreen, self).__init__()
@@ -257,7 +316,7 @@ class SettingsNav(QMainWindow):
         # Handle 'Manage Archives' button clicked
         self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
         # Handle 'Manage Prefixes' button clicked
-        #self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
+        self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
         # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
 
@@ -271,8 +330,9 @@ class SettingsNav(QMainWindow):
         self.close()
 
     # Method for 'Manage Prefixes' button functionality
-    #def handleManagePrefixesPressed(self):
-        #self.view.showAdminHomeScreen()
+    def handleManagePrefixesPressed(self):
+        self.view.showSettingsManagePrefixesForm()
+        self.close()
 
     # Method for 'Back' button functionality
     def handleBackPressed(self):
@@ -368,7 +428,7 @@ class SettingsEditTechnician(QMainWindow):
 
 
 class SettingsManageArchivesForm(QMainWindow):
-    # Class for the Settings Screen UI
+    # Class for the Manage Archives UI
     def __init__(self, model, view):
         super(SettingsManageArchivesForm, self).__init__()
         self.view = view
@@ -384,6 +444,27 @@ class SettingsManageArchivesForm(QMainWindow):
 
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+
+    
+class SettingsManagePrefixesForm(QMainWindow):
+    # Class for the Manage Prefixes UI
+    def __init__(self, model, view):
+        super(SettingsManagePrefixesForm, self).__init__()
+        self.view = view
+        self.model = model
+        # Load the .ui file of the Admin Main Screen 
+        loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Prefixes_Form.ui", self)
+        # Handle 'Back' button clicked
+        self.back.clicked.connect(self.handleBackPressed)
+        # Handle 'Return to Main Menu' button clicked
+        self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+
+    def handleBackPressed(self):
+        self.view.showSettingsNav()
+
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
 
 class GuestHomeScreen(QMainWindow):
     def __init__(self, model, view):
