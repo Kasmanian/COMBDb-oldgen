@@ -1,4 +1,4 @@
-import bcrypt, math
+import bcrypt
 from datetime import date
 import pyodbc, json
 
@@ -22,14 +22,8 @@ class Model:
     self.db.close()
 
   def addTech(self, first, middle, last, username, password):
-    # Insert new Admin into the database using a given username and password
     try:
       cursor = self.db.cursor()
-      # cursor.execute(f'INSERT INTO Techs(First, Last, Username, Password) VALUES(?, ?, ?, ?, ?, ?))', first, last, middle, username, self.encrypt(password).decode('utf-8'))
-      # query = (
-      #   'INSERT INTO Techs(First, Middle, Last, Username, Password, Active)'
-      #   f'VALUES({first}, {middle}, {last}, {username}, {self.encrypt(password).decode("utf-8")}, Yes)'
-      # )
       query = (
         'INSERT INTO Techs(First, Middle, Last, Username, Password, Active) VALUES(?, ?, ?, ?, ?, ?)'
       )
@@ -59,9 +53,6 @@ class Model:
       cursor.close()
 
   def addGuest(self, pw, ls):
-    # Insert new Guest into the database using:
-    # a randomly generated key (pw), a timestamp (ts, hours since epoch to the nearest hundredth), and a lifespan (ls, hours)
-    # self.jdrv['Guest'].insert_one({'password': self.encrypt(pw), 'timestmp': math.floor(time.time()/36)/100, 'lifespan': ls})
     pass
 
   def addClinician(self, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, enrolled, inactive, comments):
@@ -92,7 +83,6 @@ class Model:
       query = (
         f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
       )
-      #  f'VALUES({sampleID}, {chartID}, {clinician}, {first}, {last}, {collected}, {received}, {comments})'
       cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), comments)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
@@ -105,13 +95,6 @@ class Model:
   def addCATResult(self, sampleID, chartID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments):
     try:
       cursor = self.db.cursor()
-      # query = (
-      #   'UPDATE CATs '
-      #   f'SET ChartID={chartID}, Clinician={clinician}, First={first}, Last={last}, Tech={self.tech[0]}, Reported={reported}, ' 
-      #   f'[Volume (ml)]={volume}, [Time (min)]={time}, [Flow Rate (ml/min)]={flow}, pH={pH}, '
-      #   f'[Buffering Capacity (pH)]={bc}, [Strep Mutans (CFU/ml)]={sm}, [Lactobacillus (CFU/ml)]={lb}, Comments={comments} '
-      #   f'WHERE SampleID={sampleID}'
-      # )
       query = (
         'UPDATE CATs '
         f'SET ChartID=?, Clinician=?, First=?, Last=?, Tech=?, Reported=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, pH=?, '
@@ -128,11 +111,6 @@ class Model:
   def addCultureResult(self, sampleID, chartID, clinician, first, last, reported, results, comments):
     try:
       cursor = self.db.cursor()
-      # query = (
-      #   'UPDATE Cultures '
-      #   f'SET ChartID={chartID}, Clinician={clinician}, First={first}, Last={last}, Tech={self.tech[0]}, Reported={reported}, Results={results}, Comments={comments} '
-      #   f'WHERE SampleID={sampleID}'
-      # )
       query = (
         'UPDATE Cultures SET ChartID=?, Clinician=?, First=?, Last=?, Tech=?, Reported=?, Results=?, Comments=? WHERE SampleID=?'
       )
@@ -153,10 +131,6 @@ class Model:
       )
       cursor.execute(query)
       sampleID = (yy*10000)+cursor.fetchone()[0]+1
-      # query = (
-      #   'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments)'
-      #   f'VALUES({sampleID}, {clinician}, {shipped}, {comments})'
-      # )
       query = (
         'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments) VALUES(?, ?, ?, ?)'
       )
@@ -172,11 +146,6 @@ class Model:
   def addWaterlineReceiving(self, sampleID, operatoryID, clinician, collected, received, product, procedure, comments):
     try:
       cursor = self.db.cursor()
-      # query = (
-      #   'UPDATE Waterlines'
-      #   f'SET OperatoryID={operatoryID}, Clinician={clinician}, Collected={collected}, Received={received}, Product={product}, Procedure={procedure}, Comments={comments}'
-      #   f'WHERE SampleID={sampleID}'
-      # )
       query = (
         'UPDATE Waterlines SET OperatoryID=?, Clinician=?, Collected=?, Received=?, Product=?, Procedure=?, Comments=? WHERE SampleID=?'
       )
@@ -191,11 +160,6 @@ class Model:
   def addWaterlineResult(self, sampleID, clinician, reported, count, cdcada, comments):
     try:
       cursor = self.db.cursor()
-      # query = (
-      #   'UPDATE Waterlines'
-      #   f'SET Clinician={clinician}, Reported={reported}, [Bacterial Count]={count}, [CDC/ADA]={cdcada}, Comments={comments}'
-      #   f'WHERE SampleID={sampleID}'
-      # )
       query = (
         'UPDATE Waterlines SET Clinician=?, Reported=?, [Bacterial Count]=?, [CDC/ADA]=?, Comments=? WHERE SampleID=?'
       )
@@ -277,7 +241,6 @@ class Model:
       cursor.close()
 
   def techLogin(self, username, password):
-    # Pull from Techs table matching & validating user input
     try:
       cursor = self.db.cursor()
       query = 'SELECT * FROM Techs WHERE username=?'
@@ -294,19 +257,9 @@ class Model:
     finally:
       cursor.close()
 
-  def guestLogin(self, pw):
-    # Create Guest object modeled in schemas.py from the results of fetching a Guest using password (pw)
-    # guest = Guest(self.jdrv['Guest'].find_one({'password': self.encrypt(pw)}))
-    # If Guest's data is None, there is no such account; bcrypt will validate the password and check expiry if the account exists
-    # return guest.data is not None and bcrypt.checkpw(pw, guest.data['password']) and math.floor(time.time()/36)/100-guest.data['timestamp']>guest.data['lifespan']
-    pass
-
   def encrypt(self, token):
-    # Salt and hash token (tk)
     bsalt = bcrypt.gensalt()
     return bcrypt.hashpw(token.encode('utf-8'), bsalt)
 
   def fQtDate(self, qtDate):
-    # Convert QtDate to MS Access Data
-    # return f'#{date.month()}/{date.day()}/{date.year()}#'
     return date(qtDate.year(), qtDate.month(), qtDate.day())
