@@ -97,7 +97,7 @@ class Model:
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
-      return False
+      sampleID = False
     finally:
       cursor.close()
       return sampleID
@@ -164,9 +164,10 @@ class Model:
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
-      return False
+      sampleID = False
     finally:
       cursor.close()
+      return sampleID
 
   def addWaterlineReceiving(self, sampleID, operatoryID, clinician, collected, received, product, procedure, comments):
     try:
