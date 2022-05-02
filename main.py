@@ -1,10 +1,7 @@
-import sys
-from pymongo import MongoClient
 from model import Model
 from view import View
 from controller import Controller
 from schemas import *
-import webbrowser
 
 def main():
     model = Model()
