@@ -92,16 +92,17 @@ class Model:
       cursor.close()
       return sampleID
 
-  def addCATResult(self, sampleID, chartID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments):
+  def addCATResult(self, sampleID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments):
     try:
       cursor = self.db.cursor()
       query = (
         'UPDATE CATs '
-        f'SET ChartID=?, Clinician=?, First=?, Last=?, Tech=?, Reported=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, pH=?, '
-        f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, Comments=? WHERE SampleID=?'
+        f'SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, '
+        f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=? WHERE [SampleID]=?'
       )
-      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), volume, time, flow, pH, bc, sm, lb, comments, sampleID)
+      cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), volume, time, flow, pH, bc, sm, lb, comments, sampleID)
       self.db.commit()
+      return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
       return False
@@ -146,17 +147,20 @@ class Model:
 
   def addWaterlineReceiving(self, sampleID, operatoryID, clinician, collected, received, product, procedure, comments):
     try:
+      ret = False
       cursor = self.db.cursor()
       query = (
-        'UPDATE Waterlines SET OperatoryID=?, Clinician=?, Collected=?, Received=?, Product=?, Procedure=?, Comments=? WHERE SampleID=?'
+        'UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=? WHERE [SampleID]=?'
       )
       cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, sampleID)
       self.db.commit()
+      ret = True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
-      return False
+      ret = False
     finally:
       cursor.close()
+      return ret
 
   def addWaterlineResult(self, sampleID, clinician, reported, count, cdcada, comments):
     try:
@@ -172,17 +176,9 @@ class Model:
     finally:
       cursor.close()
 
-  def findSample(self, sampleType, sampleID):
-    query = ' WHERE SampleID=?'
-    if sampleType == 'CAT':
-      query = 'SELECT * FROM CATs' + query
-    elif sampleType == 'Culture':
-      query = 'SELECT * FROM Cultures' + query
-    elif sampleType == 'DUWL':
-      query = 'SELECT * FROM Waterlines' + query
-    else:
-      return None
+  def findSample(self, table, sampleID, columns):
     try:
+      query = f'SELECT {columns} FROM {table} WHERE SampleID=?'
       cursor = self.db.cursor()
       cursor.execute(query, sampleID)
       return cursor.fetchone()
@@ -195,7 +191,7 @@ class Model:
   def findClinician(self, entry):
     try:
       cursor = self.db.cursor()
-      query = 'SELECT Prefix, First, Last FROM Clinicians WHERE Entry=?'
+      query = 'SELECT Prefix, First, Last, Designation FROM Clinicians WHERE Entry=?'
       cursor.execute(query, entry)
       return cursor.fetchone()
     except (Exception, pyodbc.Error) as e:
@@ -204,12 +200,24 @@ class Model:
     finally:
       cursor.close()
 
-  def findSample(self, table, sampleID):
+  # def findSample(self, table, sampleID):
+  #   try:
+  #     cursor = self.db.cursor()
+  #     extraf = ' Shipped,' if table=='Waterlines' else ''
+  #     query = f'SELECT chartID, Clinician, First, Last,{extraf} Collected, Received, Comments FROM {table} WHERE sampleID=?'
+  #     cursor.execute(query, sampleID)
+  #     return cursor.fetchone()
+  #   except (Exception, pyodbc.Error) as e:
+  #     print(f'Error in connection: {e}')
+  #     return None
+  #   finally:
+  #     cursor.close()
+
+  def findTech(self, entry, columns):
     try:
       cursor = self.db.cursor()
-      extraf = ' Shipped,' if table=='Waterlines' else ''
-      query = f'SELECT chartID, Clinician, First, Last,{extraf} Collected, Received, Comments FROM {table} WHERE sampleID=?'
-      cursor.execute(query, sampleID)
+      query = f'SELECT {columns} FROM Techs WHERE Entry=?'
+      cursor.execute(query, entry)
       return cursor.fetchone()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -244,7 +252,7 @@ class Model:
   def techLogin(self, username, password):
     try:
       cursor = self.db.cursor()
-      query = 'SELECT * FROM Techs WHERE username=?'
+      query = 'SELECT Entry, First, Middle, Last, Username, Password, Active FROM Techs WHERE username=?'
       cursor.execute(query, username)
       for tech in cursor.fetchall():
         if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
