@@ -3,15 +3,7 @@ from view import View
 from schemas import *
 
 def main():
-    # model = Model()
-    # model.connect()
-    # try:
-    #     model.addTech(None, None, 'Doe', 'Admin', 'Password')
-    # except Exception as e:
-    #     print(e)
-    # model.adminLogin('rmaik', 'password1')
     view = View(Model())
-    # controller = Controller(model)
 
 if __name__=="__main__":
     main()
