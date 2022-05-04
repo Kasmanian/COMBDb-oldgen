@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1764</width>
-    <height>1142</height>
+    <width>1650</width>
+    <height>1279</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,8 +38,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1727</width>
-         <height>1612</height>
+         <width>1613</width>
+         <height>1614</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -48,16 +48,16 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_16">
             <property name="leftMargin">
-             <number>20</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
-             <number>20</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>20</number>
+             <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>20</number>
+             <number>0</number>
             </property>
             <item>
              <spacer name="horizontalSpacer_52">
@@ -127,7 +127,7 @@ background-color: rgb(193, 193, 193);
             <property name="sizeHint" stdset="0">
              <size>
               <width>10</width>
-              <height>15</height>
+              <height>40</height>
              </size>
             </property>
            </spacer>
@@ -167,7 +167,69 @@ background-color: rgb(193, 193, 193);
               <property name="verticalSpacing">
                <number>12</number>
               </property>
-              <item row="3" column="4">
+              <item row="1" column="0" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_24">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="clinician">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Clinician 1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Clinician 2</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Clinician 3</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="0" column="0" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_19">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
                <widget class="QDateEdit" name="receivedDate">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -251,132 +313,7 @@ color: rgb(64, 64, 64);
                 </property>
                </widget>
               </item>
-              <item row="4" column="3" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_61">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Date Reported:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="4">
-               <widget class="QComboBox" name="clinician">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Clinician 1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Clinician 2</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Clinician 3</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="2" column="3" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_24">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="6" alignment="Qt::AlignLeft">
-               <widget class="QLabel" name="label_62">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <spacer name="verticalSpacer_20">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Minimum</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="2" column="0" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_19">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLineEdit" name="specimanType">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
+              <item row="2" column="1">
                <widget class="QLineEdit" name="chartNumber">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -403,17 +340,44 @@ border-width: 1px</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_20">
+              <item row="2" column="0" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_21">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Speciman Type:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Chart Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
-              <item row="2" column="2" alignment="Qt::AlignLeft">
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="sampleID">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2" alignment="Qt::AlignLeft">
                <widget class="QPushButton" name="search">
                 <property name="minimumSize">
                  <size>
@@ -448,18 +412,8 @@ background-color: rgb(193, 193, 193);
                 </property>
                </widget>
               </item>
-              <item row="4" column="0" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_21">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Chart Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="sampleID">
+              <item row="1" column="5" rowspan="3">
+               <widget class="QTextEdit" name="comment">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -468,14 +422,14 @@ background-color: rgb(193, 193, 193);
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>200</width>
-                  <height>22</height>
+                  <width>0</width>
+                  <height>0</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>200</width>
-                  <height>22</height>
+                  <height>100</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -485,51 +439,7 @@ border-width: 1px</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="3" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_60">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Fax Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="4">
-               <widget class="QLineEdit" name="fax">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" colspan="3">
-               <widget class="QLabel" name="label_22">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Culture Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3" alignment="Qt::AlignRight">
+              <item row="3" column="0" alignment="Qt::AlignRight">
                <widget class="QLabel" name="label_23">
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Received Date:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -539,7 +449,17 @@ border-width: 1px</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="4">
+              <item row="4" column="0" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_61">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Date Reported:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
                <widget class="QDateEdit" name="dateReported">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -623,48 +543,15 @@ color: rgb(64, 64, 64);
                 </property>
                </widget>
               </item>
-              <item row="3" column="6" rowspan="3">
-               <widget class="QTextEdit" name="comment">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+              <item row="0" column="5" alignment="Qt::AlignHCenter">
+               <widget class="QLabel" name="label_62">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>100</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
-              </item>
-              <item row="2" column="5">
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Minimum</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </item>
@@ -694,7 +581,7 @@ border-width: 1px</string>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>15</height>
+              <height>40</height>
              </size>
             </property>
            </spacer>
@@ -702,12 +589,28 @@ border-width: 1px</string>
           <item>
            <widget class="QLabel" name="label_63">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; text-decoration: underline;&quot;&gt;Antibiotic Susceptibilty Test Results&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Antibiotic Susceptibilty Test Results&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>30</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <spacer name="verticalSpacer_22">
@@ -823,7 +726,7 @@ border-width: 1px</string>
                </widget>
               </item>
               <item>
-               <layout class="QGridLayout" name="gridLayout_9">
+               <layout class="QHBoxLayout" name="horizontalLayout">
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -836,20 +739,23 @@ border-width: 1px</string>
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <property name="spacing">
-                 <number>12</number>
-                </property>
-                <item row="0" column="1" alignment="Qt::AlignRight">
-                 <widget class="QLabel" name="label_65">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Add/Remove Row:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <item>
+                 <spacer name="horizontalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
                   </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
                   </property>
-                 </widget>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
-                <item row="0" column="2">
+                <item>
                  <widget class="QPushButton" name="addRow">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -890,17 +796,65 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1" alignment="Qt::AlignRight|Qt::AlignVCenter">
-                 <widget class="QLabel" name="label_66">
+                <item>
+                 <widget class="QLabel" name="label_65">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Add/Remove Column:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Row&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="2">
+                <item>
+                 <widget class="QPushButton" name="removeRow">
+                  <property name="minimumSize">
+                   <size>
+                    <width>21</width>
+                    <height>21</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>21</width>
+                    <height>21</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>-</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
                  <widget class="QPushButton" name="addColumn">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -941,42 +895,17 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="3">
-                 <widget class="QPushButton" name="removeRow">
-                  <property name="minimumSize">
-                   <size>
-                    <width>21</width>
-                    <height>21</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>21</width>
-                    <height>21</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-                  </property>
+                <item>
+                 <widget class="QLabel" name="label_66">
                   <property name="text">
-                   <string>-</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Column&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="3">
+                <item>
                  <widget class="QPushButton" name="removeColumn">
                   <property name="minimumSize">
                    <size>
@@ -1011,23 +940,13 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" rowspan="2">
+                <item>
                  <spacer name="horizontalSpacer_38">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="0" column="4" rowspan="2">
-                 <spacer name="horizontalSpacer_39">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1067,7 +986,7 @@ background-color: rgb(193, 193, 193);
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>10</height>
+              <height>40</height>
              </size>
             </property>
            </spacer>
@@ -1161,7 +1080,7 @@ border-width: 1px</string>
                </widget>
               </item>
               <item>
-               <layout class="QGridLayout" name="gridLayout_10">
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -1174,10 +1093,23 @@ border-width: 1px</string>
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <property name="spacing">
-                 <number>12</number>
-                </property>
-                <item row="0" column="2">
+                <item>
+                 <spacer name="horizontalSpacer_42">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
                  <widget class="QPushButton" name="addRow_2">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1218,17 +1150,17 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
+                <item>
                  <widget class="QLabel" name="label_68">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Add/Remove Row:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Row&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="3">
+                <item>
                  <widget class="QPushButton" name="removeRow_2">
                   <property name="minimumSize">
                    <size>
@@ -1263,17 +1195,20 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QLabel" name="label_69">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Add/Remove Column:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <item>
+                 <spacer name="horizontalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
                   </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
                   </property>
-                 </widget>
+                 </spacer>
                 </item>
-                <item row="1" column="2">
+                <item>
                  <widget class="QPushButton" name="addColumn_2">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1314,20 +1249,17 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0">
-                 <spacer name="horizontalSpacer_42">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                <item>
+                 <widget class="QLabel" name="label_69">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Column&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                   </property>
-                 </spacer>
+                 </widget>
                 </item>
-                <item row="1" column="3">
+                <item>
                  <widget class="QPushButton" name="removeColumn_2">
                   <property name="minimumSize">
                    <size>
@@ -1362,10 +1294,13 @@ background-color: rgb(193, 193, 193);
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="4">
+                <item>
                  <spacer name="horizontalSpacer_43">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1405,7 +1340,7 @@ background-color: rgb(193, 193, 193);
             <property name="sizeHint" stdset="0">
              <size>
               <width>10</width>
-              <height>15</height>
+              <height>40</height>
              </size>
             </property>
            </spacer>
@@ -1791,7 +1726,7 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1764</width>
+     <width>1650</width>
      <height>21</height>
     </rect>
    </property>
@@ -1800,14 +1735,12 @@ background-color: rgb(193, 193, 193);
  </widget>
  <tabstops>
   <tabstop>sampleID</tabstop>
-  <tabstop>specimanType</tabstop>
-  <tabstop>chartNumber</tabstop>
   <tabstop>clinician</tabstop>
+  <tabstop>chartNumber</tabstop>
   <tabstop>receivedDate</tabstop>
   <tabstop>dateReported</tabstop>
-  <tabstop>fax</tabstop>
-  <tabstop>comment</tabstop>
   <tabstop>search</tabstop>
+  <tabstop>comment</tabstop>
   <tabstop>tableWidget</tabstop>
   <tabstop>addRow</tabstop>
   <tabstop>removeRow</tabstop>
