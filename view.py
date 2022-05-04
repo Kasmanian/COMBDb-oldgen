@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 import sys, os, datetime, json
 import win32com.client as win32
 from mailmerge import MailMerge
+from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import QUrl, Qt, QDate
 
@@ -151,9 +152,8 @@ class View:
         if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.web.page().print(self.dialog.printer(), passPrintPrompt)
 
-    def convertAndPrint(self, document, path):
+    def convertAndPrint(self, path):
         try:
-            document.write(path)
             word = win32.DispatchEx('Word.Application')
             document = word.Documents.Open(path)
             tempPath = path.split('.')[0] + '.html'
@@ -538,6 +538,9 @@ class CultureOrderForm(QMainWindow):
         self.save.clicked.connect(self.handleSavePressed)
         self.print.clicked.connect(self.handlePrintPressed)
         self.clear.clicked.connect(self.handleClearPressed)
+        self.print.setEnabled(False)
+        self.collectionDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.receivedDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
 
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinicianDropDown)
@@ -563,22 +566,46 @@ class CultureOrderForm(QMainWindow):
             )
             if sampleID:
                 self.sampleID.setText(str(sampleID))
+                self.save.setEnabled(False)
+                self.print.setEnabled(True)
         except Exception as e:
             self.view.showErrorScreen(e)
     
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
-        dst = self.view.tempify(template)
-        document = MailMerge(template)
-        document.merge(
-            received=self.receivedDate.date().toString(),
-            chartID=self.chartNum.text(),
-            clinician=self.clinicianDropDown.currentText(),
-            patientName=f'{self.lastName.text()}, {self.firstName.text()}',
-            comments=self.comment.toPlainText()
-        )
         try:
-            self.view.convertAndPrint(document, dst)
+            if self.cultureTypeDropDown.currentText()!='Caries':
+                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
+                dst = self.view.tempify(template)
+                document = MailMerge(template)
+                document.merge(
+                    sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:]}',
+                    received=self.receivedDate.date().toString(),
+                    chartID=self.chartNum.text(),
+                    clinicianName=self.clinicianDropDown.currentText(),
+                    patientName=f'{self.lastName.text()}, {self.firstName.text()}',
+                    comments=self.comment.toPlainText()
+                )
+                document.write(dst)
+                try:
+                    self.view.convertAndPrint(dst)
+                except Exception as e:
+                    self.view.showErrorScreen(e)
+            else:
+                template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
+                dst = self.view.tempify(template)
+                document = MailMerge(template)
+                document.merge(
+                    sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:]}',
+                    received=self.receivedDate.date().toString(),
+                    chartID=self.chartNum.text(),
+                    clinicianName=self.clinicianDropDown.currentText(),
+                    patientName=f'{self.lastName.text()}, {self.firstName.text()}',
+                )
+                document.write(dst)
+                try:
+                    self.view.convertAndPrint(dst)
+                except Exception as e:
+                    self.view.showErrorScreen(e)
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -591,6 +618,9 @@ class CultureOrderForm(QMainWindow):
             self.sampleID.setText('xxxxxx')
             self.chartNum.clear()
             self.comment.clear()
+            self.save.setEnabled(True)
+            self.print.setEnabled(False)
+            self.clear.setEnabled(True)
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -742,10 +772,11 @@ class DUWLOrderForm(QMainWindow):
             dst = self.view.tempify(template)
             document = MailMerge(template)
             document.merge_rows('sampleID', self.kitList)
+            document.write(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
         try:
-            self.view.convertAndPrint(document, dst)
+            self.view.convertAndPrint(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -855,10 +886,11 @@ class DUWLReceiveForm(QMainWindow):
             dst = self.view.tempify(template)
             document = MailMerge(template)
             document.merge_rows('sampleID', self.kitList)
+            document.write(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
         try:
-            self.view.convertAndPrint(document, dst)
+            self.view.convertAndPrint(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -907,7 +939,9 @@ class CultureResultForm(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
         self.search.clicked.connect(self.handleSearchPressed)
+        self.directSmears.clicked.connect(self.handleDirectSmearPressed)
         self.preliminary.clicked.connect(self.handlePreliminaryPressed)
+        self.perio.clicked.connect(self.handlePerioPressed)
         self.save.setEnabled(False)
         self.preliminary.setEnabled(False)
         self.perio.setEnabled(False)
@@ -1021,10 +1055,8 @@ class CultureResultForm(QMainWindow):
         try:
             if kind:
                 self.aerobicTable[row][column] = self.tableWidget.cellWidget(row, column).currentText() if self.tableWidget.cellWidget(row, column) else self.aerobicTable[row][column]
-                print(self.aerobicTable)
             else:
                 self.anaerobicTable[row][column] = self.tableWidget_2.cellWidget(row, column).currentText() if self.tableWidget_2.cellWidget(row, column) else self.anaerobicTable[row][column]
-                print(self.anaerobicTable)
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -1190,7 +1222,24 @@ class CultureResultForm(QMainWindow):
                 self.perio.setEnabled(True)
                 self.directSmears.setEnabled(True)
         except Exception as e:
-            self.view.showErrorScreen(e) 
+            self.view.showErrorScreen(e)
+
+    def handleDirectSmearPressed(self):
+        try:
+            template = str(Path().resolve())+r'\COMBDb\templates\direct_smear_template.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            document.merge(
+                sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:6]}',
+                collected=self.view.fSlashDate(self.sample[4]),
+                received=self.view.fSlashDate(self.receivedDate.date()),
+                chartID=self.chartNumber.text(),
+                patientName=f'{self.sample[3]}, {self.sample[2]}',
+            )
+            document.write(dst)
+            self.view.convertAndPrint(dst)
+        except Exception as e:
+            self.view.showErrorScreen(e)
     
     def handlePreliminaryPressed(self):
         try:
@@ -1208,7 +1257,55 @@ class CultureResultForm(QMainWindow):
                 comments=self.comment.toPlainText(),
                 techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
             )
-            self.view.convertAndPrint(document, dst)
+            document.write(dst)
+            context = {
+                'headers' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
+                'servers': []
+            }
+            for i in range(1, len(self.aerobicTable)):
+                context['servers'].append(self.aerobicTable[i])
+            document = DocxTemplate(dst)
+            document.render(context)
+            document.save(dst)
+            self.view.convertAndPrint(dst)
+        except Exception as e:
+            self.view.showErrorScreen(e)
+
+    def handlePerioPressed(self):
+        try:
+            template = str(Path().resolve())+r'\COMBDb\templates\perio_culture_results_template.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            document.merge(
+                sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:6]}',
+                collected=self.view.fSlashDate(self.sample[4]),
+                received=self.view.fSlashDate(self.receivedDate.date()),
+                reported=self.view.fSlashDate(self.dateReported.date()),
+                chartID=self.chartNumber.text(),
+                clinicianName=self.clinician.currentText(),
+                patientName=f'{self.sample[3]}, {self.sample[2]}',
+                comments=self.comment.toPlainText(),
+                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+            )
+            document.write(dst)
+            #aerobic
+            context = {
+                'headers1' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
+                'headers2' : ['Anaerobic Bacteria']+self.anaerobicTable[0][1:],
+                'servers1': [],
+                'servers2': []
+            }
+            for i in range(1, len(self.aerobicTable)):
+                context['servers1'].append(self.aerobicTable[i])
+            for i in range(1, len(self.anaerobicTable)):
+                context['servers2'].append(self.anaerobicTable[i])
+            document = DocxTemplate(dst)
+            document.render(context)
+            document.save(dst)
+            # document = DocxTemplate(dst)
+            # document.render(context)
+            # document.save(dst)
+            self.view.convertAndPrint(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -1339,10 +1436,11 @@ class CATResultForm(QMainWindow):
                 reported=self.view.fSlashDate(self.sample[4]),
                 techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
             )
+            document.write(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
         try:
-            self.view.convertAndPrint(document, dst)
+            self.view.convertAndPrint(dst)
         except Exception as e:
             self.view.showErrorScreen(e)
 
