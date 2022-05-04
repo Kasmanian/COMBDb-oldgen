@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1355</width>
-    <height>959</height>
+    <width>1347</width>
+    <height>1001</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -720,7 +720,7 @@ border-width: 1px</string>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>20</height>
+                <height>40</height>
                </size>
               </property>
              </spacer>
@@ -849,7 +849,7 @@ background-color: rgb(193, 193, 193);
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>10</width>
+                  <width>20</width>
                   <height>20</height>
                  </size>
                 </property>
@@ -933,7 +933,7 @@ background-color: rgb(193, 193, 193);
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>15</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -1119,7 +1119,7 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1355</width>
+     <width>1347</width>
      <height>21</height>
     </rect>
    </property>

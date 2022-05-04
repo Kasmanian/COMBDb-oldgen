@@ -1,15 +1,10 @@
 *************************General Selection Buttons*************************
 
 QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
+    background-color: rgb(210, 210, 210);
 }
-
 QPushButton {
-
-background-color: rgb(193, 193, 193);
-
+    background-color: rgb(193, 193, 193);
 }
 
 *************************Button Appears as Link*************************
@@ -19,4 +14,82 @@ border: none;
 padding: 0!important;
 text-decoration: underline;
 
-*************************Something Else*************************
+*************************Calendar CSS*************************
+
+QDateEdit {
+background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px
+}
+QCalendarWidget QToolButton {
+height: 30px;
+width: 75px;
+color: white;
+font-size: 12px;
+icon-size: 28px, 28px;
+background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);
+}
+QCalendarWidget QMenu {
+width: 75px;
+left: 10px;
+color: white;
+font-size: 9px;
+background-color: rgb(100, 100, 100);
+}
+QCalendarWidget QSpinBox {
+width: 75px;
+font-size:12px;
+color: white;
+background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);
+selection-background-color: rgb(136, 136, 136);
+selection-color: rgb(255, 255, 255);
+}
+QCalendarWidget QSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width:35px; }
+QCalendarWidget QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: bottom right; width:35px;}
+QCalendarWidget QSpinBox::up-arrow { width:28px; height:28px; }
+QCalendarWidget QSpinBox::down-arrow { width:28px; height:28px; }
+
+/* header row */
+QCalendarWidget QWidget { alternate-background-color: rgb(128, 128, 128); }
+
+/* normal days */
+QCalendarWidget QAbstractItemView:enabled
+{
+font-size:12px;
+color: rgb(180, 180, 180);
+background-color: black;
+selection-background-color: rgb(64, 64, 64);
+selection-color: rgb(0, 255, 0);
+}
+
+/* days in other months */
+/* navigation bar */
+QCalendarWidget QWidget#qt_calendar_navigationbar
+{
+background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);
+}
+
+QCalendarWidget QAbstractItemView:disabled
+{
+color: rgb(64, 64, 64);
+}
+
+*************************Scroll Bars*************************
+
+QScrollBar:vertical {
+	background-color: rgb(193, 193, 193);
+	border-style: solid;
+	border-width: 1px
+}
+
+*************************Input Boxes*************************
+
+background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px
+
+*************************Tables*************************
+
+background-color: rgb(240, 240, 240);
+border-style: solid;
+border-width: 1px

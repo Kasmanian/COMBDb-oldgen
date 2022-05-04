@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
-    <height>1201</height>
+    <width>1453</width>
+    <height>1078</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,7 +108,7 @@ background-color: rgb(193, 193, 193);
         <property name="sizeHint" stdset="0">
          <size>
           <width>10</width>
-          <height>10</height>
+          <height>40</height>
          </size>
         </property>
        </spacer>
@@ -131,105 +131,25 @@ background-color: rgb(193, 193, 193);
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
           <property name="leftMargin">
-           <number>25</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>25</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>25</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>25</number>
+           <number>0</number>
           </property>
           <property name="horizontalSpacing">
-           <number>45</number>
+           <number>5</number>
           </property>
           <property name="verticalSpacing">
            <number>12</number>
           </property>
-          <item row="13" column="1">
-           <widget class="QTextEdit" name="comment">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>150</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>150</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_25">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Flow Rate:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="4">
-           <widget class="QLineEdit" name="bufferingCapacityPH">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1" alignment="Qt::AlignHCenter">
-           <widget class="QLineEdit" name="collectionTime">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="2" alignment="Qt::AlignHCenter|Qt::AlignTop">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;CAT Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <spacer name="verticalSpacer_11">
+          <item row="2" column="3">
+           <spacer name="verticalSpacer_10">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -244,7 +164,37 @@ border-width: 1px</string>
             </property>
            </spacer>
           </item>
-          <item row="8" column="4">
+          <item row="0" column="5" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_32">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Last Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="8" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;CFU/ml&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="7">
            <widget class="QLineEdit" name="strepMutansCount">
             <property name="minimumSize">
              <size>
@@ -265,7 +215,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="13" column="0" alignment="Qt::AlignRight|Qt::AlignTop">
+          <item row="11" column="0" alignment="Qt::AlignRight|Qt::AlignTop">
            <widget class="QLabel" name="label_30">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -275,27 +225,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="3" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_26">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Strep Mutans Count:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="3" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_27">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Lactobacillus Count:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
+          <item row="0" column="7">
            <widget class="QComboBox" name="clinicianDropDown">
             <property name="minimumSize">
              <size>
@@ -331,7 +261,37 @@ border-width: 1px</string>
             </item>
            </widget>
           </item>
-          <item row="8" column="1" alignment="Qt::AlignHCenter">
+          <item row="6" column="5" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_26">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Strep Mutans Count:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="5" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_27">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Lactobacillus Count:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Collection Time:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLineEdit" name="flowRate">
             <property name="minimumSize">
              <size>
@@ -352,27 +312,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_24">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Collection Time:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_29">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Date Reported:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" alignment="Qt::AlignHCenter">
+          <item row="0" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLineEdit" name="sampleID">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -399,7 +339,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="1" alignment="Qt::AlignHCenter">
+          <item row="4" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLineEdit" name="volume">
             <property name="minimumSize">
              <size>
@@ -420,7 +360,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="0" alignment="Qt::AlignRight">
+          <item row="4" column="0" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_23">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Volume:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -430,7 +370,17 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="4">
+          <item row="1" column="0" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;First Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="7">
            <widget class="QLineEdit" name="lactobacillusCount">
             <property name="minimumSize">
              <size>
@@ -451,17 +401,17 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_22">
+          <item row="0" column="0" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_21">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;First Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="6" column="4">
+          <item row="4" column="7">
            <widget class="QLineEdit" name="initialPH">
             <property name="minimumSize">
              <size>
@@ -482,7 +432,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="4">
+          <item row="1" column="7">
            <widget class="QLineEdit" name="lastName">
             <property name="minimumSize">
              <size>
@@ -503,17 +453,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_21">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="3" alignment="Qt::AlignRight">
+          <item row="4" column="5" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_33">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Initial pH:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -523,7 +463,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="3" alignment="Qt::AlignRight">
+          <item row="5" column="5" alignment="Qt::AlignRight">
            <widget class="QLabel" name="label_34">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Buffering Capacity pH:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -533,7 +473,7 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" alignment="Qt::AlignHCenter">
+          <item row="1" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLineEdit" name="firstName">
             <property name="minimumSize">
              <size>
@@ -554,74 +494,37 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="3" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_31">
+          <item row="6" column="3" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+           <widget class="QLabel" name="label_13">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;ml/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="2" column="2" alignment="Qt::AlignLeft">
-           <widget class="QPushButton" name="search">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:hover {
-
-background-color: rgb(210, 210, 210);
-
-}
-
-QPushButton {
-
-background-color: rgb(193, 193, 193);
-
-}</string>
-            </property>
+          <item row="6" column="8" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_15">
             <property name="text">
-             <string>+</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;CFU/ml&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
-           <spacer name="verticalSpacer_10">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+          <item row="8" column="0" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_29">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Date Reported:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
-          <item row="12" column="1">
+          <item row="8" column="2">
            <widget class="QDateEdit" name="dateReported">
             <property name="minimumSize">
              <size>
@@ -699,28 +602,35 @@ color: rgb(64, 64, 64);
             </property>
            </widget>
           </item>
-          <item row="3" column="3" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_32">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Last Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <item row="11" column="2">
+           <widget class="QTextEdit" name="comment">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_28">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Technician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="1">
-           <widget class="QLineEdit" name="technician">
+          <item row="5" column="7">
+           <widget class="QLineEdit" name="bufferingCapacityPH">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -740,6 +650,146 @@ border-width: 1px</string>
             </property>
            </widget>
           </item>
+          <item row="5" column="2" alignment="Qt::AlignHCenter">
+           <widget class="QLineEdit" name="collectionTime">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="label_25">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Flow Rate:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="4">
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="3" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;ml&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="6">
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="3" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_28">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QPushButton" name="search">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>21</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>21</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:hover {
+
+background-color: rgb(210, 210, 210);
+
+}
+
+QPushButton {
+
+background-color: rgb(193, 193, 193);
+
+}</string>
+            </property>
+            <property name="text">
+             <string>+</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -756,6 +806,22 @@ border-width: 1px</string>
          </spacer>
         </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1079,7 +1145,7 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1600</width>
+     <width>1453</width>
      <height>21</height>
     </rect>
    </property>
