@@ -109,14 +109,15 @@ class Model:
     finally:
       cursor.close()
 
-  def addCultureResult(self, sampleID, chartID, clinician, first, last, reported, results, comments):
+  def addCultureResult(self, sampleID, chartID, clinician, first, last, reported, aerobic, anaerobic, comments):
     try:
       cursor = self.db.cursor()
       query = (
-        'UPDATE Cultures SET ChartID=?, Clinician=?, First=?, Last=?, Tech=?, Reported=?, Results=?, Comments=? WHERE SampleID=?'
+        'UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=? WHERE [SampleID]=?'
       )
-      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), results, comments, sampleID)
+      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), aerobic, anaerobic, comments, sampleID)
       self.db.commit()
+      return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
       return False
