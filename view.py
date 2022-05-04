@@ -908,7 +908,11 @@ class CultureResultForm(QMainWindow):
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
         self.search.clicked.connect(self.handleSearchPressed)
         self.preliminary.clicked.connect(self.handlePreliminaryPressed)
-        self.tableWidget.itemSelectionChanged.connect(self.handleCellChanged)
+        self.save.setEnabled(False)
+        self.preliminary.setEnabled(False)
+        self.perio.setEnabled(False)
+        self.directSmears.setEnabled(False)
+        #self.tableWidget.itemSelectionChanged.connect(self.handleCellChanged)
         #testbox = QComboBox()
         #self.tableWidget.setCellWidget(0, 0, testbox)
         self.tableWidget_2.setRowCount(0)
@@ -948,7 +952,8 @@ class CultureResultForm(QMainWindow):
                 self.susceptibilityList = data['PrefixToSusceptibility'].keys()
                 self.headers = ['Growth', 'B-lac']
                 self.headerIndexes = { 'Growth': 0, 'B-lac': 1 }
-                self.optionIndexes = { 'NI': 0, 'L': 1, 'M': 2, 'H': 3, 'P': 4, 'N': 5 }
+                self.options = ['NA'] + list(self.growthList) + list(self.blacList) + list(self.susceptibilityList)
+                self.optionIndexes = { 'NA': 0, 'NI': 1, 'L': 2, 'M': 3, 'H': 4, 'P': 5, 'N': 6, 'S': 7, 'I': 8, 'R': 9 }
                 for antibiotics in self.antibioticPrefixes.keys():
                     self.headers.append(antibiotics)
                     self.headerIndexes[antibiotics] = len(self.headers)-1
@@ -963,54 +968,9 @@ class CultureResultForm(QMainWindow):
             self.aerobicTable = self.resultToTable(None)
             self.anaerobicTable = self.resultToTable(None)
             self.initTables()
+            self.save.clicked.connect(self.handleSavePressed)
         except Exception as e:
             self.view.showErrorScreen(e)
-
-    # def initAerobicTable(self):
-    #     try:
-    #         currentHeaders1 = ['Growth', 'B-lac', 'PEN', 'AMP', 'CC', 'TET', 'CEP', 'ERY']
-    #         currentHeaders2 = ['Growth', 'B-lac', 'PEN', 'AMP', 'CC', 'TET', 'CEP', 'ERY', 'MET']
-    #         if self.aerobicResults is not None:
-    #             if len(self.aerobicResults)>0:
-    #                 currentHeaders1.clear()
-    #                 preheader1 = self.aerobicResults[0]['result']
-    #                 for header in preheader1:
-    #                     currentHeaders1.append(header.split('=')[0])
-    #         if self.anaerobicResults is not None:
-    #             if len(self.anaerobicResults)>0:
-    #                 currentHeaders2.clear()
-    #                 preheader2 = self.anaerobicResults[0]['result']
-    #                 for header in preheader2:
-    #                     currentHeaders2.append(header.split('=')[0])
-    #         self.tableWidget.setRowCount(0)
-    #         self.tableWidget.setRowCount(1)
-    #         self.tableWidget_2.setRowCount(0)
-    #         self.tableWidget_2.setRowCount(1)
-    #         self.tableWidget.setColumnCount(0)
-    #         self.tableWidget.setColumnCount(9)
-    #         self.tableWidget_2.setColumnCount(0)
-    #         self.tableWidget_2.setColumnCount(10)
-    #         self.tableWidget.setItem(0,0, QTableWidgetItem('Bacteria'))
-    #         self.tableWidget_2.setItem(0,0, QTableWidgetItem('Bacteria'))
-    #         count = 1
-    #         for header in currentHeaders1:
-    #             column = QComboBox()
-    #             column.addItems(self.headers)
-    #             column.setCurrentIndex(self.headerIndexes[header])
-    #             self.tableWidget.setCellWidget(0, count, column)
-    #             count += 1
-    #         count = 1
-    #         for header in currentHeaders2:
-    #             column = QComboBox()
-    #             column.addItems(self.headers)
-    #             column.setCurrentIndex(self.headerIndexes[header])
-    #             self.tableWidget_2.setCellWidget(0, count, column)
-    #             count += 1
-    #     except Exception as e:
-    #         self.view.showErrorScreen(e)
-
-    def handleCellChanged(self):
-        self.view.showErrorScreen('updated!')
 
     def initTables(self):
         try:
@@ -1024,34 +984,53 @@ class CultureResultForm(QMainWindow):
             self.tableWidget_2.setColumnCount(len(self.anaerobicTable[0]))
             #aerobic
             self.tableWidget.setItem(0,0, QTableWidgetItem('Bacteria'))
-            for i in range(1, len(self.aerobicTable[0])):
-                for j in range(0, len(self.aerobicTable)):
-                    item = IndexedComboBox(j, i)
-                    if j>0:
-                        item.addItems(self.aerobicList)
-                        item.setCurrentIndex(self.optionIndexes[self.aerobicTable[j][i]])
-                    else:
+            for i in range(0, len(self.aerobicTable)):
+                for j in range(0, len(self.aerobicTable[0])):
+                    item = IndexedComboBox(i, j, self, True)
+                    if i>0 and j>0:
+                        item.addItems(self.options)
+                        item.setCurrentIndex(self.optionIndexes[self.aerobicTable[i][j]])
+                    elif i<1 and j>0:
                         item.addItems(self.headers)
-                        item.setCurrentIndex(self.headerIndexes[self.aerobicTable[j][i]])
-                    self.tableWidget.setCellWidget(j, i, item)
+                        item.setCurrentIndex(self.headerIndexes[self.aerobicTable[i][j]])
+                    elif i>0 and j<1:
+                        item.addItems(self.aerobicList)
+                        item.setCurrentIndex(self.aerobicIndex[self.aerobicTable[i][j]])
+                    else: continue
+                    self.tableWidget.setCellWidget(i, j, item)
             #anaerobic
             self.tableWidget_2.setItem(0,0, QTableWidgetItem('Bacteria'))
-            for i in range(1, len(self.anaerobicTable[0])):
-                for j in range(0, len(self.anaerobicTable)):
-                    item = IndexedComboBox(j, i)
-                    if j>0:
-                        item.addItems(self.anaerobicList)
-                        item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[j][i]])
-                    else:
+            for i in range(0, len(self.anaerobicTable)):
+                for j in range(0, len(self.anaerobicTable[0])):
+                    item = IndexedComboBox(i, j, self, False)
+                    if i>0 and j>0:
+                        item.addItems(self.options)
+                        item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]])
+                    elif i<1 and j>0:
                         item.addItems(self.headers)
-                        item.setCurrentIndex(self.headerIndexes[self.anaerobicTable[j][i]])
-                    self.tableWidget_2.setCellWidget(j, i, item)
+                        item.setCurrentIndex(self.headerIndexes[self.anaerobicTable[i][j]])
+                    elif i>0 and j<1:
+                        item.addItems(self.anaerobicList)
+                        item.setCurrentIndex(self.anaerobicIndex[self.anaerobicTable[i][j]])
+                    else: continue
+                    self.tableWidget_2.setCellWidget(i, j, item)
+        except Exception as e:
+            self.view.showErrorScreen(e)
+
+    def updateTable(self, kind, row, column):
+        try:
+            if kind:
+                self.aerobicTable[row][column] = self.tableWidget.cellWidget(row, column).currentText() if self.tableWidget.cellWidget(row, column) else self.aerobicTable[row][column]
+                print(self.aerobicTable)
+            else:
+                self.anaerobicTable[row][column] = self.tableWidget_2.cellWidget(row, column).currentText() if self.tableWidget_2.cellWidget(row, column) else self.anaerobicTable[row][column]
+                print(self.anaerobicTable)
         except Exception as e:
             self.view.showErrorScreen(e)
 
     def resultToTable(self, result):
         if result is not None:
-            result = result.spilt('/')
+            result = result.split('/')
             table = [[]]
             for i in range(0, len(result)):
                 headers = ['Bacteria']
@@ -1083,12 +1062,14 @@ class CultureResultForm(QMainWindow):
     def addRowAerobic(self):
         try:
             self.tableWidget.setRowCount(self.tableWidget.rowCount()+1)
-            bacteria = QComboBox()
+            self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
+            bacteria = IndexedComboBox(self.tableWidget.rowCount()-1, 0, self, True)
             bacteria.addItems(self.aerobicList)
             self.tableWidget.setCellWidget(self.tableWidget.rowCount()-1, 0, bacteria)
             for i in range(1, self.tableWidget.columnCount()):
-                options = QComboBox()
-                options.addItems(list(self.growthList) + list(self.blacList))
+                self.aerobicTable[self.tableWidget.rowCount()-1].append('NI')
+                options = IndexedComboBox(self.tableWidget.rowCount()-1, i, self, True)
+                options.addItems(self.options)
                 self.tableWidget.setCellWidget(self.tableWidget.rowCount()-1, i, options)
         except Exception as e:
             self.view.showErrorScreen(e)
@@ -1096,12 +1077,14 @@ class CultureResultForm(QMainWindow):
     def addRowAnaerobic(self):
         try:
             self.tableWidget_2.setRowCount(self.tableWidget_2.rowCount()+1)
-            bacteria = QComboBox()
+            self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
+            bacteria = IndexedComboBox(self.tableWidget_2.rowCount()-1, 0, self, False)
             bacteria.addItems(self.anaerobicList)
             self.tableWidget_2.setCellWidget(self.tableWidget_2.rowCount()-1, 0, bacteria)
             for i in range(1, self.tableWidget_2.columnCount()):
-                options = QComboBox()
-                options.addItems(list(self.growthList) + list(self.blacList))
+                self.anaerobicTable[self.tableWidget_2.rowCount()-1].append('NI')
+                options = IndexedComboBox(self.tableWidget_2.rowCount()-1, i, self, False)
+                options.addItems(self.options)
                 self.tableWidget_2.setCellWidget(self.tableWidget_2.rowCount()-1, i, options)
         except Exception as e:
             self.view.showErrorScreen(e)
@@ -1109,20 +1092,24 @@ class CultureResultForm(QMainWindow):
     def delRowAerobic(self):
         if self.tableWidget.rowCount() > 1:
             self.tableWidget.setRowCount(self.tableWidget.rowCount()-1)
+            self.aerobicTable.pop()
 
     def delRowAnaerobic(self):
         if self.tableWidget_2.rowCount() > 1:
             self.tableWidget_2.setRowCount(self.tableWidget_2.rowCount()-1)
+            self.anaerobicTable.pop()
 
     def addColAerobic(self):
         try:
             self.tableWidget.setColumnCount(self.tableWidget.columnCount()+1)
-            header = QComboBox()
+            self.aerobicTable[0].append('Growth')
+            header = IndexedComboBox(0, self.tableWidget.columnCount()-1, self, True)
             header.addItems(self.headers)
             self.tableWidget.setCellWidget(0, self.tableWidget.columnCount()-1, header)
             for i in range(1, self.tableWidget.rowCount()):
-                options = QComboBox()
-                options.addItems(list(self.growthList) + list(self.blacList))
+                self.aerobicTable[i].append('NI')
+                options = IndexedComboBox(i, self.tableWidget.columnCount()-1, self, True)
+                options.addItems(self.options)
                 self.tableWidget.setCellWidget(i, self.tableWidget.columnCount()-1, options)
         except Exception as e:
             self.view.showErrorScreen(e)
@@ -1130,12 +1117,14 @@ class CultureResultForm(QMainWindow):
     def addColAnaerobic(self):
         try:
             self.tableWidget_2.setColumnCount(self.tableWidget_2.columnCount()+1)
-            header = QComboBox()
+            self.anaerobicTable[0].append('Growth')
+            header = IndexedComboBox(0, self.tableWidget_2.columnCount()-1, self, False)
             header.addItems(self.headers)
             self.tableWidget_2.setCellWidget(0, self.tableWidget_2.columnCount()-1, header)
             for i in range(1, self.tableWidget_2.rowCount()):
-                options = QComboBox()
-                options.addItems(list(self.growthList) + list(self.blacList))
+                self.anaerobicTable[i].append('NI')
+                options = IndexedComboBox(i, self.tableWidget_2.columnCount()-1, self, False)
+                options.addItems(self.options)
                 self.tableWidget_2.setCellWidget(i, self.tableWidget_2.columnCount()-1, options)
         except Exception as e:
             self.view.showErrorScreen(e)
@@ -1143,10 +1132,14 @@ class CultureResultForm(QMainWindow):
     def delColAerobic(self):
         if self.tableWidget.columnCount() > 1:
             self.tableWidget.setColumnCount(self.tableWidget.columnCount()-1)
+            for row in self.aerobicTable:
+                row.pop()
 
     def delColAnaerobic(self):
         if self.tableWidget_2.columnCount() > 1:
             self.tableWidget_2.setColumnCount(self.tableWidget_2.columnCount()-1)
+            for row in self.anaerobicTable:
+                row.pop()
 
     def handleSearchPressed(self):
         try:
@@ -1163,11 +1156,41 @@ class CultureResultForm(QMainWindow):
                 self.clinician.setCurrentIndex(self.view.entries[clinicianName]['list'])
                 self.receivedDate.setDate(self.view.dtToQDate(self.sample[5]))
                 self.dateReported.setDate(self.view.dtToQDate(self.sample[6]))
-                self.results = {}
-                self.results['aerobic'] = {}
-                self.comment.setText(self.sample[6])
+                self.aerobicTable = self.resultToTable(self.sample[7])
+                self.anaerobicTable = self.resultToTable(self.sample[8])
+                self.comment.setText(self.sample[9])
+                self.initTables()
+                self.save.setEnabled(True)
+                self.clear.setEnabled(True)
+                self.preliminary.setEnabled(False)
+                self.perio.setEnabled(False)
+                self.directSmears.setEnabled(False)
         except Exception as e:
             self.view.showErrorScreen(e)
+
+    def handleSavePressed(self):
+        try:
+            aerobic = self.tableToResult(self.aerobicTable)
+            anaerobic = self.tableToResult(self.anaerobicTable)
+            if self.model.addCultureResult(
+                int(self.sampleID.text()),
+                self.chartNumber.text(),
+                self.view.entries[self.clinician.currentText()]['db'],
+                self.sample[2],
+                self.sample[3],
+                self.dateReported.date(),
+                aerobic,
+                anaerobic,
+                self.comment.toPlainText()
+            ):
+                self.handleSearchPressed()
+                self.save.setEnabled(False)
+                self.clear.setEnabled(False)
+                self.preliminary.setEnabled(True)
+                self.perio.setEnabled(True)
+                self.directSmears.setEnabled(True)
+        except Exception as e:
+            self.view.showErrorScreen(e) 
     
     def handlePreliminaryPressed(self):
         try:
@@ -1339,7 +1362,13 @@ class DUWLResultForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
 class IndexedComboBox(QComboBox):
-    def __init__(self, row, column):
+    def __init__(self, row, column, form, kind):
         super(IndexedComboBox, self).__init__()
         self.row = row
         self.column = column
+        self.form = form
+        self.kind = kind
+        self.currentIndexChanged.connect(self.handleCurrentIndexChanged)
+
+    def handleCurrentIndexChanged(self):
+        self.form.updateTable(self.kind, self.row, self.column)
