@@ -1,6 +1,5 @@
 from model import Model
 from view import View
-from controller import Controller
 from schemas import *
 
 def main():

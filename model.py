@@ -171,6 +171,7 @@ class Model:
       )
       cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, sampleID)
       self.db.commit()
+      return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
       return False
@@ -192,7 +193,7 @@ class Model:
   def findClinician(self, entry):
     try:
       cursor = self.db.cursor()
-      query = 'SELECT Prefix, First, Last, Designation FROM Clinicians WHERE Entry=?'
+      query = 'SELECT Prefix, First, Last, Designation, [Address 1], [City], [State], [Zip] FROM Clinicians WHERE Entry=?'
       cursor.execute(query, entry)
       return cursor.fetchone()
     except (Exception, pyodbc.Error) as e:
@@ -247,6 +248,18 @@ class Model:
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
       return None
+    finally:
+      cursor.close()
+
+  def updateTech(self, entry, first, middle, last, username, password):
+    try:
+      cursor = self.db.cursor()
+      query = f'UPDATE Techs SET [First]=?, [Middle]=?, [Last]=?, [Username]=?, [Password]=? WHERE Entry=?'
+      cursor.execute(query, first, middle, last, username, self.encrypt(password).decode('utf-8'), entry)
+      return True
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return False
     finally:
       cursor.close()
 
