@@ -2,8 +2,8 @@ from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport
 from PyQt5.QtWidgets import *
-import sys, os, datetime, json
 import win32com.client as win32
+import sys, os, datetime, json
 from mailmerge import MailMerge
 from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView
