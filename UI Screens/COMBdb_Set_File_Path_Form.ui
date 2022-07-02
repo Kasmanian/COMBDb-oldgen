@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>745</width>
-    <height>254</height>
+    <width>826</width>
+    <height>268</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -277,13 +277,13 @@ background-color: rgb(193, 193, 193);
           <property name="minimumSize">
            <size>
             <width>71</width>
-            <height>0</height>
+            <height>21</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>71</width>
-            <height>16777215</height>
+            <height>21</height>
            </size>
           </property>
           <property name="cursor">
@@ -395,8 +395,8 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>745</width>
-     <height>21</height>
+     <width>826</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>

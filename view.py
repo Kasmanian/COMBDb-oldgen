@@ -1141,6 +1141,8 @@ class CultureResultForm(QMainWindow):
             self.tableWidget.setColumnCount(len(self.aerobicTable[0]))
             self.tableWidget_2.setColumnCount(0)
             self.tableWidget_2.setColumnCount(len(self.anaerobicTable[0]))
+            self.tableWidget.setColumnWidth(0,300)
+            self.tableWidget_2.setColumnWidth(0,300)
             #aerobic
             self.tableWidget.setItem(0,0, QTableWidgetItem('Bacteria'))
             for i in range(0, len(self.aerobicTable)):
@@ -1459,7 +1461,7 @@ class CATResultForm(QMainWindow):
         self.search.clicked.connect(self.handleSearchPressed)
 
     def handleBackPressed(self):
-        self.view.showCultureOrderNav()
+        self.view.showResultEntryNav()
 
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
@@ -1603,7 +1605,7 @@ class DUWLResultForm(QMainWindow):
         self.remove.setEnabled(True)
 
     def handleBackPressed(self):
-        self.view.showCultureOrderNav()
+        self.view.showResultEntryNav()
 
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
