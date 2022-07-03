@@ -1,0 +1,10 @@
+Sun Jul 2nd, 2022 (5:16pm-12:17am)
+- Reviewed old OML database and its printables, as well as feedback for changes to the Culture Worksheet Template.
+- Did research on: coverting .docx to .pdf in python; viewing .pdf in web view.
+- Replaced old Culture Worsheet Template with new version that addresses comments and clinician not showing and adds second page with half of the required bacteria cards.
+- Switched web view engine for the Print Preview to open as a pdf instead of html (improves rendering accuracy and allows for the printing of multiple pages).
+- Added MSAccess.py file that will be used to parametize the current model.py file, allowing for more controlled queries and the possibility of custom queries.
+- Removed redundant code from main.py file
+- Addressed bugs in view.py that prevented some fields from merging in the Culture Worsheet Template.
+- Changed Github settings to protect the main branch (preventing automatic merges before they are reviewed).
+- Managed merge conflicts between my branch and Maik's branch, only merging the most updated code from both of our versions.
