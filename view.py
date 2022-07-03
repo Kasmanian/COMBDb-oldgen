@@ -6,7 +6,7 @@ import win32com.client as win32
 import sys, os, datetime, json
 from mailmerge import MailMerge
 from docxtpl import DocxTemplate
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QUrl, Qt, QDate
 import bcrypt
 
@@ -139,6 +139,7 @@ class View:
 
     def showPrintPreview(self, path):
         self.web = QWebEngineView()
+        self.web.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
         self.web.setWindowTitle('Print Preview')
         self.web.setContextMenuPolicy(Qt.ActionsContextMenu)
         printAction = QAction('Print', self.web)
@@ -156,8 +157,8 @@ class View:
         try:
             word = win32.DispatchEx('Word.Application')
             document = word.Documents.Open(path)
-            tempPath = path.split('.')[0] + '.html'
-            document.SaveAs(tempPath, 10)
+            tempPath = path.split('.')[0] + '.pdf'
+            document.SaveAs(tempPath, 17)
             document.Close()
             # word.ActiveDocument()
             os.remove(path)
@@ -629,6 +630,7 @@ class CultureOrderForm(QMainWindow):
     def handlePrintPressed(self):
         try:
             if self.cultureTypeDropDown.currentText()!='Caries':
+                print(f'clinician: {self.clinicianDropDown.currentText()}')
                 template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)

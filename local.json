@@ -1,4 +1,5 @@
-{"DBQ": "C:\\Users\\Maik\\Desktop\\COMBDb.accdb", 
+{
+    "DBQ": "C:\\Users\\Maik\\Desktop\\COMBDb.accdb", 
     "PrefixToAerobic": {
         "AS": "Alpha-Hemolytic Streptococcus", 
         "BA": "Beta-Hemolytic Streptococcus Group A", 
@@ -10,7 +11,7 @@
         "EN": "Eiknella Corrodens",
         "EP": "Enteric Pathogens", 
         "PM": "Pseudomonas"
-        }, 
+    }, 
     "PrefixToAnaerobic": {
         "AA": "Actinobacillus Actinomycetemcomitians", 
         "BF": "Bacteriodes Fragilis", 
@@ -24,7 +25,7 @@
         "PG": "Porphyromonas Gingivalis", 
         "PI": "Prevotella Intermedia", 
         "TF": "Tannerella Forsythus"
-        }, 
+    }, 
     "PrefixToAntibiotics": {
         "AMC": "Amoxicillin / Clavulanate", 
         "AMP": "Ampicillin", 
@@ -39,19 +40,20 @@
         "PEN": "Penicillin", 
         "SXT": "Trimethoprim-Sulfamethoxazole", 
         "TET": "Tetracycline"
-        }, 
+    }, 
     "PrefixToB-Lac": {
         "P": "Beta Lactomase Detected", 
         "N": "Beta Lactomase Not Detected"
-        }, 
+    }, 
     "PrefixToGrowth": {
         "NI": "Not Isolated", 
         "L": "Light", 
         "M": "Moderate", 
         "H": "Heavy"
-        }, 
+    }, 
     "PrefixToSusceptibility": {
         "S": "Susceptible", 
         "I": "Intermediate", 
         "R": "Resistant"
-        }}
+    }
+}
