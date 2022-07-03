@@ -287,6 +287,11 @@ border-width: 1px</string>
               <string>Surgical</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Tongue</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item row="3" column="2" alignment="Qt::AlignRight">
@@ -1076,7 +1081,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1607</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
