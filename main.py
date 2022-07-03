@@ -3,7 +3,7 @@ from view import View
 from schemas import *
 
 def main():
-    view = View(Model())
+    View(Model())
 
 if __name__=="__main__":
     main()

@@ -13,6 +13,8 @@ class Model:
       CONSTR = r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ='+PATH
       f.close()
       self.db = pyodbc.connect(CONSTR)
+      techs = self.selectTechs('*')
+      print(techs)
       return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -201,19 +203,6 @@ class Model:
       return None
     finally:
       cursor.close()
-
-  # def findSample(self, table, sampleID):
-  #   try:
-  #     cursor = self.db.cursor()
-  #     extraf = ' Shipped,' if table=='Waterlines' else ''
-  #     query = f'SELECT chartID, Clinician, First, Last,{extraf} Collected, Received, Comments FROM {table} WHERE sampleID=?'
-  #     cursor.execute(query, sampleID)
-  #     return cursor.fetchone()
-  #   except (Exception, pyodbc.Error) as e:
-  #     print(f'Error in connection: {e}')
-  #     return None
-  #   finally:
-  #     cursor.close()
 
   def findTech(self, entry, columns):
     try:
