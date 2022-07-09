@@ -29,7 +29,13 @@ Thu Jul 7th, 2022 (2:19pm-10:23pm)
 - Pointed view to new Preliminary Culture document.
 - Demoed application to test new worksheets.
 
-Fri Jul 8th, 2022 (2:02pm-10:00pm)
+Fri Jul 8th, 2022 (2:02pm-10:41pm)
 - Added aerobic bacteria, anaerobic bacteria, and antibiotics (and their prefixes) as tables in the database.
-- Added notes field to all tables
-- Added direct smear and culture type to Cultures table
+- Added notes field to all tables.
+- Added direct smear and culture type to Cultures table.
+- Started changing code to reference access file for prefixes rather than json.
+- Added some helper functions to util.py.
+- Started refactoring variable names to be consistent between UI and code.
+- Updated database queries to fit more cases.
+- Deleted unused files
+- Started on new app class that addresses many problems in old view class.
