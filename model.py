@@ -72,16 +72,24 @@ class Model:
     finally:
       cursor.close()
 
-  def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, comments):
-    try:
-      yy = self.date.year-2000
-      cursor = self.db.cursor()
+  def genSampleID(self):
+    tables = ['Cultures', 'CATs', 'Waterlines']
+    yy = self.date.year-2000
+    cursor = self.db.cursor()
+    count = 0
+    for table in tables:
       query = (
         f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000'
       )
       cursor.execute(query)
-      lastOrder = cursor.fetchone()
-      sampleID = (yy*10000)+lastOrder[0]+1 if lastOrder is not None else (yy*10000)+1
+      catch = cursor.fetchone()
+      count += catch[0] if catch is not None else 0
+    return (yy*10000)+count+1
+
+  def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, comments):
+    try:
+      cursor = self.db.cursor()
+      sampleID = self.genSampleID()
       query = (
         f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
       )
@@ -128,14 +136,8 @@ class Model:
   
   def addWaterlineOrder(self, clinician, shipped, comments):
     try:
-      yy = self.date.year-2000
       cursor = self.db.cursor()
-      query = (
-        f'SELECT COUNT(*) FROM Waterlines WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000'
-      )
-      cursor.execute(query)
-      lastOrder = cursor.fetchone()
-      sampleID = (yy*10000)+lastOrder[0]+1 if lastOrder is not None else (yy*10000)+1
+      sampleID = self.genSampleID()
       query = (
         'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments) VALUES(?, ?, ?, ?)'
       )
