@@ -225,14 +225,14 @@ border-width: 1px</string>
          <widget class="QPushButton" name="save">
           <property name="minimumSize">
            <size>
-            <width>71</width>
-            <height>21</height>
+            <width>75</width>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>71</width>
-            <height>21</height>
+            <width>75</width>
+            <height>25</height>
            </size>
           </property>
           <property name="cursor">
@@ -276,14 +276,14 @@ background-color: rgb(193, 193, 193);
          <widget class="QPushButton" name="browse">
           <property name="minimumSize">
            <size>
-            <width>71</width>
-            <height>21</height>
+            <width>75</width>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>71</width>
-            <height>21</height>
+            <width>75</width>
+            <height>25</height>
            </size>
           </property>
           <property name="cursor">

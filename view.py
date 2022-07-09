@@ -510,7 +510,7 @@ class SettingsEditTechnician(QMainWindow):
             else: self.view.showErrorScreen('Old password is incorrect')
         else: self.view.showErrorScreen('New password and confirm new password are mismatched')
 
-class SettingsManageArchivesForm(QMainWindow):
+class SettingsManageArchivesForm(QMainWindow): #TODO - tables need to be populated so they can be edited.
     # Class for the Manage Archives UI
     def __init__(self, model, view):
         super(SettingsManageArchivesForm, self).__init__()
