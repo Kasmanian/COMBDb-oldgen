@@ -8,6 +8,7 @@ from mailmerge import MailMerge
 from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QUrl, Qt, QDate
+from PyQt5.QtGui import QIcon
 import bcrypt
 
 def passPrintPrompt(boolean):
@@ -179,6 +180,12 @@ class View:
         prefix = prefix+' ' if prefix is not None else prefix
         return f'{last or em}{comma}{prefix or em}{first or em}' if prefix is not None or first is not None or last is not None else designation or ''
 
+    def fClinicianNameNormal(self, prefix, first, last, designation):
+        em = ''
+        prefix = prefix+' ' if prefix is not None else prefix
+        first = first+' ' if first is not None else first
+        return f'{prefix or em}{first or em}{last or em}' if prefix is not None or first is not None or last is not None else designation or ''
+
     def fSlashDate(self, date):
         if isinstance(date, datetime.datetime):
             return date.strftime('%m/%d/%Y')
@@ -293,8 +300,15 @@ class AdminLoginScreen(QMainWindow):
         self.login.clicked.connect(self.handleLoginPressed)
 
     def handleLoginPressed(self):
-        if self.model.techLogin(self.usrnm.text(), self.pswd.text()):
-            self.view.showAdminHomeScreen()
+        u = self.usrnm.text()
+        p = self.pswd.text()
+        if len(u)==0 or len(p)==0:
+            self.errorMessage.setText("Please input all fields")
+        else:
+            if self.model.techLogin(self.usrnm.text(), self.pswd.text()):
+                self.view.showAdminHomeScreen()
+            else:
+                self.errorMessage.setText("Invalid username or password")
 
     def handleGuestLoginPressed(self):
         self.view.showGuestLoginScreen()
@@ -528,7 +542,7 @@ class SettingsManageArchivesForm(QMainWindow): #TODO - tables need to be populat
         self.view.showAdminHomeScreen()
 
     
-class SettingsManagePrefixesForm(QMainWindow):
+class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables and allow them to be edited.
     # Class for the Manage Prefixes UI
     def __init__(self, model, view):
         super(SettingsManagePrefixesForm, self).__init__()
@@ -540,12 +554,20 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         # Handle 'Return to Main Menu' button clicked
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
+        self.add.clicked.connect(self.handleAddPressed)
+        self.save.clicked.connect(self.handleSavePressed)
 
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+
+    def handleAddPressed(self):   
+        return
+
+    def handleSavePressed(self):
+        return
 
 
 class GuestHomeScreen(QMainWindow):
@@ -586,6 +608,7 @@ class CultureOrderForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
+        self.search.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinicianDropDown.clear()
         self.clinicianDropDown.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
@@ -634,11 +657,12 @@ class CultureOrderForm(QMainWindow):
                 template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
+                clinician=self.clinicianDropDown.currentText().split(', ')
                 document.merge(
                     sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:]}',
                     received=self.receivedDate.date().toString(),
                     chartID=self.chartNum.text(),
-                    clinicianName=self.clinicianDropDown.currentText(),
+                    clinicianName = clinician[1] + " " + clinician[0],
                     patientName=f'{self.lastName.text()}, {self.firstName.text()}',
                     comments=self.comment.toPlainText()
                 )
@@ -675,6 +699,7 @@ class CultureOrderForm(QMainWindow):
             self.sampleID.setText('xxxxxx')
             self.chartNum.clear()
             self.comment.clear()
+            self.clinicianDropDown.setCurrentIndex(0)
             self.save.setEnabled(True)
             self.print.setEnabled(False)
             self.clear.setEnabled(True)
@@ -754,6 +779,7 @@ class DUWLOrderForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
+        self.search.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.currentKit = 1
         self.kitList = []
         self.printList = {}
@@ -793,11 +819,12 @@ class DUWLOrderForm(QMainWindow):
                 self.shippingDate.date(),
                 self.comment.toPlainText()
             )
-            if sampleID:
+            if sampleID: #This might need to be edited
                 self.sampleID.setText(str(sampleID))
                 self.kitList.append({
                     'sampleID': f'{str(sampleID)[0:2]}-{str(sampleID)[2:]}',
-                    'operatory': 'Operatory___________________________',
+                    'clinician': 'Clinician___________________________',
+                    'operatory': 'Operatory__________________________',
                     'collected': 'Collection Date______________________',
                     'clngagent': 'Cleaning Agent______________________'
                 })
@@ -814,6 +841,7 @@ class DUWLOrderForm(QMainWindow):
             self.comment.clear()
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
+            self.clinicianDropDown.setCurrentIndex(0)
             self.updateTable()
         except Exception as e:
             self.view.showErrorScreen(e)
@@ -875,6 +903,7 @@ class DUWLReceiveForm(QMainWindow):
             self.view = view
             self.model = model
             loadUi("COMBDb/UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
+            self.search.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
             self.clinicianDropDown.clear()
             self.clinicianDropDown.addItems(self.view.names)
             self.currentKit = 1
@@ -943,9 +972,10 @@ class DUWLReceiveForm(QMainWindow):
                 self.procedure.text(),
                 self.comment.toPlainText()
             ):
+                clinician = self.clinicianDropDown.currentText().split(', ')
                 self.kitList.append({
                     'underline1': '__________',
-                    'clinicianName': self.clinicianDropDown.currentText(),
+                    'clinicianName': clinician[1] + " " + clinician[0],
                     'sampleID': f'{str(sampleID)[0:2]}-{str(sampleID)[2:]}',
                     'underline2': '__________',
                     'underline3': '__________'
@@ -959,7 +989,7 @@ class DUWLReceiveForm(QMainWindow):
 
     def handleClearPressed(self):
         try:
-            self.sampleNum_2.setText('xxxxxx')
+            self.sampleNum_2.clear()
             self.comment.clear()
             self.operatory.clear()
             self.procedure.clear()
@@ -1059,6 +1089,7 @@ class CultureResultForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Result_Form.ui", self)
+        self.search.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinician.clear()
         self.clinician.addItems(self.view.names)
         self.receivedDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
@@ -1161,6 +1192,7 @@ class CultureResultForm(QMainWindow):
                         item.setCurrentIndex(self.aerobicIndex[self.aerobicTable[i][j]])
                     else: continue
                     self.tableWidget.setCellWidget(i, j, item)
+
             #anaerobic
             self.tableWidget_2.setItem(0,0, QTableWidgetItem('Bacteria'))
             for i in range(0, len(self.anaerobicTable)):
@@ -1179,6 +1211,12 @@ class CultureResultForm(QMainWindow):
                     self.tableWidget_2.setCellWidget(i, j, item)
         except Exception as e:
             self.view.showErrorScreen(e)
+
+    #def eventFilter(self, source, event):
+        #if source == self.
+
+
+        #return
 
     def updateTable(self, kind, row, column):
         try:
@@ -1375,13 +1413,14 @@ class CultureResultForm(QMainWindow):
             template = str(Path().resolve())+r'\COMBDb\templates\preliminary_culture_results_template.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
+            clinician=self.clinician.currentText().split(', ')
             document.merge(
                 sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:6]}',
                 collected=self.view.fSlashDate(self.sample[4]),
                 received=self.view.fSlashDate(self.receivedDate.date()),
                 reported=self.view.fSlashDate(self.dateReported.date()),
                 chartID=self.chartNumber.text(),
-                clinicianName=self.clinician.currentText(),
+                clinicianName=clinician[1] + " " + clinician[0],
                 patientName=f'{self.sample[3]}, {self.sample[2]}',
                 comments=self.comment.toPlainText(),
                 techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
@@ -1405,13 +1444,14 @@ class CultureResultForm(QMainWindow):
             template = str(Path().resolve())+r'\COMBDb\templates\perio_culture_results_template.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
+            clinician=self.clinician.currentText().split(', ')
             document.merge(
                 sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:6]}',
                 collected=self.view.fSlashDate(self.sample[4]),
                 received=self.view.fSlashDate(self.receivedDate.date()),
                 reported=self.view.fSlashDate(self.dateReported.date()),
                 chartID=self.chartNumber.text(),
-                clinicianName=self.clinician.currentText(),
+                clinicianName=clinician[1] + " " + clinician[0],
                 patientName=f'{self.sample[3]}, {self.sample[2]}',
                 comments=self.comment.toPlainText(),
                 techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
@@ -1450,6 +1490,7 @@ class CATResultForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_CAT_Result_Form.ui", self)
+        self.search.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinicianDropDown.clear()
         self.clinicianDropDown.addItems(self.view.names)
         self.save.setEnabled(False)
@@ -1526,7 +1567,7 @@ class CATResultForm(QMainWindow):
 
     def handleClearPressed(self):
         try:
-            self.sampleID.setText('xxxxxx')
+            self.sampleID.clear()
             self.clinicianDropDown.setCurrentIndex(0)
             self.firstName.clear()
             self.lastName.clear()
@@ -1551,10 +1592,11 @@ class CATResultForm(QMainWindow):
             template = str(Path().resolve())+r'\COMBDb\templates\cat_results_template.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
+            clinician=self.clinicianDropDown.currentText().split(', ')
             document.merge(
                 sampleID=f'{self.sampleID.text()[0:2]}-{self.sampleID.text()[2:6]}',
                 patientName=f'{self.sample[2]}, {self.sample[1]}',
-                clinicianName=self.clinicianDropDown.currentText(),
+                clinicianName=clinician[1] + " " + clinician[0],
                 collected=self.view.fSlashDate(self.sample[13]),
                 received=self.view.fSlashDate(self.sample[14]),
                 flowRate=str(self.sample[8]),
@@ -1579,6 +1621,7 @@ class DUWLResultForm(QMainWindow):
             self.view = view
             self.model = model
             loadUi("COMBDb/UI Screens/COMBdb_DUWL_Result_Form.ui", self)
+            self.search.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
             self.clinicianDropDown.clear()
             self.clinicianDropDown.addItems(self.view.names)
             self.currentKit = 1
@@ -1660,7 +1703,7 @@ class DUWLResultForm(QMainWindow):
             self.sampleID.setText('xxxxxx')
             self.comment.clear()
             self.bacterialCount.clear()
-            self.cdcADA.clear()
+            self.cdcADA.setCurrentText(None)
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
             self.updateTable()
@@ -1712,7 +1755,7 @@ class DUWLResultForm(QMainWindow):
             clinician = self.model.findClinician(self.sample[0])
             document.merge(
                 reported=self.view.fSlashDate(self.dateReported.date()),
-                clinicianName=self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3]),
+                clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
                 designation=clinician[3],
                 address=clinician[4],
                 city=clinician[5],

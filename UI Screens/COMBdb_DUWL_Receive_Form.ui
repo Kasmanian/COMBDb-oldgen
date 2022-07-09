@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1266</width>
-    <height>621</height>
+    <width>1387</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -553,7 +553,13 @@ background-color: rgb(193, 193, 193);
 }</string>
               </property>
               <property name="text">
-               <string>+</string>
+               <string/>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
               </property>
              </widget>
             </item>
@@ -1184,8 +1190,8 @@ background-color: rgb(193, 193, 193);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1266</width>
-     <height>21</height>
+     <width>1387</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -407,7 +407,7 @@ background-color: rgb(193, 193, 193);
 }</string>
               </property>
               <property name="text">
-               <string>+</string>
+               <string/>
               </property>
               <property name="iconSize">
                <size>
@@ -1063,7 +1063,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1453</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
