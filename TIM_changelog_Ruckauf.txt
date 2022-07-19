@@ -1,0 +1,64 @@
+7/2/22
+- Edited button size on "Set File Path" UI
+- Fixed Caries Result and DUWL Result "Back" button opening order nav instead of result nav
+- Added Tongue to the list of culture types
+- Added H2S and PSA bacteria to list of anaerobic bacteria
+- Moved EN bacteria from anaerobic to aerobic
+- Added new QEditBox for Direct Smears on Culture Result form
+- Adjusted size of anaerobic and aerobic bacteria column to fit entire name and improve readability
+- Fixed comments not showing up on culture order template
+- Fixed clinician not showing up on culture order template
+- Pushed code at the end of the day
+
+7/3/22
+- Added input box to Culture Result Form so user knows who they are entering data for
+- Added a search button to Culture Order Form so user can lookup and edit past orders
+- Created 3 charts for settings->edit prefixes so that both bacteria lists can be edited as well 
+	as antibiotics list
+- Added a save button so previously added items can be edited ... might need to change this
+- Edited size of some buttons
+
+7/7/22
+- Edited names of widgets
+- Created design for letterhead
+- Added search button to DUWL Order
+- Added "Number of Orders" label to DUWL Order to quick add orders
+- Working on getting Clinician name to appear on worksheet
+- Working on worksheet formatting, trying to get it to wrap properly
+
+7/8/22
+- Fixed the order clinician names were printing for all worksheets
+- Fixed a bug on DUWL Result where when saved, the CDC/ADA dropdown gets cleared and no options are present
+- Added search icon to search buttons
+- Working on fixing bug on Culture Result where if the mouse hovers over a cell and uses scroll,
+	the item is changed.
+- Working on error handling for login screen. Will pave the way for better error handling on all UI
+	pages. 
+- Working on fixing bug where when on the "Add Clinician" screen, if clear button is clicked, the
+	page is not cleared
+- Create error pop-up when entering incorrect username or password OR when leaving one of the input
+	box's blank
+- Fixed a bug where when clicking the clear button, the clinician drop down was not reset to index 0
+
+7/16/22
+- Moved change log notes to txt file in project
+- Fixed a bug on the login screen where the title would be off-center
+- Fixed a bug where clinician drop down didn't reset when "clear" button was clicked
+- Added ability for techs to add multiple DUWL orders quickly by entering in desired number of tests that share the same details
+- Made it to where on DUWL Result - if you look up an invalid sample ID, the page is cleared and no result is presented
+- Added errorMessage label to all order, results and add clinician screens. This will notify user about errors or successful saves
+
+7/17/22
+- Coded in "clear" button on "Add Clinician" screen
+- Added more validation in Manage Technicians - password and confirm password are required and will be checked
+- Added errorMessage to Manage Technicians - replaces errorScreen and also confirms when new tech is successfully added
+- Did research on HIPPA compliant software - will discuss needs and start implementing required safeguards: https://www.mindk.com/blog/how-to-make-your-health-care-app-hipaa-compliant/
+
+
+7/19/22
+- Updated CSS on multiple widgets to make it look more modern
+- Started working on UI overhaul - new layouts for orders and results and updating CSS to modernize app
+- Adding "Private Notes" text box for technicians to enter private comments
+- Added further input validation to edit technicians screen
+- QUESTION: Should receiving DUWL order need a "Add Clinician" button?
+- Added input validation on Add Clinician screen

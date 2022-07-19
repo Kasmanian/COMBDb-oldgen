@@ -313,7 +313,7 @@ class AdminLoginScreen(QMainWindow):
     def handleGuestLoginPressed(self):
         self.view.showGuestLoginScreen()
 
-class GuestLoginScreen(QMainWindow):
+class GuestLoginScreen(QMainWindow): #This is irrelevant
     def __init__(self, model, view):
         super(GuestLoginScreen, self).__init__()
         self.view = view
@@ -460,13 +460,20 @@ class SettingsManageTechnicianForm(QMainWindow):
 
     def handleAddTechPressed(self):
         try:
-            if self.password.text()==self.confirmPassword.text():
+            user = self.username.text()
+            if self.password.text()==self.confirmPassword.text() and self.password.text() and self.confirmPassword.text():
                 if self.firstName.text() and self.lastName.text() and self.username.text():
                     self.model.addTech(self.firstName.text(), self.middleName.text(), self.lastName.text(), self.username.text(), self.password.text())
                     self.updateTable()
                     self.handleClearPressed()
-                else: self.view.showErrorMessage('You must have a first name, last name, and username')
-            else: self.view.showErrorMessage('Password and confirm password must match')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                    self.errorMessage.setText("Successfully added technician: " + user)
+                else:
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("You must have a first name, last name, and username")
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Password and confirm password are required and must match")
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -509,21 +516,29 @@ class SettingsEditTechnician(QMainWindow):
         self.close()
 
     def handleSavePressed(self):
-        if self.newPassword.text()==self.confirmNewPassword.text():
-            if bcrypt.checkpw(self.oldPassword.text().encode('utf-8'), self.technician[4].encode('utf-8')):
-                self.model.updateTech(
-                    self.id,
-                    self.firstName.text(),
-                    self.middleName.text(),
-                    self.lastName.text(),
-                    self.username.text(),
-                    self.newPassword.text()
-                )
-                self.close()
-            else: self.view.showErrorScreen('Old password is incorrect')
-        else: self.view.showErrorScreen('New password and confirm new password are mismatched')
+        if self.firstName.text() and self.lastName.text() and self.username.text() and self.oldPassword.text() and self.newPassword.text() and self.confirmNewPassword.text():
+            if self.newPassword.text()==self.confirmNewPassword.text():
+                if bcrypt.checkpw(self.oldPassword.text().encode('utf-8'), self.technician[4].encode('utf-8')):
+                    self.model.updateTech(
+                        self.id,
+                        self.firstName.text(),
+                        self.middleName.text(),
+                        self.lastName.text(),
+                        self.username.text(),
+                        self.newPassword.text()
+                    )
+                    self.close()
+                else: 
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText('Old password is incorrect')
+            else: 
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText('New password and confirm new password are mismatched')
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText('Missing required fields')
 
-class SettingsManageArchivesForm(QMainWindow): #TODO - tables need to be populated so they can be edited.
+class SettingsManageArchivesForm(QMainWindow): #TODO - incorporate archiving.
     # Class for the Manage Archives UI
     def __init__(self, model, view):
         super(SettingsManageArchivesForm, self).__init__()
@@ -570,7 +585,7 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         return
 
 
-class GuestHomeScreen(QMainWindow):
+class GuestHomeScreen(QMainWindow): #Irrelevant
     def __init__(self, model, view):
         super(GuestHomeScreen, self).__init__()
         self.view = view
@@ -647,6 +662,8 @@ class CultureOrderForm(QMainWindow):
                 self.sampleID.setText(str(sampleID))
                 self.save.setEnabled(False)
                 self.print.setEnabled(True)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Successfully saved order: " + str(sampleID))
         except Exception as e:
             self.view.showErrorScreen(e)
     
@@ -700,9 +717,11 @@ class CultureOrderForm(QMainWindow):
             self.chartNum.clear()
             self.comment.clear()
             self.clinicianDropDown.setCurrentIndex(0)
+            self.cultureTypeDropDown.setCurrentIndex(0)
             self.save.setEnabled(True)
             self.print.setEnabled(False)
             self.clear.setEnabled(True)
+            self.errorMessage.setText("")
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -713,36 +732,44 @@ class AddClinician(QMainWindow):
         self.model = model
         self.dropdown = dropdown
         loadUi("COMBDb/UI Screens/COMBdb_Add_New_Clinician.ui", self)
+        self.clear.clicked.connect(self.handleClearPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.menu.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
+        self.dateEdit.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
 
-    def handleSavePressed(self):
+    def handleSavePressed(self): #Incorporate validation to make sure clinician is actually added to DB
         try:
-            self.model.addClinician(
-                self.title.currentText(),
-                self.firstName.text(),
-                self.lastName.text(),
-                self.designation.text(),
-                self.phone.text(),
-                self.fax.text(),
-                self.email.text(),
-                self.address1.text(),
-                self.address2.text(),
-                self.city.text(),
-                self.state.currentText(),
-                self.zip.text(),
-                None,
-                None,
-                self.comment.toPlainText()
-            )
-            self.view.setClinicianList()
-            self.dropdown.clear()
-            self.dropdown.addItems(self.view.names)
+            if self.firstName.text() and self.lastName.text() and self.address1.text() and self.city.text() and self.state.currentText() and self.zip.text():
+                self.model.addClinician(
+                    self.title.currentText(),
+                    self.firstName.text(),
+                    self.lastName.text(),
+                    self.designation.text(),
+                    self.phone.text(),
+                    self.fax.text(),
+                    self.email.text(),
+                    self.address1.text(),
+                    self.address2.text(),
+                    self.city.text(),
+                    self.state.currentText(),
+                    self.zip.text(),
+                    None,
+                    None,
+                    self.comment.toPlainText()
+                )
+                self.view.setClinicianList()
+                self.dropdown.clear()
+                self.dropdown.addItems(self.view.names)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("New clinician added: " + self.title.currentText() + " " +self.firstName.text() + " " + self.lastName.text())
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("First Name, Last Name, Address 1, City, State and Zip are all required")
         except Exception as e:
             self.view.showErrorScreen(e)
-        finally:
-            self.close()
+        #finally:
+            #self.close()
 
     def handleBackPressed(self):
         self.close()
@@ -750,6 +777,26 @@ class AddClinician(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
         self.close()
+
+    def handleClearPressed(self):
+        try:
+            self.title.setCurrentIndex(0)
+            self.firstName.clear()
+            self.lastName.clear()
+            self.address1.clear()
+            self.address2.clear()
+            self.city.clear()
+            self.state.setCurrentIndex(0)
+            self.zip.clear()
+            self.phone.clear()
+            self.fax.clear()
+            self.email.clear()
+            self.dateEdit.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+            self.designation.clear()
+            self.comment.clear()
+            self.errorMessage.clear()
+        except Exception as e:
+            self.view.showErrorScreen(e)
 
 class DUWLNav(QMainWindow):
     def __init__(self, model, view):
@@ -814,23 +861,27 @@ class DUWLOrderForm(QMainWindow):
 
     def handleSavePressed(self):
         try:
-            sampleID = self.view.model.addWaterlineOrder(
-                self.view.entries[self.clinicianDropDown.currentText()]['db'],
-                self.shippingDate.date(),
-                self.comment.toPlainText()
-            )
-            if sampleID: #This might need to be edited
-                self.sampleID.setText(str(sampleID))
-                self.kitList.append({
-                    'sampleID': f'{str(sampleID)[0:2]}-{str(sampleID)[2:]}',
-                    'clinician': 'Clinician___________________________',
-                    'operatory': 'Operatory__________________________',
-                    'collected': 'Collection Date______________________',
-                    'clngagent': 'Cleaning Agent______________________'
-                })
-                self.printList[str(sampleID)] = self.currentKit-1
-                self.currentKit += 1
-                self.handleClearPressed()
+            numOrders = 1 if int(self.numberOfOrders.text()) == None else int(self.numberOfOrders.text())
+            for x in range(numOrders):
+                sampleID = self.view.model.addWaterlineOrder(
+                    self.view.entries[self.clinicianDropDown.currentText()]['db'],
+                    self.shippingDate.date(),
+                    self.comment.toPlainText()
+                )
+                if sampleID: 
+                    self.sampleID.setText(str(sampleID))
+                    self.kitList.append({
+                        'sampleID': f'{str(sampleID)[0:2]}-{str(sampleID)[2:]}',
+                        'clinician': 'Clinician___________________________',
+                        'operatory': 'Operatory__________________________',
+                        'collected': 'Collection Date______________________',
+                        'clngagent': 'Cleaning Agent______________________'
+                    })
+                    self.printList[str(sampleID)] = self.currentKit-1
+                    self.currentKit += 1
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Added DUWL Order: " + str(sampleID))
+            self.handleClearPressed()
         except Exception as e:
             self.view.showErrorScreen(e)
 
@@ -1212,10 +1263,8 @@ class CultureResultForm(QMainWindow):
         except Exception as e:
             self.view.showErrorScreen(e)
 
-    #def eventFilter(self, source, event):
+    #def eventFilter(self, source, event): trying to resolve the problem of mousehover/scrollwheel changing value in cells - shouldn't be allowed - solution is eventFilter, just need to figure it out
         #if source == self.
-
-
         #return
 
     def updateTable(self, kind, row, column):
@@ -1658,11 +1707,13 @@ class DUWLResultForm(QMainWindow):
     def handleSearchPressed(self):
         try:
             if not self.sampleID.text().isdigit():
-                self.sampleID.setText('xxxxxx')
+                #self.sampleID.setText('xxxxxx')
+                self.handleClearPressed()
                 return
             self.sample = self.model.findSample('Waterlines', int(self.sampleID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments]')
             if self.sample is None:
-                self.sampleID.setText('xxxxxx')
+                #self.sampleID.setText('xxxxxx')
+                self.handleClearPressed()
             else:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -1706,6 +1757,7 @@ class DUWLResultForm(QMainWindow):
             self.cdcADA.setCurrentText(None)
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
+            self.clinicianDropDown.setCurrentIndex(0)
             self.updateTable()
         except Exception as e:
             self.view.showErrorScreen(e)

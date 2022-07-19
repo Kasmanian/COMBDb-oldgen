@@ -14,7 +14,7 @@ class Model:
       f.close()
       self.db = pyodbc.connect(CONSTR)
       techs = self.selectTechs('*')
-      print(techs)
+      #print(techs)
       return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
