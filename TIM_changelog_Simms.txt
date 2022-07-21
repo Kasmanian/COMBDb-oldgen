@@ -8,3 +8,34 @@ Sun Jul 2nd, 2022 (5:16pm-12:17am)
 - Addressed bugs in view.py that prevented some fields from merging in the Culture Worsheet Template.
 - Changed Github settings to protect the main branch (preventing automatic merges before they are reviewed).
 - Managed merge conflicts between my branch and Maik's branch, only merging the most updated code from both of our versions.
+
+Sun Jul 3rd, 2022 (4:32pm-7:13pm)
+- Added third page to Culture Worksheet Template.
+- Formatted Culture Worksheet Template so that it is divided into 3 separately-printable forms: Form A, Form B, and Form C.
+- Started on files that separate the classes used in View for ease of readability and organization.
+
+Sun Jul 3rd, 2022 (9:40pm-12:56am)
+- Parametized some of View's methods to reduce duplicate code and decrease overall time to convert to executable.
+- Started on a diagram to map out form states when creating new, editing existing, or clearing/printing forms.
+- Started planning out change to prefix mapping system to allow the prefixes and values to be editable and globally accessed.
+
+Thu Jul 7th, 2022 (2:19pm-10:23pm)
+- Created letterhead to be used in necessary files.
+- Added letterhead to Culture Worksheet and reformatted to fit.
+- Pointed view to new Culture Worksheet document.
+- Restylized and formatted Preliminary Culture to match Culture Worksheet.
+- Pointed view to new Preliminary Culture document.
+- Restylized and formatted Culture Smear to match Culture Worksheet.
+- Pointed view to new Preliminary Culture document.
+- Demoed application to test new worksheets.
+
+Fri Jul 8th, 2022 (2:02pm-10:41pm)
+- Added aerobic bacteria, anaerobic bacteria, and antibiotics (and their prefixes) as tables in the database.
+- Added notes field to all tables.
+- Added direct smear and culture type to Cultures table.
+- Started changing code to reference access file for prefixes rather than json.
+- Added some helper functions to util.py.
+- Started refactoring variable names to be consistent between UI and code.
+- Updated database queries to fit more cases.
+- Deleted unused files
+- Started on new app class that addresses many problems in old view class.

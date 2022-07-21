@@ -297,7 +297,7 @@ class AdminLoginScreen(QMainWindow):
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Admin_Login.ui", self)
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.login.clicked.connect(self.handleLoginPressed)
+        self.login.clicked.connect(lambda: self.handleLoginPressed('Yo!'))
 
     def handleLoginPressed(self):
         u = self.usrnm.text()
@@ -320,7 +320,6 @@ class GuestLoginScreen(QMainWindow): #This is irrelevant
         self.model = model 
         loadUi("COMBDb/UI Screens/COMBdb_Guest_Login.ui", self)
         self.guestLogin.clicked.connect(self.handleGuestLoginPressed)
-    
     def handleGuestLoginPressed(self):
         self.view.showGuestHomeScreen()
 
@@ -1442,7 +1441,7 @@ class CultureResultForm(QMainWindow):
 
     def handleDirectSmearPressed(self):
         try:
-            template = str(Path().resolve())+r'\COMBDb\templates\direct_smear_template.docx'
+            template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
             document.merge(
@@ -1459,7 +1458,7 @@ class CultureResultForm(QMainWindow):
     
     def handlePreliminaryPressed(self):
         try:
-            template = str(Path().resolve())+r'\COMBDb\templates\preliminary_culture_results_template.docx'
+            template = str(Path().resolve())+r'\COMBDb\templates\culture_prelim_template.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
             clinician=self.clinician.currentText().split(', ')
@@ -1490,7 +1489,7 @@ class CultureResultForm(QMainWindow):
 
     def handlePerioPressed(self):
         try:
-            template = str(Path().resolve())+r'\COMBDb\templates\perio_culture_results_template.docx'
+            template = str(Path().resolve())+r'\COMBDb\templates\culture_results_template.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
             clinician=self.clinician.currentText().split(', ')
