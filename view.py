@@ -297,7 +297,7 @@ class AdminLoginScreen(QMainWindow):
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Admin_Login.ui", self)
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.login.clicked.connect(lambda: self.handleLoginPressed('Yo!'))
+        self.login.clicked.connect(self.handleLoginPressed)
 
     def handleLoginPressed(self):
         u = self.usrnm.text()
