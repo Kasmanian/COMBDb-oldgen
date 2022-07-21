@@ -381,6 +381,12 @@ border-width: 1px</string>
           </item>
           <item row="4" column="1">
            <widget class="QLineEdit" name="address2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>250</width>
@@ -459,6 +465,12 @@ border-width: 1px</string>
           </item>
           <item row="3" column="1">
            <widget class="QLineEdit" name="address1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>250</width>
@@ -545,31 +557,34 @@ border-width: 1px</string>
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">QDateEdit {
+             <string notr="true">/* the box that is displayed*/
+QDateEdit {
 background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px
 }
+/*toolbar on top of calendar*/
 QCalendarWidget QToolButton {
 height: 30px;
 width: 75px;
 color: white;
 font-size: 12px;
-icon-size: 28px, 28px;
-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);
+icon-size: 24px, 24px;
+font-weight: bold;
+background-color: rgb(123,175,212);
 }
 QCalendarWidget QMenu {
-width: 75px;
+width: 85px;
 left: 10px;
 color: white;
-font-size: 9px;
-background-color: rgb(100, 100, 100);
+font-size: 12px;
+background-color: rgb(123, 175, 212);
 }
 QCalendarWidget QSpinBox {
 width: 75px;
 font-size:12px;
 color: white;
-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);
+background-color: rgb(123, 175, 212);
 selection-background-color: rgb(136, 136, 136);
 selection-color: rgb(255, 255, 255);
 }
@@ -579,28 +594,27 @@ QCalendarWidget QSpinBox::up-arrow { width:28px; height:28px; }
 QCalendarWidget QSpinBox::down-arrow { width:28px; height:28px; }
 
 /* header row */
-QCalendarWidget QWidget { alternate-background-color: rgb(128, 128, 128); }
-
+QCalendarWidget QWidget { 
+alternate-background-color: rgb(240, 240, 240); 
+}
 /* normal days */
 QCalendarWidget QAbstractItemView:enabled
 {
 font-size:12px;
-color: rgb(180, 180, 180);
-background-color: black;
-selection-background-color: rgb(64, 64, 64);
-selection-color: rgb(0, 255, 0);
+color: black;
+background-color: white;
+selection-background-color: rgb(123, 175, 212);
+selection-color: white;
 }
-
 /* days in other months */
 /* navigation bar */
 QCalendarWidget QWidget#qt_calendar_navigationbar
 {
-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);
+background-color: rgb(123, 175, 212);
 }
-
 QCalendarWidget QAbstractItemView:disabled
 {
-color: rgb(64, 64, 64);
+color: rgb(180,180,180);
 }</string>
             </property>
             <property name="calendarPopup">
@@ -608,7 +622,7 @@ color: rgb(64, 64, 64);
             </property>
            </widget>
           </item>
-          <item row="5" column="3" rowspan="3">
+          <item row="5" column="3" rowspan="3" alignment="Qt::AlignLeft|Qt::AlignTop">
            <widget class="QTextEdit" name="comment">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -619,6 +633,12 @@ color: rgb(64, 64, 64);
             <property name="minimumSize">
              <size>
               <width>100</width>
+              <height>75</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
               <height>75</height>
              </size>
             </property>
@@ -972,6 +992,32 @@ border-width: 1px</string>
          </spacer>
         </item>
        </layout>
+      </item>
+      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <widget class="QLabel" name="errorMessage">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>999</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color:red;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="verticalSpacer_7">
