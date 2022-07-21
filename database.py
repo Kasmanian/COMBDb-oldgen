@@ -71,3 +71,11 @@ class Database:
       catch = cursor.fetchone()
       count += catch[0] if catch is not None else 0
     return (year*10000)+count+1
+    
+  def sample(self):
+    cursor = self.db.cursor()
+    query = f'SELECT [SampleID] FROM SampleID WHERE Entry=1'
+    cursor.execute(query)
+    sampleID = cursor.fetchone()
+    query = f'UPDATE SampleID SET [SampleID]={sampleID+1} WHERE Entry=1'
+    return sampleID
