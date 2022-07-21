@@ -13,7 +13,7 @@ class Model:
       CONSTR = r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ='+PATH
       f.close()
       self.db = pyodbc.connect(CONSTR)
-      techs = self.selectTechs('*')
+      #techs = self.selectTechs('*')
       #print(techs)
       return True
     except (Exception, pyodbc.Error) as e:
