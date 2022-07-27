@@ -92,7 +92,7 @@
            <number>14</number>
           </property>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="lastName">
+           <widget class="QLineEdit" name="lName">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -129,7 +129,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="firstName">
+           <widget class="QLineEdit" name="fName">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -176,7 +176,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="sampleID">
+           <widget class="QLineEdit" name="saID">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -200,6 +200,9 @@ border-width: 1px</string>
             <property name="placeholderText">
              <string/>
             </property>
+            <property name="clearButtonEnabled">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item row="0" column="0" alignment="Qt::AlignRight">
@@ -213,7 +216,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="4">
-           <widget class="QComboBox" name="clinicianDropDown">
+           <widget class="QComboBox" name="clinDrop">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -255,7 +258,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="2" alignment="Qt::AlignLeft">
-           <widget class="QPushButton" name="search">
+           <widget class="QPushButton" name="find">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -318,7 +321,7 @@ background-color: rgb(193, 193, 193);
            </widget>
           </item>
           <item row="1" column="4">
-           <widget class="QLineEdit" name="chartNum">
+           <widget class="QLineEdit" name="chID">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -355,7 +358,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="4">
-           <widget class="QDateEdit" name="collectionDate">
+           <widget class="QDateEdit" name="colDate">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -472,7 +475,7 @@ color: rgb(180,180,180);
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QComboBox" name="cultureTypeDropDown">
+           <widget class="QComboBox" name="type">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -549,7 +552,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="3" column="4">
-           <widget class="QDateEdit" name="receivedDate">
+           <widget class="QDateEdit" name="recDate">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -655,7 +658,7 @@ color: rgb(180,180,180);
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QTextEdit" name="comment">
+           <widget class="QTextEdit" name="cText">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -683,7 +686,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="4" column="4">
-           <widget class="QTextEdit" name="notes">
+           <widget class="QTextEdit" name="nText">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1061,7 +1064,7 @@ background-color: rgb(193, 193, 193);
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QPushButton" name="menu">
+       <widget class="QPushButton" name="home">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -1233,13 +1236,22 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>firstName</tabstop>
-  <tabstop>lastName</tabstop>
+  <tabstop>saID</tabstop>
+  <tabstop>fName</tabstop>
+  <tabstop>lName</tabstop>
+  <tabstop>type</tabstop>
+  <tabstop>cText</tabstop>
+  <tabstop>clinDrop</tabstop>
+  <tabstop>chID</tabstop>
+  <tabstop>colDate</tabstop>
+  <tabstop>recDate</tabstop>
+  <tabstop>nText</tabstop>
   <tabstop>addClinician</tabstop>
   <tabstop>save</tabstop>
   <tabstop>print</tabstop>
   <tabstop>clear</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
+  <tabstop>find</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>

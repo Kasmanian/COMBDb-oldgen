@@ -224,7 +224,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QTableWidget" name="aerobicBacteriaTable">
+           <widget class="QTableWidget" name="aeTWid">
             <property name="minimumSize">
              <size>
               <width>400</width>
@@ -280,7 +280,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item>
-           <widget class="QTableWidget" name="anaerobicBacteriaTable">
+           <widget class="QTableWidget" name="anTWid">
             <property name="minimumSize">
              <size>
               <width>400</width>
@@ -342,7 +342,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item>
-           <widget class="QTableWidget" name="antibioticsTable">
+           <widget class="QTableWidget" name="abTWid">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -565,7 +565,7 @@ border-width: 1px</string>
              </spacer>
             </item>
             <item row="0" column="4">
-             <widget class="QLineEdit" name="prefix">
+             <widget class="QLineEdit" name="pName">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -812,7 +812,7 @@ background-color: rgb(193, 193, 193);
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QPushButton" name="menu">
+         <widget class="QPushButton" name="home">
           <property name="minimumSize">
            <size>
             <width>161</width>
@@ -1000,10 +1000,10 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>antibioticsTable</tabstop>
-  <tabstop>prefix</tabstop>
+  <tabstop>abTWid</tabstop>
+  <tabstop>pName</tabstop>
   <tabstop>add</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>

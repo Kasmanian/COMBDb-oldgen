@@ -118,7 +118,7 @@
              </widget>
             </item>
             <item row="6" column="1" alignment="Qt::AlignLeft">
-             <widget class="QDateEdit" name="collectedDate">
+             <widget class="QDateEdit" name="colDate">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -214,7 +214,7 @@ color: rgb(180,180,180);
              </widget>
             </item>
             <item row="7" column="1" alignment="Qt::AlignLeft">
-             <widget class="QDateEdit" name="receivedDate">
+             <widget class="QDateEdit" name="recDate">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -300,7 +300,7 @@ color: rgb(180,180,180);
              </widget>
             </item>
             <item row="8" column="1">
-             <widget class="QTextEdit" name="comment">
+             <widget class="QTextEdit" name="cText">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -397,7 +397,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QComboBox" name="clinicianDropDown">
+             <widget class="QComboBox" name="clinDrop">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -465,7 +465,7 @@ border-width: 1px</string>
              </spacer>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="sampleNum_2">
+             <widget class="QLineEdit" name="saID">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -566,7 +566,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="1" column="2">
-             <widget class="QPushButton" name="search">
+             <widget class="QPushButton" name="find">
               <property name="minimumSize">
                <size>
                 <width>21</width>
@@ -614,7 +614,7 @@ background-color: rgb(193, 193, 193);
              </widget>
             </item>
             <item row="9" column="1">
-             <widget class="QTextEdit" name="notes">
+             <widget class="QTextEdit" name="nText">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -680,7 +680,7 @@ border-width: 1px</string>
              </spacer>
             </item>
             <item alignment="Qt::AlignHCenter">
-             <widget class="QTableWidget" name="tableWidget">
+             <widget class="QTableWidget" name="kitTWid">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -1074,7 +1074,7 @@ background-color: rgb(193, 193, 193);
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="menu">
+       <widget class="QPushButton" name="home">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -1243,17 +1243,23 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>sampleNum_2</tabstop>
-  <tabstop>search</tabstop>
+  <tabstop>saID</tabstop>
+  <tabstop>clinDrop</tabstop>
   <tabstop>operatory</tabstop>
   <tabstop>procedure</tabstop>
-  <tabstop>tableWidget</tabstop>
+  <tabstop>product</tabstop>
+  <tabstop>colDate</tabstop>
+  <tabstop>recDate</tabstop>
+  <tabstop>cText</tabstop>
+  <tabstop>nText</tabstop>
+  <tabstop>kitTWid</tabstop>
   <tabstop>clearAll</tabstop>
   <tabstop>print</tabstop>
   <tabstop>remove</tabstop>
   <tabstop>save</tabstop>
   <tabstop>clear</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
+  <tabstop>find</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>

@@ -86,14 +86,14 @@ class Model:
       count += catch[0] if catch is not None else 0
     return (yy*10000)+count+1
 
-  def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, comments):
+  def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, type, comments, notes):
     try:
       cursor = self.db.cursor()
       sampleID = self.genSampleID()
       query = (
-        f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
+        f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Type, Comments, Notes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
       )
-      cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), comments)
+      cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -102,15 +102,15 @@ class Model:
       cursor.close()
       return sampleID
 
-  def addCATResult(self, sampleID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments):
+  def addCATResult(self, sampleID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments, notes):
     try:
       cursor = self.db.cursor()
       query = (
         'UPDATE CATs '
         f'SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, '
-        f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=? WHERE [SampleID]=?'
+        f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
       )
-      cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), volume, time, flow, pH, bc, sm, lb, comments, sampleID)
+      cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), volume, time, flow, pH, bc, sm, lb, comments, notes, sampleID)
       self.db.commit()
       return True
     except (Exception, pyodbc.Error) as e:
@@ -119,13 +119,13 @@ class Model:
     finally:
       cursor.close()
 
-  def addCultureResult(self, sampleID, chartID, clinician, first, last, reported, aerobic, anaerobic, comments):
+  def addCultureResult(self, sampleID, chartID, clinician, first, last, reported, aerobic, anaerobic, comments, notes):
     try:
       cursor = self.db.cursor()
       query = (
-        'UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=? WHERE [SampleID]=?'
+        'UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
       )
-      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), aerobic, anaerobic, comments, sampleID)
+      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), aerobic, anaerobic, comments, notes, sampleID)
       self.db.commit()
       return True
     except (Exception, pyodbc.Error) as e:
@@ -134,14 +134,14 @@ class Model:
     finally:
       cursor.close()
   
-  def addWaterlineOrder(self, clinician, shipped, comments):
+  def addWaterlineOrder(self, clinician, shipped, comments, notes):
     try:
       cursor = self.db.cursor()
       sampleID = self.genSampleID()
       query = (
-        'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments) VALUES(?, ?, ?, ?)'
+        'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments, Notes) VALUES(?, ?, ?, ?, ?)'
       )
-      cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments)
+      cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments, notes)
       self.db.commit()
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
@@ -150,14 +150,14 @@ class Model:
       cursor.close()
       return sampleID
 
-  def addWaterlineReceiving(self, sampleID, operatoryID, clinician, collected, received, product, procedure, comments):
+  def addWaterlineReceiving(self, sampleID, operatoryID, clinician, collected, received, product, procedure, comments, notes):
     try:
       ret = False
       cursor = self.db.cursor()
       query = (
-        'UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=? WHERE [SampleID]=?'
+        'UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
       )
-      cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, sampleID)
+      cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, notes, sampleID)
       self.db.commit()
       ret = True
     except (Exception, pyodbc.Error) as e:
@@ -167,13 +167,13 @@ class Model:
       cursor.close()
       return ret
 
-  def addWaterlineResult(self, sampleID, clinician, reported, count, cdcada, comments):
+  def addWaterlineResult(self, sampleID, clinician, reported, count, cdcada, comments, notes):
     try:
       cursor = self.db.cursor()
       query = (
-        'UPDATE Waterlines SET Clinician=?, Reported=?, [Bacterial Count]=?, [CDC/ADA]=?, Comments=? WHERE SampleID=?'
+        'UPDATE Waterlines SET [Clinician]=?, [Reported]=?, [Bacterial Count]=?, [CDC/ADA]=?, [Comments]=?, [Notes]=? WHERE SampleID=?'
       )
-      cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, sampleID)
+      cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, notes, sampleID)
       self.db.commit()
       return True
     except (Exception, pyodbc.Error) as e:

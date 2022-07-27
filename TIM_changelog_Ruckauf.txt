@@ -54,11 +54,36 @@
 - Added errorMessage to Manage Technicians - replaces errorScreen and also confirms when new tech is successfully added
 - Did research on HIPPA compliant software - will discuss needs and start implementing required safeguards: https://www.mindk.com/blog/how-to-make-your-health-care-app-hipaa-compliant/
 
-
 7/19/22
 - Updated CSS on multiple widgets to make it look more modern
 - Started working on UI overhaul - new layouts for orders and results and updating CSS to modernize app
 - Adding "Private Notes" text box for technicians to enter private comments
 - Added further input validation to edit technicians screen
-- QUESTION: Should receiving DUWL order need a "Add Clinician" button?
 - Added input validation on Add Clinician screen
+
+7/21/22
+- Clear button now clears Private Notes on all forms
+- Started on variable name revamp
+- Fixed various UI bugs
+- Updated CSS_Presets.txt with new calendar CSS Preset
+
+7/25/22
+- Started renaming variables and fixing bugs that came along with that
+- Started implementing lookup on order sheets
+- Further implementing input validation on forms
+- Discussed better ways to have unique sampleID's by using Access' Entry number
+- Fixed worksheet variables
+
+7/26/22
+- Further implementing input validation on forms
+- Fixed worksheet variables
+
+7/27/22
+- CAT Result will now perform dynamic calculations for flow rate based on input from volume and collection time
+
+
+TODO:
+- Code in "clear" button on DUWL Order
+- Clear button should also clear Private Notes on all forms
+- CAT Result needs to do a few automatic calculations
+- Confirmation window when updating existing culture orders

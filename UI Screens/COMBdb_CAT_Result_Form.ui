@@ -226,7 +226,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="7">
-           <widget class="QComboBox" name="clinicianDropDown">
+           <widget class="QComboBox" name="clinDrop">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -313,7 +313,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLineEdit" name="sampleID">
+           <widget class="QLineEdit" name="saID">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -433,7 +433,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="7">
-           <widget class="QLineEdit" name="lastName">
+           <widget class="QLineEdit" name="lName">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -474,7 +474,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLineEdit" name="firstName">
+           <widget class="QLineEdit" name="fName">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -525,7 +525,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="8" column="2">
-           <widget class="QDateEdit" name="dateReported">
+           <widget class="QDateEdit" name="repDate">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -605,7 +605,7 @@ color: rgb(180,180,180);
            </widget>
           </item>
           <item row="11" column="2">
-           <widget class="QTextEdit" name="comment">
+           <widget class="QTextEdit" name="cText">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -752,7 +752,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="4">
-           <widget class="QPushButton" name="search">
+           <widget class="QPushButton" name="find">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -806,7 +806,7 @@ background-color: rgb(193, 193, 193);
            </widget>
           </item>
           <item row="11" column="7">
-           <widget class="QTextEdit" name="notes">
+           <widget class="QTextEdit" name="nText">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -853,7 +853,7 @@ border-width: 1px</string>
         </property>
         <property name="maximumSize">
          <size>
-          <width>350</width>
+          <width>999</width>
           <height>30</height>
          </size>
         </property>
@@ -1101,7 +1101,7 @@ background-color: rgb(193, 193, 193);
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="menu">
+         <widget class="QPushButton" name="home">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -1214,6 +1214,28 @@ background-color: rgb(193, 193, 193);
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>saID</tabstop>
+  <tabstop>clinDrop</tabstop>
+  <tabstop>fName</tabstop>
+  <tabstop>lName</tabstop>
+  <tabstop>volume</tabstop>
+  <tabstop>collectionTime</tabstop>
+  <tabstop>flowRate</tabstop>
+  <tabstop>repDate</tabstop>
+  <tabstop>cText</tabstop>
+  <tabstop>initialPH</tabstop>
+  <tabstop>bufferingCapacityPH</tabstop>
+  <tabstop>strepMutansCount</tabstop>
+  <tabstop>lactobacillusCount</tabstop>
+  <tabstop>nText</tabstop>
+  <tabstop>save</tabstop>
+  <tabstop>print</tabstop>
+  <tabstop>clear</tabstop>
+  <tabstop>home</tabstop>
+  <tabstop>find</tabstop>
+  <tabstop>back</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

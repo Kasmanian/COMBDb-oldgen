@@ -173,7 +173,7 @@ background-color: rgb(193, 193, 193);
              <number>12</number>
             </property>
             <item row="5" column="2" alignment="Qt::AlignLeft">
-             <widget class="QSpinBox" name="numberOfOrders">
+             <widget class="QSpinBox" name="numOrders">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -245,7 +245,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="1" column="3">
-             <widget class="QPushButton" name="search">
+             <widget class="QPushButton" name="find">
               <property name="minimumSize">
                <size>
                 <width>21</width>
@@ -339,7 +339,7 @@ background-color: rgb(193, 193, 193);
              </widget>
             </item>
             <item row="6" column="2">
-             <widget class="QTextEdit" name="comment">
+             <widget class="QTextEdit" name="cText">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -366,7 +366,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="2" column="2">
-             <widget class="QComboBox" name="clinicianDropDown">
+             <widget class="QComboBox" name="clinDrop">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -402,7 +402,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="1" column="2">
-             <widget class="QLineEdit" name="sampleID">
+             <widget class="QLineEdit" name="saID">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -429,7 +429,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="4" column="2">
-             <widget class="QDateEdit" name="shippingDate">
+             <widget class="QDateEdit" name="shipDate">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -519,7 +519,7 @@ color: rgb(180,180,180);
              </widget>
             </item>
             <item row="3" column="2">
-             <widget class="QLineEdit" name="kitNumber">
+             <widget class="QLineEdit" name="kitNum">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -547,7 +547,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="7" column="2">
-             <widget class="QTextEdit" name="notes">
+             <widget class="QTextEdit" name="nText">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -613,7 +613,7 @@ border-width: 1px</string>
              </spacer>
             </item>
             <item alignment="Qt::AlignHCenter">
-             <widget class="QTableWidget" name="tableWidget">
+             <widget class="QTableWidget" name="kitTWid">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -1089,7 +1089,7 @@ background-color: rgb(193, 193, 193);
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="menu">
+       <widget class="QPushButton" name="home">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -1175,18 +1175,22 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>sampleID</tabstop>
-  <tabstop>clinicianDropDown</tabstop>
-  <tabstop>kitNumber</tabstop>
-  <tabstop>shippingDate</tabstop>
-  <tabstop>tableWidget</tabstop>
+  <tabstop>saID</tabstop>
+  <tabstop>clinDrop</tabstop>
+  <tabstop>kitNum</tabstop>
+  <tabstop>shipDate</tabstop>
+  <tabstop>numOrders</tabstop>
+  <tabstop>cText</tabstop>
+  <tabstop>nText</tabstop>
+  <tabstop>kitTWid</tabstop>
   <tabstop>clearAll</tabstop>
   <tabstop>print</tabstop>
   <tabstop>remove</tabstop>
   <tabstop>addClinician</tabstop>
   <tabstop>save</tabstop>
   <tabstop>clear</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
+  <tabstop>find</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>
