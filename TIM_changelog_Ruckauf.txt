@@ -80,6 +80,10 @@
 
 7/27/22
 - CAT Result will now perform dynamic calculations for flow rate based on input from volume and collection time
+- CAT order worksheet template was fixed.
+- Culture Order UI had a bug where it wouldn't clear properly - fixed
+- Previous culture orders can be looked up on Culture Order UI and printed - need to allow for updating information(Kas)
+- Previous CAT orders can also be looked up
 
 
 TODO:

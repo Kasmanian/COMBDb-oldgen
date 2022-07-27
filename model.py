@@ -102,15 +102,15 @@ class Model:
       cursor.close()
       return sampleID
 
-  def addCATResult(self, sampleID, clinician, first, last, reported, volume, time, flow, pH, bc, sm, lb, comments, notes):
+  def addCATResult(self, sampleID, clinician, first, last, reported, type, volume, time, flow, pH, bc, sm, lb, comments, notes):
     try:
       cursor = self.db.cursor()
       query = (
         'UPDATE CATs '
-        f'SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, '
+        f'SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Type]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, '
         f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
       )
-      cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), volume, time, flow, pH, bc, sm, lb, comments, notes, sampleID)
+      cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), type, volume, time, flow, pH, bc, sm, lb, comments, notes, sampleID)
       self.db.commit()
       return True
     except (Exception, pyodbc.Error) as e:

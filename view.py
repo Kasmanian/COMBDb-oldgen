@@ -615,8 +615,10 @@ class CultureOrderForm(QMainWindow):
                 return
             self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
             if self.sample is None:
-                self.saID.setText('xxxxxx')
-            else:
+                self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+                if self.sample is None:
+                    self.saID.setText('xxxxxx')
+            if self.sample is not None:
                 self.chID.setText(self.sample[0])
                 clinician = self.model.findClinician(self.sample[1])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -669,7 +671,7 @@ class CultureOrderForm(QMainWindow):
     def handlePrintPressed(self):
         try:
             if self.type.currentText()!='Caries':
-                print(f'clinician: {self.clinDrop.currentText()}')
+                #print(f'clinician: {self.clinDrop.currentText()}')
                 template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
@@ -693,11 +695,12 @@ class CultureOrderForm(QMainWindow):
                 template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
+                clinician=self.clinDrop.currentText().split(', ')
                 document.merge(
                     saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
                     received=self.recDate.date().toString(),
                     chartID=self.chID.text(),
-                    clinicianName=self.clinDrop.currentText(),
+                    clinicianName = clinician[1] + " " + clinician[0],
                     patientName=f'{self.lName.text()}, {self.fName.text()}',
                 )
                 document.write(dst)
@@ -1589,8 +1592,10 @@ class CATResultForm(QMainWindow):
         self.collectionTime.setText("0.00")
         self.flowRate.setText("0.00")
 
-        self.volume.editingFinished.connect(self.volumeLineEdited)
-        self.collectionTime.editingFinished.connect(self.colTimeLineEdited)
+        self.volume.editingFinished.connect(lambda: self.lineEdited(True))
+        self.collectionTime.editingFinished.connect(lambda: self.lineEdited(False))
+        #self.volume.editingFinished.connect(self.volumeLineEdited)
+        #self.collectionTime.editingFinished.connect(self.colTimeLineEdited)
 
         self.save.setEnabled(False)
         self.print.setEnabled(False)
@@ -1602,27 +1607,15 @@ class CATResultForm(QMainWindow):
         self.print.clicked.connect(self.handlePrintPressed)
         self.find.clicked.connect(self.handleSearchPressed)
 
-    def volumeLineEdited(self):
+    def lineEdited(self, arg):
         try:
+            lineEdit = self.volume if arg else self.collectionTime
             if float(self.collectionTime.text()) != 0:
                 vol = float(self.volume.text())
                 colTime = float(self.collectionTime.text())
+                value = str(vol if arg else colTime)
                 rate = round(vol / colTime, 4)
-                self.volume.setText(str(vol))
-                self.flowRate.setText(str(rate))
-                self.errorMessage.setText(None)
-            else:
-                self.flowRate.setText("0.00")
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    def colTimeLineEdited(self):
-        try:
-            if float(self.collectionTime.text()) != 0:
-                vol = float(self.volume.text())
-                colTime = float(self.collectionTime.text())
-                rate = round(vol / colTime, 4)
-                self.collectionTime.setText(str(colTime))
+                lineEdit.setText(value)
                 self.flowRate.setText(str(rate)) 
                 self.errorMessage.setText(None)
             else:
@@ -1641,7 +1634,7 @@ class CATResultForm(QMainWindow):
             if not self.saID.text().isdigit():
                 self.saID.setText('xxxxxx')
                 return
-            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received]')
+            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received]')
             if self.sample is None:
                 self.saID.setText('xxxxxx')
             else:
@@ -1653,15 +1646,16 @@ class CATResultForm(QMainWindow):
                 # technician = self.model.tech if self.technician.text() is None else self.model.findTech(self.sample[3], 'Entry, First, Middle, Last, Username, Password, Active')
                 #self.technician.setCurrentIndex(self.view.entries['techs'][self.view.fTechName(technician[1], technician[2], technician[3], 'formal')])
                 self.repDate.setDate(self.view.dtToQDate(self.sample[4]))
-                self.volume.setText(str(self.sample[5]) if self.sample[11] is not None else None)
-                self.collectionTime.setText(str(self.sample[6]) if self.sample[11] is not None else None)
-                self.initialPH.setText(str(self.sample[7]) if self.sample[11] is not None else None)
-                self.flowRate.setText(str(self.sample[8]) if self.sample[11] is not None else None)
-                self.bufferingCapacityPH.setText(str(self.sample[9]) if self.sample[11] is not None else None)
-                self.strepMutansCount.setText(str(self.sample[10]) if self.sample[11] is not None else None)
-                self.lactobacillusCount.setText(str(self.sample[11]) if self.sample[11] is not None else None)
-                self.cText.setText(self.sample[12])
-                self.nText.setText(self.sample[13])
+                self.type.setCurrentIndex(self.type.findText(self.sample[5]))
+                self.volume.setText(str(self.sample[6]) if self.sample[12] is not None else None)
+                self.collectionTime.setText(str(self.sample[7]) if self.sample[12] is not None else None)
+                self.initialPH.setText(str(self.sample[8]) if self.sample[12] is not None else None)
+                self.flowRate.setText(str(self.sample[9]) if self.sample[12] is not None else None)
+                self.bufferingCapacityPH.setText(str(self.sample[10]) if self.sample[12] is not None else None)
+                self.strepMutansCount.setText(str(self.sample[11]) if self.sample[12] is not None else None)
+                self.lactobacillusCount.setText(str(self.sample[12]) if self.sample[12] is not None else None)
+                self.cText.setText(self.sample[13])
+                self.nText.setText(self.sample[14])
                 self.save.setEnabled(True)
                 self.clear.setEnabled(True)
         except Exception as e:
@@ -1678,6 +1672,7 @@ class CATResultForm(QMainWindow):
                     self.fName.text(),
                     self.lName.text(),
                     self.repDate.date(),
+                    self.type.currentText(),
                     float(self.volume.text()),
                     float(self.collectionTime.text()),
                     float(self.flowRate.text()),
@@ -1707,6 +1702,7 @@ class CATResultForm(QMainWindow):
             self.clinDrop.setCurrentIndex(0)
             self.fName.clear()
             self.lName.clear()
+            self.type.setCurrentIndex(0)
             self.volume.setText("0.00")
             self.initialPH.clear()
             self.collectionTime.setText("0.00")
