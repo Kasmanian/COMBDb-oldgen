@@ -840,6 +840,7 @@ class DUWLOrderForm(QMainWindow):
         self.clinDrop.clear()
         self.clinDrop.addItems(self.view.names)
         self.shipDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.find.clicked.connect(self.handleSearchPressed)
         self.addClinician.clicked.connect(self.handleAddClinicianPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
@@ -855,6 +856,42 @@ class DUWLOrderForm(QMainWindow):
 
     def activateRemove(self):
         self.remove.setEnabled(True)
+
+    def handleSearchPressed(self):
+        pass
+        """
+        try:
+            pass
+            if not self.saID.text().isdigit():
+                self.saID.setText("xxxxxx")
+            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, Shipped')
+            if self.sample is None:
+                self.saID.setText('xxxxxx')
+            else:
+                clinician = self.model.findClinician(self.sample[0])
+                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.cText.setText(self.sample[1])
+                self.nText.setText(self.sample[2])
+                self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
+ 
+
+                self.kitList.append({
+                    'sampleID': f'{str(self.saID)[0:2]}-{str(self.saID)[2:]}',
+                    'clinician': 'Clinician___________________________',
+                    'operatory': 'Operatory__________________________',
+                    'collected': 'Collection Date______________________',
+                    'clngagent': 'Cleaning Agent______________________'
+                })
+                self.printList[str(self.saID)] = self.currentKit-1
+                self.currentKit += 1
+                self.updateTable()
+                self.save.setEnabled(False)
+        except Exception as e:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText(e)
+            self.view.showErrorScreen(e)
+            """
 
     def handleAddClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
@@ -906,6 +943,7 @@ class DUWLOrderForm(QMainWindow):
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
             self.clinDrop.setCurrentIndex(0)
+            self.errorMessage.setText(" ")
             self.updateTable()
         except Exception as e:
             self.view.showErrorScreen(e)

@@ -167,49 +167,6 @@ background-color: rgb(193, 193, 193);
               <property name="verticalSpacing">
                <number>12</number>
               </property>
-              <item row="0" column="7" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Direct Smear:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="6" rowspan="5" alignment="Qt::AlignTop">
-               <widget class="QTextEdit" name="nText">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>75</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="7" rowspan="5" alignment="Qt::AlignTop">
-               <widget class="QTextEdit" name="dText">
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>75</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="0" alignment="Qt::AlignRight">
                <widget class="QLabel" name="label_23">
                 <property name="text">
@@ -311,163 +268,13 @@ background-color: rgb(193, 193, 193);
                 </property>
                </widget>
               </item>
-              <item row="5" column="1">
-               <widget class="QDateEdit" name="repDate">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">/* the box that is displayed*/
-QDateEdit {
-background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px
-}
-/*toolbar on top of calendar*/
-QCalendarWidget QToolButton {
-height: 30px;
-width: 75px;
-color: white;
-font-size: 12px;
-icon-size: 24px, 24px;
-font-weight: bold;
-background-color: rgb(123,175,212);
-}
-QCalendarWidget QMenu {
-width: 85px;
-left: 10px;
-color: white;
-font-size: 12px;
-background-color: rgb(123, 175, 212);
-}
-QCalendarWidget QSpinBox {
-width: 75px;
-font-size:12px;
-color: white;
-background-color: rgb(123, 175, 212);
-selection-background-color: rgb(136, 136, 136);
-selection-color: rgb(255, 255, 255);
-}
-QCalendarWidget QSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width:35px; }
-QCalendarWidget QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: bottom right; width:35px;}
-QCalendarWidget QSpinBox::up-arrow { width:28px; height:28px; }
-QCalendarWidget QSpinBox::down-arrow { width:28px; height:28px; }
-
-/* header row */
-QCalendarWidget QWidget { 
-alternate-background-color: rgb(240, 240, 240); 
-}
-/* normal days */
-QCalendarWidget QAbstractItemView:enabled
-{
-font-size:12px;
-color: black;
-background-color: white;
-selection-background-color: rgb(123, 175, 212);
-selection-color: white;
-}
-/* days in other months */
-/* navigation bar */
-QCalendarWidget QWidget#qt_calendar_navigationbar
-{
-background-color: rgb(123, 175, 212);
-}
-QCalendarWidget QAbstractItemView:disabled
-{
-color: rgb(180,180,180);
-}</string>
-                </property>
-                <property name="calendarPopup">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_21">
+              <item row="0" column="0" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_19">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Chart Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="5" alignment="Qt::AlignHCenter">
-               <widget class="QLabel" name="label_62">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="saID">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLineEdit" name="chID">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
                 </property>
                </widget>
               </item>
@@ -557,16 +364,6 @@ color: rgb(180,180,180);
                 </property>
                </widget>
               </item>
-              <item row="0" column="0" alignment="Qt::AlignRight">
-               <widget class="QLabel" name="label_19">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="0" alignment="Qt::AlignRight">
                <widget class="QLabel" name="label_24">
                 <property name="text">
@@ -619,15 +416,8 @@ border-width: 1px</string>
                 </item>
                </widget>
               </item>
-              <item row="0" column="6" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Private Notes:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="5" rowspan="5" alignment="Qt::AlignTop">
-               <widget class="QTextEdit" name="cText">
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="chID">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -636,14 +426,14 @@ border-width: 1px</string>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>0</width>
-                  <height>0</height>
+                  <width>200</width>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>200</width>
-                  <height>75</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -651,9 +441,240 @@ border-width: 1px</string>
 border-style: solid;
 border-width: 1px</string>
                 </property>
-                <property name="tabChangesFocus">
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="saID">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Chart Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QDateEdit" name="repDate">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">/* the box that is displayed*/
+QDateEdit {
+background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px
+}
+/*toolbar on top of calendar*/
+QCalendarWidget QToolButton {
+height: 30px;
+width: 75px;
+color: white;
+font-size: 12px;
+icon-size: 24px, 24px;
+font-weight: bold;
+background-color: rgb(123,175,212);
+}
+QCalendarWidget QMenu {
+width: 85px;
+left: 10px;
+color: white;
+font-size: 12px;
+background-color: rgb(123, 175, 212);
+}
+QCalendarWidget QSpinBox {
+width: 75px;
+font-size:12px;
+color: white;
+background-color: rgb(123, 175, 212);
+selection-background-color: rgb(136, 136, 136);
+selection-color: rgb(255, 255, 255);
+}
+QCalendarWidget QSpinBox::up-button { subcontrol-origin: border; subcontrol-position: top right; width:35px; }
+QCalendarWidget QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: bottom right; width:35px;}
+QCalendarWidget QSpinBox::up-arrow { width:28px; height:28px; }
+QCalendarWidget QSpinBox::down-arrow { width:28px; height:28px; }
+
+/* header row */
+QCalendarWidget QWidget { 
+alternate-background-color: rgb(240, 240, 240); 
+}
+/* normal days */
+QCalendarWidget QAbstractItemView:enabled
+{
+font-size:12px;
+color: black;
+background-color: white;
+selection-background-color: rgb(123, 175, 212);
+selection-color: white;
+}
+/* days in other months */
+/* navigation bar */
+QCalendarWidget QWidget#qt_calendar_navigationbar
+{
+background-color: rgb(123, 175, 212);
+}
+QCalendarWidget QAbstractItemView:disabled
+{
+color: rgb(180,180,180);
+}</string>
+                </property>
+                <property name="calendarPopup">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="0" column="4" rowspan="6" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+               <widget class="QTabWidget" name="tabWidget">
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>150</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(235, 235, 235);
+</string>
+                </property>
+                <property name="currentIndex">
+                 <number>2</number>
+                </property>
+                <property name="usesScrollButtons">
                  <bool>false</bool>
                 </property>
+                <property name="documentMode">
+                 <bool>false</bool>
+                </property>
+                <property name="tabsClosable">
+                 <bool>false</bool>
+                </property>
+                <property name="movable">
+                 <bool>false</bool>
+                </property>
+                <widget class="QWidget" name="commentTab">
+                 <attribute name="title">
+                  <string>Comments</string>
+                 </attribute>
+                 <layout class="QGridLayout" name="gridLayout">
+                  <item row="0" column="0">
+                   <widget class="QTextEdit" name="cText">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Comments</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+                <widget class="QWidget" name="notesTab">
+                 <attribute name="title">
+                  <string>Private Notes</string>
+                 </attribute>
+                 <layout class="QGridLayout" name="gridLayout_2">
+                  <item row="0" column="0">
+                   <widget class="QTextEdit" name="nText">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Private Notes</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+                <widget class="QWidget" name="smearTab">
+                 <attribute name="title">
+                  <string>Direct Smear</string>
+                 </attribute>
+                 <layout class="QGridLayout" name="gridLayout_3">
+                  <item row="0" column="0">
+                   <widget class="QTextEdit" name="dText">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Sunken</enum>
+                    </property>
+                    <property name="lineWidth">
+                     <number>1</number>
+                    </property>
+                    <property name="documentTitle">
+                     <string/>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Direct Smear</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
                </widget>
               </item>
              </layout>
@@ -1486,7 +1507,7 @@ background-color: rgb(193, 193, 193);
             </property>
             <property name="maximumSize">
              <size>
-              <width>350</width>
+              <width>999</width>
               <height>30</height>
              </size>
             </property>
@@ -1913,9 +1934,6 @@ background-color: rgb(193, 193, 193);
   <tabstop>chID</tabstop>
   <tabstop>recDate</tabstop>
   <tabstop>repDate</tabstop>
-  <tabstop>cText</tabstop>
-  <tabstop>nText</tabstop>
-  <tabstop>dText</tabstop>
   <tabstop>aeTWid</tabstop>
   <tabstop>addRow1</tabstop>
   <tabstop>delRow1</tabstop>

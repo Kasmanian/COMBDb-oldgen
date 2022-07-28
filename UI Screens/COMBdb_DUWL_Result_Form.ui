@@ -188,59 +188,6 @@ background-color: rgb(193, 193, 193);
             <property name="verticalSpacing">
              <number>12</number>
             </property>
-            <item row="7" column="1">
-             <widget class="QTextEdit" name="cText">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>75</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0" alignment="Qt::AlignRight|Qt::AlignTop">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <spacer name="verticalSpacer_11">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item row="9" column="1">
              <spacer name="verticalSpacer_13">
               <property name="orientation">
@@ -310,6 +257,32 @@ background-color: rgb(193, 193, 193);
               </property>
              </widget>
             </item>
+            <item row="1" column="1">
+             <spacer name="verticalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="0" alignment="Qt::AlignRight">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="1">
              <widget class="QLineEdit" name="saID">
               <property name="sizePolicy">
@@ -334,16 +307,6 @@ background-color: rgb(193, 193, 193);
                <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" alignment="Qt::AlignRight">
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -443,6 +406,16 @@ color: rgb(180,180,180);
               </property>
              </widget>
             </item>
+            <item row="4" column="0" alignment="Qt::AlignRight">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Bacterial Count:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="5" column="1">
              <widget class="QComboBox" name="cdcADA">
               <property name="minimumSize">
@@ -479,16 +452,6 @@ border-width: 1px</string>
               </item>
              </widget>
             </item>
-            <item row="4" column="0" alignment="Qt::AlignRight">
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Bacterial Count:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="4" column="1">
              <widget class="QLineEdit" name="bacterialCount">
               <property name="sizePolicy">
@@ -513,16 +476,6 @@ border-width: 1px</string>
                <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" alignment="Qt::AlignRight">
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -578,33 +531,88 @@ border-width: 1px</string>
               </property>
              </widget>
             </item>
-            <item row="8" column="0" alignment="Qt::AlignRight|Qt::AlignTop">
-             <widget class="QLabel" name="label_2">
+            <item row="3" column="0" alignment="Qt::AlignRight">
+             <widget class="QLabel" name="label_13">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Private Notes:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="8" column="1">
-             <widget class="QTextEdit" name="nText">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+            <item row="8" column="0" colspan="2" alignment="Qt::AlignRight">
+             <widget class="QTabWidget" name="tabWidget">
               <property name="maximumSize">
                <size>
                 <width>200</width>
-                <height>75</height>
+                <height>125</height>
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
+               <string notr="true">background-color: rgb(235, 235, 235);</string>
+              </property>
+              <property name="currentIndex">
+               <number>1</number>
+              </property>
+              <property name="usesScrollButtons">
+               <bool>false</bool>
+              </property>
+              <widget class="QWidget" name="commentsTab">
+               <attribute name="title">
+                <string>Comments</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="0" column="0">
+                 <widget class="QTextEdit" name="cText">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
-              </property>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Comments</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="notesTab">
+               <attribute name="title">
+                <string>Private Notes</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="0" column="0">
+                 <widget class="QTextEdit" name="nText">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Private Notes</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
+            </item>
+            <item row="7" column="0" colspan="3">
+             <spacer name="verticalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>10</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -1118,6 +1126,7 @@ background-color: rgb(193, 193, 193);
   <tabstop>bacterialCount</tabstop>
   <tabstop>cdcADA</tabstop>
   <tabstop>repDate</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>cText</tabstop>
   <tabstop>nText</tabstop>
   <tabstop>kitTWid</tabstop>

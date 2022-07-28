@@ -85,6 +85,13 @@
 - Previous culture orders can be looked up on Culture Order UI and printed - need to allow for updating information(Kas)
 - Previous CAT orders can also be looked up
 
+7/28/22
+- Experimented with containers to consolidate Comments, Private Notes and Direct Smears
+- Added letterhead to DUWL Result template
+- Started moving prefixes to database to enable adding and editing
+- Comments, Private Notes and Direct Smear are no in containers that can be switched between - cleaner look, takes up less space
+- Started with Settings - Manage Prefixes tables - allow Techs to add/edit prefixes for antibiotics and both anaerobic and aerobic cultures
+
 
 TODO:
 - Code in "clear" button on DUWL Order
