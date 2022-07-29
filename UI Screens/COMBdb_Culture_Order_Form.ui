@@ -221,6 +221,9 @@ border-width: 1px</string>
 border-style: solid;
 border-width: 1px</string>
             </property>
+            <property name="placeholderText">
+             <string/>
+            </property>
            </widget>
           </item>
           <item row="0" column="3" alignment="Qt::AlignRight">
@@ -287,6 +290,9 @@ border-width: 1px</string>
              <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
+            </property>
+            <property name="placeholderText">
+             <string/>
             </property>
            </widget>
           </item>
@@ -461,6 +467,9 @@ color: rgb(180,180,180);
              <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
+            </property>
+            <property name="placeholderText">
+             <string/>
             </property>
            </widget>
           </item>

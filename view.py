@@ -548,6 +548,47 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.add.clicked.connect(self.handleAddPressed)
         self.save.clicked.connect(self.handleSavePressed)
+        self.clear.clicked.connect(self.handleClearPressed)
+
+        self.aeTWid.itemSelectionChanged.connect(lambda: self.handlePrefixSelected("Aerobic"))
+        self.anTWid.itemSelectionChanged.connect(lambda: self.handlePrefixSelected("Anaerobic"))
+        self.abTWid.itemSelectionChanged.connect(lambda: self.handlePrefixSelected("Antibiotic"))
+
+        self.currentPrefix = ""
+        self.selectedPrefix = {}
+        self.updateTable("Aerobic")
+        self.updateTable("Anaerobic")
+        self.updateTable("Antibiotics")
+
+    def updateTable(self, type):
+        widget = self.aeTWid if type == "Aerobic" else self.anTWid if type == "Anaerobic" else self.abTWid
+        prefix = self.model.selectPrefixes(type, 'Prefix, Word')
+        widget.setRowCount(0)
+        widget.setRowCount(len(prefix))
+        widget.setColumnCount(2)
+        widget.setColumnWidth(0, 50)
+        widget.setColumnWidth(1, 300)
+        try:
+            for i in range(0, len(prefix)):
+                widget.setItem(i,0, QTableWidgetItem(prefix[i][0]))
+                widget.setItem(i,1, QTableWidgetItem(prefix[i][1]))
+        except Exception as e:
+            self.view.showErrorScreen(e)
+
+    def handlePrefixSelected(self, type):
+        widget = self.aeTWid if type == "Aerobic" else self.anTWid if type == "Anaerobic" else self.abTWid
+        #print(widget.item(widget.currentRow(), 0))
+        #print(widget.item(widget.currentRow(), 1))
+        prefix = widget.item(widget.currentRow(), 0)
+        word = widget.item(widget.currentRow(), 1)
+        if prefix and word:
+            self.selectedPrefix = {prefix.text() : [type, word.text()]}
+            self.pName.setText(list(self.selectedPrefix.keys())[0])
+            keyList = self.selectedPrefix.get(list(self.selectedPrefix.keys())[0])
+            self.type.setCurrentIndex(self.type.findText(keyList[0]))
+            self.word.setText(keyList[1])
+            self.currentPrefix = self.model.findPrefix(self.pName.text(), 'Entry, Type, Prefix, Word')
+            #print(self.currentPrefix)
 
     def handleBackPressed(self):
         self.view.showSettingsNav()
@@ -559,7 +600,29 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         return
 
     def handleSavePressed(self):
-        return
+        if self.pName.text() and self.word.text() and self.type.currentText():
+            #print(self.currentPrefix[0])
+            #print(self.type.currentText())
+            #print(self.pName.text())
+            #print(self.word.text())
+            self.model.updatePrefixes(
+                self.currentPrefix[0],
+                self.type.currentText(),
+                self.pName.text(),
+                self.word.text()
+            )
+            self.updateTable(self.type.currentText())
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Successfully Updated Prefix")
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Type, Prefix and Word are required")
+
+    def handleClearPressed(self):
+        self.type.setCurrentIndex(0)
+        self.pName.clear()
+        self.word.clear()
+        self.errorMessage.clear()
 
 
 class CultureOrderNav(QMainWindow):

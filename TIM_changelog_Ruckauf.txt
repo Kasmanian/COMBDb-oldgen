@@ -92,6 +92,12 @@
 - Comments, Private Notes and Direct Smear are no in containers that can be switched between - cleaner look, takes up less space
 - Started with Settings - Manage Prefixes tables - allow Techs to add/edit prefixes for antibiotics and both anaerobic and aerobic cultures
 
+7/29/22
+- Finished moving all prefixes to seperate table in database
+- Added queries to display prefix tables in Settings->Manage Prefixes
+- Added functionality to view, edit and add prefixes
+- Stylized Manage Prefixes UI to allow for more compact and modern look
+
 
 TODO:
 - Code in "clear" button on DUWL Order

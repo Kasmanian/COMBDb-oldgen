@@ -72,6 +72,20 @@ class Model:
     finally:
       cursor.close()
 
+  def addPrefixes(self, type, prefix, word):
+    try:
+      cursor = self.db.cursor()
+      query = (
+        'INSERT INTO Prefixes(Type, Prefix, Word) VALUES(?, ?, ?)'
+      )
+      cursor.execute(query, type, prefix, word)
+      self.db.commit()
+    except Exception as e:
+      print(f'Error in connection: {e}')
+      return False
+    finally:
+      cursor.close()
+
   def genSampleID(self):
     tables = ['Cultures', 'CATs', 'Waterlines']
     yy = self.date.year-2000
@@ -218,6 +232,18 @@ class Model:
     finally:
       cursor.close()
 
+  def findPrefix(self, prefix, columns):
+    try:
+      cursor = self.db.cursor()
+      query = f'SELECT {columns} FROM Prefixes WHERE Prefix=?'
+      cursor.execute(query, prefix)
+      return cursor.fetchone()
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return None
+    finally:
+      cursor.close()
+
   def selectClinicians(self, columns):
     try:
       cursor = self.db.cursor()
@@ -242,11 +268,36 @@ class Model:
     finally:
       cursor.close()
 
+  def selectPrefixes(self, type, columns):
+    try:
+      cursor = self.db.cursor()
+      query = f'SELECT {columns} FROM Prefixes WHERE Type=?'
+      cursor.execute(query, type)
+      return cursor.fetchall()
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return None
+    finally:
+      cursor.close()
+
   def updateTech(self, entry, first, middle, last, username, password):
     try:
       cursor = self.db.cursor()
       query = f'UPDATE Techs SET [First]=?, [Middle]=?, [Last]=?, [Username]=?, [Password]=? WHERE Entry=?'
       cursor.execute(query, first, middle, last, username, self.encrypt(password).decode('utf-8'), entry)
+      return True
+    except (Exception, pyodbc.Error) as e:
+      print(f'Error in connection: {e}')
+      return False
+    finally:
+      cursor.close()
+
+  def updatePrefixes(self, entry, type, prefix, word):
+    try:
+      cursor = self.db.cursor()
+      query = f'UPDATE Prefixes SET [Type]=?, [Prefix]=?, [Word]=? WHERE Entry=?'
+      cursor.execute(query, type, prefix, word, entry)
+      self.db.commit()
       return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
