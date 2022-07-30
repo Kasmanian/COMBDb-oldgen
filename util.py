@@ -1,4 +1,5 @@
 from datetime import datetime
+from tkinter import E
 
 def formatSaID(text: str):
     return f'{text[0:2]}-{text[2:6]}'
