@@ -693,13 +693,19 @@ class CultureOrderForm(QMainWindow):
     def handleSearchPressed(self):
         try:
             if not self.saID.text().isdigit():
+                self.handleClearPressed()
                 self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID may only contain numbers")
                 return
             self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
             if self.sample is None:
                 self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
                 if self.sample is None:
+                    self.handleClearPressed()
                     self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID not found")
             if self.sample is not None:
                 self.chID.setText(self.sample[0])
                 clinician = self.model.findClinician(self.sample[1])
@@ -713,6 +719,9 @@ class CultureOrderForm(QMainWindow):
                 self.cText.setText(self.sample[7])
                 self.nText.setText(self.sample[8])
                 self.print.setEnabled(True)
+                self.save.setEnabled(False)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Found previous order: " + self.saID.text())
         except Exception as e:
             self.view.showErrorScreen(e)
 
