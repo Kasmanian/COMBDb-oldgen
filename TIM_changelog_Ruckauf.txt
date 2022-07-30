@@ -95,8 +95,12 @@
 7/29/22
 - Finished moving all prefixes to seperate table in database
 - Added queries to display prefix tables in Settings->Manage Prefixes
-- Added functionality to view, edit and add prefixes
+- Added functionality to view and edit prefixes
 - Stylized Manage Prefixes UI to allow for more compact and modern look
+
+7/30/22
+- Added ability to search previous DUWL Orders
+- Added ability to add new prefixes
 
 
 TODO:

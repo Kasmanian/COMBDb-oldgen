@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1125</width>
-    <height>751</height>
+    <height>743</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -165,6 +165,9 @@ border-width: 1px</string>
               </property>
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="sortingEnabled">
+               <bool>false</bool>
               </property>
               <column>
                <property name="text">
@@ -368,16 +371,6 @@ border-width: 1px</string>
            </layout>
           </widget>
          </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_12">
@@ -792,7 +785,7 @@ background-color: rgb(193, 193, 193);
           </property>
           <property name="maximumSize">
            <size>
-            <width>350</width>
+            <width>999</width>
             <height>30</height>
            </size>
           </property>
