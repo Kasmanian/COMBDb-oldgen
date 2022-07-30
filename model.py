@@ -1,10 +1,23 @@
-import bcrypt
+import json, pyodbc, bcrypt
 from datetime import date
-import pyodbc, json
 
 class Model:
   def __init__(self):
     pass
+
+  def __usesCursor(func):
+    def wrap(self, *args, **kwargs):
+        try:
+          cursor = self.db.cursor()
+          result = func(self, cursor, *args, **kwargs)
+          self.db.commit()
+          return result
+        except (Exception, pyodbc.Error) as e:
+          print(f'Error in connection: {e}')
+          return e
+        finally:
+          if cursor: cursor.close()
+    return wrap
   
   def connect(self):
     try:
@@ -13,314 +26,151 @@ class Model:
       CONSTR = r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ='+PATH
       f.close()
       self.db = pyodbc.connect(CONSTR)
-      #techs = self.selectTechs('*')
-      #print(techs)
       return True
     except (Exception, pyodbc.Error) as e:
       print(f'Error in connection: {e}')
       return False
 
   def close(self):
-    self.db.close()
+    if self.db: self.db.close()
 
-  def addTech(self, first, middle, last, username, password):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'INSERT INTO Techs(First, Middle, Last, Username, Password, Active) VALUES(?, ?, ?, ?, ?, ?)'
-      )
-      cursor.execute(query, first, middle, last, username, self.encrypt(password).decode('utf-8'), 'Yes')
-      self.db.commit()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
+  @__usesCursor
+  def addTech(self, cursor, first, middle, last, username, password):
+    query = ('INSERT INTO Techs(First, Middle, Last, Username, Password, Active) VALUES(?, ?, ?, ?, ?, ?)')
+    cursor.execute(query, first, middle, last, username, self.encrypt(password).decode('utf-8'), 'Yes')
+    return True
 
-  def toggleTech(self, entry, active):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'UPDATE Techs '
-        f'SET Active=? '
-        f'WHERE Entry=?'
-      )
-      cursor.execute(query, active, entry)
-      self.db.commit()
-      return True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
+  @__usesCursor 
+  def toggleTech(self, cursor, entry, active):
+    query = ('UPDATE Techs SET Active=? WHERE Entry=?')
+    cursor.execute(query, active, entry)
+    return True
 
-  def addGuest(self, pw, ls):
-    pass
+  @__usesCursor
+  def addClinician(self, cursor, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, enrolled, inactive, comments):
+    cursor = self.db.cursor()
+    query = ('INSERT INTO Clinicians(Prefix, First, Last, Designation, Phone, Fax, Email, [Address 1], [Address 2], City, State, Zip, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    cursor.execute(query, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, comments)
 
-  def addClinician(self, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, enrolled, inactive, comments):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'INSERT INTO Clinicians(Prefix, First, Last, Designation, Phone, Fax, Email, '
-        '[Address 1], [Address 2], City, State, Zip, Comments) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-      )
-      cursor.execute(query, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, comments)
-      self.db.commit()
-    except Exception as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
+  @__usesCursor
+  def addPrefixes(self, cursor, type, prefix, word):
+    query = ('INSERT INTO Prefixes(Type, Prefix, Word) VALUES(?, ?, ?)')
+    cursor.execute(query, type, prefix, word)
 
-  def addPrefixes(self, type, prefix, word):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'INSERT INTO Prefixes(Type, Prefix, Word) VALUES(?, ?, ?)'
-      )
-      cursor.execute(query, type, prefix, word)
-      self.db.commit()
-    except Exception as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
-
-  def genSampleID(self):
+  @__usesCursor
+  def genSampleID(self, cursor):
     tables = ['Cultures', 'CATs', 'Waterlines']
     yy = self.date.year-2000
-    cursor = self.db.cursor()
     count = 0
     for table in tables:
-      query = (
-        f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000'
-      )
+      query = (f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000')
       cursor.execute(query)
       catch = cursor.fetchone()
       count += catch[0] if catch is not None else 0
     return (yy*10000)+count+1
 
-  def addPatientOrder(self, table, chartID, clinician, first, last, collected, received, type, comments, notes):
-    try:
-      cursor = self.db.cursor()
-      sampleID = self.genSampleID()
-      query = (
-        f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Type, Comments, Notes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-      )
-      cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes)
-      self.db.commit()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      sampleID = False
-    finally:
-      cursor.close()
-      return sampleID
+  @__usesCursor
+  def addPatientOrder(self, cursor, table, chartID, clinician, first, last, collected, received, type, comments, notes):
+    sampleID = self.genSampleID()
+    query = (f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Type, Comments, Notes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes)
+    return sampleID
 
-  def addCATResult(self, sampleID, clinician, first, last, reported, type, volume, time, flow, pH, bc, sm, lb, comments, notes):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'UPDATE CATs '
-        f'SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Type]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, '
-        f'[Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
-      )
-      cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), type, volume, time, flow, pH, bc, sm, lb, comments, notes, sampleID)
-      self.db.commit()
-      return True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
+  @__usesCursor
+  def addCATResult(self, cursor, sampleID, clinician, first, last, reported, type, volume, time, flow, pH, bc, sm, lb, comments, notes):
+    query = ('UPDATE CATs SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Type]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, [Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?')
+    cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), type, volume, time, flow, pH, bc, sm, lb, comments, notes, sampleID)
+    return True
 
-  def addCultureResult(self, sampleID, chartID, clinician, first, last, reported, aerobic, anaerobic, comments, notes):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
-      )
-      cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), aerobic, anaerobic, comments, notes, sampleID)
-      self.db.commit()
-      return True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
+  @__usesCursor
+  def addCultureResult(self, cursor, sampleID, chartID, clinician, first, last, reported, aerobic, anaerobic, comments, notes):
+    query = ('UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?')
+    cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), aerobic, anaerobic, comments, notes, sampleID)
+    return True
   
-  def addWaterlineOrder(self, clinician, shipped, comments, notes):
-    try:
-      cursor = self.db.cursor()
-      sampleID = self.genSampleID()
-      query = (
-        'INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments, Notes) VALUES(?, ?, ?, ?, ?)'
-      )
-      cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments, notes)
-      self.db.commit()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      sampleID = False
-    finally:
-      cursor.close()
-      return sampleID
+  @__usesCursor
+  def addWaterlineOrder(self, cursor, clinician, shipped, comments, notes):
+    sampleID = self.genSampleID()
+    query = ('INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments, Notes) VALUES(?, ?, ?, ?, ?)')
+    cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments, notes)
+    return sampleID
 
-  def addWaterlineReceiving(self, sampleID, operatoryID, clinician, collected, received, product, procedure, comments, notes):
-    try:
-      ret = False
-      cursor = self.db.cursor()
-      query = (
-        'UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
-      )
-      cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, notes, sampleID)
-      self.db.commit()
-      ret = True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      ret = False
-    finally:
-      cursor.close()
-      return ret
+  @__usesCursor
+  def addWaterlineReceiving(self, cursor, sampleID, operatoryID, clinician, collected, received, product, procedure, comments, notes):
+    query = ('UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?')
+    cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, notes, sampleID)
+    return True
 
-  def addWaterlineResult(self, sampleID, clinician, reported, count, cdcada, comments, notes):
-    try:
-      cursor = self.db.cursor()
-      query = (
-        'UPDATE Waterlines SET [Clinician]=?, [Reported]=?, [Bacterial Count]=?, [CDC/ADA]=?, [Comments]=?, [Notes]=? WHERE SampleID=?'
-      )
-      cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, notes, sampleID)
-      self.db.commit()
-      return True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
+  @__usesCursor
+  def addWaterlineResult(self, cursor, sampleID, clinician, reported, count, cdcada, comments, notes):
+    query = ('UPDATE Waterlines SET [Clinician]=?, [Reported]=?, [Bacterial Count]=?, [CDC/ADA]=?, [Comments]=?, [Notes]=? WHERE SampleID=?')
+    cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, notes, sampleID)
+    return True
+
+  @__usesCursor
+  def findSample(self, cursor, table, sampleID, columns):
+    query = f'SELECT {columns} FROM {table} WHERE SampleID=?'
+    cursor.execute(query, sampleID)
+    return cursor.fetchone()
+
+  @__usesCursor
+  def findClinician(self, cursor, entry):
+    query = 'SELECT Prefix, First, Last, Designation, [Address 1], [City], [State], [Zip] FROM Clinicians WHERE Entry=?'
+    cursor.execute(query, entry)
+    return cursor.fetchone()
+
+  @__usesCursor
+  def findTech(self, cursor, entry, columns):
+    query = f'SELECT {columns} FROM Techs WHERE Entry=?'
+    cursor.execute(query, entry)
+    return cursor.fetchone()
+
+  @__usesCursor
+  def findPrefix(self, cursor, prefix, columns):
+    query = f'SELECT {columns} FROM Prefixes WHERE Prefix=?'
+    cursor.execute(query, prefix)
+    return cursor.fetchone()
+
+  @__usesCursor
+  def selectClinicians(self, cursor, columns):
+    query = f'SELECT {columns} FROM Clinicians'
+    cursor.execute(query)
+    return cursor.fetchall()
+
+  @__usesCursor
+  def selectTechs(self, cursor, columns):
+    query = f'SELECT {columns} FROM Techs'
+    cursor.execute(query)
+    return cursor.fetchall()
+
+  @__usesCursor
+  def selectPrefixes(self, cursor, type, columns):
+    query = f'SELECT {columns} FROM Prefixes WHERE Type=?'
+    cursor.execute(query, type)
+    return cursor.fetchall()
+
+  @__usesCursor
+  def updateTech(self, cursor, entry, first, middle, last, username, password):
+    query = f'UPDATE Techs SET [First]=?, [Middle]=?, [Last]=?, [Username]=?, [Password]=? WHERE Entry=?'
+    cursor.execute(query, first, middle, last, username, self.encrypt(password).decode('utf-8'), entry)
+    return True
+
+  @__usesCursor
+  def updatePrefixes(self, cursor, entry, type, prefix, word):
+    query = f'UPDATE Prefixes SET [Type]=?, [Prefix]=?, [Word]=? WHERE Entry=?'
+    cursor.execute(query, type, prefix, word, entry)
+    return True
+
+  @__usesCursor
+  def techLogin(self, cursor, username, password):
+    query = 'SELECT Entry, First, Middle, Last, Username, Password, Active FROM Techs WHERE username=?'
+    cursor.execute(query, username)
+    for tech in cursor.fetchall():
+      if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
+        self.date = date.today()
+        self.tech = tech
+        return True
       return False
-    finally:
-      cursor.close()
-
-  def findSample(self, table, sampleID, columns):
-    try:
-      query = f'SELECT {columns} FROM {table} WHERE SampleID=?'
-      cursor = self.db.cursor()
-      cursor.execute(query, sampleID)
-      return cursor.fetchone()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def findClinician(self, entry):
-    try:
-      cursor = self.db.cursor()
-      query = 'SELECT Prefix, First, Last, Designation, [Address 1], [City], [State], [Zip] FROM Clinicians WHERE Entry=?'
-      cursor.execute(query, entry)
-      return cursor.fetchone()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def findTech(self, entry, columns):
-    try:
-      cursor = self.db.cursor()
-      query = f'SELECT {columns} FROM Techs WHERE Entry=?'
-      cursor.execute(query, entry)
-      return cursor.fetchone()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def findPrefix(self, prefix, columns):
-    try:
-      cursor = self.db.cursor()
-      query = f'SELECT {columns} FROM Prefixes WHERE Prefix=?'
-      cursor.execute(query, prefix)
-      return cursor.fetchone()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def selectClinicians(self, columns):
-    try:
-      cursor = self.db.cursor()
-      query = f'SELECT {columns} FROM Clinicians'
-      cursor.execute(query)
-      return cursor.fetchall()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def selectTechs(self, columns):
-    try:
-      cursor = self.db.cursor()
-      query = f'SELECT {columns} FROM Techs'
-      cursor.execute(query)
-      return cursor.fetchall()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def selectPrefixes(self, type, columns):
-    try:
-      cursor = self.db.cursor()
-      query = f'SELECT {columns} FROM Prefixes WHERE Type=?'
-      cursor.execute(query, type)
-      return cursor.fetchall()
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return None
-    finally:
-      cursor.close()
-
-  def updateTech(self, entry, first, middle, last, username, password):
-    try:
-      cursor = self.db.cursor()
-      query = f'UPDATE Techs SET [First]=?, [Middle]=?, [Last]=?, [Username]=?, [Password]=? WHERE Entry=?'
-      cursor.execute(query, first, middle, last, username, self.encrypt(password).decode('utf-8'), entry)
-      return True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
-
-  def updatePrefixes(self, entry, type, prefix, word):
-    try:
-      cursor = self.db.cursor()
-      query = f'UPDATE Prefixes SET [Type]=?, [Prefix]=?, [Word]=? WHERE Entry=?'
-      cursor.execute(query, type, prefix, word, entry)
-      self.db.commit()
-      return True
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
-
-  def techLogin(self, username, password):
-    try:
-      cursor = self.db.cursor()
-      query = 'SELECT Entry, First, Middle, Last, Username, Password, Active FROM Techs WHERE username=?'
-      cursor.execute(query, username)
-      for tech in cursor.fetchall():
-        if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
-          self.date = date.today()
-          self.tech = tech
-          return True
-        return False
-    except (Exception, pyodbc.Error) as e:
-      print(f'Error in connection: {e}')
-      return False
-    finally:
-      cursor.close()
 
   def encrypt(self, token):
     bsalt = bcrypt.gensalt()
