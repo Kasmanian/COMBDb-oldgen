@@ -1,3 +1,4 @@
+from turtle import clear
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport
@@ -589,6 +590,8 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
             self.word.setText(keyList[1])
             self.currentPrefix = self.model.findPrefix(self.pName.text(), 'Entry, Type, Prefix, Word')
             #print(self.currentPrefix)
+            self.add.setEnabled(False)
+            self.save.setEnabled(True)
 
     def handleBackPressed(self):
         self.view.showSettingsNav()
@@ -596,8 +599,22 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    def handleAddPressed(self):   
-        return
+    def handleAddPressed(self):  
+        type = self.type.currentText()
+        prefix =  self.pName.text()
+        word = self.word.text()
+        try:
+            if self.type.currentText() and self.pName.text() and self.word.text():
+                self.model.addPrefixes(self.type.currentText(), self.pName.text(), self.word.text())
+                self.updateTable(self.type.currentText())
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Successfully added prefix: " + prefix + ":" + word + " to table: " + type)
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Type, Prefix and Word are required")
+        except Exception as e:
+            self.view.showErrorScreen(e)
 
     def handleSavePressed(self):
         if self.pName.text() and self.word.text() and self.type.currentText():
@@ -623,6 +640,8 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         self.pName.clear()
         self.word.clear()
         self.errorMessage.clear()
+        self.add.setEnabled(True)
+        self.save.setEnabled(False)
 
 
 class CultureOrderNav(QMainWindow):
@@ -921,40 +940,48 @@ class DUWLOrderForm(QMainWindow):
         self.remove.setEnabled(True)
 
     def handleSearchPressed(self):
-        pass
-        """
         try:
-            pass
             if not self.saID.text().isdigit():
-                self.saID.setText("xxxxxx")
+                self.saID.setText('xxxxxx')
+                return
             self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, Shipped')
+            saID = int(self.saID.text())
             if self.sample is None:
                 self.saID.setText('xxxxxx')
-            else:
-                clinician = self.model.findClinician(self.sample[0])
-                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                self.cText.setText(self.sample[1])
-                self.nText.setText(self.sample[2])
-                self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
- 
-
-                self.kitList.append({
-                    'sampleID': f'{str(self.saID)[0:2]}-{str(self.saID)[2:]}',
-                    'clinician': 'Clinician___________________________',
-                    'operatory': 'Operatory__________________________',
-                    'collected': 'Collection Date______________________',
-                    'clngagent': 'Cleaning Agent______________________'
-                })
-                self.printList[str(self.saID)] = self.currentKit-1
-                self.currentKit += 1
+            else: #TODO - Check to see if the search saID already exists in the list using the kitList
+                saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
+                kitListValues = [value for elem in self.kitList for value in elem.values()]
+                if saIDCheck not in kitListValues:
+                    clinician = self.model.findClinician(self.sample[0])
+                    clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+                    self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                    self.cText.setText(self.sample[1])
+                    self.nText.setText(self.sample[2])
+                    self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
+                    if self.clinDrop.currentText():
+                        if self.saID: 
+                            self.saID.setText(str(saID))
+                            self.kitList.append({
+                                'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
+                                'clinician': 'Clinician___________________________',
+                                'operatory': 'Operatory__________________________',
+                                'collected': 'Collection Date______________________',
+                                'clngagent': 'Cleaning Agent______________________'
+                            })
+                            self.printList[str(saID)] = self.currentKit-1
+                            self.currentKit += 1
+                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                            self.errorMessage.setText("Searched previous order: " + saIDCheck)
+                    else:
+                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                        self.errorMessage.setText("Please select a clinician")
+                else:
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("This DUWL Order has already been added")
                 self.updateTable()
                 self.save.setEnabled(False)
         except Exception as e:
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText(e)
             self.view.showErrorScreen(e)
-            """
 
     def handleAddClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
@@ -996,6 +1023,7 @@ class DUWLOrderForm(QMainWindow):
         except Exception as e:
             self.view.showErrorScreen(e)
 
+
     def handleClearPressed(self):
         try:
             self.kitNum.setText(str(self.currentKit))
@@ -1017,6 +1045,7 @@ class DUWLOrderForm(QMainWindow):
             self.currentKit = 1
             self.printList.clear()
             self.updateTable()
+            self.save.setEnabled(True)
         except Exception as e:
             self.view.showErrorScreen(e)
 
