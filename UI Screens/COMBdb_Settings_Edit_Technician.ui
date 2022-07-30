@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>851</width>
-    <height>490</height>
+    <height>494</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -155,7 +155,7 @@ background-color: rgb(193, 193, 193);
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="firstName">
+           <widget class="QLineEdit" name="fName">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -202,7 +202,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="middleName">
+           <widget class="QLineEdit" name="mName">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -229,7 +229,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="lastName">
+           <widget class="QLineEdit" name="lName">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -260,7 +260,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QLineEdit" name="username">
+           <widget class="QLineEdit" name="user">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -317,7 +317,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QLineEdit" name="oldPassword">
+           <widget class="QLineEdit" name="oldPswd">
             <property name="minimumSize">
              <size>
               <width>175</width>
@@ -338,7 +338,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QLineEdit" name="newPassword">
+           <widget class="QLineEdit" name="newPswd">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -365,7 +365,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="QLineEdit" name="confirmNewPassword">
+           <widget class="QLineEdit" name="confirmNewPswd">
             <property name="minimumSize">
              <size>
               <width>175</width>
@@ -512,7 +512,7 @@ background-color: rgb(193, 193, 193);
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="menu">
+       <widget class="QPushButton" name="home">
         <property name="minimumSize">
          <size>
           <width>161</width>
@@ -624,15 +624,15 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>firstName</tabstop>
-  <tabstop>middleName</tabstop>
-  <tabstop>lastName</tabstop>
-  <tabstop>username</tabstop>
-  <tabstop>oldPassword</tabstop>
-  <tabstop>newPassword</tabstop>
-  <tabstop>confirmNewPassword</tabstop>
+  <tabstop>fName</tabstop>
+  <tabstop>mName</tabstop>
+  <tabstop>lName</tabstop>
+  <tabstop>user</tabstop>
+  <tabstop>oldPswd</tabstop>
+  <tabstop>newPswd</tabstop>
+  <tabstop>confirmNewPswd</tabstop>
   <tabstop>save</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>

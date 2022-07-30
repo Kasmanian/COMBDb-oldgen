@@ -468,7 +468,7 @@ background-color: rgb(193, 193, 193);
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QPushButton" name="menu">
+         <widget class="QPushButton" name="home">
           <property name="minimumSize">
            <size>
             <width>161</width>
@@ -659,7 +659,7 @@ background-color: rgb(193, 193, 193);
   <tabstop>fromDate</tabstop>
   <tabstop>toDate</tabstop>
   <tabstop>save</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>

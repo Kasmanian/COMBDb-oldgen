@@ -54,11 +54,53 @@
 - Added errorMessage to Manage Technicians - replaces errorScreen and also confirms when new tech is successfully added
 - Did research on HIPPA compliant software - will discuss needs and start implementing required safeguards: https://www.mindk.com/blog/how-to-make-your-health-care-app-hipaa-compliant/
 
-
 7/19/22
 - Updated CSS on multiple widgets to make it look more modern
 - Started working on UI overhaul - new layouts for orders and results and updating CSS to modernize app
 - Adding "Private Notes" text box for technicians to enter private comments
 - Added further input validation to edit technicians screen
-- QUESTION: Should receiving DUWL order need a "Add Clinician" button?
 - Added input validation on Add Clinician screen
+
+7/21/22
+- Clear button now clears Private Notes on all forms
+- Started on variable name revamp
+- Fixed various UI bugs
+- Updated CSS_Presets.txt with new calendar CSS Preset
+
+7/25/22
+- Started renaming variables and fixing bugs that came along with that
+- Started implementing lookup on order sheets
+- Further implementing input validation on forms
+- Discussed better ways to have unique sampleID's by using Access' Entry number
+- Fixed worksheet variables
+
+7/26/22
+- Further implementing input validation on forms
+- Fixed worksheet variables
+
+7/27/22
+- CAT Result will now perform dynamic calculations for flow rate based on input from volume and collection time
+- CAT order worksheet template was fixed.
+- Culture Order UI had a bug where it wouldn't clear properly - fixed
+- Previous culture orders can be looked up on Culture Order UI and printed - need to allow for updating information(Kas)
+- Previous CAT orders can also be looked up
+
+7/28/22
+- Experimented with containers to consolidate Comments, Private Notes and Direct Smears
+- Added letterhead to DUWL Result template
+- Started moving prefixes to database to enable adding and editing
+- Comments, Private Notes and Direct Smear are no in containers that can be switched between - cleaner look, takes up less space
+- Started with Settings - Manage Prefixes tables - allow Techs to add/edit prefixes for antibiotics and both anaerobic and aerobic cultures
+
+7/29/22
+- Finished moving all prefixes to seperate table in database
+- Added queries to display prefix tables in Settings->Manage Prefixes
+- Added functionality to view, edit and add prefixes
+- Stylized Manage Prefixes UI to allow for more compact and modern look
+
+
+TODO:
+- Code in "clear" button on DUWL Order
+- Clear button should also clear Private Notes on all forms
+- CAT Result needs to do a few automatic calculations
+- Confirmation window when updating existing culture orders

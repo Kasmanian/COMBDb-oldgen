@@ -130,7 +130,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QTableWidget" name="technicianTable">
+           <widget class="QTableWidget" name="techTable">
             <property name="minimumSize">
              <size>
               <width>400</width>
@@ -442,7 +442,7 @@ background-color: rgb(193, 193, 193);
              </layout>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="technician">
+             <widget class="QLineEdit" name="tech">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -596,7 +596,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="2" column="1" rowspan="2">
-             <widget class="QLineEdit" name="lastName">
+             <widget class="QLineEdit" name="lName">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -617,7 +617,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="2" column="3" rowspan="2" colspan="2">
-             <widget class="QLineEdit" name="confirmPassword">
+             <widget class="QLineEdit" name="confirmPswd">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -776,7 +776,7 @@ background-color: rgb(193, 193, 193);
              </widget>
             </item>
             <item row="0" column="3" colspan="2">
-             <widget class="QLineEdit" name="username">
+             <widget class="QLineEdit" name="user">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -797,7 +797,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="firstName">
+             <widget class="QLineEdit" name="fName">
               <property name="minimumSize">
                <size>
                 <width>150</width>
@@ -828,7 +828,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="middleName">
+             <widget class="QLineEdit" name="mName">
               <property name="minimumSize">
                <size>
                 <width>150</width>
@@ -869,7 +869,7 @@ border-width: 1px</string>
              </widget>
             </item>
             <item row="1" column="3" colspan="2">
-             <widget class="QLineEdit" name="password">
+             <widget class="QLineEdit" name="pswd">
               <property name="minimumSize">
                <size>
                 <width>211</width>
@@ -965,7 +965,7 @@ color:red;</string>
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QPushButton" name="menu">
+         <widget class="QPushButton" name="home">
           <property name="minimumSize">
            <size>
             <width>161</width>
@@ -1153,20 +1153,20 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>technicianTable</tabstop>
-  <tabstop>technician</tabstop>
+  <tabstop>techTable</tabstop>
+  <tabstop>tech</tabstop>
   <tabstop>activate</tabstop>
   <tabstop>deactivate</tabstop>
   <tabstop>edit</tabstop>
-  <tabstop>firstName</tabstop>
-  <tabstop>middleName</tabstop>
-  <tabstop>lastName</tabstop>
-  <tabstop>username</tabstop>
-  <tabstop>password</tabstop>
-  <tabstop>confirmPassword</tabstop>
+  <tabstop>fName</tabstop>
+  <tabstop>mName</tabstop>
+  <tabstop>lName</tabstop>
+  <tabstop>user</tabstop>
+  <tabstop>pswd</tabstop>
+  <tabstop>confirmPswd</tabstop>
   <tabstop>addTech</tabstop>
   <tabstop>clear</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>

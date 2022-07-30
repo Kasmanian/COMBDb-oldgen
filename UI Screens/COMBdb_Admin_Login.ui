@@ -78,7 +78,7 @@ border-width: 1px</string>
        </widget>
       </item>
       <item row="0" column="3" alignment="Qt::AlignHCenter|Qt::AlignTop">
-       <widget class="QLineEdit" name="usrnm">
+       <widget class="QLineEdit" name="user">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -405,7 +405,7 @@ background-color: rgb(193, 193, 193);
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>usrnm</tabstop>
+  <tabstop>user</tabstop>
   <tabstop>pswd</tabstop>
   <tabstop>login</tabstop>
  </tabstops>

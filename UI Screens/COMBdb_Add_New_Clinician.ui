@@ -145,7 +145,7 @@ background-color: rgb(193, 193, 193);
            <number>13</number>
           </property>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="firstName">
+           <widget class="QLineEdit" name="fName">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -286,7 +286,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="lastName">
+           <widget class="QLineEdit" name="lName">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -543,7 +543,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="QDateEdit" name="dateEdit">
+           <widget class="QDateEdit" name="enrollDate">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -623,7 +623,7 @@ color: rgb(180,180,180);
            </widget>
           </item>
           <item row="5" column="3" rowspan="3" alignment="Qt::AlignLeft|Qt::AlignTop">
-           <widget class="QTextEdit" name="comment">
+           <widget class="QTextEdit" name="cText">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1158,7 +1158,7 @@ background-color: rgb(193, 193, 193);
        </spacer>
       </item>
       <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="menu">
+       <widget class="QPushButton" name="home">
         <property name="minimumSize">
          <size>
           <width>161</width>
@@ -1271,8 +1271,8 @@ background-color: rgb(193, 193, 193);
  </widget>
  <tabstops>
   <tabstop>title</tabstop>
-  <tabstop>firstName</tabstop>
-  <tabstop>lastName</tabstop>
+  <tabstop>fName</tabstop>
+  <tabstop>lName</tabstop>
   <tabstop>address1</tabstop>
   <tabstop>address2</tabstop>
   <tabstop>city</tabstop>
@@ -1281,12 +1281,12 @@ background-color: rgb(193, 193, 193);
   <tabstop>phone</tabstop>
   <tabstop>fax</tabstop>
   <tabstop>email</tabstop>
-  <tabstop>dateEdit</tabstop>
+  <tabstop>enrollDate</tabstop>
   <tabstop>designation</tabstop>
-  <tabstop>comment</tabstop>
+  <tabstop>cText</tabstop>
   <tabstop>save</tabstop>
   <tabstop>clear</tabstop>
-  <tabstop>menu</tabstop>
+  <tabstop>home</tabstop>
   <tabstop>back</tabstop>
  </tabstops>
  <resources/>
