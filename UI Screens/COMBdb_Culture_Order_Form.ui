@@ -755,7 +755,7 @@ border-width: 1px</string>
         </property>
         <property name="maximumSize">
          <size>
-          <width>350</width>
+          <width>999</width>
           <height>30</height>
          </size>
         </property>
