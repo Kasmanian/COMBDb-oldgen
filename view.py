@@ -538,16 +538,28 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         self.add.clicked.connect(self.handleAddPressed)
         self.save.clicked.connect(self.handleSavePressed)
         self.clear.clicked.connect(self.handleClearPressed)
-
         self.aeTWid.itemSelectionChanged.connect(lambda: self.handlePrefixSelected("Aerobic"))
         self.anTWid.itemSelectionChanged.connect(lambda: self.handlePrefixSelected("Anaerobic"))
         self.abTWid.itemSelectionChanged.connect(lambda: self.handlePrefixSelected("Antibiotic"))
-
+        self.prefixesTabWidget.currentChanged.connect(self.clearSelection)
         self.currentPrefix = ""
         self.selectedPrefix = {}
         self.updateTable("Aerobic")
         self.updateTable("Anaerobic")
         self.updateTable("Antibiotics")
+        self.save.setEnabled(False)
+
+    @throwsViewableException
+    def clearSelection(self):
+        if self.prefixesTabWidget.currentIndex() == 0:
+            self.anTWid.clearSelection()
+            self.abTWid.clearSelection()
+        elif self.prefixesTabWidget.currentIndex() == 1:
+            self.aeTWid.clearSelection()
+            self.abTWid.clearSelection()
+        else:
+            self.aeTWid.clearSelection()
+            self.anTWid.clearSelection()
 
     @throwsViewableException
     def updateTable(self, type):
@@ -576,6 +588,7 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
             self.currentPrefix = self.model.findPrefix(self.pName.text(), 'Entry, Type, Prefix, Word')
             self.add.setEnabled(False)
             self.save.setEnabled(True)
+            #widget.clearSelection()
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -618,12 +631,16 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
 
     @throwsViewableException
     def handleClearPressed(self):
+        self.aeTWid.clearSelection()
+        self.anTWid.clearSelection()
+        self.abTWid.clearSelection()
         self.type.setCurrentIndex(0)
         self.pName.clear()
         self.word.clear()
         self.errorMessage.clear()
         self.add.setEnabled(True)
         self.save.setEnabled(False)
+
 
 class CultureOrderNav(QMainWindow):
     def __init__(self, model, view):
@@ -790,6 +807,7 @@ class CultureOrderForm(QMainWindow):
         self.print.setEnabled(False)
         self.clear.setEnabled(True)
         self.errorMessage.setText("")
+        self.tabWidget.setCurrentIndex(0)
 
 class AddClinician(QMainWindow):
     def __init__(self, model, view, dropdown):
@@ -949,7 +967,7 @@ class DUWLOrderForm(QMainWindow):
                         self.printList[str(saID)] = self.currentKit-1
                         self.currentKit += 1
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                        self.errorMessage.setText("Searched previous order: " + saIDCheck)
+                        self.errorMessage.setText("Searched previous order: " + str(saID))
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                     self.errorMessage.setText("Please select a clinician")
@@ -1637,14 +1655,11 @@ class CATResultForm(QMainWindow):
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItems(self.view.names)
-
         self.volume.setText("0.00")
         self.collectionTime.setText("0.00")
         self.flowRate.setText("0.00")
-
         self.volume.editingFinished.connect(lambda: self.lineEdited(True))
         self.collectionTime.editingFinished.connect(lambda: self.lineEdited(False))
-
         self.save.setEnabled(False)
         self.print.setEnabled(False)
         self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
@@ -1662,7 +1677,7 @@ class CATResultForm(QMainWindow):
             vol = float(self.volume.text())
             colTime = float(self.collectionTime.text())
             value = str(vol if arg else colTime)
-            rate = round(vol / colTime, 4)
+            rate = round(vol / colTime, 2)
             lineEdit.setText(value)
             self.flowRate.setText(str(rate)) 
             self.errorMessage.setText(None)
@@ -1681,10 +1696,14 @@ class CATResultForm(QMainWindow):
     def handleSearchPressed(self):
         if not self.saID.text().isdigit():
             self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID must only contain numbers")
             return
         self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received]')
         if self.sample is None:
             self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID not found")
         else:
             clinician = self.model.findClinician(self.sample[0])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -1692,7 +1711,6 @@ class CATResultForm(QMainWindow):
             self.fName.setText(self.sample[1])
             self.lName.setText(self.sample[2])
             self.repDate.setDate(self.view.dtToQDate(self.sample[4]))
-            self.type.setCurrentIndex(self.type.findText(self.sample[5]))
             self.volume.setText(str(self.sample[6]) if self.sample[12] is not None else None)
             self.collectionTime.setText(str(self.sample[7]) if self.sample[12] is not None else None)
             self.initialPH.setText(str(self.sample[8]) if self.sample[12] is not None else None)
@@ -1704,6 +1722,8 @@ class CATResultForm(QMainWindow):
             self.nText.setText(self.sample[14])
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Found CAT Order: " + self.saID.text())
 
     @throwsViewableException
     def handleSavePressed(self):
@@ -1715,7 +1735,7 @@ class CATResultForm(QMainWindow):
                 self.fName.text(),
                 self.lName.text(),
                 self.repDate.date(),
-                self.type.currentText(),
+                "Caries",
                 float(self.volume.text()),
                 float(self.collectionTime.text()),
                 float(self.flowRate.text()),
@@ -1735,7 +1755,7 @@ class CATResultForm(QMainWindow):
         else:
             self.flowRate.setText("x.xx")
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Division by zero error")
+            self.errorMessage.setText("Division by zero error in Collection Time field")
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -1743,7 +1763,6 @@ class CATResultForm(QMainWindow):
         self.clinDrop.setCurrentIndex(0)
         self.fName.clear()
         self.lName.clear()
-        self.type.setCurrentIndex(0)
         self.volume.setText("0.00")
         self.initialPH.clear()
         self.collectionTime.setText("0.00")
@@ -1757,6 +1776,7 @@ class CATResultForm(QMainWindow):
         self.save.setEnabled(True)
         self.clear.setEnabled(True)
         self.print.setEnabled(False)
+        self.errorMessage.setText("")
 
     @throwsViewableException
     def handlePrintPressed(self):
@@ -1768,8 +1788,8 @@ class CATResultForm(QMainWindow):
             saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
             patientName=f'{self.sample[2]}, {self.sample[1]}',
             clinicianName=clinician[1] + " " + clinician[0],
-            collected=self.view.fSlashDate(self.sample[13]),
-            received=self.view.fSlashDate(self.sample[14]),
+            collected=self.view.fSlashDate(self.sample[15]),
+            received=self.view.fSlashDate(self.sample[16]),
             flowRate=str(self.sample[8]),
             bufferingCapacity=str(self.sample[9]),
             smCount='{:.2e}'.format(self.sample[10]),

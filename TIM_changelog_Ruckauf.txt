@@ -102,6 +102,11 @@
 - Added ability to search previous DUWL Orders
 - Added ability to add new prefixes
 
+8/1/22
+- Fixed bug in CAT Result where error would show up when searching and saving orders
+- Changed stylesheets for imbedded text edits
+- Fixed bug on Manage prefixes where cells would not deselect when changing tabs or clearing the page
+
 
 TODO:
 - Code in "clear" button on DUWL Order

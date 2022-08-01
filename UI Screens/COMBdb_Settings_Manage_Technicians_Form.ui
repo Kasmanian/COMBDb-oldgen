@@ -133,14 +133,14 @@
            <widget class="QTableWidget" name="techTable">
             <property name="minimumSize">
              <size>
-              <width>400</width>
-              <height>100</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>400</width>
-              <height>9999</height>
+              <width>350</width>
+              <height>250</height>
              </size>
             </property>
             <property name="cursor" stdset="0">
@@ -153,6 +153,9 @@ border-width: 1px</string>
             </property>
             <property name="horizontalScrollBarPolicy">
              <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QAbstractScrollArea::AdjustToContents</enum>
             </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
