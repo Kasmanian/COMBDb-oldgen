@@ -4,5 +4,5 @@ Culture/CAT Order:
 - implement updating - currently if you look up previous orders and save it creates a new entry in the database - should update existing entry
 - letterhead on DUWL Result Form
 - Shannon wants the labels on the DUWL order to print the Clinican name in the form "Title First Last"
-- try block function wrapper
+- (Done) try block function wrapper
 - report handler / error file / audit terminal

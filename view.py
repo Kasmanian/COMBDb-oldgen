@@ -201,6 +201,17 @@ class View:
         except Exception as e:
             self.showErrorScreen(e)
 
+def throwsViewableException(func):
+    def wrap(self, *args, **kwargs):
+        try:
+            result = func(self, *args[1:], **kwargs)
+            return result
+        except TypeError:
+            result = func(self, *args, **kwargs)
+            return result
+        except Exception as e:
+            return self.view.showErrorScreen(e)
+    return wrap
 
 class SetFilePathScreen(QMainWindow):
     def __init__(self, model, view):
@@ -208,34 +219,32 @@ class SetFilePathScreen(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Set_File_Path_Form.ui", self)
-        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         self.browse.clicked.connect(self.handleBrowsePressed)
         self.save.clicked.connect(self.handleSavePressed)
 
-    # Method for 'Back' button functionality
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
 
+    @throwsViewableException
     def handleBrowsePressed(self):
         fname = QFileDialog.getOpenFileName(self, 'Open File', 'C:', 'MS Access Files (*.accdb)')
         self.filePath.setText(fname[0])
 
+    @throwsViewableException
     def handleSavePressed(self):
-        try:
-            with open('COMBDb\local.json', 'r+') as JSON:
-                data = json.load(JSON)
-                data['DBQ'] = str(Path(self.filePath.text()))
-                JSON.seek(0)  # rewind
-                json.dump(data, JSON)
-                JSON.truncate()
-            if not self.model.connect():
-                self.view.showErrorScreen('Could not open database with the specified path.')
-            else:
-                self.view.setClinicianList()
-                self.close()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        with open('COMBDb\local.json', 'r+') as JSON:
+            data = json.load(JSON)
+            data['DBQ'] = str(Path(self.filePath.text()))
+            JSON.seek(0)  # rewind
+            json.dump(data, JSON)
+            JSON.truncate()
+        if not self.model.connect():
+            self.view.showErrorScreen('Could not open database with the specified path.')
+        else:
+            self.view.setClinicianList()
+            self.close()
 
 class SetErrorScreen(QMainWindow):
     def __init__(self, model, view, message):
@@ -243,12 +252,10 @@ class SetErrorScreen(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Error_Window.ui", self)
-        # Handle 'OK' button clicked
         self.ok.clicked.connect(self.handleOKPressed)
-        print(message)
         self.errorMessage.setText(str(message))
 
-    # Method for 'OK' button functionality
+    @throwsViewableException
     def handleOKPressed(self):
         self.close()
 
@@ -259,10 +266,9 @@ class SetConfirmationScreen(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Confirmation_Window.ui", self)
-        # Handle 'Cancel' button clicked
         self.Cancel.clicked.connect(self.handleCancelPressed)
 
-    # Method for 'OK' button functionality
+    @throwsViewableException
     def handleCancelPressed(self):
         self.close()
 
@@ -273,13 +279,11 @@ class SetArchiveReminderScreen(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Archive_Prompt.ui", self)
-        # Handle 'No' button clicked
         self.no.clicked.connect(self.handleNoPressed)
-
-    # Method for 'No' button functionality
+    
+    @throwsViewableException
     def handleNoPressed(self):
         self.close()
-
 
 class AdminLoginScreen(QMainWindow):
     def __init__(self, model, view):
@@ -290,6 +294,7 @@ class AdminLoginScreen(QMainWindow):
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.handleLoginPressed)
 
+    @throwsViewableException
     def handleLoginPressed(self):
         u = self.user.text()
         p = self.pswd.text()
@@ -300,7 +305,6 @@ class AdminLoginScreen(QMainWindow):
                 self.view.showAdminHomeScreen()
             else:
                 self.errorMessage.setText("Invalid username or password")
-
 
 class AdminHomeScreen(QMainWindow):
     def __init__(self, model, view):
@@ -313,15 +317,19 @@ class AdminHomeScreen(QMainWindow):
         self.settings.clicked.connect(self.handleSettingsPressed)
         self.logout.clicked.connect(self.handleLogoutPressed)
 
+    @throwsViewableException
     def handleCultureOrderFormsPressed(self):
         self.view.showCultureOrderNav()
 
+    @throwsViewableException
     def handleResultEntryPressed(self):
         self.view.showResultEntryNav()
 
+    @throwsViewableException
     def handleSettingsPressed(self):
         self.view.showSettingsNav()
 
+    @throwsViewableException
     def handleLogoutPressed(self):
         self.view.showAdminLoginScreen()
 
@@ -332,34 +340,32 @@ class SettingsNav(QMainWindow):
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
-        # Handle 'Manage Archives' button clicked
         self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
-        # Handle 'Manage Prefixes' button clicked
         self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
-        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
-
         self.changeDatabase.clicked.connect(self.handleChangeDatabasePressed)
 
+    @throwsViewableException
     def handleChangeDatabasePressed(self):
         self.view.showSetFilePathScreen()
         self.close()
 
+    @throwsViewableException
     def handleTechnicianSettingsPressed(self):
         self.view.showSettingsManageTechnicianForm()
         self.close()
 
-    # Method for 'Manage Archives' button functionality
+    @throwsViewableException
     def handleManageArchivesPressed(self):
         self.view.showSettingsManageArchivesForm()
         self.close()
 
-    # Method for 'Manage Prefixes' button functionality
+    @throwsViewableException
     def handleManagePrefixesPressed(self):
         self.view.showSettingsManagePrefixesForm()
         self.close()
 
-    # Method for 'Back' button functionality
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
 
@@ -369,11 +375,8 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
-        # Handle 'Edit' button clicked
         self.edit.clicked.connect(self.handleEditPressed)
-        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
-        # Handle 'Menu' button clicked
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.techTable.itemSelectionChanged.connect(self.handleTechnicianSelected)
         self.activate.clicked.connect(self.handleActivatePressed)
@@ -383,32 +386,31 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.selectedTechnician = []
         self.updateTable()
 
+    @throwsViewableException
     def updateTable(self):
         techs = self.model.selectTechs('Entry, Username, Active')
         self.techTable.setRowCount(0)
         self.techTable.setRowCount(len(techs)) 
         self.techTable.setColumnCount(3)
-        try:
-            for i in range(0, len(techs)):
-                self.techTable.setItem(i,0, QTableWidgetItem(str(techs[i][0])))
-                self.techTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
-                self.techTable.setItem(i,2, QTableWidgetItem(techs[i][2]))
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        for i in range(0, len(techs)):
+            self.techTable.setItem(i,0, QTableWidgetItem(str(techs[i][0])))
+            self.techTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
+            self.techTable.setItem(i,2, QTableWidgetItem(techs[i][2]))
 
-    # Method for 'Edit' button functionality
+    @throwsViewableException
     def handleEditPressed(self):
         if len(self.selectedTechnician)>0:
             self.view.showEditTechnician(self.selectedTechnician[1])
 
-    # Method for 'Back' button functionality
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
-    # Method for 'Return to Main Menu' button functionality
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
+    @throwsViewableException
     def handleTechnicianSelected(self):
         self.selectedTechnician = [
             self.techTable.currentRow(), 
@@ -418,43 +420,38 @@ class SettingsManageTechnicianForm(QMainWindow):
         ]
         self.tech.setText(self.techTable.item(self.techTable.currentRow(), 1).text())
     
+    @throwsViewableException
     def handleActivatePressed(self):
-        try:
-            if self.selectedTechnician[3] != 'Yes':
-                if self.model.toggleTech(self.selectedTechnician[1], 'Yes'):
-                    self.selectedTechnician[3] = 'Yes'
-                    self.techTable.item(self.selectedTechnician[0], 2).setText('Yes')
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if self.selectedTechnician[3] != 'Yes':
+            if self.model.toggleTech(self.selectedTechnician[1], 'Yes'):
+                self.selectedTechnician[3] = 'Yes'
+                self.techTable.item(self.selectedTechnician[0], 2).setText('Yes')
 
+    @throwsViewableException
     def handleDeactivatePressed(self):
-        try:
-            if self.selectedTechnician[3] != 'No':
-                if self.model.toggleTech(self.selectedTechnician[1], 'No'):
-                    self.selectedTechnician[3] = 'No'
-                    self.techTable.item(self.selectedTechnician[0], 2).setText('No')
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if self.selectedTechnician[3] != 'No':
+            if self.model.toggleTech(self.selectedTechnician[1], 'No'):
+                self.selectedTechnician[3] = 'No'
+                self.techTable.item(self.selectedTechnician[0], 2).setText('No')
 
+    @throwsViewableException
     def handleAddTechPressed(self):
-        try:
-            user = self.user.text()
-            if self.pswd.text()==self.confirmPswd.text() and self.pswd.text() and self.confirmPswd.text():
-                if self.fName.text() and self.lName.text() and self.user.text():
-                    self.model.addTech(self.fName.text(), self.mName.text(), self.lName.text(), self.user.text(), self.pswd.text())
-                    self.updateTable()
-                    self.handleClearPressed()
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Successfully added technician: " + user)
-                else:
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                    self.errorMessage.setText("You must have a first name, last name, and username")
+        user = self.user.text()
+        if self.pswd.text()==self.confirmPswd.text() and self.pswd.text() and self.confirmPswd.text():
+            if self.fName.text() and self.lName.text() and self.user.text():
+                self.model.addTech(self.fName.text(), self.mName.text(), self.lName.text(), self.user.text(), self.pswd.text())
+                self.updateTable()
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Successfully added technician: " + user)
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Password and confirm password are required and must match")
-        except Exception as e:
-            self.view.showErrorScreen(e)
+                self.errorMessage.setText("You must have a first name, last name, and username")
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Password and confirm password are required and must match")
 
+    @throwsViewableException
     def handleClearPressed(self):
         self.fName.clear()
         self.mName.clear()
@@ -463,19 +460,14 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.pswd.clear()
         self.confirmPswd.clear()
 
-
 class SettingsEditTechnician(QMainWindow):
-    # Class for the Edit Technician UI
     def __init__(self, model, view, id):
         super(SettingsEditTechnician, self).__init__()
         self.view = view
         self.model = model
         self.id = id
-        # Load the .ui file of the Admin Main Screen 
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
-        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
-        # Handle 'Menu' button clicked
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.tech = self.model.findTech(self.id, '[First], [Middle], [Last], [Username], [Password]')
         self.fName.setText(self.tech[0])
@@ -484,15 +476,16 @@ class SettingsEditTechnician(QMainWindow):
         self.user.setText(self.tech[3])
         self.save.clicked.connect(self.handleSavePressed)
 
-    # Method for 'Back' button functionality
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
 
-    # Method for 'Return to Main Menu' button functionality
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
         self.close()
 
+    @throwsViewableException
     def handleSavePressed(self):
         if self.fName.text() and self.lName.text() and self.user.text() and self.oldPswd.text() and self.newPswd.text() and self.confirmNewPswd.text():
             if self.newPswd.text()==self.confirmNewPswd.text():
@@ -517,35 +510,30 @@ class SettingsEditTechnician(QMainWindow):
             self.errorMessage.setText('Missing required fields')
 
 class SettingsManageArchivesForm(QMainWindow): #TODO - incorporate archiving.
-    # Class for the Manage Archives UI
     def __init__(self, model, view):
         super(SettingsManageArchivesForm, self).__init__()
         self.view = view
         self.model = model
-        # Load the .ui file of the Admin Main Screen 
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Archives_Form.ui", self)
-        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
     
 class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables and allow them to be edited.
-    # Class for the Manage Prefixes UI
     def __init__(self, model, view):
         super(SettingsManagePrefixesForm, self).__init__()
         self.view = view
         self.model = model
-        # Load the .ui file of the Admin Main Screen 
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Prefixes_Form.ui", self)
-        # Handle 'Back' button clicked
         self.back.clicked.connect(self.handleBackPressed)
-        # Handle 'Return to Main Menu' button clicked
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.add.clicked.connect(self.handleAddPressed)
         self.save.clicked.connect(self.handleSavePressed)
@@ -561,6 +549,7 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         self.updateTable("Anaerobic")
         self.updateTable("Antibiotics")
 
+    @throwsViewableException
     def updateTable(self, type):
         widget = self.aeTWid if type == "Aerobic" else self.anTWid if type == "Anaerobic" else self.abTWid
         prefix = self.model.selectPrefixes(type, 'Prefix, Word')
@@ -569,17 +558,13 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         widget.setColumnCount(2)
         widget.setColumnWidth(0, 50)
         widget.setColumnWidth(1, 300)
-        try:
-            for i in range(0, len(prefix)):
-                widget.setItem(i,0, QTableWidgetItem(prefix[i][0]))
-                widget.setItem(i,1, QTableWidgetItem(prefix[i][1]))
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        for i in range(0, len(prefix)):
+            widget.setItem(i,0, QTableWidgetItem(prefix[i][0]))
+            widget.setItem(i,1, QTableWidgetItem(prefix[i][1]))
 
+    @throwsViewableException
     def handlePrefixSelected(self, type):
         widget = self.aeTWid if type == "Aerobic" else self.anTWid if type == "Anaerobic" else self.abTWid
-        #print(widget.item(widget.currentRow(), 0))
-        #print(widget.item(widget.currentRow(), 1))
         prefix = widget.item(widget.currentRow(), 0)
         word = widget.item(widget.currentRow(), 1)
         if prefix and word:
@@ -589,39 +574,35 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
             self.type.setCurrentIndex(self.type.findText(keyList[0]))
             self.word.setText(keyList[1])
             self.currentPrefix = self.model.findPrefix(self.pName.text(), 'Entry, Type, Prefix, Word')
-            #print(self.currentPrefix)
             self.add.setEnabled(False)
             self.save.setEnabled(True)
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
+    @throwsViewableException
     def handleAddPressed(self):  
         type = self.type.currentText()
         prefix =  self.pName.text()
         word = self.word.text()
-        try:
-            if self.type.currentText() and self.pName.text() and self.word.text():
-                self.model.addPrefixes(self.type.currentText(), self.pName.text(), self.word.text())
-                self.updateTable(self.type.currentText())
-                self.handleClearPressed()
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("Successfully added prefix: " + prefix + ":" + word + " to table: " + type)
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Type, Prefix and Word are required")
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if self.type.currentText() and self.pName.text() and self.word.text():
+            self.model.addPrefixes(self.type.currentText(), self.pName.text(), self.word.text())
+            self.updateTable(self.type.currentText())
+            self.handleClearPressed()
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Successfully added prefix: " + prefix + ":" + word + " to table: " + type)
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Type, Prefix and Word are required")
 
+    @throwsViewableException
     def handleSavePressed(self):
         if self.pName.text() and self.word.text() and self.type.currentText():
-            #print(self.currentPrefix[0])
-            #print(self.type.currentText())
-            #print(self.pName.text())
-            #print(self.word.text())
             self.model.updatePrefixes(
                 self.currentPrefix[0],
                 self.type.currentText(),
@@ -635,6 +616,7 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Type, Prefix and Word are required")
 
+    @throwsViewableException
     def handleClearPressed(self):
         self.type.setCurrentIndex(0)
         self.pName.clear()
@@ -642,7 +624,6 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         self.errorMessage.clear()
         self.add.setEnabled(True)
         self.save.setEnabled(False)
-
 
 class CultureOrderNav(QMainWindow):
     def __init__(self, model, view):
@@ -654,17 +635,19 @@ class CultureOrderNav(QMainWindow):
         self.duwl.clicked.connect(self.handleDUWLPressed)
         self.back.clicked.connect(self.handleBackPressed)
 
+    @throwsViewableException
     def handleCulturePressed(self):
         self.view.showCultureOrderForm()
         self.close()
 
+    @throwsViewableException
     def handleDUWLPressed(self):
         self.view.showDUWLNav()
         self.close()
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
-
 
 class CultureOrderForm(QMainWindow):
     def __init__(self, model, view):
@@ -674,7 +657,6 @@ class CultureOrderForm(QMainWindow):
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
-        #self.clinDrop.addItem(" ")
         self.clinDrop.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         self.find.clicked.connect(self.handleSearchPressed)
@@ -687,139 +669,127 @@ class CultureOrderForm(QMainWindow):
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
 
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
+    @throwsViewableException
     def handleSearchPressed(self):
-        try:
-            if not self.saID.text().isdigit():
+        if not self.saID.text().isdigit():
+            self.handleClearPressed()
+            self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID may only contain numbers")
+            return
+        self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+        if self.sample is None:
+            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+            if self.sample is None:
                 self.handleClearPressed()
                 self.saID.setText('xxxxxx')
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID may only contain numbers")
-                return
-            self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
-            if self.sample is None:
-                self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
-                if self.sample is None:
-                    self.handleClearPressed()
-                    self.saID.setText('xxxxxx')
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                    self.errorMessage.setText("Sample ID not found")
-            if self.sample is not None:
-                self.chID.setText(self.sample[0])
-                clinician = self.model.findClinician(self.sample[1])
-                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                self.fName.setText(self.sample[2])
-                self.lName.setText(self.sample[3])
-                self.type.setCurrentIndex(self.type.findText(self.sample[4]))
-                self.colDate.setDate(self.view.dtToQDate(self.sample[5]))
-                self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
-                self.cText.setText(self.sample[7])
-                self.nText.setText(self.sample[8])
-                self.print.setEnabled(True)
-                self.save.setEnabled(False)
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("Found previous order: " + self.saID.text())
-        except Exception as e:
-            self.view.showErrorScreen(e)
+                self.errorMessage.setText("Sample ID not found")
+        if self.sample is not None:
+            self.chID.setText(self.sample[0])
+            clinician = self.model.findClinician(self.sample[1])
+            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.fName.setText(self.sample[2])
+            self.lName.setText(self.sample[3])
+            self.type.setCurrentIndex(self.type.findText(self.sample[4]))
+            self.colDate.setDate(self.view.dtToQDate(self.sample[5]))
+            self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
+            self.cText.setText(self.sample[7])
+            self.nText.setText(self.sample[8])
+            self.print.setEnabled(True)
+            self.save.setEnabled(False)
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Found previous order: " + self.saID.text())
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showCultureOrderNav()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
     
+    @throwsViewableException
     def handleSavePressed(self):
-        try:
-            if self.fName.text() and self.lName.text() and self.type.currentText() and self.clinDrop.currentText() != " ":
-                table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
-                saID = self.view.model.addPatientOrder(
-                    table,
-                    self.chID.text(),
-                    self.view.entries[self.clinDrop.currentText()]['db'],
-                    self.fName.text(),
-                    self.lName.text(),
-                    self.colDate.date(),
-                    self.recDate.date(),
-                    self.type.currentText(),
-                    self.cText.toPlainText(),
-                    self.nText.toPlainText()
-                )
-                if saID:
-                    self.saID.setText(str(saID))
-                    self.save.setEnabled(False)
-                    self.print.setEnabled(True)
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Successfully saved order: " + str(saID))
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Please enter in all required fields")
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if self.fName.text() and self.lName.text() and self.type.currentText() and self.clinDrop.currentText() != " ":
+            table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
+            saID = self.view.model.addPatientOrder(
+                table,
+                self.chID.text(),
+                self.view.entries[self.clinDrop.currentText()]['db'],
+                self.fName.text(),
+                self.lName.text(),
+                self.colDate.date(),
+                self.recDate.date(),
+                self.type.currentText(),
+                self.cText.toPlainText(),
+                self.nText.toPlainText()
+            )
+            if saID:
+                self.saID.setText(str(saID))
+                self.save.setEnabled(False)
+                self.print.setEnabled(True)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Successfully saved order: " + str(saID))
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Please enter in all required fields")
     
+    @throwsViewableException
     def handlePrintPressed(self):
-        try:
-            if self.type.currentText()!='Caries':
-                #print(f'clinician: {self.clinDrop.currentText()}')
-                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
-                dst = self.view.tempify(template)
-                document = MailMerge(template)
-                clinician=self.clinDrop.currentText().split(', ')
-                document.merge(
-                    saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
-                    received=self.recDate.date().toString(),
-                    type=self.type.currentText(),
-                    chartID=self.chID.text(),
-                    clinicianName = clinician[1] + " " + clinician[0],
-                    patientName=f'{self.lName.text()}, {self.fName.text()}',
-                    comments=self.cText.toPlainText(),
-                    notes=self.nText.toPlainText()
-                )
-                document.write(dst)
-                try:
-                    self.view.convertAndPrint(dst)
-                except Exception as e:
-                    self.view.showErrorScreen(e)
-            else:
-                template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
-                dst = self.view.tempify(template)
-                document = MailMerge(template)
-                clinician=self.clinDrop.currentText().split(', ')
-                document.merge(
-                    saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
-                    received=self.recDate.date().toString(),
-                    chartID=self.chID.text(),
-                    clinicianName = clinician[1] + " " + clinician[0],
-                    patientName=f'{self.lName.text()}, {self.fName.text()}',
-                )
-                document.write(dst)
-                try:
-                    self.view.convertAndPrint(dst)
-                except Exception as e:
-                    self.view.showErrorScreen(e)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if self.type.currentText()!='Caries':
+            template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            clinician=self.clinDrop.currentText().split(', ')
+            document.merge(
+                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                received=self.recDate.date().toString(),
+                type=self.type.currentText(),
+                chartID=self.chID.text(),
+                clinicianName = clinician[1] + " " + clinician[0],
+                patientName=f'{self.lName.text()}, {self.fName.text()}',
+                comments=self.cText.toPlainText(),
+                notes=self.nText.toPlainText()
+            )
+            document.write(dst)
+            self.view.convertAndPrint(dst)
+        else:
+            template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            clinician=self.clinDrop.currentText().split(', ')
+            document.merge(
+                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                received=self.recDate.date().toString(),
+                chartID=self.chID.text(),
+                clinicianName = clinician[1] + " " + clinician[0],
+                patientName=f'{self.lName.text()}, {self.fName.text()}',
+            )
+            document.write(dst)
+            self.view.convertAndPrint(dst)
 
+    @throwsViewableException
     def handleClearPressed(self):
-        try:
-            self.fName.clear()
-            self.lName.clear()
-            self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.saID.clear()
-            self.chID.clear()
-            self.cText.clear()
-            self.nText.clear()
-            self.clinDrop.setCurrentIndex(0)
-            self.type.setCurrentIndex(0)
-            self.save.setEnabled(True)
-            self.print.setEnabled(False)
-            self.clear.setEnabled(True)
-            self.errorMessage.setText("")
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.fName.clear()
+        self.lName.clear()
+        self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.saID.clear()
+        self.chID.clear()
+        self.cText.clear()
+        self.nText.clear()
+        self.clinDrop.setCurrentIndex(0)
+        self.type.setCurrentIndex(0)
+        self.save.setEnabled(True)
+        self.print.setEnabled(False)
+        self.clear.setEnabled(True)
+        self.errorMessage.setText("")
 
 class AddClinician(QMainWindow):
     def __init__(self, model, view, dropdown):
@@ -835,64 +805,59 @@ class AddClinician(QMainWindow):
         self.enrollDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
 
     def handleSavePressed(self): #Incorporate validation to make sure clinician is actually added to DB
-        try:
-            if self.fName.text() and self.lName.text() and self.address1.text() and self.city.text() and self.state.currentText() and self.zip.text():
-                self.model.addClinician(
-                    self.title.currentText(),
-                    self.fName.text(),
-                    self.lName.text(),
-                    self.designation.text(),
-                    self.phone.text(),
-                    self.fax.text(),
-                    self.email.text(),
-                    self.address1.text(),
-                    self.address2.text(),
-                    self.city.text(),
-                    self.state.currentText(),
-                    self.zip.text(),
-                    None,
-                    None,
-                    self.cText.toPlainText()
-                )
-                self.view.setClinicianList()
-                self.dropdown.clear()
-                self.dropdown.addItems(self.view.names)
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("New clinician added: " + self.title.currentText() + " " +self.fName.text() + " " + self.lName.text())
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("First Name, Last Name, Address 1, City, State and Zip are all required")
-        except Exception as e:
-            self.view.showErrorScreen(e)
-        #finally:
-            #self.close()
+        if self.fName.text() and self.lName.text() and self.address1.text() and self.city.text() and self.state.currentText() and self.zip.text():
+            self.model.addClinician(
+                self.title.currentText(),
+                self.fName.text(),
+                self.lName.text(),
+                self.designation.text(),
+                self.phone.text(),
+                self.fax.text(),
+                self.email.text(),
+                self.address1.text(),
+                self.address2.text(),
+                self.city.text(),
+                self.state.currentText(),
+                self.zip.text(),
+                None,
+                None,
+                self.cText.toPlainText()
+            )
+            self.view.setClinicianList()
+            self.dropdown.clear()
+            self.dropdown.addItems(self.view.names)
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("New clinician added: " + self.title.currentText() + " " +self.fName.text() + " " + self.lName.text())
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("First Name, Last Name, Address 1, City, State and Zip are all required")
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
         self.close()
 
+    @throwsViewableException
     def handleClearPressed(self):
-        try:
-            self.title.setCurrentIndex(0)
-            self.fName.clear()
-            self.lName.clear()
-            self.address1.clear()
-            self.address2.clear()
-            self.city.clear()
-            self.state.setCurrentIndex(0)
-            self.zip.clear()
-            self.phone.clear()
-            self.fax.clear()
-            self.email.clear()
-            self.enrollDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.designation.clear()
-            self.cText.clear()
-            self.errorMessage.clear()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.title.setCurrentIndex(0)
+        self.fName.clear()
+        self.lName.clear()
+        self.address1.clear()
+        self.address2.clear()
+        self.city.clear()
+        self.state.setCurrentIndex(0)
+        self.zip.clear()
+        self.phone.clear()
+        self.fax.clear()
+        self.email.clear()
+        self.enrollDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.designation.clear()
+        self.cText.clear()
+        self.errorMessage.clear()
 
 class DUWLNav(QMainWindow):
     def __init__(self, model, view):
@@ -904,14 +869,17 @@ class DUWLNav(QMainWindow):
         self.receivingCulture.clicked.connect(self.handleReceivingCulturePressed)
         self.back.clicked.connect(self.handleBackPressed)
 
+    @throwsViewableException
     def handleOrderCulturePressed(self):
         self.close()
         self.view.showDUWLOrderForm()
 
+    @throwsViewableException
     def handleReceivingCulturePressed(self):
         self.close()
         self.view.showDUWLReceiveForm()
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
         self.view.showCultureOrderNav()
@@ -945,74 +913,31 @@ class DUWLOrderForm(QMainWindow):
         self.print.setEnabled(False)
         self.remove.setEnabled(False)
 
+    @throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
+    @throwsViewableException
     def handleSearchPressed(self):
-        try:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, Shipped')
-            saID = int(self.saID.text())
-            if self.sample is None:
-                self.saID.setText('xxxxxx')
-            else: #TODO - Check to see if the search saID already exists in the list using the kitList
-                saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
-                kitListValues = [value for elem in self.kitList for value in elem.values()]
-                if saIDCheck not in kitListValues:
-                    clinician = self.model.findClinician(self.sample[0])
-                    clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                    self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                    self.cText.setText(self.sample[1])
-                    self.nText.setText(self.sample[2])
-                    self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
-                    if self.clinDrop.currentText():
-                        if self.saID: 
-                            self.saID.setText(str(saID))
-                            self.kitList.append({
-                                'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                                'clinician': 'Clinician___________________________',
-                                'operatory': 'Operatory__________________________',
-                                'collected': 'Collection Date______________________',
-                                'clngagent': 'Cleaning Agent______________________'
-                            })
-                            self.printList[str(saID)] = self.currentKit-1
-                            self.currentKit += 1
-                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                            self.errorMessage.setText("Searched previous order: " + saIDCheck)
-                    else:
-                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                        self.errorMessage.setText("Please select a clinician")
-                else:
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                    self.errorMessage.setText("This DUWL Order has already been added")
-                self.updateTable()
-                self.save.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    def handleAddClinicianPressed(self):
-        self.view.showAddClinicianScreen(self.clinDrop)
-
-    def handleBackPressed(self):
-        self.view.showCultureOrderNav()
-
-    def handleReturnToMainMenuPressed(self):
-        self.view.showAdminHomeScreen()
-
-    def handleSavePressed(self):
-        try:
-            if self.clinDrop.currentText():
-                numOrders = 1 if int(self.numOrders.text()) == None else int(self.numOrders.text())
-                for x in range(numOrders):
-                    saID = self.view.model.addWaterlineOrder(
-                        self.view.entries[self.clinDrop.currentText()]['db'],
-                        self.shipDate.date(),
-                        self.cText.toPlainText(),
-                        self.nText.toPlainText()
-                    )
-                    if saID: 
+        if not self.saID.text().isdigit():
+            self.saID.setText('xxxxxx')
+            return
+        self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, Shipped')
+        saID = int(self.saID.text())
+        if self.sample is None:
+            self.saID.setText('xxxxxx')
+        else: #TODO - Check to see if the search saID already exists in the list using the kitList
+            saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
+            kitListValues = [value for elem in self.kitList for value in elem.values()]
+            if saIDCheck not in kitListValues:
+                clinician = self.model.findClinician(self.sample[0])
+                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.cText.setText(self.sample[1])
+                self.nText.setText(self.sample[2])
+                self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
+                if self.clinDrop.currentText():
+                    if self.saID: 
                         self.saID.setText(str(saID))
                         self.kitList.append({
                             'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
@@ -1023,252 +948,257 @@ class DUWLOrderForm(QMainWindow):
                         })
                         self.printList[str(saID)] = self.currentKit-1
                         self.currentKit += 1
-                self.handleClearPressed()
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("Created New DUWL Order: " + str(saID))
+                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                        self.errorMessage.setText("Searched previous order: " + saIDCheck)
+                else:
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Please select a clinician")
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Please select a clinician")
-        except Exception as e:
-            self.view.showErrorScreen(e)
+                self.errorMessage.setText("This DUWL Order has already been added")
+            self.updateTable()
+            self.save.setEnabled(False)
 
+    @throwsViewableException
+    def handleAddClinicianPressed(self):
+        self.view.showAddClinicianScreen(self.clinDrop)
 
+    @throwsViewableException
+    def handleBackPressed(self):
+        self.view.showCultureOrderNav()
+
+    @throwsViewableException
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
+    @throwsViewableException
+    def handleSavePressed(self):
+        if self.clinDrop.currentText():
+            numOrders = 1 if int(self.numOrders.text()) == None else int(self.numOrders.text())
+            for x in range(numOrders):
+                saID = self.view.model.addWaterlineOrder(
+                    self.view.entries[self.clinDrop.currentText()]['db'],
+                    self.shipDate.date(),
+                    self.cText.toPlainText(),
+                    self.nText.toPlainText()
+                )
+                if saID: 
+                    self.saID.setText(str(saID))
+                    self.kitList.append({
+                        'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
+                        'clinician': 'Clinician___________________________',
+                        'operatory': 'Operatory__________________________',
+                        'collected': 'Collection Date______________________',
+                        'clngagent': 'Cleaning Agent______________________'
+                    })
+                    self.printList[str(saID)] = self.currentKit-1
+                    self.currentKit += 1
+            self.handleClearPressed()
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Created New DUWL Order: " + str(saID))
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Please select a clinician")
+
+    @throwsViewableException
     def handleClearPressed(self):
-        try:
-            self.kitNum.setText(str(self.currentKit))
-            self.saID.setText('xxxxxx')
-            self.cText.clear()
-            self.nText.clear()
-            self.numOrders.setValue(1)
-            self.save.setEnabled(True)
-            self.clear.setEnabled(True)
-            self.clinDrop.setCurrentIndex(0)
-            self.errorMessage.setText(" ")
-            self.updateTable()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitNum.setText(str(self.currentKit))
+        self.saID.setText('xxxxxx')
+        self.cText.clear()
+        self.nText.clear()
+        self.numOrders.setValue(1)
+        self.save.setEnabled(True)
+        self.clear.setEnabled(True)
+        self.clinDrop.setCurrentIndex(0)
+        self.errorMessage.setText(" ")
+        self.updateTable()
 
+    @throwsViewableException
     def handleClearAllPressed(self):
-        try:
-            self.kitList.clear()
-            self.currentKit = 1
-            self.printList.clear()
-            self.updateTable()
-            self.save.setEnabled(True)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitList.clear()
+        self.currentKit = 1
+        self.printList.clear()
+        self.updateTable()
+        self.save.setEnabled(True)
 
+    @throwsViewableException
     def handleRemovePressed(self):
-        try:
-            del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
-            del self.printList[self.kitTWid.currentItem().text()]
-            count = 0
-            for key in self.printList.keys():
-                self.printList[key] = count
-                count += 1
-            self.updateTable()
-            self.remove.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
+        del self.printList[self.kitTWid.currentItem().text()]
+        count = 0
+        for key in self.printList.keys():
+            self.printList[key] = count
+            count += 1
+        self.updateTable()
+        self.remove.setEnabled(False)
 
     def updateTable(self):
-        try:
-            self.kitTWid.setRowCount(len(self.printList.keys()))
-            count = 0
-            for item in self.printList.keys():
-                self.kitTWid.setItem(count, 0, QTableWidgetItem(item))
-                count += 1
-            if len(self.printList.keys())>0:
-                self.print.setEnabled(True)
-            else:
-                self.print.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitTWid.setRowCount(len(self.printList.keys()))
+        count = 0
+        for item in self.printList.keys():
+            self.kitTWid.setItem(count, 0, QTableWidgetItem(item))
+            count += 1
+        if len(self.printList.keys())>0:
+            self.print.setEnabled(True)
+        else:
+            self.print.setEnabled(False)
 
+    @throwsViewableException
     def handlePrintPressed(self):
-        try:
-            template = str(Path().resolve())+r'\COMBDb\templates\duwl_label_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            document.merge_rows('sampleID', self.kitList)
-            document.write(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-        try:
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        template = str(Path().resolve())+r'\COMBDb\templates\duwl_label_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        document.merge_rows('sampleID', self.kitList)
+        document.write(dst)
+        self.view.convertAndPrint(dst)
 
 class DUWLReceiveForm(QMainWindow):
     def __init__(self, model, view):
         super(DUWLReceiveForm, self).__init__()
-        try:
-            self.view = view
-            self.model = model
-            loadUi("COMBDb/UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
-            self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-            self.clinDrop.clear()
-            self.clinDrop.addItems(self.view.names)
-            self.currentKit = 1
-            self.kitList = []
-            self.printList = {}
-            self.save.setEnabled(False)
-            self.print.setEnabled(False)
-            self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.back.clicked.connect(self.handleBackPressed)
-            self.home.clicked.connect(self.handleReturnToMainMenuPressed)
-            self.save.clicked.connect(self.handleSavePressed)
-            self.clear.clicked.connect(self.handleClearPressed)
-            self.print.clicked.connect(self.handlePrintPressed)
-            self.find.clicked.connect(self.handleSearchPressed)
-            self.clearAll.clicked.connect(self.handleClearAllPressed)
-            self.remove.clicked.connect(self.handleRemovePressed)
-            self.kitTWid.setColumnCount(1)
-            self.kitTWid.itemClicked.connect(self.activateRemove)
-            self.print.setEnabled(False)
-            self.remove.setEnabled(False)
-        except Exception as e:
-            print(e)
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
+        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
+        self.clinDrop.clear()
+        self.clinDrop.addItems(self.view.names)
+        self.currentKit = 1
+        self.kitList = []
+        self.printList = {}
+        self.save.setEnabled(False)
+        self.print.setEnabled(False)
+        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.back.clicked.connect(self.handleBackPressed)
+        self.home.clicked.connect(self.handleReturnToMainMenuPressed)
+        self.save.clicked.connect(self.handleSavePressed)
+        self.clear.clicked.connect(self.handleClearPressed)
+        self.print.clicked.connect(self.handlePrintPressed)
+        self.find.clicked.connect(self.handleSearchPressed)
+        self.clearAll.clicked.connect(self.handleClearAllPressed)
+        self.remove.clicked.connect(self.handleRemovePressed)
+        self.kitTWid.setColumnCount(1)
+        self.kitTWid.itemClicked.connect(self.activateRemove)
+        self.print.setEnabled(False)
+        self.remove.setEnabled(False)
 
+    @throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showCultureOrderNav()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
+    @throwsViewableException
     def handleSearchPressed(self):
-        try:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, OperatoryID, Product, Procedure, Collected, Received')
-            if self.sample is None:
-                self.saID.setText('xxxxxx')
-            else:
-                clinician = self.model.findClinician(self.sample[0])
-                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                self.cText.setText(self.sample[1])
-                self.nText.setText(self.sample[2])
-                self.operatory.setText(self.sample[3])
-                self.product.setText(self.sample[4])
-                self.procedure.setText(self.sample[5])
-                self.colDate.setDate(self.view.dtToQDate(self.sample[6]))
-                self.recDate.setDate(self.view.dtToQDate(self.sample[7]))
-                self.save.setEnabled(True)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    def handleSavePressed(self):
-        try:
-            if self.clinDrop.currentText():
-                saID = int(self.saID.text())
-                if self.model.addWaterlineReceiving(
-                    saID,
-                    self.operatory.text(),
-                    self.view.entries[self.clinDrop.currentText()]['db'],
-                    self.colDate.date(),
-                    self.recDate.date(),
-                    self.product.text(),
-                    self.procedure.text(),
-                    self.cText.toPlainText(),
-                    self.nText.toPlainText()
-                ):
-                    clinician = self.clinDrop.currentText().split(', ')
-                    self.kitList.append({
-                        'underline1': '__________',
-                        'clinicianName': clinician[1] + " " + clinician[0],
-                        'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                        'underline2': '__________',
-                        'underline3': '__________'
-                    })
-                    self.printList[str(saID)] = self.currentKit-1
-                    self.currentKit += 1
-                    self.handleClearPressed()
-                    self.save.setEnabled(False)
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Added DUWL Order: " + str(saID))
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Please select a clinician")
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    def handleClearPressed(self):
-        try:
-            self.saID.clear()
-            self.clinDrop.setCurrentIndex(0)
-            self.cText.clear()
-            self.nText.clear()
-            self.operatory.clear()
-            self.procedure.clear()
-            self.product.clear()
+        if not self.saID.text().isdigit():
+            self.saID.setText('xxxxxx')
+            return
+        self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, OperatoryID, Product, Procedure, Collected, Received')
+        if self.sample is None:
+            self.saID.setText('xxxxxx')
+        else:
+            clinician = self.model.findClinician(self.sample[0])
+            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.cText.setText(self.sample[1])
+            self.nText.setText(self.sample[2])
+            self.operatory.setText(self.sample[3])
+            self.product.setText(self.sample[4])
+            self.procedure.setText(self.sample[5])
+            self.colDate.setDate(self.view.dtToQDate(self.sample[6]))
+            self.recDate.setDate(self.view.dtToQDate(self.sample[7]))
             self.save.setEnabled(True)
-            self.clear.setEnabled(True)
-            self.updateTable()
-        except Exception as e:
-            self.view.showErrorScreen(e)
 
+    @throwsViewableException
+    def handleSavePressed(self):
+        if self.clinDrop.currentText():
+            saID = int(self.saID.text())
+            if self.model.addWaterlineReceiving(
+                saID,
+                self.operatory.text(),
+                self.view.entries[self.clinDrop.currentText()]['db'],
+                self.colDate.date(),
+                self.recDate.date(),
+                self.product.text(),
+                self.procedure.text(),
+                self.cText.toPlainText(),
+                self.nText.toPlainText()
+            ):
+                clinician = self.clinDrop.currentText().split(', ')
+                self.kitList.append({
+                    'underline1': '__________',
+                    'clinicianName': clinician[1] + " " + clinician[0],
+                    'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
+                    'underline2': '__________',
+                    'underline3': '__________'
+                })
+                self.printList[str(saID)] = self.currentKit-1
+                self.currentKit += 1
+                self.handleClearPressed()
+                self.save.setEnabled(False)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Added DUWL Order: " + str(saID))
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Please select a clinician")
+
+    @throwsViewableException
+    def handleClearPressed(self):
+        self.saID.clear()
+        self.clinDrop.setCurrentIndex(0)
+        self.cText.clear()
+        self.nText.clear()
+        self.operatory.clear()
+        self.procedure.clear()
+        self.product.clear()
+        self.save.setEnabled(True)
+        self.clear.setEnabled(True)
+        self.updateTable()
+
+    @throwsViewableException
     def handleClearAllPressed(self):
-        try:
-            self.kitList.clear()
-            self.currentKit = 1
-            self.printList.clear()
-            self.updateTable()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitList.clear()
+        self.currentKit = 1
+        self.printList.clear()
+        self.updateTable()
 
+    @throwsViewableException
     def handleRemovePressed(self):
-        try:
-            del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
-            del self.printList[self.kitTWid.currentItem().text()]
-            count = 0
-            for key in self.printList.keys():
-                self.printList[key] = count
-                count += 1
-            self.updateTable()
-            self.remove.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
+        del self.printList[self.kitTWid.currentItem().text()]
+        count = 0
+        for key in self.printList.keys():
+            self.printList[key] = count
+            count += 1
+        self.updateTable()
+        self.remove.setEnabled(False)
 
+    @throwsViewableException
     def updateTable(self):
-        try:
-            self.kitTWid.setRowCount(len(self.printList.keys()))
-            count = 0
-            for item in self.printList.keys():
-                self.kitTWid.setItem(count, 0, QTableWidgetItem(item))
-                count += 1
-            if len(self.printList.keys())>0:
-                self.print.setEnabled(True)
-            else:
-                self.print.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitTWid.setRowCount(len(self.printList.keys()))
+        count = 0
+        for item in self.printList.keys():
+            self.kitTWid.setItem(count, 0, QTableWidgetItem(item))
+            count += 1
+        if len(self.printList.keys())>0:
+            self.print.setEnabled(True)
+        else:
+            self.print.setEnabled(False)
 
+    @throwsViewableException
     def handlePrintPressed(self):
-        try:
-            template = str(Path().resolve())+r'\COMBDb\templates\pending_duwl_cultures_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            document.merge_rows('sampleID', self.kitList)
-            document.merge(received=self.view.fSlashDate(self.recDate.date()))
-            document.write(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-        try:
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    # def handleBackPressed(self):
-    #     self.view.showCultureOrderNav()
-
-    # def handleReturnToMainMenuPressed(self):
-    #     self.view.showAdminHomeScreen()
+        template = str(Path().resolve())+r'\COMBDb\templates\pending_duwl_cultures_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        document.merge_rows('sampleID', self.kitList)
+        document.merge(received=self.view.fSlashDate(self.recDate.date()))
+        document.write(dst)
+        self.view.convertAndPrint(dst)
 
 class ResultEntryNav(QMainWindow):
     def __init__(self, model, view):
@@ -1281,18 +1211,22 @@ class ResultEntryNav(QMainWindow):
         self.duwl.clicked.connect(self.handleDUWLPressed)
         self.back.clicked.connect(self.handleBackPressed)
 
+    @throwsViewableException
     def handleCulturePressed(self):
         self.close()
         self.view.showCultureResultForm()
 
+    @throwsViewableException
     def handleCATPressed(self):
         self.close()
         self.view.showCATResultForm()
 
+    @throwsViewableException
     def handleDUWLPressed(self):
         self.close()
         self.view.showDUWLResultForm()
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.close()
 
@@ -1318,9 +1252,6 @@ class CultureResultForm(QMainWindow):
         self.printP.setEnabled(False)
         self.printF.setEnabled(False)
         self.printS.setEnabled(False)
-        #self.tableWidget.itemSelectionChanged.connect(self.handleCellChanged)
-        #testbox = QComboBox()
-        #self.tableWidget.setCellWidget(0, 0, testbox)
         self.anTWid.setRowCount(0)
         self.anTWid.setColumnCount(0)
         try:
@@ -1378,67 +1309,64 @@ class CultureResultForm(QMainWindow):
         except Exception as e:
             self.view.showErrorScreen(e)
 
+    @throwsViewableException
     def initTables(self):
-        try:
-            self.aeTWid.setRowCount(0)
-            self.aeTWid.setRowCount(len(self.aerobicTable))
-            self.anTWid.setRowCount(0)
-            self.anTWid.setRowCount(len(self.anaerobicTable))
-            self.aeTWid.setColumnCount(0)
-            self.aeTWid.setColumnCount(len(self.aerobicTable[0]))
-            self.anTWid.setColumnCount(0)
-            self.anTWid.setColumnCount(len(self.anaerobicTable[0]))
-            self.aeTWid.setColumnWidth(0,300)
-            self.anTWid.setColumnWidth(0,300)
-            #aerobic
-            self.aeTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
-            for i in range(0, len(self.aerobicTable)):
-                for j in range(0, len(self.aerobicTable[0])):
-                    item = IndexedComboBox(i, j, self, True)
-                    if i>0 and j>0:
-                        item.addItems(self.options)
-                        item.setCurrentIndex(self.optionIndexes[self.aerobicTable[i][j]])
-                    elif i<1 and j>0:
-                        item.addItems(self.headers)
-                        item.setCurrentIndex(self.headerIndexes[self.aerobicTable[i][j]])
-                    elif i>0 and j<1:
-                        item.addItems(self.aerobicList)
-                        item.setCurrentIndex(self.aerobicIndex[self.aerobicTable[i][j]])
-                    else: continue
-                    self.aeTWid.setCellWidget(i, j, item)
+        self.aeTWid.setRowCount(0)
+        self.aeTWid.setRowCount(len(self.aerobicTable))
+        self.anTWid.setRowCount(0)
+        self.anTWid.setRowCount(len(self.anaerobicTable))
+        self.aeTWid.setColumnCount(0)
+        self.aeTWid.setColumnCount(len(self.aerobicTable[0]))
+        self.anTWid.setColumnCount(0)
+        self.anTWid.setColumnCount(len(self.anaerobicTable[0]))
+        self.aeTWid.setColumnWidth(0,300)
+        self.anTWid.setColumnWidth(0,300)
+        #aerobic
+        self.aeTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
+        for i in range(0, len(self.aerobicTable)):
+            for j in range(0, len(self.aerobicTable[0])):
+                item = IndexedComboBox(i, j, self, True)
+                if i>0 and j>0:
+                    item.addItems(self.options)
+                    item.setCurrentIndex(self.optionIndexes[self.aerobicTable[i][j]])
+                elif i<1 and j>0:
+                    item.addItems(self.headers)
+                    item.setCurrentIndex(self.headerIndexes[self.aerobicTable[i][j]])
+                elif i>0 and j<1:
+                    item.addItems(self.aerobicList)
+                    item.setCurrentIndex(self.aerobicIndex[self.aerobicTable[i][j]])
+                else: continue
+                self.aeTWid.setCellWidget(i, j, item)
 
-            #anaerobic
-            self.anTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
-            for i in range(0, len(self.anaerobicTable)):
-                for j in range(0, len(self.anaerobicTable[0])):
-                    item = IndexedComboBox(i, j, self, False)
-                    if i>0 and j>0:
-                        item.addItems(self.options)
-                        item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]])
-                    elif i<1 and j>0:
-                        item.addItems(self.headers)
-                        item.setCurrentIndex(self.headerIndexes[self.anaerobicTable[i][j]])
-                    elif i>0 and j<1:
-                        item.addItems(self.anaerobicList)
-                        item.setCurrentIndex(self.anaerobicIndex[self.anaerobicTable[i][j]])
-                    else: continue
-                    self.anTWid.setCellWidget(i, j, item)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        #anaerobic
+        self.anTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
+        for i in range(0, len(self.anaerobicTable)):
+            for j in range(0, len(self.anaerobicTable[0])):
+                item = IndexedComboBox(i, j, self, False)
+                if i>0 and j>0:
+                    item.addItems(self.options)
+                    item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]])
+                elif i<1 and j>0:
+                    item.addItems(self.headers)
+                    item.setCurrentIndex(self.headerIndexes[self.anaerobicTable[i][j]])
+                elif i>0 and j<1:
+                    item.addItems(self.anaerobicList)
+                    item.setCurrentIndex(self.anaerobicIndex[self.anaerobicTable[i][j]])
+                else: continue
+                self.anTWid.setCellWidget(i, j, item)
 
     #def eventFilter(self, source, event): trying to resolve the problem of mousehover/scrollwheel changing value in cells - shouldn't be allowed - solution is eventFilter, just need to figure it out
         #if source == self.
         #return
 
+    @throwsViewableException
     def updateTable(self, kind, row, column):
-        try:
-            if kind:
-                self.aerobicTable[row][column] = self.aeTWid.cellWidget(row, column).currentText() if self.aeTWid.cellWidget(row, column) else self.aerobicTable[row][column]
-            else:
-                self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if kind:
+            self.aerobicTable[row][column] = self.aeTWid.cellWidget(row, column).currentText() if self.aeTWid.cellWidget(row, column) else self.aerobicTable[row][column]
+        else:
+            self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
+    @throwsViewableException
     def resultToTable(self, result):
         if result is not None:
             result = result.split('/')
@@ -1457,6 +1385,7 @@ class CultureResultForm(QMainWindow):
         else:
             return [['Bacteria','Growth', 'B-lac', 'PEN', 'AMP', 'CC', 'TET', 'CEP', 'ERY']]
 
+    @throwsViewableException
     def tableToResult(self, table):
         if len(table)>1 and len(table[0])>1:
             result = ''
@@ -1470,250 +1399,232 @@ class CultureResultForm(QMainWindow):
         else:
             return None
 
+    @throwsViewableException
     def addRowAerobic(self):
-        try:
-            self.aeTWid.setRowCount(self.aeTWid.rowCount()+1)
-            self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
-            bacteria = IndexedComboBox(self.aeTWid.rowCount()-1, 0, self, True)
-            bacteria.addItems(self.aerobicList)
-            self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, 0, bacteria)
-            for i in range(1, self.aeTWid.columnCount()):
-                self.aerobicTable[self.aeTWid.rowCount()-1].append('NI')
-                options = IndexedComboBox(self.aeTWid.rowCount()-1, i, self, True)
-                options.addItems(self.options)
-                self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, i, options)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.aeTWid.setRowCount(self.aeTWid.rowCount()+1)
+        self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
+        bacteria = IndexedComboBox(self.aeTWid.rowCount()-1, 0, self, True)
+        bacteria.addItems(self.aerobicList)
+        self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, 0, bacteria)
+        for i in range(1, self.aeTWid.columnCount()):
+            self.aerobicTable[self.aeTWid.rowCount()-1].append('NI')
+            options = IndexedComboBox(self.aeTWid.rowCount()-1, i, self, True)
+            options.addItems(self.options)
+            self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, i, options)
 
+    @throwsViewableException
     def addRowAnaerobic(self):
-        try:
-            self.anTWid.setRowCount(self.anTWid.rowCount()+1)
-            self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
-            bacteria = IndexedComboBox(self.anTWid.rowCount()-1, 0, self, False)
-            bacteria.addItems(self.anaerobicList)
-            self.anTWid.setCellWidget(self.anTWid.rowCount()-1, 0, bacteria)
-            for i in range(1, self.anTWid.columnCount()):
-                self.anaerobicTable[self.anTWid.rowCount()-1].append('NI')
-                options = IndexedComboBox(self.anTWid.rowCount()-1, i, self, False)
-                options.addItems(self.options)
-                self.anTWid.setCellWidget(self.anTWid.rowCount()-1, i, options)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.anTWid.setRowCount(self.anTWid.rowCount()+1)
+        self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
+        bacteria = IndexedComboBox(self.anTWid.rowCount()-1, 0, self, False)
+        bacteria.addItems(self.anaerobicList)
+        self.anTWid.setCellWidget(self.anTWid.rowCount()-1, 0, bacteria)
+        for i in range(1, self.anTWid.columnCount()):
+            self.anaerobicTable[self.anTWid.rowCount()-1].append('NI')
+            options = IndexedComboBox(self.anTWid.rowCount()-1, i, self, False)
+            options.addItems(self.options)
+            self.anTWid.setCellWidget(self.anTWid.rowCount()-1, i, options)
 
+    @throwsViewableException
     def delRowAerobic(self):
         if self.aeTWid.rowCount() > 1:
             self.aeTWid.setRowCount(self.aeTWid.rowCount()-1)
             self.aerobicTable.pop()
 
+    @throwsViewableException
     def delRowAnaerobic(self):
         if self.anTWid.rowCount() > 1:
             self.anTWid.setRowCount(self.anTWid.rowCount()-1)
             self.anaerobicTable.pop()
 
+    @throwsViewableException
     def addColAerobic(self):
-        try:
-            self.aeTWid.setColumnCount(self.aeTWid.columnCount()+1)
-            self.aerobicTable[0].append('Growth')
-            header = IndexedComboBox(0, self.aeTWid.columnCount()-1, self, True)
-            header.addItems(self.headers)
-            self.aeTWid.setCellWidget(0, self.aeTWid.columnCount()-1, header)
-            for i in range(1, self.aeTWid.rowCount()):
-                self.aerobicTable[i].append('NI')
-                options = IndexedComboBox(i, self.aeTWid.columnCount()-1, self, True)
-                options.addItems(self.options)
-                self.aeTWid.setCellWidget(i, self.aeTWid.columnCount()-1, options)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.aeTWid.setColumnCount(self.aeTWid.columnCount()+1)
+        self.aerobicTable[0].append('Growth')
+        header = IndexedComboBox(0, self.aeTWid.columnCount()-1, self, True)
+        header.addItems(self.headers)
+        self.aeTWid.setCellWidget(0, self.aeTWid.columnCount()-1, header)
+        for i in range(1, self.aeTWid.rowCount()):
+            self.aerobicTable[i].append('NI')
+            options = IndexedComboBox(i, self.aeTWid.columnCount()-1, self, True)
+            options.addItems(self.options)
+            self.aeTWid.setCellWidget(i, self.aeTWid.columnCount()-1, options)
 
+    @throwsViewableException
     def addColAnaerobic(self):
-        try:
-            self.anTWid.setColumnCount(self.anTWid.columnCount()+1)
-            self.anaerobicTable[0].append('Growth')
-            header = IndexedComboBox(0, self.anTWid.columnCount()-1, self, False)
-            header.addItems(self.headers)
-            self.anTWid.setCellWidget(0, self.anTWid.columnCount()-1, header)
-            for i in range(1, self.anTWid.rowCount()):
-                self.anaerobicTable[i].append('NI')
-                options = IndexedComboBox(i, self.anTWid.columnCount()-1, self, False)
-                options.addItems(self.options)
-                self.anTWid.setCellWidget(i, self.anTWid.columnCount()-1, options)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.anTWid.setColumnCount(self.anTWid.columnCount()+1)
+        self.anaerobicTable[0].append('Growth')
+        header = IndexedComboBox(0, self.anTWid.columnCount()-1, self, False)
+        header.addItems(self.headers)
+        self.anTWid.setCellWidget(0, self.anTWid.columnCount()-1, header)
+        for i in range(1, self.anTWid.rowCount()):
+            self.anaerobicTable[i].append('NI')
+            options = IndexedComboBox(i, self.anTWid.columnCount()-1, self, False)
+            options.addItems(self.options)
+            self.anTWid.setCellWidget(i, self.anTWid.columnCount()-1, options)
 
+    @throwsViewableException
     def delColAerobic(self):
         if self.aeTWid.columnCount() > 1:
             self.aeTWid.setColumnCount(self.aeTWid.columnCount()-1)
             for row in self.aerobicTable:
                 row.pop()
 
+    @throwsViewableException
     def delColAnaerobic(self):
         if self.anTWid.columnCount() > 1:
             self.anTWid.setColumnCount(self.anTWid.columnCount()-1)
             for row in self.anaerobicTable:
                 row.pop()
 
+    @throwsViewableException
     def handleSearchPressed(self):
-        try:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                return
-            self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Collected], [Received], [Reported], [Aerobic Results], [Anaerobic Results], [Comments], [Notes]')
-            if self.sample is None:
-                self.saID.setText('xxxxxx')
-            else:
-                self.chID.setText(self.sample[0])
-                clinician = self.model.findClinician(self.sample[1])
-                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.patientName.setText(self.sample[2] + " " + self.sample[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                self.recDate.setDate(self.view.dtToQDate(self.sample[5]))
-                self.repDate.setDate(self.view.dtToQDate(self.sample[6]))
-                self.aerobicTable = self.resultToTable(self.sample[7])
-                self.anaerobicTable = self.resultToTable(self.sample[8])
-                self.cText.setText(self.sample[9])
-                self.nText.setText(self.sample[10])
-                self.initTables()
-                self.save.setEnabled(True)
-                self.clear.setEnabled(True)
-                self.printP.setEnabled(False)
-                self.printF.setEnabled(False)
-                self.printS.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        if not self.saID.text().isdigit():
+            self.saID.setText('xxxxxx')
+            return
+        self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Collected], [Received], [Reported], [Aerobic Results], [Anaerobic Results], [Comments], [Notes]')
+        if self.sample is None:
+            self.saID.setText('xxxxxx')
+        else:
+            self.chID.setText(self.sample[0])
+            clinician = self.model.findClinician(self.sample[1])
+            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+            self.patientName.setText(self.sample[2] + " " + self.sample[3])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.recDate.setDate(self.view.dtToQDate(self.sample[5]))
+            self.repDate.setDate(self.view.dtToQDate(self.sample[6]))
+            self.aerobicTable = self.resultToTable(self.sample[7])
+            self.anaerobicTable = self.resultToTable(self.sample[8])
+            self.cText.setText(self.sample[9])
+            self.nText.setText(self.sample[10])
+            self.initTables()
+            self.save.setEnabled(True)
+            self.clear.setEnabled(True)
+            self.printP.setEnabled(False)
+            self.printF.setEnabled(False)
+            self.printS.setEnabled(False)
 
+    @throwsViewableException
     def handleSavePressed(self):
-        try:
-            aerobic = self.tableToResult(self.aerobicTable)
-            anaerobic = self.tableToResult(self.anaerobicTable)
-            if self.model.addCultureResult(
-                int(self.saID.text()),
-                self.chID.text(),
-                self.view.entries[self.clinDrop.currentText()]['db'],
-                self.sample[2],
-                self.sample[3],
-                self.repDate.date(),
-                aerobic,
-                anaerobic,
-                self.cText.toPlainText(),
-                self.nText.toPlainText(),
-            ):
-                self.handleSearchPressed()
-                self.save.setEnabled(False)
-                self.clear.setEnabled(False)
-                self.printP.setEnabled(True)
-                self.printF.setEnabled(True)
-                self.printS.setEnabled(True)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        aerobic = self.tableToResult(self.aerobicTable)
+        anaerobic = self.tableToResult(self.anaerobicTable)
+        if self.model.addCultureResult(
+            int(self.saID.text()),
+            self.chID.text(),
+            self.view.entries[self.clinDrop.currentText()]['db'],
+            self.sample[2],
+            self.sample[3],
+            self.repDate.date(),
+            aerobic,
+            anaerobic,
+            self.cText.toPlainText(),
+            self.nText.toPlainText(),
+        ):
+            self.handleSearchPressed()
+            self.save.setEnabled(False)
+            self.clear.setEnabled(False)
+            self.printP.setEnabled(True)
+            self.printF.setEnabled(True)
+            self.printS.setEnabled(True)
 
+    @throwsViewableException
     def handleDirectSmearPressed(self):
-        try:
-            template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-                clinicianName=self.clinDrop.currentText(),
-                collected=self.view.fSlashDate(self.sample[4]),
-                received=self.view.fSlashDate(self.recDate.date()),
-                chartID=self.chID.text(),
-                patientName=f'{self.sample[3]}, {self.sample[2]}',
-                comments=self.cText.toPlainText(),
-                directSmear=self.dText.toPlainText()
-            )
-            document.write(dst)
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        document.merge(
+            saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
+            clinicianName=self.clinDrop.currentText(),
+            collected=self.view.fSlashDate(self.sample[4]),
+            received=self.view.fSlashDate(self.recDate.date()),
+            chartID=self.chID.text(),
+            patientName=f'{self.sample[3]}, {self.sample[2]}',
+            comments=self.cText.toPlainText(),
+            directSmear=self.dText.toPlainText()
+        )
+        document.write(dst)
+        self.view.convertAndPrint(dst)
     
+    @throwsViewableException
     def handlePreliminaryPressed(self):
-        try:
-            template = str(Path().resolve())+r'\COMBDb\templates\culture_prelim_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
-            document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-                collected=self.view.fSlashDate(self.sample[4]),
-                received=self.view.fSlashDate(self.recDate.date()),
-                reported=self.view.fSlashDate(self.repDate.date()),
-                chartID=self.chID.text(),
-                clinicianName=clinician[1] + " " + clinician[0],
-                patientName=f'{self.sample[3]}, {self.sample[2]}',
-                comments=self.cText.toPlainText(),
-                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
-            )
-            document.write(dst)
-            context = {
-                'headers' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
-                'servers': []
-            }
-            for i in range(1, len(self.aerobicTable)):
-                context['servers'].append(self.aerobicTable[i])
-            document = DocxTemplate(dst)
-            document.render(context)
-            document.save(dst)
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        template = str(Path().resolve())+r'\COMBDb\templates\culture_prelim_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        clinician=self.clinDrop.currentText().split(', ')
+        document.merge(
+            saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
+            collected=self.view.fSlashDate(self.sample[4]),
+            received=self.view.fSlashDate(self.recDate.date()),
+            reported=self.view.fSlashDate(self.repDate.date()),
+            chartID=self.chID.text(),
+            clinicianName=clinician[1] + " " + clinician[0],
+            patientName=f'{self.sample[3]}, {self.sample[2]}',
+            comments=self.cText.toPlainText(),
+            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+        )
+        document.write(dst)
+        context = {
+            'headers' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
+            'servers': []
+        }
+        for i in range(1, len(self.aerobicTable)):
+            context['servers'].append(self.aerobicTable[i])
+        document = DocxTemplate(dst)
+        document.render(context)
+        document.save(dst)
+        self.view.convertAndPrint(dst)
 
     def handlePerioPressed(self):
-        try:
-            template = str(Path().resolve())+r'\COMBDb\templates\culture_results_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
-            document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-                collected=self.view.fSlashDate(self.sample[4]),
-                received=self.view.fSlashDate(self.recDate.date()),
-                reported=self.view.fSlashDate(self.repDate.date()),
-                chartID=self.chID.text(),
-                clinicianName=clinician[1] + " " + clinician[0],
-                patientName=f'{self.sample[3]}, {self.sample[2]}',
-                comments=self.cText.toPlainText(),
-                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
-            )
-            document.write(dst)
-            #aerobic
-            context = {
-                'headers1' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
-                'headers2' : ['Anaerobic Bacteria']+self.anaerobicTable[0][1:],
-                'servers1': [],
-                'servers2': []
-            }
-            for i in range(1, len(self.aerobicTable)):
-                context['servers1'].append(self.aerobicTable[i])
-            for i in range(1, len(self.anaerobicTable)):
-                context['servers2'].append(self.anaerobicTable[i])
-            document = DocxTemplate(dst)
-            document.render(context)
-            document.save(dst)
-            # document = DocxTemplate(dst)
-            # document.render(context)
-            # document.save(dst)
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        template = str(Path().resolve())+r'\COMBDb\templates\culture_results_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        clinician=self.clinDrop.currentText().split(', ')
+        document.merge(
+            saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
+            collected=self.view.fSlashDate(self.sample[4]),
+            received=self.view.fSlashDate(self.recDate.date()),
+            reported=self.view.fSlashDate(self.repDate.date()),
+            chartID=self.chID.text(),
+            clinicianName=clinician[1] + " " + clinician[0],
+            patientName=f'{self.sample[3]}, {self.sample[2]}',
+            comments=self.cText.toPlainText(),
+            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+        )
+        document.write(dst)
+        #aerobic
+        context = {
+            'headers1' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
+            'headers2' : ['Anaerobic Bacteria']+self.anaerobicTable[0][1:],
+            'servers1': [],
+            'servers2': []
+        }
+        for i in range(1, len(self.aerobicTable)):
+            context['servers1'].append(self.aerobicTable[i])
+        for i in range(1, len(self.anaerobicTable)):
+            context['servers2'].append(self.anaerobicTable[i])
+        document = DocxTemplate(dst)
+        document.render(context)
+        document.save(dst)
+        self.view.convertAndPrint(dst)
 
+    @throwsViewableException
     def handleClearPressed(self):
-        try:
-            self.saID.clear()
-            self.patientName.clear()
-            self.clinDrop.setCurrentIndex(0)
-            self.chID.clear()
-            self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.cText.clear()
-            self.nText.clear()
-            self.dText.clear()
-            self.initTables()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.saID.clear()
+        self.patientName.clear()
+        self.clinDrop.setCurrentIndex(0)
+        self.chID.clear()
+        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.cText.clear()
+        self.nText.clear()
+        self.dText.clear()
+        self.initTables()
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showResultEntryNav()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
@@ -1733,8 +1644,6 @@ class CATResultForm(QMainWindow):
 
         self.volume.editingFinished.connect(lambda: self.lineEdited(True))
         self.collectionTime.editingFinished.connect(lambda: self.lineEdited(False))
-        #self.volume.editingFinished.connect(self.volumeLineEdited)
-        #self.collectionTime.editingFinished.connect(self.colTimeLineEdited)
 
         self.save.setEnabled(False)
         self.print.setEnabled(False)
@@ -1746,307 +1655,272 @@ class CATResultForm(QMainWindow):
         self.print.clicked.connect(self.handlePrintPressed)
         self.find.clicked.connect(self.handleSearchPressed)
 
+    @throwsViewableException
     def lineEdited(self, arg):
-        try:
-            lineEdit = self.volume if arg else self.collectionTime
-            if float(self.collectionTime.text()) != 0:
-                vol = float(self.volume.text())
-                colTime = float(self.collectionTime.text())
-                value = str(vol if arg else colTime)
-                rate = round(vol / colTime, 4)
-                lineEdit.setText(value)
-                self.flowRate.setText(str(rate)) 
-                self.errorMessage.setText(None)
-            else:
-                self.flowRate.setText("0.00")
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        lineEdit = self.volume if arg else self.collectionTime
+        if float(self.collectionTime.text()) != 0:
+            vol = float(self.volume.text())
+            colTime = float(self.collectionTime.text())
+            value = str(vol if arg else colTime)
+            rate = round(vol / colTime, 4)
+            lineEdit.setText(value)
+            self.flowRate.setText(str(rate)) 
+            self.errorMessage.setText(None)
+        else:
+            self.flowRate.setText("0.00")
 
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showResultEntryNav()
 
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
+    @throwsViewableException
     def handleSearchPressed(self):
-        try:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                return
-            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received]')
-            if self.sample is None:
-                self.saID.setText('xxxxxx')
-            else:
-                clinician = self.model.findClinician(self.sample[0])
-                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                self.fName.setText(self.sample[1])
-                self.lName.setText(self.sample[2])
-                # technician = self.model.tech if self.technician.text() is None else self.model.findTech(self.sample[3], 'Entry, First, Middle, Last, Username, Password, Active')
-                #self.technician.setCurrentIndex(self.view.entries['techs'][self.view.fTechName(technician[1], technician[2], technician[3], 'formal')])
-                self.repDate.setDate(self.view.dtToQDate(self.sample[4]))
-                self.type.setCurrentIndex(self.type.findText(self.sample[5]))
-                self.volume.setText(str(self.sample[6]) if self.sample[12] is not None else None)
-                self.collectionTime.setText(str(self.sample[7]) if self.sample[12] is not None else None)
-                self.initialPH.setText(str(self.sample[8]) if self.sample[12] is not None else None)
-                self.flowRate.setText(str(self.sample[9]) if self.sample[12] is not None else None)
-                self.bufferingCapacityPH.setText(str(self.sample[10]) if self.sample[12] is not None else None)
-                self.strepMutansCount.setText(str(self.sample[11]) if self.sample[12] is not None else None)
-                self.lactobacillusCount.setText(str(self.sample[12]) if self.sample[12] is not None else None)
-                self.cText.setText(self.sample[13])
-                self.nText.setText(self.sample[14])
-                self.save.setEnabled(True)
-                self.clear.setEnabled(True)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    def handleSavePressed(self):
-        try:
-            if float(self.collectionTime.text()) != 0:
-                saID = int(self.saID.text())
-                #self.saID.setText(str(saID))
-                if self.model.addCATResult(
-                    saID,
-                    self.view.entries[self.clinDrop.currentText()]['db'],
-                    self.fName.text(),
-                    self.lName.text(),
-                    self.repDate.date(),
-                    self.type.currentText(),
-                    float(self.volume.text()),
-                    float(self.collectionTime.text()),
-                    float(self.flowRate.text()),
-                    float(self.initialPH.text()),
-                    float(self.bufferingCapacityPH.text()),
-                    int(self.strepMutansCount.text()),
-                    int(self.lactobacillusCount.text()),
-                    self.cText.toPlainText(),
-                    self.nText.toPlainText()
-                ):
-                    self.handleSearchPressed()
-                    self.save.setEnabled(False)
-                    self.clear.setEnabled(False)
-                    self.print.setEnabled(True)
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
-            else:
-                self.flowRate.setText("x.xx")
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Division by zero error")
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-    def handleClearPressed(self):
-        try:
-            self.saID.clear()
-            self.clinDrop.setCurrentIndex(0)
-            self.fName.clear()
-            self.lName.clear()
-            self.type.setCurrentIndex(0)
-            self.volume.setText("0.00")
-            self.initialPH.clear()
-            self.collectionTime.setText("0.00")
-            self.bufferingCapacityPH.clear()
-            self.flowRate.setText("0.00")
-            self.strepMutansCount.clear()
-            self.lactobacillusCount.clear()
-            self.repDate.setDate(self.view.dtToQDate(None))
-            self.cText.clear()
-            self.nText.clear()
+        if not self.saID.text().isdigit():
+            self.saID.setText('xxxxxx')
+            return
+        self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received]')
+        if self.sample is None:
+            self.saID.setText('xxxxxx')
+        else:
+            clinician = self.model.findClinician(self.sample[0])
+            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.fName.setText(self.sample[1])
+            self.lName.setText(self.sample[2])
+            self.repDate.setDate(self.view.dtToQDate(self.sample[4]))
+            self.type.setCurrentIndex(self.type.findText(self.sample[5]))
+            self.volume.setText(str(self.sample[6]) if self.sample[12] is not None else None)
+            self.collectionTime.setText(str(self.sample[7]) if self.sample[12] is not None else None)
+            self.initialPH.setText(str(self.sample[8]) if self.sample[12] is not None else None)
+            self.flowRate.setText(str(self.sample[9]) if self.sample[12] is not None else None)
+            self.bufferingCapacityPH.setText(str(self.sample[10]) if self.sample[12] is not None else None)
+            self.strepMutansCount.setText(str(self.sample[11]) if self.sample[12] is not None else None)
+            self.lactobacillusCount.setText(str(self.sample[12]) if self.sample[12] is not None else None)
+            self.cText.setText(self.sample[13])
+            self.nText.setText(self.sample[14])
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
-            self.print.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
 
-    def handlePrintPressed(self):
-        try:
-            # print(Path().resolve())
-            template = str(Path().resolve())+r'\COMBDb\templates\cat_results_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
-            document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-                patientName=f'{self.sample[2]}, {self.sample[1]}',
-                clinicianName=clinician[1] + " " + clinician[0],
-                collected=self.view.fSlashDate(self.sample[13]),
-                received=self.view.fSlashDate(self.sample[14]),
-                flowRate=str(self.sample[8]),
-                bufferingCapacity=str(self.sample[9]),
-                smCount='{:.2e}'.format(self.sample[10]),
-                lbCount='{:.2e}'.format(self.sample[11]),
-                reported=self.view.fSlashDate(self.sample[4]),
-                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
-            )
-            document.write(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-        try:
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
-class DUWLResultForm(QMainWindow):
-    def __init__(self, model, view):
-        super(DUWLResultForm, self).__init__()
-        try:
-            self.view = view
-            self.model = model
-            loadUi("COMBDb/UI Screens/COMBdb_DUWL_Result_Form.ui", self)
-            self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-            self.clinDrop.clear()
-            self.clinDrop.addItems(self.view.names)
-            self.currentKit = 1
-            self.kitList = []
-            self.meets = { 'Meets': 1, 'Fails to Meet': 2 }
-            self.printList = {}
-            self.save.setEnabled(False)
-            self.print.setEnabled(False)
-            self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-            self.back.clicked.connect(self.handleBackPressed)
-            self.home.clicked.connect(self.handleReturnToMainMenuPressed)
-            self.save.clicked.connect(self.handleSavePressed)
-            self.clear.clicked.connect(self.handleClearPressed)
-            self.print.clicked.connect(self.handlePrintPressed)
-            self.find.clicked.connect(self.handleSearchPressed)
-            self.clearAll.clicked.connect(self.handleClearAllPressed)
-            self.remove.clicked.connect(self.handleRemovePressed)
-            self.kitTWid.setColumnCount(1)
-            self.kitTWid.itemClicked.connect(self.activateRemove)
-            self.print.setEnabled(False)
-            self.remove.setEnabled(False)
-        except Exception as e:
-            print(e)
-
-    def activateRemove(self):
-        self.remove.setEnabled(True)
-
-    def handleBackPressed(self):
-        self.view.showResultEntryNav()
-
-    def handleReturnToMainMenuPressed(self):
-        self.view.showAdminHomeScreen()
-
-    def handleSearchPressed(self):
-        try:
-            if not self.saID.text().isdigit():
-                #self.saID.setText('xxxxxx')
-                self.handleClearPressed()
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes]')
-            if self.sample is None:
-                #self.saID.setText('xxxxxx')
-                self.handleClearPressed()
-            else:
-                clinician = self.model.findClinician(self.sample[0])
-                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-                self.bacterialCount.setText(str(self.sample[1]) if self.sample[1] else None)
-                self.cdcADA.setCurrentIndex(self.meets[self.sample[2]] if self.sample[2] else 0)
-                self.repDate.setDate(self.view.dtToQDate(self.sample[3]))
-                self.cText.setText(self.sample[4])
-                self.nText.setText(self.sample[5])
-                self.save.setEnabled(True)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-
+    @throwsViewableException
     def handleSavePressed(self):
-        try:
+        if float(self.collectionTime.text()) != 0:
             saID = int(self.saID.text())
-            if self.model.addWaterlineResult(
+            if self.model.addCATResult(
                 saID,
                 self.view.entries[self.clinDrop.currentText()]['db'],
+                self.fName.text(),
+                self.lName.text(),
                 self.repDate.date(),
-                int(self.bacterialCount.text()),
-                self.cdcADA.currentText(),
+                self.type.currentText(),
+                float(self.volume.text()),
+                float(self.collectionTime.text()),
+                float(self.flowRate.text()),
+                float(self.initialPH.text()),
+                float(self.bufferingCapacityPH.text()),
+                int(self.strepMutansCount.text()),
+                int(self.lactobacillusCount.text()),
                 self.cText.toPlainText(),
                 self.nText.toPlainText()
             ):
-                self.kitList.append({
-                    'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                    'count': self.bacterialCount.text(),
-                    'cdcADA': self.cdcADA.currentText()
-                })
-                self.printList[str(saID)] = self.currentKit-1
-                self.currentKit += 1
-                self.handleClearPressed()
+                self.handleSearchPressed()
                 self.save.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+                self.clear.setEnabled(False)
+                self.print.setEnabled(True)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
+        else:
+            self.flowRate.setText("x.xx")
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Division by zero error")
 
+    @throwsViewableException
     def handleClearPressed(self):
-        try:
-            self.saID.setText('xxxxxx')
-            self.cText.clear()
-            self.nText.clear()
-            self.bacterialCount.clear()
-            self.cdcADA.setCurrentText(None)
-            self.save.setEnabled(True)
-            self.clear.setEnabled(True)
-            self.clinDrop.setCurrentIndex(0)
-            self.updateTable()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.saID.clear()
+        self.clinDrop.setCurrentIndex(0)
+        self.fName.clear()
+        self.lName.clear()
+        self.type.setCurrentIndex(0)
+        self.volume.setText("0.00")
+        self.initialPH.clear()
+        self.collectionTime.setText("0.00")
+        self.bufferingCapacityPH.clear()
+        self.flowRate.setText("0.00")
+        self.strepMutansCount.clear()
+        self.lactobacillusCount.clear()
+        self.repDate.setDate(self.view.dtToQDate(None))
+        self.cText.clear()
+        self.nText.clear()
+        self.save.setEnabled(True)
+        self.clear.setEnabled(True)
+        self.print.setEnabled(False)
 
+    @throwsViewableException
+    def handlePrintPressed(self):
+        template = str(Path().resolve())+r'\COMBDb\templates\cat_results_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        clinician=self.clinDrop.currentText().split(', ')
+        document.merge(
+            saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
+            patientName=f'{self.sample[2]}, {self.sample[1]}',
+            clinicianName=clinician[1] + " " + clinician[0],
+            collected=self.view.fSlashDate(self.sample[13]),
+            received=self.view.fSlashDate(self.sample[14]),
+            flowRate=str(self.sample[8]),
+            bufferingCapacity=str(self.sample[9]),
+            smCount='{:.2e}'.format(self.sample[10]),
+            lbCount='{:.2e}'.format(self.sample[11]),
+            reported=self.view.fSlashDate(self.sample[4]),
+            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+        )
+        document.write(dst)
+        self.view.convertAndPrint(dst)
+
+class DUWLResultForm(QMainWindow):
+    def __init__(self, model, view):
+        super().__init__()
+        self.view = view
+        self.model = model
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Result_Form.ui", self)
+        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
+        self.clinDrop.clear()
+        self.clinDrop.addItems(self.view.names)
+        self.currentKit = 1
+        self.kitList = []
+        self.meets = { 'Meets': 1, 'Fails to Meet': 2 }
+        self.printList = {}
+        self.save.setEnabled(False)
+        self.print.setEnabled(False)
+        self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.back.clicked.connect(self.handleBackPressed)
+        self.home.clicked.connect(self.handleReturnToMainMenuPressed)
+        self.save.clicked.connect(self.handleSavePressed)
+        self.clear.clicked.connect(self.handleClearPressed)
+        self.print.clicked.connect(self.handlePrintPressed)
+        self.find.clicked.connect(self.handleSearchPressed)
+        self.clearAll.clicked.connect(self.handleClearAllPressed)
+        self.remove.clicked.connect(self.handleRemovePressed)
+        self.kitTWid.setColumnCount(1)
+        self.kitTWid.itemClicked.connect(self.activateRemove)
+        self.print.setEnabled(False)
+        self.remove.setEnabled(False)
+
+    @throwsViewableException
+    def activateRemove(self):
+        self.remove.setEnabled(True)
+
+    @throwsViewableException
+    def handleBackPressed(self):
+        self.view.showResultEntryNav()
+
+    @throwsViewableException
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
+    @throwsViewableException
+    def handleSearchPressed(self):
+        if not self.saID.text().isdigit():
+            self.handleClearPressed()
+            return
+        self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes]')
+        if self.sample is None:
+            self.handleClearPressed()
+        else:
+            clinician = self.model.findClinician(self.sample[0])
+            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.bacterialCount.setText(str(self.sample[1]) if self.sample[1] else None)
+            self.cdcADA.setCurrentIndex(self.meets[self.sample[2]] if self.sample[2] else 0)
+            self.repDate.setDate(self.view.dtToQDate(self.sample[3]))
+            self.cText.setText(self.sample[4])
+            self.nText.setText(self.sample[5])
+            self.save.setEnabled(True)
+
+    @throwsViewableException
+    def handleSavePressed(self):
+        saID = int(self.saID.text())
+        if self.model.addWaterlineResult(
+            saID,
+            self.view.entries[self.clinDrop.currentText()]['db'],
+            self.repDate.date(),
+            int(self.bacterialCount.text()),
+            self.cdcADA.currentText(),
+            self.cText.toPlainText(),
+            self.nText.toPlainText()
+        ):
+            self.kitList.append({
+                'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
+                'count': self.bacterialCount.text(),
+                'cdcADA': self.cdcADA.currentText()
+            })
+            self.printList[str(saID)] = self.currentKit-1
+            self.currentKit += 1
+            self.handleClearPressed()
+            self.save.setEnabled(False)
+
+    @throwsViewableException
+    def handleClearPressed(self):
+        self.saID.setText('xxxxxx')
+        self.cText.clear()
+        self.nText.clear()
+        self.bacterialCount.clear()
+        self.cdcADA.setCurrentText(None)
+        self.save.setEnabled(True)
+        self.clear.setEnabled(True)
+        self.clinDrop.setCurrentIndex(0)
+        self.updateTable()
+
+    @throwsViewableException
     def handleClearAllPressed(self):
-        try:
-            self.kitList.clear()
-            self.currentKit = 1
-            self.printList.clear()
-            self.updateTable()
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitList.clear()
+        self.currentKit = 1
+        self.printList.clear()
+        self.updateTable()
 
     def handleRemovePressed(self):
-        try:
-            del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
-            del self.printList[self.kitTWid.currentItem().text()]
-            count = 0
-            for key in self.printList.keys():
-                self.printList[key] = count
-                count += 1
-            self.updateTable()
-            self.remove.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
+        del self.printList[self.kitTWid.currentItem().text()]
+        count = 0
+        for key in self.printList.keys():
+            self.printList[key] = count
+            count += 1
+        self.updateTable()
+        self.remove.setEnabled(False)
 
+    @throwsViewableException
     def updateTable(self):
-        try:
-            self.kitTWid.setRowCount(len(self.printList.keys()))
-            count = 0
-            for item in self.printList.keys():
-                self.kitTWid.setItem(count, 0, QTableWidgetItem(item))
-                count += 1
-            if len(self.printList.keys())>0:
-                self.print.setEnabled(True)
-            else:
-                self.print.setEnabled(False)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        self.kitTWid.setRowCount(len(self.printList.keys()))
+        count = 0
+        for item in self.printList.keys():
+            self.kitTWid.setItem(count, 0, QTableWidgetItem(item))
+            count += 1
+        if len(self.printList.keys())>0:
+            self.print.setEnabled(True)
+        else:
+            self.print.setEnabled(False)
 
+    @throwsViewableException
     def handlePrintPressed(self):
-        try:
-            template = str(Path().resolve())+r'\COMBDb\templates\duwl_results_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            document.merge_rows('sampleID', self.kitList)
-            clinician = self.model.findClinician(self.sample[0])
-            document.merge(
-                reported=self.view.fSlashDate(self.repDate.date()),
-                clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
-                designation=clinician[3],
-                address=clinician[4],
-                city=clinician[5],
-                state=clinician[6],
-                zip=str(clinician[7])
-            )
-            document.write(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
-        try:
-            self.view.convertAndPrint(dst)
-        except Exception as e:
-            self.view.showErrorScreen(e)
+        template = str(Path().resolve())+r'\COMBDb\templates\duwl_results_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        document.merge_rows('sampleID', self.kitList)
+        clinician = self.model.findClinician(self.sample[0])
+        document.merge(
+            reported=self.view.fSlashDate(self.repDate.date()),
+            clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
+            designation=clinician[3],
+            address=clinician[4],
+            city=clinician[5],
+            state=clinician[6],
+            zip=str(clinician[7])
+        )
+        document.write(dst)
+        self.view.convertAndPrint(dst)
 
 class IndexedComboBox(QComboBox):
     def __init__(self, row, column, form, kind):
@@ -2057,5 +1931,6 @@ class IndexedComboBox(QComboBox):
         self.kind = kind
         self.currentIndexChanged.connect(self.handleCurrentIndexChanged)
 
+    @throwsViewableException
     def handleCurrentIndexChanged(self):
         self.form.updateTable(self.kind, self.row, self.column)
