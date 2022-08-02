@@ -573,6 +573,7 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
         for i in range(0, len(prefix)):
             widget.setItem(i,0, QTableWidgetItem(prefix[i][0]))
             widget.setItem(i,1, QTableWidgetItem(prefix[i][1]))
+        widget.sortItems(0,0)
 
     @throwsViewableException
     def handlePrefixSelected(self, type):
@@ -674,6 +675,7 @@ class CultureOrderForm(QMainWindow):
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
+        self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         self.find.clicked.connect(self.handleSearchPressed)
@@ -710,7 +712,7 @@ class CultureOrderForm(QMainWindow):
             self.chID.setText(self.sample[0])
             clinician = self.model.findClinician(self.sample[1])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
             self.fName.setText(self.sample[2])
             self.lName.setText(self.sample[3])
             self.type.setCurrentIndex(self.type.findText(self.sample[4]))
@@ -915,6 +917,7 @@ class DUWLOrderForm(QMainWindow):
         self.kitNum.setText('1')
         self.numOrders.setValue(1)
         self.clinDrop.clear()
+        self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
         self.shipDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.find.clicked.connect(self.handleSearchPressed)
@@ -950,7 +953,7 @@ class DUWLOrderForm(QMainWindow):
             if saIDCheck not in kitListValues:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
                 self.cText.setText(self.sample[1])
                 self.nText.setText(self.sample[2])
                 self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
@@ -967,7 +970,7 @@ class DUWLOrderForm(QMainWindow):
                         self.printList[str(saID)] = self.currentKit-1
                         self.currentKit += 1
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                        self.errorMessage.setText("Searched previous order: " + str(saID))
+                        self.errorMessage.setText("Found previous order: " + str(saID))
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                     self.errorMessage.setText("Please select a clinician")
@@ -1021,7 +1024,7 @@ class DUWLOrderForm(QMainWindow):
     @throwsViewableException
     def handleClearPressed(self):
         self.kitNum.setText(str(self.currentKit))
-        self.saID.setText('xxxxxx')
+        self.saID.clear()
         self.cText.clear()
         self.nText.clear()
         self.numOrders.setValue(1)
@@ -1029,6 +1032,7 @@ class DUWLOrderForm(QMainWindow):
         self.clear.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
         self.errorMessage.setText(" ")
+        self.tabWidget.setCurrentIndex(0)
         self.updateTable()
 
     @throwsViewableException
@@ -1176,6 +1180,7 @@ class DUWLReceiveForm(QMainWindow):
         self.product.clear()
         self.save.setEnabled(True)
         self.clear.setEnabled(True)
+        self.tabWidget.setCurrentIndex(0)
         self.updateTable()
 
     @throwsViewableException
@@ -1500,7 +1505,7 @@ class CultureResultForm(QMainWindow):
         if not self.saID.text().isdigit():
             self.saID.setText('xxxxxx')
             return
-        self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Collected], [Received], [Reported], [Aerobic Results], [Anaerobic Results], [Comments], [Notes]')
+        self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Tech], [Collected], [Received], [Reported], [Type], [Direct Smear], [Aerobic Results], [Anaerobic Results], [Comments], [Notes]')
         if self.sample is None:
             self.saID.setText('xxxxxx')
         else:
@@ -1509,12 +1514,13 @@ class CultureResultForm(QMainWindow):
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
             self.patientName.setText(self.sample[2] + " " + self.sample[3])
             self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-            self.recDate.setDate(self.view.dtToQDate(self.sample[5]))
-            self.repDate.setDate(self.view.dtToQDate(self.sample[6]))
-            self.aerobicTable = self.resultToTable(self.sample[7])
-            self.anaerobicTable = self.resultToTable(self.sample[8])
-            self.cText.setText(self.sample[9])
-            self.nText.setText(self.sample[10])
+            self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
+            self.repDate.setDate(self.view.dtToQDate(self.sample[7]))
+            self.aerobicTable = self.resultToTable(self.sample[10])
+            self.anaerobicTable = self.resultToTable(self.sample[11])
+            self.cText.setText(self.sample[12])
+            self.nText.setText(self.sample[13])
+            self.dText.setText(self.sample[9])
             self.initTables()
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
@@ -1533,6 +1539,7 @@ class CultureResultForm(QMainWindow):
             self.sample[2],
             self.sample[3],
             self.repDate.date(),
+            self.dText.toPlainText(),
             aerobic,
             anaerobic,
             self.cText.toPlainText(),
@@ -1540,7 +1547,7 @@ class CultureResultForm(QMainWindow):
         ):
             self.handleSearchPressed()
             self.save.setEnabled(False)
-            self.clear.setEnabled(False)
+            self.clear.setEnabled(True)
             self.printP.setEnabled(True)
             self.printF.setEnabled(True)
             self.printS.setEnabled(True)
@@ -1550,15 +1557,18 @@ class CultureResultForm(QMainWindow):
         template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
+        clinician = self.model.findClinician(self.sample[1])
         document.merge(
             saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-            clinicianName=self.clinDrop.currentText(),
-            collected=self.view.fSlashDate(self.sample[4]),
+            clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
+            collected=self.view.fSlashDate(self.sample[5]),
             received=self.view.fSlashDate(self.recDate.date()),
             chartID=self.chID.text(),
             patientName=f'{self.sample[3]}, {self.sample[2]}',
+            cultureType=self.sample[8],
             comments=self.cText.toPlainText(),
-            directSmear=self.dText.toPlainText()
+            directSmear=self.dText.toPlainText(),
+            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
         )
         document.write(dst)
         self.view.convertAndPrint(dst)
@@ -1571,13 +1581,15 @@ class CultureResultForm(QMainWindow):
         clinician=self.clinDrop.currentText().split(', ')
         document.merge(
             saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-            collected=self.view.fSlashDate(self.sample[4]),
+            collected=self.view.fSlashDate(self.sample[5]),
             received=self.view.fSlashDate(self.recDate.date()),
             reported=self.view.fSlashDate(self.repDate.date()),
             chartID=self.chID.text(),
             clinicianName=clinician[1] + " " + clinician[0],
             patientName=f'{self.sample[3]}, {self.sample[2]}',
             comments=self.cText.toPlainText(),
+            cultureType=self.sample[8],
+            directSmear=self.dText.toPlainText(),
             techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
         )
         document.write(dst)
@@ -1599,13 +1611,15 @@ class CultureResultForm(QMainWindow):
         clinician=self.clinDrop.currentText().split(', ')
         document.merge(
             saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-            collected=self.view.fSlashDate(self.sample[4]),
+            collected=self.view.fSlashDate(self.sample[5]),
             received=self.view.fSlashDate(self.recDate.date()),
             reported=self.view.fSlashDate(self.repDate.date()),
             chartID=self.chID.text(),
             clinicianName=clinician[1] + " " + clinician[0],
             patientName=f'{self.sample[3]}, {self.sample[2]}',
             comments=self.cText.toPlainText(),
+            cultureType=self.sample[8],
+            directSmear=self.dText.toPlainText(),
             techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
         )
         document.write(dst)
@@ -1636,6 +1650,7 @@ class CultureResultForm(QMainWindow):
         self.cText.clear()
         self.nText.clear()
         self.dText.clear()
+        self.tabWidget.setCurrentIndex(0)
         self.initTables()
 
     @throwsViewableException
@@ -1747,15 +1762,14 @@ class CATResultForm(QMainWindow):
                 self.nText.toPlainText()
             ):
                 self.handleSearchPressed()
-                self.save.setEnabled(False)
-                self.clear.setEnabled(False)
+                self.save.setEnabled(True)
+                #self.clear.setEnabled(False)
                 self.print.setEnabled(True)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
         else:
             self.flowRate.setText("x.xx")
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Division by zero error in Collection Time field")
+
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -1773,27 +1787,29 @@ class CATResultForm(QMainWindow):
         self.repDate.setDate(self.view.dtToQDate(None))
         self.cText.clear()
         self.nText.clear()
-        self.save.setEnabled(True)
+        self.save.setEnabled(False)
         self.clear.setEnabled(True)
         self.print.setEnabled(False)
         self.errorMessage.setText("")
+        self.tabWidget.setCurrentIndex(0)
 
     @throwsViewableException
     def handlePrintPressed(self):
         template = str(Path().resolve())+r'\COMBDb\templates\cat_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
-        clinician=self.clinDrop.currentText().split(', ')
+        print(self.saID.text()[0:2] + "-" + self.saID.text()[2:6])
+        clinician = self.model.findClinician(self.sample[0])
         document.merge(
             saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
             patientName=f'{self.sample[2]}, {self.sample[1]}',
-            clinicianName=clinician[1] + " " + clinician[0],
+            clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
             collected=self.view.fSlashDate(self.sample[15]),
             received=self.view.fSlashDate(self.sample[16]),
-            flowRate=str(self.sample[8]),
-            bufferingCapacity=str(self.sample[9]),
-            smCount='{:.2e}'.format(self.sample[10]),
-            lbCount='{:.2e}'.format(self.sample[11]),
+            flowRate=str(self.sample[9]),
+            bufferingCapacity=str(self.sample[10]),
+            smCount='{:.2e}'.format(self.sample[11]),
+            lbCount='{:.2e}'.format(self.sample[12]),
             reported=self.view.fSlashDate(self.sample[4]),
             techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
         )
@@ -1845,20 +1861,35 @@ class DUWLResultForm(QMainWindow):
     def handleSearchPressed(self):
         if not self.saID.text().isdigit():
             self.handleClearPressed()
+            self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID must only contain numbers")
             return
         self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes]')
         if self.sample is None:
             self.handleClearPressed()
+            self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID not found")
         else:
-            clinician = self.model.findClinician(self.sample[0])
-            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-            self.bacterialCount.setText(str(self.sample[1]) if self.sample[1] else None)
-            self.cdcADA.setCurrentIndex(self.meets[self.sample[2]] if self.sample[2] else 0)
-            self.repDate.setDate(self.view.dtToQDate(self.sample[3]))
-            self.cText.setText(self.sample[4])
-            self.nText.setText(self.sample[5])
-            self.save.setEnabled(True)
+            saID = int(self.saID.text())
+            saIDCheck = str(saID)[0:2]+ "-" + str(saID)[2:]
+            kitListValues = [value for elem in self.kitList for value in elem.values()]
+            if saIDCheck not in kitListValues:
+                clinician = self.model.findClinician(self.sample[0])
+                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.bacterialCount.setText(str(self.sample[1]) if self.sample[1] else None)
+                self.cdcADA.setCurrentIndex(self.meets[self.sample[2]] if self.sample[2] else 0)
+                self.repDate.setDate(self.view.dtToQDate(self.sample[3]))
+                self.cText.setText(self.sample[4])
+                self.nText.setText(self.sample[5])
+                self.save.setEnabled(True)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Found DUWL Order: " + self.saID.text())
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("This DUWL Order has already been added")                
 
     @throwsViewableException
     def handleSavePressed(self):
@@ -1884,7 +1915,7 @@ class DUWLResultForm(QMainWindow):
 
     @throwsViewableException
     def handleClearPressed(self):
-        self.saID.setText('xxxxxx')
+        self.saID.clear()
         self.cText.clear()
         self.nText.clear()
         self.bacterialCount.clear()
@@ -1892,6 +1923,8 @@ class DUWLResultForm(QMainWindow):
         self.save.setEnabled(True)
         self.clear.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(0)
+        self.errorMessage.setText("")
         self.updateTable()
 
     @throwsViewableException

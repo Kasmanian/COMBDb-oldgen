@@ -1,47 +1,11 @@
 UI Variable name changes:
-- firstName => fName ***
-- middleName => mName ***
-- lastName => lName ***
 - prefix => pName *** (Only present on Settings_Mange_Prefixes_Form)
-- userName => user ***
-- password => pswd ***
-- collectedDate => colDate ***
-- receivedDate => recDate ***
-- reportedDate => repDate ***
-- shippingDate => shipDate ***
-- technician => tech ***
-- technicianTable => techTable ***
 - clinician => clin
 - technicianDropDown => techDrop - Not Present
-- clinicianDropDown => clinDrop ***
-- sampleID => saID ***
-- chartID => chID ***
-- cultureType => type ***
-- Return to Main Menu => home (vs. menu) ***
-- comment => cText ***
-- notes => nText ***
-- directSmear (textbox) => dText ***
-- search => find ***
-- directSmear (print button) => printS ***
-- preliminary => printP ***
-- perio => printF ***
-- tableWidget => aeTWid ***
-- tableWidget_2 => anTWid ***
-- addRow => addRow1 and 2 ***
-- addColumn => addCol1 and 2 ***
-- removeRow => delRow1 and 2 ***
-- removeColumn => delCol1 and 2 ***
-- kitNumber => kitNum ***
-- numberOfOrders => numOrders ***
-- tableWidget => kitTWid (DUWL Order) ***
 - antibioticsTable => abTWid (Doesn't exist yet)
 
-
-- CAT Result throws error - CATResultForm object has no attribute 'type'
 - DUWL Recieve will allow saving of two of the same SampleID's resulting in one input in the table but two of the same printouts
-- Reset comment index when clear is pressed
 - Culture Result Direct Smear is not tracked in DB
 - DUWL Result form does not notify user when searching orders - errorHandling/confirmations
-
 
 Alpha-Hemolytic Streptococcus:Growth=I;DOR=P;PEN=S;AMP=NI;CC=NI;TET=NI;CEP=NI;ERY=NIre

@@ -543,14 +543,30 @@ border-width: 1px</string>
             </item>
             <item row="8" column="0" colspan="2" alignment="Qt::AlignRight">
              <widget class="QTabWidget" name="tabWidget">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>200</width>
-                <height>125</height>
+                <height>16777215</height>
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(235, 235, 235);</string>
+               <string notr="true">QTabWidget::pane {
+	background: rgb(235, 235, 235);
+	top: -16px;
+}
+QTabWidget::tab-bar {
+	alignment: center;
+}
+QTabBar::tab {
+	height: 23px; 
+	width: 94px;
+}</string>
               </property>
               <property name="currentIndex">
                <number>0</number>
@@ -565,6 +581,18 @@ border-width: 1px</string>
                <layout class="QGridLayout" name="gridLayout_3">
                 <item row="0" column="0">
                  <widget class="QTextEdit" name="cText">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>75</height>
+                   </size>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -584,6 +612,18 @@ border-width: 1px</string>
                <layout class="QGridLayout" name="gridLayout_4">
                 <item row="0" column="0">
                  <widget class="QTextEdit" name="nText">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>75</height>
+                   </size>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -868,7 +908,7 @@ background-color: rgb(193, 193, 193);
        </layout>
       </item>
       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="errorMessage">
         <property name="minimumSize">
          <size>
           <width>350</width>
@@ -877,7 +917,7 @@ background-color: rgb(193, 193, 193);
         </property>
         <property name="maximumSize">
          <size>
-          <width>350</width>
+          <width>999</width>
           <height>30</height>
          </size>
         </property>

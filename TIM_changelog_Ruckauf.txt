@@ -107,9 +107,11 @@
 - Changed stylesheets for imbedded text edits
 - Fixed bug on Manage prefixes where cells would not deselect when changing tabs or clearing the page
 
-
-TODO:
-- Code in "clear" button on DUWL Order
-- Clear button should also clear Private Notes on all forms
-- CAT Result needs to do a few automatic calculations
-- Confirmation window when updating existing culture orders
+8/2/22
+- When clearing pages, comment tab widget will reset index to 0
+- Fixed variables on CAT Result template
+- Added blank clinician entry on clinDrop[0] for cleaner look
+- Finished stylizing comment tab widgets for DUWL orders and results
+- Reset comment tab widget index to 0 when Clear button is pressed
+- DUWL Results already added to kitList cannot be searched again - will notify user that is was already added
+- Fixed Culture Order template variables and added new fields
