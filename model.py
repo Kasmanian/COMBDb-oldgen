@@ -85,7 +85,7 @@ class Model:
   @__usesCursor
   def addCultureResult(self, cursor, sampleID, chartID, clinician, first, last, tech, reported, type, smear, aerobic, anaerobic, comments, notes):
     query = ('UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Type]=?, [Direct Smear]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?')
-    cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), type, smear, aerobic, anaerobic, comments, notes, sampleID)
+    cursor.execute(query, chartID, clinician, first, last, tech, self.fQtDate(reported), type, smear, aerobic, anaerobic, comments, notes, sampleID)
     return True
   
   @__usesCursor

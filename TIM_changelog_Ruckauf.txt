@@ -115,3 +115,13 @@
 - Reset comment tab widget index to 0 when Clear button is pressed
 - DUWL Results already added to kitList cannot be searched again - will notify user that is was already added
 - Fixed Culture Order template variables and added new fields
+
+8/3/22
+- Changed focus policy of CAT order form to better handle automatic calulcations of flow rate
+- Updated queries for Culture Order that were missing some fields
+- Working on solution to clear tables in Culture Result upon pressing of clear button
+- Updated TODO lists
+
+8/4/22
+- Added search confirmation to DUWL Recieve
+- Started working on updating cultures - techs will be able to pull up previous orders and make adjustments

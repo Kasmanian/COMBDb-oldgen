@@ -5,7 +5,7 @@ UI Variable name changes:
 - antibioticsTable => abTWid (Doesn't exist yet)
 
 - DUWL Recieve will allow saving of two of the same SampleID's resulting in one input in the table but two of the same printouts
-- Culture Result Direct Smear is not tracked in DB
-- DUWL Result form does not notify user when searching orders - errorHandling/confirmations
+- errorMessage on a timer for 5 seconds then disappear
+- confirmation windows when updating existing orders
 
 Alpha-Hemolytic Streptococcus:Growth=I;DOR=P;PEN=S;AMP=NI;CC=NI;TET=NI;CEP=NI;ERY=NIre

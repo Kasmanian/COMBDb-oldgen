@@ -296,9 +296,7 @@ class AdminLoginScreen(QMainWindow):
 
     @throwsViewableException
     def handleLoginPressed(self):
-        u = self.user.text()
-        p = self.pswd.text()
-        if len(u)==0 or len(p)==0:
+        if len(self.user.text())==0 or len(self.pswd.text())==0:
             self.errorMessage.setText("Please input all fields")
         else:
             if self.model.techLogin(self.user.text(), self.pswd.text()):
@@ -504,7 +502,7 @@ class SettingsEditTechnician(QMainWindow):
                     self.errorMessage.setText('Old password is incorrect')
             else: 
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText('New password and confirm new password are mismatched')
+                self.errorMessage.setText("New password and confirm new password don't match")
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText('Missing required fields')
@@ -527,7 +525,7 @@ class SettingsManageArchivesForm(QMainWindow): #TODO - incorporate archiving.
         self.view.showAdminHomeScreen()
 
     
-class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables and allow them to be edited.
+class SettingsManagePrefixesForm(QMainWindow):
     def __init__(self, model, view):
         super(SettingsManagePrefixesForm, self).__init__()
         self.view = view
@@ -589,7 +587,6 @@ class SettingsManagePrefixesForm(QMainWindow): #TODO - Need to populate tables a
             self.currentPrefix = self.model.findPrefix(self.pName.text(), 'Entry, Type, Prefix, Word')
             self.add.setEnabled(False)
             self.save.setEnabled(True)
-            #widget.clearSelection()
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -947,7 +944,7 @@ class DUWLOrderForm(QMainWindow):
         saID = int(self.saID.text())
         if self.sample is None:
             self.saID.setText('xxxxxx')
-        else: #TODO - Check to see if the search saID already exists in the list using the kitList
+        else:
             saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
             kitListValues = [value for elem in self.kitList for value in elem.values()]
             if saIDCheck not in kitListValues:
@@ -1121,25 +1118,34 @@ class DUWLReceiveForm(QMainWindow):
             self.saID.setText('xxxxxx')
             return
         self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, OperatoryID, Product, Procedure, Collected, Received')
+        saID = int(self.saID.text())
         if self.sample is None:
             self.saID.setText('xxxxxx')
         else:
-            clinician = self.model.findClinician(self.sample[0])
-            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
-            self.cText.setText(self.sample[1])
-            self.nText.setText(self.sample[2])
-            self.operatory.setText(self.sample[3])
-            self.product.setText(self.sample[4])
-            self.procedure.setText(self.sample[5])
-            self.colDate.setDate(self.view.dtToQDate(self.sample[6]))
-            self.recDate.setDate(self.view.dtToQDate(self.sample[7]))
-            self.save.setEnabled(True)
+            saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
+            kitListValues = [value for elem in self.kitList for value in elem.values()]
+            if saIDCheck not in kitListValues:
+                clinician = self.model.findClinician(self.sample[0])
+                clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.cText.setText(self.sample[1])
+                self.nText.setText(self.sample[2])
+                self.operatory.setText(self.sample[3])
+                self.product.setText(self.sample[4])
+                self.procedure.setText(self.sample[5])
+                self.colDate.setDate(self.view.dtToQDate(self.sample[6]))
+                self.recDate.setDate(self.view.dtToQDate(self.sample[7]))
+                self.save.setEnabled(True)
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Found DUWL Order: " + str(saID))
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("This DUWL Order has already been added")
 
     @throwsViewableException
     def handleSavePressed(self):
+        saID = int(self.saID.text())
         if self.clinDrop.currentText():
-            saID = int(self.saID.text())
             if self.model.addWaterlineReceiving(
                 saID,
                 self.operatory.text(),
@@ -1164,10 +1170,11 @@ class DUWLReceiveForm(QMainWindow):
                 self.handleClearPressed()
                 self.save.setEnabled(False)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("Added DUWL Order: " + str(saID))
+                self.errorMessage.setText("Saved DUWL Order: " + str(saID))
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please select a clinician")
+
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -1181,6 +1188,7 @@ class DUWLReceiveForm(QMainWindow):
         self.save.setEnabled(True)
         self.clear.setEnabled(True)
         self.tabWidget.setCurrentIndex(0)
+        self.errorMessage.setText("")
         self.updateTable()
 
     @throwsViewableException
@@ -1538,7 +1546,9 @@ class CultureResultForm(QMainWindow):
             self.view.entries[self.clinDrop.currentText()]['db'],
             self.sample[2],
             self.sample[3],
+            self.sample[4],
             self.repDate.date(),
+            self.sample[8],
             self.dText.toPlainText(),
             aerobic,
             anaerobic,
@@ -1669,6 +1679,7 @@ class CATResultForm(QMainWindow):
         loadUi("COMBDb/UI Screens/COMBdb_CAT_Result_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
+        self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
         self.volume.setText("0.00")
         self.collectionTime.setText("0.00")
@@ -1688,16 +1699,19 @@ class CATResultForm(QMainWindow):
     @throwsViewableException
     def lineEdited(self, arg):
         lineEdit = self.volume if arg else self.collectionTime
-        if float(self.collectionTime.text()) != 0:
-            vol = float(self.volume.text())
-            colTime = float(self.collectionTime.text())
-            value = str(vol if arg else colTime)
-            rate = round(vol / colTime, 2)
-            lineEdit.setText(value)
-            self.flowRate.setText(str(rate)) 
-            self.errorMessage.setText(None)
+        if lineEdit.text() != "":
+            if float(self.collectionTime.text()) != 0:
+                vol = float(self.volume.text())
+                colTime = float(self.collectionTime.text())
+                value = str(vol if arg else colTime)
+                rate = round(vol / colTime, 2)
+                lineEdit.setText(value)
+                self.flowRate.setText(str(rate)) 
+                self.errorMessage.setText(None)
+            else:
+                self.flowRate.setText("0.00")
         else:
-            self.flowRate.setText("0.00")
+            lineEdit.setText("0.00")
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -1722,7 +1736,7 @@ class CATResultForm(QMainWindow):
         else:
             clinician = self.model.findClinician(self.sample[0])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
             self.fName.setText(self.sample[1])
             self.lName.setText(self.sample[2])
             self.repDate.setDate(self.view.dtToQDate(self.sample[4]))

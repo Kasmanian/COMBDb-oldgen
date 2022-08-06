@@ -2,10 +2,9 @@
 
 Culture/CAT Order:
 - implement updating - currently if you look up previous orders and save it creates a new entry in the database - should update existing entry
-- letterhead on DUWL Result Form
 - Shannon wants the labels on the DUWL order to print the Clinican name in the form "Title First Last"
 - (Done) try block function wrapper
 - report handler / error file / audit terminal
 - DUWL Receieve has a bug - when looking up and saving 3 orders and then trying to remove the middle order from the table there is a "list assignment index out of range" error - won't remove the order
 - Culture Result - Culture Tables need to be cleared when "clear" button is pressed
-- DUWL Result crashes when searching orders that dont exist
+- 

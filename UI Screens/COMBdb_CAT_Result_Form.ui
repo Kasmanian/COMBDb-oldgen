@@ -10,6 +10,9 @@
     <height>1078</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -182,6 +185,9 @@ background-color: rgb(193, 193, 193);
               <height>22</height>
              </size>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
@@ -270,6 +276,9 @@ border-width: 1px</string>
               <width>200</width>
               <height>22</height>
              </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 255);
@@ -390,6 +399,9 @@ background-color: rgb(193, 193, 193);
               <width>200</width>
               <height>22</height>
              </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 255);
