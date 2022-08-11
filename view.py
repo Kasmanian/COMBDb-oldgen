@@ -8,7 +8,7 @@ import sys, os, datetime, json
 from mailmerge import MailMerge
 from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
-from PyQt5.QtCore import QUrl, Qt, QDate, pyqtSignal
+from PyQt5.QtCore import QUrl, Qt, QDate, pyqtSignal, QTimer
 from PyQt5.QtGui import QIcon
 import bcrypt
 
@@ -290,12 +290,15 @@ class AdminLoginScreen(QMainWindow):
         super(AdminLoginScreen, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_Admin_Login.ui", self)
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.handleLoginPressed)
 
     @throwsViewableException
     def handleLoginPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if len(self.user.text())==0 or len(self.pswd.text())==0:
             self.errorMessage.setText("Please input all fields")
         else:
@@ -303,6 +306,10 @@ class AdminLoginScreen(QMainWindow):
                 self.view.showAdminHomeScreen()
             else:
                 self.errorMessage.setText("Invalid username or password")
+
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
 
 class AdminHomeScreen(QMainWindow):
     def __init__(self, model, view):
@@ -372,6 +379,7 @@ class SettingsManageTechnicianForm(QMainWindow):
         super(SettingsManageTechnicianForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
         self.edit.clicked.connect(self.handleEditPressed)
         self.back.clicked.connect(self.handleBackPressed)
@@ -434,6 +442,8 @@ class SettingsManageTechnicianForm(QMainWindow):
 
     @throwsViewableException
     def handleAddTechPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         user = self.user.text()
         if self.pswd.text()==self.confirmPswd.text() and self.pswd.text() and self.confirmPswd.text():
             if self.fName.text() and self.lName.text() and self.user.text():
@@ -458,11 +468,16 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.pswd.clear()
         self.confirmPswd.clear()
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class SettingsEditTechnician(QMainWindow):
     def __init__(self, model, view, id):
         super(SettingsEditTechnician, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         self.id = id
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
         self.back.clicked.connect(self.handleBackPressed)
@@ -485,6 +500,8 @@ class SettingsEditTechnician(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if self.fName.text() and self.lName.text() and self.user.text() and self.oldPswd.text() and self.newPswd.text() and self.confirmNewPswd.text():
             if self.newPswd.text()==self.confirmNewPswd.text():
                 if bcrypt.checkpw(self.oldPswd.text().encode('utf-8'), self.tech[4].encode('utf-8')):
@@ -506,6 +523,10 @@ class SettingsEditTechnician(QMainWindow):
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText('Missing required fields')
+
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
 
 class SettingsManageArchivesForm(QMainWindow): #TODO - incorporate archiving.
     def __init__(self, model, view):
@@ -530,6 +551,7 @@ class SettingsManagePrefixesForm(QMainWindow):
         super(SettingsManagePrefixesForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Prefixes_Form.ui", self)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
@@ -598,6 +620,8 @@ class SettingsManagePrefixesForm(QMainWindow):
 
     @throwsViewableException
     def handleAddPressed(self):  
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         type = self.type.currentText()
         prefix =  self.pName.text()
         word = self.word.text()
@@ -613,6 +637,8 @@ class SettingsManagePrefixesForm(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if self.pName.text() and self.word.text() and self.type.currentText():
             self.model.updatePrefixes(
                 self.currentPrefix[0],
@@ -638,6 +664,10 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.errorMessage.clear()
         self.add.setEnabled(True)
         self.save.setEnabled(False)
+
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
 
 
 class CultureOrderNav(QMainWindow):
@@ -669,6 +699,7 @@ class CultureOrderForm(QMainWindow):
         super(CultureOrderForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
@@ -685,12 +716,24 @@ class CultureOrderForm(QMainWindow):
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
 
+        # Testing ways to check if SampleID exists in database already
+        #self.sampleIDList = []
+        #self.sampleIDList.append(self.model.findSampleNumbers('Cultures', '[SampleID]'))
+        #self.sampleIDList.append(self.model.findSampleNumbers('CATs', '[SampleID]'))
+        #self.cultureIDs = self.model.findSampleNumbers('Cultures', '[SampleID]')
+        #self.catIDs = self.model.findSampleNumbers('CATs', '[SampleID]')
+        #self.sampleIDList = self.cultureIDs + self.catIDs
+        #print(self.sampleIDList)
+        
+
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
     @throwsViewableException
     def handleSearchPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if not self.saID.text().isdigit():
             self.handleClearPressed()
             self.saID.setText('xxxxxx')
@@ -718,7 +761,7 @@ class CultureOrderForm(QMainWindow):
             self.cText.setText(self.sample[7])
             self.nText.setText(self.sample[8])
             self.print.setEnabled(True)
-            self.save.setEnabled(False)
+            #self.save.setEnabled(False)
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
 
@@ -731,27 +774,39 @@ class CultureOrderForm(QMainWindow):
         self.view.showAdminHomeScreen()
     
     @throwsViewableException
-    def handleSavePressed(self):
+    def handleSavePressed(self): #TODO - Continue implementing update feature
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if self.fName.text() and self.lName.text() and self.type.currentText() and self.clinDrop.currentText() != " ":
-            table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
-            saID = self.view.model.addPatientOrder(
-                table,
-                self.chID.text(),
-                self.view.entries[self.clinDrop.currentText()]['db'],
-                self.fName.text(),
-                self.lName.text(),
-                self.colDate.date(),
-                self.recDate.date(),
-                self.type.currentText(),
-                self.cText.toPlainText(),
-                self.nText.toPlainText()
-            )
-            if saID:
-                self.saID.setText(str(saID))
-                self.save.setEnabled(False)
-                self.print.setEnabled(True)
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("Successfully saved order: " + str(saID))
+            self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+            if self.sample is None:
+                self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+                if self.sample is None:
+                    table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
+                    saID = self.view.model.addPatientOrder(
+                        table,
+                        self.chID.text(),
+                        self.view.entries[self.clinDrop.currentText()]['db'],
+                        self.fName.text(),
+                        self.lName.text(),
+                        self.colDate.date(),
+                        self.recDate.date(),
+                        self.type.currentText(),
+                        self.cText.toPlainText(),
+                        self.nText.toPlainText()
+                    )
+                    if saID:
+                        self.saID.setText(str(saID))
+                        self.save.setEnabled(False)
+                        self.print.setEnabled(True)
+                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                        self.errorMessage.setText("Successfully saved order: " + str(saID))
+                else:
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: yellow")
+                    self.errorMessage.setText("This CAT Order Already Exists")  
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: yellow")
+                self.errorMessage.setText("This Culture Order Already Exists")
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please enter in all required fields")
@@ -808,11 +863,16 @@ class CultureOrderForm(QMainWindow):
         self.errorMessage.setText("")
         self.tabWidget.setCurrentIndex(0)
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class AddClinician(QMainWindow):
     def __init__(self, model, view, dropdown):
         super(AddClinician, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         self.dropdown = dropdown
         loadUi("COMBDb/UI Screens/COMBdb_Add_New_Clinician.ui", self)
         self.clear.clicked.connect(self.handleClearPressed)
@@ -822,6 +882,8 @@ class AddClinician(QMainWindow):
         self.enrollDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
 
     def handleSavePressed(self): #Incorporate validation to make sure clinician is actually added to DB
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if self.fName.text() and self.lName.text() and self.address1.text() and self.city.text() and self.state.currentText() and self.zip.text():
             self.model.addClinician(
                 self.title.currentText(),
@@ -876,6 +938,10 @@ class AddClinician(QMainWindow):
         self.cText.clear()
         self.errorMessage.clear()
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class DUWLNav(QMainWindow):
     def __init__(self, model, view):
         super(DUWLNav, self).__init__()
@@ -906,6 +972,7 @@ class DUWLOrderForm(QMainWindow):
         super(DUWLOrderForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.currentKit = 1
@@ -937,13 +1004,19 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handleSearchPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if not self.saID.text().isdigit():
             self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID may only contain numbers")
             return
         self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, Shipped')
         saID = int(self.saID.text())
         if self.sample is None:
             self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID not found")
         else:
             saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
             kitListValues = [value for elem in self.kitList for value in elem.values()]
@@ -991,6 +1064,8 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if self.clinDrop.currentText():
             numOrders = 1 if int(self.numOrders.text()) == None else int(self.numOrders.text())
             for x in range(numOrders):
@@ -1071,14 +1146,20 @@ class DUWLOrderForm(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class DUWLReceiveForm(QMainWindow):
     def __init__(self, model, view):
         super(DUWLReceiveForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
+        self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
         self.currentKit = 1
         self.kitList = []
@@ -1114,13 +1195,19 @@ class DUWLReceiveForm(QMainWindow):
 
     @throwsViewableException
     def handleSearchPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if not self.saID.text().isdigit():
             self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID may only contain numbers")
             return
         self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, OperatoryID, Product, Procedure, Collected, Received')
         saID = int(self.saID.text())
         if self.sample is None:
             self.saID.setText('xxxxxx')
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("Sample ID not found")
         else:
             saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
             kitListValues = [value for elem in self.kitList for value in elem.values()]
@@ -1144,6 +1231,8 @@ class DUWLReceiveForm(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         saID = int(self.saID.text())
         if self.clinDrop.currentText():
             if self.model.addWaterlineReceiving(
@@ -1231,6 +1320,10 @@ class DUWLReceiveForm(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class ResultEntryNav(QMainWindow):
     def __init__(self, model, view):
         super(ResultEntryNav, self).__init__()
@@ -1266,9 +1359,11 @@ class CultureResultForm(QMainWindow):
         super(CultureResultForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Result_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
+        self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
         self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
@@ -1521,7 +1616,7 @@ class CultureResultForm(QMainWindow):
             clinician = self.model.findClinician(self.sample[1])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
             self.patientName.setText(self.sample[2] + " " + self.sample[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
             self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
             self.repDate.setDate(self.view.dtToQDate(self.sample[7]))
             self.aerobicTable = self.resultToTable(self.sample[10])
@@ -1671,11 +1766,16 @@ class CultureResultForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class CATResultForm(QMainWindow):
     def __init__(self, model, view):
         super(CATResultForm, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_CAT_Result_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
@@ -1723,6 +1823,8 @@ class CATResultForm(QMainWindow):
 
     @throwsViewableException
     def handleSearchPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if not self.saID.text().isdigit():
             self.saID.setText('xxxxxx')
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -1756,6 +1858,8 @@ class CATResultForm(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if float(self.collectionTime.text()) != 0:
             saID = int(self.saID.text())
             if self.model.addCATResult(
@@ -1830,14 +1934,20 @@ class CATResultForm(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
 
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
+
 class DUWLResultForm(QMainWindow):
     def __init__(self, model, view):
         super().__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Result_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.clinDrop.clear()
+        self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
         self.currentKit = 1
         self.kitList = []
@@ -1873,6 +1983,8 @@ class DUWLResultForm(QMainWindow):
 
     @throwsViewableException
     def handleSearchPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         if not self.saID.text().isdigit():
             self.handleClearPressed()
             self.saID.setText('xxxxxx')
@@ -1892,7 +2004,7 @@ class DUWLResultForm(QMainWindow):
             if saIDCheck not in kitListValues:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
                 self.bacterialCount.setText(str(self.sample[1]) if self.sample[1] else None)
                 self.cdcADA.setCurrentIndex(self.meets[self.sample[2]] if self.sample[2] else 0)
                 self.repDate.setDate(self.view.dtToQDate(self.sample[3]))
@@ -1907,6 +2019,8 @@ class DUWLResultForm(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(3000)
         saID = int(self.saID.text())
         if self.model.addWaterlineResult(
             saID,
@@ -1988,6 +2102,10 @@ class DUWLResultForm(QMainWindow):
         )
         document.write(dst)
         self.view.convertAndPrint(dst)
+    
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
 
 class IndexedComboBox(QComboBox):
     def __init__(self, row, column, form, kind):

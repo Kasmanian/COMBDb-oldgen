@@ -114,6 +114,12 @@ class Model:
     return cursor.fetchone()
 
   @__usesCursor
+  def findSampleNumbers(self, cursor, table, columns):
+    query = f'SELECT {columns} FROM {table}'
+    cursor.execute(query)
+    return cursor.fetchall()
+
+  @__usesCursor
   def findClinician(self, cursor, entry):
     query = 'SELECT Prefix, First, Last, Designation, [Address 1], [City], [State], [Zip] FROM Clinicians WHERE Entry=?'
     cursor.execute(query, entry)
