@@ -734,6 +734,8 @@ class CultureOrderForm(QMainWindow):
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(3000)
+        self.saID.setEnabled(False)
+        self.type.setEnabled(False)
         if not self.saID.text().isdigit():
             self.handleClearPressed()
             self.saID.setText('xxxxxx')
@@ -801,18 +803,30 @@ class CultureOrderForm(QMainWindow):
                         self.print.setEnabled(True)
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Successfully saved order: " + str(saID))
-                else:
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: yellow")
-                    self.errorMessage.setText("This CAT Order Already Exists")  
-            else:
+                else: #Update existing CAT Order
+                    self.model.updateCATOrder(
+                        int(self.saID.text()),
+                        self.chID.text(),
+                        self.view.entries[self.clinDrop.currentText()]['db'],
+                        self.fName.text(),
+                        self.lName.text(),
+                        self.colDate.date(),
+                        self.recDate.date(),
+                        self.type.currentText(),
+                        self.cText.toPlainText(),
+                        self.nText.toPlainText()
+                    )
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                    self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text()))  
+            else: #Update existing Culture Order
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: yellow")
                 self.errorMessage.setText("This Culture Order Already Exists")
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Please enter in all required fields")
+            self.errorMessage.setText("* Denotes Required Fields")
     
     @throwsViewableException
-    def handlePrintPressed(self):
+    def handlePrintPressed(self): 
         if self.type.currentText()!='Caries':
             template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
             dst = self.view.tempify(template)
@@ -862,6 +876,8 @@ class CultureOrderForm(QMainWindow):
         self.clear.setEnabled(True)
         self.errorMessage.setText("")
         self.tabWidget.setCurrentIndex(0)
+        self.saID.setEnabled(True)
+        self.type.setEnabled(True)
 
     @throwsViewableException
     def timerEvent(self):

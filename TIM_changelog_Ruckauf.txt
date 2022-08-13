@@ -131,3 +131,6 @@
 - Added timers to errorMessage, messages disappear after 3 seconds
 - Started experimenting with update feature on order forms - past orders are able to be looked up and they will be editable
 - Started experimenting with confirmation windows that will be present when updating past order forms
+
+8/12/22
+- Added ability to update Culture Orders
