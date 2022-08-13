@@ -109,7 +109,7 @@ QTabWidget::tab-bar {
 }
 QTabBar::tab {
 	height: 25px; 
-	width: 125px;
+	width: 140px;
 }</string>
           </property>
           <property name="tabPosition">
@@ -1013,7 +1013,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1408</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

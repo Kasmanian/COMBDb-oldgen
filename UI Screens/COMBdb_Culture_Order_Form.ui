@@ -103,7 +103,7 @@ QTabWidget::tab-bar {
 }
 QTabBar::tab {
 	height: 23px; 
-	width: 100px;
+	width: 105px;
 }</string>
             </property>
             <property name="currentIndex">
@@ -1264,7 +1264,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1331</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

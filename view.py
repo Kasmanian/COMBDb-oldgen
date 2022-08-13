@@ -398,6 +398,9 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.techTable.setRowCount(0)
         self.techTable.setRowCount(len(techs)) 
         self.techTable.setColumnCount(3)
+        self.techTable.setColumnWidth(0,75)
+        self.techTable.setColumnWidth(1,150)
+        self.techTable.setColumnWidth(2,75)
         for i in range(0, len(techs)):
             self.techTable.setItem(i,0, QTableWidgetItem(str(techs[i][0])))
             self.techTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
@@ -714,17 +717,7 @@ class CultureOrderForm(QMainWindow):
         self.clear.clicked.connect(self.handleClearPressed)
         self.print.setEnabled(False)
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-
-        # Testing ways to check if SampleID exists in database already
-        #self.sampleIDList = []
-        #self.sampleIDList.append(self.model.findSampleNumbers('Cultures', '[SampleID]'))
-        #self.sampleIDList.append(self.model.findSampleNumbers('CATs', '[SampleID]'))
-        #self.cultureIDs = self.model.findSampleNumbers('Cultures', '[SampleID]')
-        #self.catIDs = self.model.findSampleNumbers('CATs', '[SampleID]')
-        #self.sampleIDList = self.cultureIDs + self.catIDs
-        #print(self.sampleIDList)
-        
+        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))        
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -763,7 +756,6 @@ class CultureOrderForm(QMainWindow):
             self.cText.setText(self.sample[7])
             self.nText.setText(self.sample[8])
             self.print.setEnabled(True)
-            #self.save.setEnabled(False)
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
 
@@ -816,6 +808,7 @@ class CultureOrderForm(QMainWindow):
                         self.cText.toPlainText(),
                         self.nText.toPlainText()
                     )
+                    #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text()))  
             else: #Update existing Culture Order

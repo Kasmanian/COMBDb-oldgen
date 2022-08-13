@@ -38,8 +38,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1515</width>
-         <height>1744</height>
+         <width>1507</width>
+         <height>1815</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -660,7 +660,7 @@ QTabWidget::tab-bar {
 }
 QTabBar::tab {
 	height: 23px; 
-	width: 100px;
+	width: 110px;
 }</string>
                     </property>
                     <property name="currentIndex">
@@ -2038,7 +2038,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1552</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

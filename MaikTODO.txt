@@ -7,5 +7,6 @@ UI Variable name changes:
 - DUWL Recieve will allow saving of two of the same SampleID's resulting in one input in the table but two of the same printouts
 - errorMessage on a timer for 5 seconds then disappear
 - confirmation windows when updating existing orders
+- Manage techs table - shrink "Tech ID" and "Active" columns
 
 Alpha-Hemolytic Streptococcus:Growth=I;DOR=P;PEN=S;AMP=NI;CC=NI;TET=NI;CEP=NI;ERY=NIre

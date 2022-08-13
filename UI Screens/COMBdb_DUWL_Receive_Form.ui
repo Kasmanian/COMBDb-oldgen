@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1386</width>
-    <height>782</height>
+    <height>820</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -595,7 +595,7 @@ background-color: rgb(193, 193, 193);
               </property>
               <property name="maximumSize">
                <size>
-                <width>200</width>
+                <width>210</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -609,7 +609,7 @@ QTabWidget::tab-bar {
 }
 QTabBar::tab {
 	height: 23px; 
-	width: 94px;
+	width: 105px;
 }</string>
               </property>
               <property name="currentIndex">
@@ -1284,7 +1284,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1386</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
