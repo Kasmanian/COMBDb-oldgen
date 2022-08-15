@@ -133,7 +133,20 @@
 - Started experimenting with confirmation windows that will be present when updating past order forms
 
 8/12/22
-- Added ability to update Culture Orders - working to implement this functionality on DUWL order
+- Added ability to update CAT Orders - working to implement this functionality on DUWL order
+- Added new queries to handle order updates
+- Disabled access to some input fields when searching and editing past orders
 
 8/13/22
 - Fixed UI elements to better adjusts to different screen resolutions and sizes
+
+8/14/22
+- Culture Result tables clear upon "Clear" pressed
+- Added ability to update Culture Orders
+
+8/15/22
+- Testing Culture Order Form 
+- Changed "Print" to "Print & Save" to disallow mismatch of information on printouts and database
+- Improved input validation to prevent errors on orders
+- Started working on DUWL Labels - have clinician last name print out automatically with label
+

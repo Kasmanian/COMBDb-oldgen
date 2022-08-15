@@ -715,7 +715,7 @@ class CultureOrderForm(QMainWindow):
         self.save.clicked.connect(self.handleSavePressed)
         self.print.clicked.connect(self.handlePrintPressed)
         self.clear.clicked.connect(self.handleClearPressed)
-        self.print.setEnabled(False)
+        #self.print.setEnabled(False)
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))        
 
@@ -755,7 +755,7 @@ class CultureOrderForm(QMainWindow):
             self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
             self.cText.setText(self.sample[7])
             self.nText.setText(self.sample[8])
-            self.print.setEnabled(True)
+           #self.print.setEnabled(True)
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
 
@@ -767,16 +767,19 @@ class CultureOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
     
-    @throwsViewableException
-    def handleSavePressed(self): #TODO - Continue implementing update feature
+    #@throwsViewableException
+    def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(3000)
-        if self.fName.text() and self.lName.text() and self.type.currentText() and self.clinDrop.currentText() != " ":
+        if self.fName.text() and self.lName.text() and self.type.currentText() and self.clinDrop.currentText() != "":
+            if self.saID.text() == "":
+                self.saID.setText("0")
             self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
             if self.sample is None:
                 self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
                 if self.sample is None:
                     table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
+                    #Create a new db entry - either culture or CAT
                     saID = self.view.model.addPatientOrder(
                         table,
                         self.chID.text(),
@@ -791,12 +794,16 @@ class CultureOrderForm(QMainWindow):
                     )
                     if saID:
                         self.saID.setText(str(saID))
-                        self.save.setEnabled(False)
+                        #self.save.setEnabled(False)
                         self.print.setEnabled(True)
+                        self.saID.setEnabled(False)
+                        self.type.setEnabled(False)
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Successfully saved order: " + str(saID))
+                        return True
                 else: #Update existing CAT Order
-                    self.model.updateCATOrder(
+                    self.model.updateCultureOrder(
+                        "CATs",
                         int(self.saID.text()),
                         self.chID.text(),
                         self.view.entries[self.clinDrop.currentText()]['db'],
@@ -810,47 +817,67 @@ class CultureOrderForm(QMainWindow):
                     )
                     #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text()))  
+                    self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
+                    return True 
             else: #Update existing Culture Order
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: yellow")
-                self.errorMessage.setText("This Culture Order Already Exists")
+                self.model.updateCultureOrder(
+                    "Cultures",
+                    int(self.saID.text()),
+                    self.chID.text(),
+                    self.view.entries[self.clinDrop.currentText()]['db'],
+                    self.fName.text(),
+                    self.lName.text(),
+                    self.colDate.date(),
+                    self.recDate.date(),
+                    self.type.currentText(),
+                    self.cText.toPlainText(),
+                    self.nText.toPlainText()
+                )
+                #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
+                return True
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")
+            return False
     
     @throwsViewableException
     def handlePrintPressed(self): 
-        if self.type.currentText()!='Caries':
-            template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
-            document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
-                received=self.recDate.date().toString(),
-                type=self.type.currentText(),
-                chartID=self.chID.text(),
-                clinicianName = clinician[1] + " " + clinician[0],
-                patientName=f'{self.lName.text()}, {self.fName.text()}',
-                comments=self.cText.toPlainText(),
-                notes=self.nText.toPlainText()
-            )
-            document.write(dst)
-            self.view.convertAndPrint(dst)
+        if self.handleSavePressed():
+            if self.type.currentText()!='Caries':
+                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
+                dst = self.view.tempify(template)
+                document = MailMerge(template)
+                clinician=self.clinDrop.currentText().split(', ')
+                document.merge(
+                    saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                    received=self.recDate.date().toString(),
+                    type=self.type.currentText(),
+                    chartID=self.chID.text(),
+                    clinicianName = clinician[1] + " " + clinician[0],
+                    patientName=f'{self.lName.text()}, {self.fName.text()}',
+                    comments=self.cText.toPlainText(),
+                    notes=self.nText.toPlainText()
+                )
+                document.write(dst)
+                self.view.convertAndPrint(dst)
+            else:
+                template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
+                dst = self.view.tempify(template)
+                document = MailMerge(template)
+                clinician=self.clinDrop.currentText().split(', ')
+                document.merge(
+                    saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                    received=self.recDate.date().toString(),
+                    chartID=self.chID.text(),
+                    clinicianName = clinician[1] + " " + clinician[0],
+                    patientName=f'{self.lName.text()}, {self.fName.text()}',
+                )
+                document.write(dst)
+                self.view.convertAndPrint(dst)
         else:
-            template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
-            dst = self.view.tempify(template)
-            document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
-            document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
-                received=self.recDate.date().toString(),
-                chartID=self.chID.text(),
-                clinicianName = clinician[1] + " " + clinician[0],
-                patientName=f'{self.lName.text()}, {self.fName.text()}',
-            )
-            document.write(dst)
-            self.view.convertAndPrint(dst)
+            return
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -865,7 +892,7 @@ class CultureOrderForm(QMainWindow):
         self.clinDrop.setCurrentIndex(0)
         self.type.setCurrentIndex(0)
         self.save.setEnabled(True)
-        self.print.setEnabled(False)
+        #self.print.setEnabled(False)
         self.clear.setEnabled(True)
         self.errorMessage.setText("")
         self.tabWidget.setCurrentIndex(0)
@@ -1032,6 +1059,8 @@ class DUWLOrderForm(QMainWindow):
             if saIDCheck not in kitListValues:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
+                print(clinicianName)
+                #clin = "\u0332".join(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]))
                 self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
                 self.cText.setText(self.sample[1])
                 self.nText.setText(self.sample[2])
@@ -1041,11 +1070,12 @@ class DUWLOrderForm(QMainWindow):
                         self.saID.setText(str(saID))
                         self.kitList.append({
                             'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                            'clinician': 'Clinician___________________________',
+                            'clinician': 'Clinician   ' + f'{self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])}',
                             'operatory': 'Operatory__________________________',
                             'collected': 'Collection Date______________________',
                             'clngagent': 'Cleaning Agent______________________'
                         })
+                        #Clinician___________________________
                         self.printList[str(saID)] = self.currentKit-1
                         self.currentKit += 1
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
@@ -1765,6 +1795,8 @@ class CultureResultForm(QMainWindow):
         self.nText.clear()
         self.dText.clear()
         self.tabWidget.setCurrentIndex(0)
+        self.aerobicTable = self.resultToTable(None)
+        self.anaerobicTable = self.resultToTable(None)
         self.initTables()
 
     @throwsViewableException

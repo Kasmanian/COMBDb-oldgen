@@ -1,12 +1,6 @@
-UI Variable name changes:
-- prefix => pName *** (Only present on Settings_Mange_Prefixes_Form)
-- clinician => clin
-- technicianDropDown => techDrop - Not Present
-- antibioticsTable => abTWid (Doesn't exist yet)
+- look handsome
 
-- DUWL Recieve will allow saving of two of the same SampleID's resulting in one input in the table but two of the same printouts
-- errorMessage on a timer for 5 seconds then disappear
 - confirmation windows when updating existing orders
-- Manage techs table - shrink "Tech ID" and "Active" columns
-
-Alpha-Hemolytic Streptococcus:Growth=I;DOR=P;PEN=S;AMP=NI;CC=NI;TET=NI;CEP=NI;ERY=NIre
+- Add new clinician should only require last name - first optional
+- Should Culture Order only require last name? not first and last?
+- DUWL Order tags need only print last name not entire clinician name

@@ -168,8 +168,8 @@ class Model:
     return True
 
   @__usesCursor
-  def updateCATOrder(self, cursor, sampleID, chartID, clinician, first, last, collected, received, type, comments, notes):
-    query = f'UPDATE CATs SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
+  def updateCultureOrder(self, cursor, table, sampleID, chartID, clinician, first, last, collected, received, type, comments, notes):
+    query = f'UPDATE {table} SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
     cursor.execute(query, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes, sampleID)
     return True
 

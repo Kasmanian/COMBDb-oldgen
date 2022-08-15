@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>925</width>
-    <height>359</height>
+    <height>385</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>925</width>
-    <height>359</height>
+    <height>385</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -283,7 +283,7 @@ background-color: rgb(193, 193, 193);
         <item row="1" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">
-           <number>6</number>
+           <number>5</number>
           </property>
           <property name="topMargin">
            <number>8</number>
@@ -292,16 +292,6 @@ background-color: rgb(193, 193, 193);
            <widget class="QLabel" name="label_12">
             <property name="text">
              <string>Candida Cultures</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>Caries Activity Testing</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -320,9 +310,23 @@ background-color: rgb(193, 193, 193);
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Research Cultures</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_16">
             <property name="text">
              <string>Surgical Cultures</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Tongue Cultures</string>
             </property>
            </widget>
           </item>
