@@ -698,7 +698,7 @@ background-color: rgb(193, 193, 193);
 }</string>
                 </property>
                 <property name="text">
-                 <string>Add Tech</string>
+                 <string> Add Tech</string>
                 </property>
                </widget>
               </item>
@@ -749,7 +749,7 @@ background-color: rgb(193, 193, 193);
 }</string>
                 </property>
                 <property name="text">
-                 <string>Clear</string>
+                 <string> Clear</string>
                 </property>
                </widget>
               </item>
@@ -998,7 +998,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Return to Main Menu</string>
+           <string> Return to Main Menu</string>
           </property>
          </widget>
         </item>

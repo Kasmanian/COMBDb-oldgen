@@ -182,6 +182,12 @@ background-color: rgb(193, 193, 193);
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="statusTip">
+           <string/>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton:hover {
 

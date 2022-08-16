@@ -150,3 +150,10 @@
 - Improved input validation to prevent errors on orders
 - Started working on DUWL Labels - have clinician last name print out automatically with label
 
+8/16/22
+- Added icons to buttons to modernize app
+- Started finalizing DUWL Order Form
+- Fixed bug where new DUWL Orders would not print clinician name on label
+- Fixed bug where kitNumber would be incorrectly displayed when creating new orders and looking up previous orders
+
+

@@ -845,7 +845,7 @@ background-color: rgb(193, 193, 193);
 }</string>
                 </property>
                 <property name="text">
-                 <string>Print</string>
+                 <string> Print</string>
                 </property>
                </widget>
               </item>
@@ -1035,7 +1035,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Save</string>
+           <string> Save</string>
           </property>
          </widget>
         </item>
@@ -1086,7 +1086,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Clear</string>
+           <string> Clear</string>
           </property>
          </widget>
         </item>
@@ -1158,7 +1158,7 @@ background-color: rgb(193, 193, 193);
 }</string>
         </property>
         <property name="text">
-         <string>Return to Main Menu</string>
+         <string> Return to Main Menu</string>
         </property>
        </widget>
       </item>
@@ -1284,7 +1284,7 @@ background-color: rgb(193, 193, 193);
      <x>0</x>
      <y>0</y>
      <width>1386</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
