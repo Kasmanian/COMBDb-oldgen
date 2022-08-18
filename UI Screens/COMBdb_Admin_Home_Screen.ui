@@ -266,7 +266,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Settings</string>
+           <string> Settings</string>
           </property>
          </widget>
         </item>
@@ -323,7 +323,7 @@ background-color: rgb(193, 193, 193);
 }</string>
           </property>
           <property name="text">
-           <string>Logout</string>
+           <string> Logout</string>
           </property>
          </widget>
         </item>

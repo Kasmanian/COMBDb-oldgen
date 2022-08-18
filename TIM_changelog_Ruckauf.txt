@@ -102,9 +102,67 @@
 - Added ability to search previous DUWL Orders
 - Added ability to add new prefixes
 
+8/1/22
+- Fixed bug in CAT Result where error would show up when searching and saving orders
+- Changed stylesheets for imbedded text edits
+- Fixed bug on Manage prefixes where cells would not deselect when changing tabs or clearing the page
 
-TODO:
-- Code in "clear" button on DUWL Order
-- Clear button should also clear Private Notes on all forms
-- CAT Result needs to do a few automatic calculations
-- Confirmation window when updating existing culture orders
+8/2/22
+- When clearing pages, comment tab widget will reset index to 0
+- Fixed variables on CAT Result template
+- Added blank clinician entry on clinDrop[0] for cleaner look
+- Finished stylizing comment tab widgets for DUWL orders and results
+- Reset comment tab widget index to 0 when Clear button is pressed
+- DUWL Results already added to kitList cannot be searched again - will notify user that is was already added
+- Fixed Culture Order template variables and added new fields
+
+8/3/22
+- Changed focus policy of CAT order form to better handle automatic calulcations of flow rate
+- Updated queries for Culture Order that were missing some fields
+- Working on solution to clear tables in Culture Result upon pressing of clear button
+- Updated TODO lists
+
+8/4/22
+- Added search confirmation to DUWL Recieve
+- Started working on updating cultures - techs will be able to pull up previous orders and make adjustments
+
+8/11/22
+- Added more error handling on order forms
+- Added timers to errorMessage, messages disappear after 3 seconds
+- Started experimenting with update feature on order forms - past orders are able to be looked up and they will be editable
+- Started experimenting with confirmation windows that will be present when updating past order forms
+
+8/12/22
+- Added ability to update CAT Orders - working to implement this functionality on DUWL order
+- Added new queries to handle order updates
+- Disabled access to some input fields when searching and editing past orders
+
+8/13/22
+- Fixed UI elements to better adjusts to different screen resolutions and sizes
+
+8/14/22
+- Culture Result tables clear upon "Clear" pressed
+- Added ability to update Culture Orders
+
+8/15/22
+- Testing Culture Order Form 
+- Changed "Print" to "Print & Save" to disallow mismatch of information on printouts and database
+- Improved input validation to prevent errors on orders
+- Started working on DUWL Labels - have clinician last name print out automatically with label
+
+8/16/22
+- Added icons to buttons to modernize app
+- Started finalizing DUWL Order Form
+- Fixed bug where new DUWL Orders would not print clinician name on label
+- Fixed bug where kitNumber would be incorrectly displayed when creating new orders and looking up previous orders
+
+8/17/22
+- Started working on finalizing DUWL Order
+- Worked on solving bug where if order is created, deleted, created and deleted again that an index out of bound error occured
+- Added more icons to DUWL Order, Receive and Result UI
+- Added icon to Back button
+
+8/18/22
+- Fixed DUWL Order kit number bug that resulted in app crashing
+
+

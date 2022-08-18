@@ -83,9 +83,9 @@ class Model:
     return True
 
   @__usesCursor
-  def addCultureResult(self, cursor, sampleID, chartID, clinician, first, last, reported, aerobic, anaerobic, comments, notes):
-    query = ('UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?')
-    cursor.execute(query, chartID, clinician, first, last, self.tech[0], self.fQtDate(reported), aerobic, anaerobic, comments, notes, sampleID)
+  def addCultureResult(self, cursor, sampleID, chartID, clinician, first, last, tech, reported, type, smear, aerobic, anaerobic, comments, notes):
+    query = ('UPDATE Cultures SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Type]=?, [Direct Smear]=?, [Aerobic Results]=?, [Anaerobic Results]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?')
+    cursor.execute(query, chartID, clinician, first, last, tech, self.fQtDate(reported), type, smear, aerobic, anaerobic, comments, notes, sampleID)
     return True
   
   @__usesCursor
@@ -112,6 +112,12 @@ class Model:
     query = f'SELECT {columns} FROM {table} WHERE SampleID=?'
     cursor.execute(query, sampleID)
     return cursor.fetchone()
+
+  @__usesCursor
+  def findSampleNumbers(self, cursor, table, columns):
+    query = f'SELECT {columns} FROM {table}'
+    cursor.execute(query)
+    return cursor.fetchall()
 
   @__usesCursor
   def findClinician(self, cursor, entry):
@@ -159,6 +165,12 @@ class Model:
   def updatePrefixes(self, cursor, entry, type, prefix, word):
     query = f'UPDATE Prefixes SET [Type]=?, [Prefix]=?, [Word]=? WHERE Entry=?'
     cursor.execute(query, type, prefix, word, entry)
+    return True
+
+  @__usesCursor
+  def updateCultureOrder(self, cursor, table, sampleID, chartID, clinician, first, last, collected, received, type, comments, notes):
+    query = f'UPDATE {table} SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
+    cursor.execute(query, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes, sampleID)
     return True
 
   @__usesCursor

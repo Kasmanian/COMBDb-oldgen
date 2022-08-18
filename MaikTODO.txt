@@ -1,47 +1,13 @@
-UI Variable name changes:
-- firstName => fName ***
-- middleName => mName ***
-- lastName => lName ***
-- prefix => pName *** (Only present on Settings_Mange_Prefixes_Form)
-- userName => user ***
-- password => pswd ***
-- collectedDate => colDate ***
-- receivedDate => recDate ***
-- reportedDate => repDate ***
-- shippingDate => shipDate ***
-- technician => tech ***
-- technicianTable => techTable ***
-- clinician => clin
-- technicianDropDown => techDrop - Not Present
-- clinicianDropDown => clinDrop ***
-- sampleID => saID ***
-- chartID => chID ***
-- cultureType => type ***
-- Return to Main Menu => home (vs. menu) ***
-- comment => cText ***
-- notes => nText ***
-- directSmear (textbox) => dText ***
-- search => find ***
-- directSmear (print button) => printS ***
-- preliminary => printP ***
-- perio => printF ***
-- tableWidget => aeTWid ***
-- tableWidget_2 => anTWid ***
-- addRow => addRow1 and 2 ***
-- addColumn => addCol1 and 2 ***
-- removeRow => delRow1 and 2 ***
-- removeColumn => delCol1 and 2 ***
-- kitNumber => kitNum ***
-- numberOfOrders => numOrders ***
-- tableWidget => kitTWid (DUWL Order) ***
-- antibioticsTable => abTWid (Doesn't exist yet)
+TODO:
+    - confirmation windows when updating existing orders
+    - Add new clinician should only require last name - first optional
+    - Should Culture Order only require last name? not first and last?
+    - DUWL Order tags need only print last name not entire clinician name
+    - global nav bar
+    - historic results
+    - bulk add receiving cultures
 
 
-- CAT Results Form needs to do calculations
-- Tie in Private Notes
-- Manage prefixes
-- Error handling and input validation
-
-- CAT printout throws error
-
-Alpha-Hemolytic Streptococcus:Growth=I;DOR=P;PEN=S;AMP=NI;CC=NI;TET=NI;CEP=NI;ERY=NI
+Questions:
+    - Add Clinician - Should First Name be required field? - or only Last name and address
+    - 
