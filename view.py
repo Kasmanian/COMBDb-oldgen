@@ -1083,7 +1083,7 @@ class DUWLOrderForm(QMainWindow):
         print(self.printList)
         print("\n")
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(3000)
@@ -1122,7 +1122,7 @@ class DUWLOrderForm(QMainWindow):
                         })
                         #Clinician___________________________
                         self.printList[str(saID)] = self.currentKit-1
-                        self.currentKit += 1
+                        self.currentKit = len(self.kitList)+1
                         self.kitNum.setText(str(self.currentKit))
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Found previous order: " + str(saID))
@@ -1134,7 +1134,7 @@ class DUWLOrderForm(QMainWindow):
                 self.errorMessage.setText("This DUWL Order has already been added")
             self.updateTable()
             self.save.setEnabled(False)
-            #self.testPrint()
+            self.testPrint()
 
     @throwsViewableException
     def handleAddClinicianPressed(self):
@@ -1148,7 +1148,7 @@ class DUWLOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(3000)
@@ -1171,7 +1171,8 @@ class DUWLOrderForm(QMainWindow):
                         'clngagent': 'Cleaning Agent______________________'
                     })
                     self.printList[str(saID)] = self.currentKit-1
-                    self.currentKit += 1
+                    self.currentKit = len(self.kitList)+1
+                    self.kitNum.setText(str(self.currentKit))
             self.handleClearPressed()
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Created New DUWL Order: " + str(saID))
@@ -1192,6 +1193,7 @@ class DUWLOrderForm(QMainWindow):
         self.clinDrop.setCurrentIndex(0)
         self.errorMessage.setText(" ")
         self.tabWidget.setCurrentIndex(0)
+        self.shipDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.updateTable()
 
     @throwsViewableException
@@ -1203,7 +1205,7 @@ class DUWLOrderForm(QMainWindow):
         self.updateTable()
         self.save.setEnabled(True)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleRemovePressed(self):
         del self.kitList[self.printList[self.kitTWid.currentItem().text()]] #This is the line throwing the error
         del self.printList[self.kitTWid.currentItem().text()]
@@ -1212,7 +1214,10 @@ class DUWLOrderForm(QMainWindow):
             self.printList[key] = count
             count += 1
         self.updateTable()
+        self.currentKit = len(self.kitList)+1
+        self.kitNum.setText(str(self.currentKit))
         self.remove.setEnabled(False)
+        self.testPrint()
 
     def updateTable(self):
         self.kitTWid.setRowCount(len(self.printList.keys()))
@@ -1224,6 +1229,7 @@ class DUWLOrderForm(QMainWindow):
             self.print.setEnabled(True)
         else:
             self.print.setEnabled(False)
+        #self.kitTWid.sortItems(0,0)
 
     @throwsViewableException
     def handlePrintPressed(self):

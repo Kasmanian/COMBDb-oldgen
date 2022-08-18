@@ -162,4 +162,7 @@
 - Added more icons to DUWL Order, Receive and Result UI
 - Added icon to Back button
 
+8/18/22
+- Fixed DUWL Order kit number bug that resulted in app crashing
+
 
