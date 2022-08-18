@@ -1,7 +1,7 @@
 from turtle import clear
 from PyQt5.uic import loadUi
 from pathlib import Path
-from PyQt5 import QtWidgets, QtPrintSupport
+from PyQt5 import QtWidgets, QtPrintSupport, QtCore
 from PyQt5.QtWidgets import *
 import win32com.client as win32
 import sys, os, datetime, json
@@ -311,6 +311,13 @@ class AdminLoginScreen(QMainWindow):
     @throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")
+
+    def event(self, event):
+        if event.type() == QtCore.QEvent.KeyPress:
+            if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
+                self.handleLoginPressed()
+        return super().event(event)
+
 
 class AdminHomeScreen(QMainWindow):
     def __init__(self, model, view):
@@ -1040,7 +1047,7 @@ class DUWLOrderForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_FormTest.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.addClinician.setIcon(QIcon('COMBDb/Icon/addClinicianIcon.png'))
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
