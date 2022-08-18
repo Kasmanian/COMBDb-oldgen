@@ -806,7 +806,7 @@ background-color: rgb(193, 193, 193);
 }</string>
                 </property>
                 <property name="text">
-                 <string>Clear All</string>
+                 <string> Clear All</string>
                 </property>
                </widget>
               </item>
@@ -884,7 +884,7 @@ background-color: rgb(193, 193, 193);
 }</string>
                 </property>
                 <property name="text">
-                 <string>Remove</string>
+                 <string> Remove</string>
                 </property>
                </widget>
               </item>
@@ -1214,7 +1214,7 @@ background-color: rgb(193, 193, 193);
 }</string>
       </property>
       <property name="text">
-       <string>Back</string>
+       <string> Back</string>
       </property>
      </widget>
     </item>

@@ -37,7 +37,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-544</y>
+         <y>0</y>
          <width>1515</width>
          <height>1744</height>
         </rect>
@@ -103,7 +103,7 @@ background-color: rgb(193, 193, 193);
 }</string>
               </property>
               <property name="text">
-               <string>Back</string>
+               <string> Back</string>
               </property>
              </widget>
             </item>

@@ -1137,7 +1137,7 @@ background-color: rgb(193, 193, 193);
 }</string>
       </property>
       <property name="text">
-       <string>Back</string>
+       <string> Back</string>
       </property>
      </widget>
     </item>

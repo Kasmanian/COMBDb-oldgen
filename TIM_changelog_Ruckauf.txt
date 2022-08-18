@@ -156,4 +156,10 @@
 - Fixed bug where new DUWL Orders would not print clinician name on label
 - Fixed bug where kitNumber would be incorrectly displayed when creating new orders and looking up previous orders
 
+8/17/22
+- Started working on finalizing DUWL Order
+- Worked on solving bug where if order is created, deleted, created and deleted again that an index out of bound error occured
+- Added more icons to DUWL Order, Receive and Result UI
+- Added icon to Back button
+
 

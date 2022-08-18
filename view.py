@@ -220,6 +220,7 @@ class SetFilePathScreen(QMainWindow):
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Set_File_Path_Form.ui", self)
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.browse.clicked.connect(self.handleBrowsePressed)
         self.save.clicked.connect(self.handleSavePressed)
@@ -346,6 +347,7 @@ class SettingsNav(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
         self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
         self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
@@ -386,6 +388,7 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.addTech.setIcon(QIcon('COMBDb/Icon/addClinicianIcon.png'))
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.edit.clicked.connect(self.handleEditPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
@@ -490,6 +493,7 @@ class SettingsEditTechnician(QMainWindow):
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.tech = self.model.findTech(self.id, '[First], [Middle], [Last], [Username], [Password]')
@@ -546,6 +550,7 @@ class SettingsManageArchivesForm(QMainWindow): #TODO - incorporate archiving.
         loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Archives_Form.ui", self)
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
 
@@ -569,6 +574,7 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.add.clicked.connect(self.handleAddPressed)
@@ -692,6 +698,7 @@ class CultureOrderNav(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Forms_Nav.ui", self)
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.culture.clicked.connect(self.handleCulturePressed)
         self.duwl.clicked.connect(self.handleDUWLPressed)
         self.back.clicked.connect(self.handleBackPressed)
@@ -723,6 +730,7 @@ class CultureOrderForm(QMainWindow):
         self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -932,6 +940,7 @@ class AddClinician(QMainWindow):
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.clear.clicked.connect(self.handleClearPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
@@ -1005,6 +1014,7 @@ class DUWLNav(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_DUWL_Nav.ui", self)
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.orderCulture.clicked.connect(self.handleOrderCulturePressed)
         self.receivingCulture.clicked.connect(self.handleReceivingCulturePressed)
         self.back.clicked.connect(self.handleBackPressed)
@@ -1037,6 +1047,9 @@ class DUWLOrderForm(QMainWindow):
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
         self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        self.clearAll.setIcon(QIcon('COMBDb/Icon/clearAllIcon.png'))
+        self.remove.setIcon(QIcon('COMBDb/Icon/removeIcon.png'))
         self.currentKit = 1
         self.kitList = []
         self.printList = {}
@@ -1064,7 +1077,13 @@ class DUWLOrderForm(QMainWindow):
     def activateRemove(self):
         self.remove.setEnabled(True)
 
-    @throwsViewableException
+    def testPrint(self):
+        print(str(self.currentKit))
+        print(self.kitList)
+        print(self.printList)
+        print("\n")
+
+    #@throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(3000)
@@ -1115,6 +1134,7 @@ class DUWLOrderForm(QMainWindow):
                 self.errorMessage.setText("This DUWL Order has already been added")
             self.updateTable()
             self.save.setEnabled(False)
+            #self.testPrint()
 
     @throwsViewableException
     def handleAddClinicianPressed(self):
@@ -1128,7 +1148,7 @@ class DUWLOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(3000)
@@ -1158,6 +1178,7 @@ class DUWLOrderForm(QMainWindow):
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please select a clinician")
+        #self.testPrint()
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -1182,9 +1203,9 @@ class DUWLOrderForm(QMainWindow):
         self.updateTable()
         self.save.setEnabled(True)
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleRemovePressed(self):
-        del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
+        del self.kitList[self.printList[self.kitTWid.currentItem().text()]] #This is the line throwing the error
         del self.printList[self.kitTWid.currentItem().text()]
         count = 0
         for key in self.printList.keys():
@@ -1229,6 +1250,9 @@ class DUWLReceiveForm(QMainWindow):
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
         self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        self.clearAll.setIcon(QIcon('COMBDb/Icon/clearAllIcon.png'))
+        self.remove.setIcon(QIcon('COMBDb/Icon/removeIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -1401,6 +1425,7 @@ class ResultEntryNav(QMainWindow):
         self.view = view
         self.model = model
         loadUi("COMBDb/UI Screens/COMBdb_Result_Entry_Forms_Nav.ui", self)
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.culture.clicked.connect(self.handleCulturePressed)
         self.cat.clicked.connect(self.handleCATPressed)
         self.duwl.clicked.connect(self.handleDUWLPressed)
@@ -1436,6 +1461,7 @@ class CultureResultForm(QMainWindow):
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -1862,6 +1888,7 @@ class CATResultForm(QMainWindow):
         self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -2034,6 +2061,9 @@ class DUWLResultForm(QMainWindow):
         self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
         self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
         self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
+        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        self.clearAll.setIcon(QIcon('COMBDb/Icon/clearAllIcon.png'))
+        self.remove.setIcon(QIcon('COMBDb/Icon/removeIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
