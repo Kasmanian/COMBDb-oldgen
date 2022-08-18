@@ -3,9 +3,9 @@ TODO:
     - Stricter Password Requirements - 8-16 characters, letters/numbers/symbols, etc
     - DUWL Order Labels - choose where they start printing from to save paper/labels
     - Remote updates
-    - Test Culture Order ui for bugs - trying to focus on getting this screen done
-    - Occasional "list index out of range" errors showing up - not sure of the cause
+    - Test Culture Order ui for bugs
+    - Test DUWL Order ui for bugs
+    - Occasional "list index out of range" errors showing up - not sure of the cause - culture result form
     - Text autocomplete for clinician drop downs
     - On culture result - pull list of bacteria and antibiotics from access instead of json file
     - Custom icons for "Culture" and "DUWL"
-    - DUWL Forms have "list assignement index out of range" error when adding an order, deleteing it, adding it back, then deleting again

@@ -164,5 +164,10 @@
 
 8/18/22
 - Fixed DUWL Order kit number bug that resulted in app crashing
+- Added CSS for button onFocus
+- Added tabability on login screen
+- Allow tech to login by pressing "enter" on login screen
+- Started implementing kitSelected functionality on DUWL Order
+- Testing DUWL Order Form
 
 

@@ -1047,7 +1047,7 @@ class DUWLOrderForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_FormTest.ui", self)
+        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_Form.ui", self)
         self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
         self.addClinician.setIcon(QIcon('COMBDb/Icon/addClinicianIcon.png'))
         self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))

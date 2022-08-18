@@ -1,13 +1,10 @@
 TODO:
     - confirmation windows when updating existing orders
     - Add new clinician should only require last name - first optional
-    - Should Culture Order only require last name? not first and last?
-    - DUWL Order tags need only print last name not entire clinician name
     - global nav bar
     - historic results
     - bulk add receiving cultures
 
-
 Questions:
     - Add Clinician - Should First Name be required field? - or only Last name and address
-    - 
+    - Should Culture Order only require last name? not first and last?
