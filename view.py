@@ -1,4 +1,3 @@
-from turtle import clear
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
@@ -10,7 +9,7 @@ from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QUrl, Qt, QDate, pyqtSignal, QTimer
 from PyQt5.QtGui import QIcon
-import bcrypt
+import bcrypt, math
 
 def passPrintPrompt(boolean):
         pass
@@ -879,7 +878,7 @@ class CultureOrderForm(QMainWindow):
     def handlePrintPressed(self): 
         if self.handleSavePressed():
             if self.type.currentText()!='Caries':
-                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
+                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template3.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
                 clinician=self.clinDrop.currentText().split(', ')
@@ -1079,16 +1078,19 @@ class DUWLOrderForm(QMainWindow):
         self.kitTWid.itemClicked.connect(self.activateRemove)
         self.print.setEnabled(False)
         self.remove.setEnabled(False)
+        self.row.setRange(1, 10)
+        self.col.setRange(1, 3)
 
     @throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
     def testPrint(self):
-        print(str(self.currentKit))
-        print(self.kitList)
-        print(self.printList)
-        print("\n")
+        #print(str(self.currentKit))
+        #print(self.kitList)
+        #print(self.printList)
+        #print("\n")
+        pass
 
     @throwsViewableException
     def handleSearchPressed(self):
@@ -1122,10 +1124,10 @@ class DUWLOrderForm(QMainWindow):
                         self.saID.setText(str(saID))
                         self.kitList.append({
                             'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                            'clinician': 'Clinician: ' + clinicianName.split(',')[0],
-                            'operatory': 'Operatory__________________________',
-                            'collected': 'Collection Date______________________',
-                            'clngagent': 'Cleaning Agent______________________'
+                            'clinician': self.clinDrop.currentText().split(',')[0],
+                            'opID': 'Operatory ID: ______________________',
+                            'agent': 'Cleaning Agent:  ____________________',
+                            'collected': 'Collection Date: _________'
                         })
                         #Clinician___________________________
                         self.printList[str(saID)] = self.currentKit-1
@@ -1172,10 +1174,10 @@ class DUWLOrderForm(QMainWindow):
                     self.saID.setText(str(saID))
                     self.kitList.append({
                         'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                        'clinician': 'Clinician: ' + self.clinDrop.currentText().split(',')[0],
-                        'operatory': 'Operatory__________________________',
-                        'collected': 'Collection Date______________________',
-                        'clngagent': 'Cleaning Agent______________________'
+                        'clinician': self.clinDrop.currentText().split(',')[0],
+                        'opID': 'Operatory ID: ______________________',
+                        'agent': 'Cleaning Agent:  ____________________',
+                        'collected': 'Collection Date: _________'
                     })
                     self.printList[str(saID)] = self.currentKit-1
                     self.currentKit = len(self.kitList)+1
@@ -1240,10 +1242,35 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\COMBDb\templates\duwl_label_template.docx'
+        template = str(Path().resolve())+r'\COMBDb\templates\duwl_labels.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
-        document.merge_rows('sampleID', self.kitList)
+        print(len(self.kitList))
+        x = int(self.row.value()-1)*3+int(self.col.value())-1
+        x = 0 if x<0 else x
+        print('labels to skip: '+str(x))
+        numRows = math.ceil((len(self.kitList)+x)/3)
+        print('total rows: '+str(numRows))
+        labelList = [None]*numRows
+        k = 0
+        keys = ['sampleID', 'clinician', 'opID', 'agent', 'collected']
+        for i in range(0, numRows):
+            print('in i '+str(i))
+            labelList[i] = {}
+            for j in range(0, 3):
+                print('in j '+str(j))
+                #if k<len(self.kitList):
+                for key in keys:
+                    print('in keys')
+                    print(key)
+                    if x>0:
+                        labelList[i][key+str(j+1)] = None
+                    else:
+                        labelList[i][key+str(j+1)] = None if k>= len(self.kitList) else self.kitList[k][key]
+                k = k if x>0 else k+1
+                x-=1
+        print(labelList)
+        document.merge_rows('sampleID1', labelList)
         document.write(dst)
         self.view.convertAndPrint(dst)
 
