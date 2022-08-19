@@ -1827,7 +1827,7 @@ class CultureResultForm(QMainWindow):
             self.nText.toPlainText(),
         ):
             self.handleSearchPressed()
-            self.save.setEnabled(False)
+            #self.save.setEnabled(False)
             self.clear.setEnabled(True)
             self.printP.setEnabled(True)
             self.printF.setEnabled(True)

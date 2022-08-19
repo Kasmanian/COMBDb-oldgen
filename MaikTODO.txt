@@ -6,6 +6,8 @@ TODO:
     - global nav bar
     - historic results
     - bulk add receiving cultures
+    - Change print to save and print
+    - Change button label depending on culture type
 
 
 Questions:
