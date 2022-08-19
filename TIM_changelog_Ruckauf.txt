@@ -170,4 +170,8 @@
 - Started implementing kitSelected functionality on DUWL Order
 - Testing DUWL Order Form
 
+8/19/22
+- More testing on DUWL Order Form
+- 
+
 
