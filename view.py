@@ -1526,34 +1526,34 @@ class CultureResultForm(QMainWindow):
             #anaerobic = self.model.selectPrefixes('Anaerobic', 'Word')
             #antibiotics = self.model.selectPrefixes('Antibiotics', 'Word')
             with open('COMBDb\local.json', 'r+') as JSON:
-                count = 0
+                # count = 0
                 data = json.load(JSON)
-                self.aerobicPrefixes = data['PrefixToAerobic']
-                self.aerobicBacteria = {}
-                self.aerobicList = self.aerobicPrefixes.values()
-                self.aerobicIndex = {}
-                for prefix in self.aerobicPrefixes.keys():
-                    self.aerobicBacteria[self.aerobicPrefixes[prefix]] = prefix
-                    self.aerobicIndex[self.aerobicPrefixes[prefix]] = count
-                    count += 1
-                count = 0
-                self.anaerobicPrefixes = data['PrefixToAnaerobic']
-                self.anaerobicBacteria = {}
-                self.anaerobicList = self.anaerobicPrefixes.values()
-                self.anaerobicIndex = {}
-                for prefix in self.anaerobicPrefixes.keys():
-                    self.anaerobicBacteria[self.anaerobicPrefixes[prefix]] = prefix
-                    self.anaerobicIndex[self.anaerobicPrefixes[prefix]] = count
-                    count += 1
-                count = 0
-                self.antibioticPrefixes = data['PrefixToAntibiotics']
-                self.antibiotics = {}
-                self.antibioticsList = self.antibioticPrefixes.values()
-                self.antibioticsIndex = {}
-                for prefix in self.antibioticPrefixes.keys():
-                    self.antibiotics[self.antibioticPrefixes[prefix]] = prefix
-                    self.anaerobicIndex[prefix] = count
-                    count += 1
+                # self.aerobicPrefixes = data['PrefixToAerobic']
+                # self.aerobicBacteria = {}
+                # self.aerobicList = self.aerobicPrefixes.values()
+                # self.aerobicIndex = {}
+                # for prefix in self.aerobicPrefixes.keys():
+                #     self.aerobicBacteria[self.aerobicPrefixes[prefix]] = prefix
+                #     self.aerobicIndex[self.aerobicPrefixes[prefix]] = count
+                #     count += 1
+                # count = 0
+                # self.anaerobicPrefixes = data['PrefixToAnaerobic']
+                # self.anaerobicBacteria = {}
+                # self.anaerobicList = self.anaerobicPrefixes.values()
+                # self.anaerobicIndex = {}
+                # for prefix in self.anaerobicPrefixes.keys():
+                #     self.anaerobicBacteria[self.anaerobicPrefixes[prefix]] = prefix
+                #     self.anaerobicIndex[self.anaerobicPrefixes[prefix]] = count
+                #     count += 1
+                # count = 0
+                # self.antibioticPrefixes = data['PrefixToAntibiotics']
+                # self.antibiotics = {}
+                # self.antibioticsList = self.antibioticPrefixes.values()
+                # self.antibioticsIndex = {}
+                # for prefix in self.antibioticPrefixes.keys():
+                #     self.antibiotics[self.antibioticPrefixes[prefix]] = prefix
+                #     self.anaerobicIndex[prefix] = count
+                #     count += 1
                 self.blacList = data['PrefixToB-Lac'].keys()
                 self.growthList = data['PrefixToGrowth'].keys()
                 self.susceptibilityList = data['PrefixToSusceptibility'].keys()
@@ -1561,9 +1561,41 @@ class CultureResultForm(QMainWindow):
                 self.headerIndexes = { 'Growth': 0, 'B-lac': 1 }
                 self.options = ['NA'] + list(self.growthList) + list(self.blacList) + list(self.susceptibilityList)
                 self.optionIndexes = { 'NA': 0, 'NI': 1, 'L': 2, 'M': 3, 'H': 4, 'P': 5, 'N': 6, 'S': 7, 'I': 8, 'R': 9 }
-                for antibiotics in self.antibioticPrefixes.keys():
-                    self.headers.append(antibiotics)
-                    self.headerIndexes[antibiotics] = len(self.headers)-1
+                # for antibiotics in self.antibioticPrefixes.keys():
+                #     self.headers.append(antibiotics)
+                #     self.headerIndexes[antibiotics] = len(self.headers)-1
+            aerobic = self.model.selectPrefixes('Aerobic', '[Prefix], [Word]')
+            self.aerobicPrefixes = {}
+            self.aerobicBacteria = {}
+            self.aerobicList = []
+            self.aerobicIndex = {}
+            for i in range(0, len(aerobic)):
+                self.aerobicPrefixes[aerobic[i][0]] = aerobic[i][1]
+                self.aerobicBacteria[aerobic[i][1]] = aerobic[i][0]
+                self.aerobicList.append(aerobic[i][1])
+                self.aerobicIndex[aerobic[i][1]] = i
+            anaerobic = self.model.selectPrefixes('Anaerobic', '[Prefix], [Word]')
+            self.anaerobicPrefixes = {}
+            self.anaerobicBacteria = {}
+            self.anaerobicList = []
+            self.anaerobicIndex = {}
+            for i in range(0, len(anaerobic)):
+                self.anaerobicPrefixes[anaerobic[i][0]] = anaerobic[i][1]
+                self.anaerobicBacteria[anaerobic[i][1]] = anaerobic[i][0]
+                self.anaerobicList.append(anaerobic[i][1])
+                self.anaerobicIndex[anaerobic[i][1]] = i
+            antibiotics = self.model.selectPrefixes('Antibiotics', '[Prefix], [Word]')
+            self.antibioticPrefixes = {}
+            self.antibiotics = {}
+            self.antibioticsList = []
+            self.antibioticsIndex = {}
+            for i in range(0, len(antibiotics)):
+                self.antibioticPrefixes[antibiotics[i][0]] = antibiotics[i][1]
+                self.antibiotics[antibiotics[i][1]] = antibiotics[i][0]
+                self.antibioticsList.append(antibiotics[i][1])
+                self.antibioticsIndex[antibiotics[i][1]] = i
+                self.headers.append(antibiotics[i][0])
+                self.headerIndexes[antibiotics[i][0]] = len(self.headers)-1
             self.addRow1.clicked.connect(self.addRowAerobic)
             self.addRow2.clicked.connect(self.addRowAnaerobic)
             self.delRow1.clicked.connect(self.delRowAerobic)
