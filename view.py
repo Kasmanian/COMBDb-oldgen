@@ -1,4 +1,3 @@
-from turtle import clear
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
@@ -10,7 +9,7 @@ from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QUrl, Qt, QDate, pyqtSignal, QTimer
 from PyQt5.QtGui import QIcon
-import bcrypt
+import bcrypt, math
 
 def passPrintPrompt(boolean):
         pass
@@ -1079,16 +1078,19 @@ class DUWLOrderForm(QMainWindow):
         self.kitTWid.itemClicked.connect(self.activateRemove)
         self.print.setEnabled(False)
         self.remove.setEnabled(False)
+        self.row.setRange(1, 10)
+        self.col.setRange(1, 3)
 
     @throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
     def testPrint(self):
-        print(str(self.currentKit))
-        print(self.kitList)
-        print(self.printList)
-        print("\n")
+        #print(str(self.currentKit))
+        #print(self.kitList)
+        #print(self.printList)
+        #print("\n")
+        pass
 
     @throwsViewableException
     def handleSearchPressed(self):
@@ -1122,10 +1124,10 @@ class DUWLOrderForm(QMainWindow):
                         self.saID.setText(str(saID))
                         self.kitList.append({
                             'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                            'clinician': 'Clinician: ' + clinicianName.split(',')[0],
-                            'operatory': 'Operatory__________________________',
-                            'collected': 'Collection Date______________________',
-                            'clngagent': 'Cleaning Agent______________________'
+                            'clinician': self.clinDrop.currentText().split(',')[0],
+                            'opID': 'Operatory ID: ______________________',
+                            'agent': 'Cleaning Agent:  ____________________',
+                            'collected': 'Collection Date: _________'
                         })
                         #Clinician___________________________
                         self.printList[str(saID)] = self.currentKit-1
@@ -1172,10 +1174,10 @@ class DUWLOrderForm(QMainWindow):
                     self.saID.setText(str(saID))
                     self.kitList.append({
                         'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
-                        'clinician': 'Clinician: ' + self.clinDrop.currentText().split(',')[0],
-                        'operatory': 'Operatory__________________________',
-                        'collected': 'Collection Date______________________',
-                        'clngagent': 'Cleaning Agent______________________'
+                        'clinician': self.clinDrop.currentText().split(',')[0],
+                        'opID': 'Operatory ID: ______________________',
+                        'agent': 'Cleaning Agent:  ____________________',
+                        'collected': 'Collection Date: _________'
                     })
                     self.printList[str(saID)] = self.currentKit-1
                     self.currentKit = len(self.kitList)+1
@@ -1243,7 +1245,32 @@ class DUWLOrderForm(QMainWindow):
         template = str(Path().resolve())+r'\COMBDb\templates\duwl_labels.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
-        document.merge_rows('sampleID', self.kitList)
+        print(len(self.kitList))
+        x = int(self.row.value()-1)*3+int(self.col.value())-1
+        x = 0 if x<0 else x
+        print('labels to skip: '+str(x))
+        numRows = math.ceil((len(self.kitList)+x)/3)
+        print('total rows: '+str(numRows))
+        labelList = [None]*numRows
+        k = 0
+        keys = ['sampleID', 'clinician', 'opID', 'agent', 'collected']
+        for i in range(0, numRows):
+            print('in i '+str(i))
+            labelList[i] = {}
+            for j in range(0, 3):
+                print('in j '+str(j))
+                #if k<len(self.kitList):
+                for key in keys:
+                    print('in keys')
+                    print(key)
+                    if x>0:
+                        labelList[i][key+str(j+1)] = None
+                    else:
+                        labelList[i][key+str(j+1)] = None if k>= len(self.kitList) else self.kitList[k][key]
+                k = k if x>0 else k+1
+                x-=1
+        print(labelList)
+        document.merge_rows('sampleID1', labelList)
         document.write(dst)
         self.view.convertAndPrint(dst)
 
@@ -1322,7 +1349,7 @@ class DUWLReceiveForm(QMainWindow):
             if saIDCheck not in kitListValues:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list'])
+                self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
                 self.cText.setText(self.sample[1])
                 self.nText.setText(self.sample[2])
                 self.operatory.setText(self.sample[3])
@@ -1499,34 +1526,34 @@ class CultureResultForm(QMainWindow):
             #anaerobic = self.model.selectPrefixes('Anaerobic', 'Word')
             #antibiotics = self.model.selectPrefixes('Antibiotics', 'Word')
             with open('COMBDb\local.json', 'r+') as JSON:
-                count = 0
+                # count = 0
                 data = json.load(JSON)
-                self.aerobicPrefixes = data['PrefixToAerobic']
-                self.aerobicBacteria = {}
-                self.aerobicList = self.aerobicPrefixes.values()
-                self.aerobicIndex = {}
-                for prefix in self.aerobicPrefixes.keys():
-                    self.aerobicBacteria[self.aerobicPrefixes[prefix]] = prefix
-                    self.aerobicIndex[self.aerobicPrefixes[prefix]] = count
-                    count += 1
-                count = 0
-                self.anaerobicPrefixes = data['PrefixToAnaerobic']
-                self.anaerobicBacteria = {}
-                self.anaerobicList = self.anaerobicPrefixes.values()
-                self.anaerobicIndex = {}
-                for prefix in self.anaerobicPrefixes.keys():
-                    self.anaerobicBacteria[self.anaerobicPrefixes[prefix]] = prefix
-                    self.anaerobicIndex[self.anaerobicPrefixes[prefix]] = count
-                    count += 1
-                count = 0
-                self.antibioticPrefixes = data['PrefixToAntibiotics']
-                self.antibiotics = {}
-                self.antibioticsList = self.antibioticPrefixes.values()
-                self.antibioticsIndex = {}
-                for prefix in self.antibioticPrefixes.keys():
-                    self.antibiotics[self.antibioticPrefixes[prefix]] = prefix
-                    self.anaerobicIndex[prefix] = count
-                    count += 1
+                # self.aerobicPrefixes = data['PrefixToAerobic']
+                # self.aerobicBacteria = {}
+                # self.aerobicList = self.aerobicPrefixes.values()
+                # self.aerobicIndex = {}
+                # for prefix in self.aerobicPrefixes.keys():
+                #     self.aerobicBacteria[self.aerobicPrefixes[prefix]] = prefix
+                #     self.aerobicIndex[self.aerobicPrefixes[prefix]] = count
+                #     count += 1
+                # count = 0
+                # self.anaerobicPrefixes = data['PrefixToAnaerobic']
+                # self.anaerobicBacteria = {}
+                # self.anaerobicList = self.anaerobicPrefixes.values()
+                # self.anaerobicIndex = {}
+                # for prefix in self.anaerobicPrefixes.keys():
+                #     self.anaerobicBacteria[self.anaerobicPrefixes[prefix]] = prefix
+                #     self.anaerobicIndex[self.anaerobicPrefixes[prefix]] = count
+                #     count += 1
+                # count = 0
+                # self.antibioticPrefixes = data['PrefixToAntibiotics']
+                # self.antibiotics = {}
+                # self.antibioticsList = self.antibioticPrefixes.values()
+                # self.antibioticsIndex = {}
+                # for prefix in self.antibioticPrefixes.keys():
+                #     self.antibiotics[self.antibioticPrefixes[prefix]] = prefix
+                #     self.anaerobicIndex[prefix] = count
+                #     count += 1
                 self.blacList = data['PrefixToB-Lac'].keys()
                 self.growthList = data['PrefixToGrowth'].keys()
                 self.susceptibilityList = data['PrefixToSusceptibility'].keys()
@@ -1534,9 +1561,41 @@ class CultureResultForm(QMainWindow):
                 self.headerIndexes = { 'Growth': 0, 'B-lac': 1 }
                 self.options = ['NA'] + list(self.growthList) + list(self.blacList) + list(self.susceptibilityList)
                 self.optionIndexes = { 'NA': 0, 'NI': 1, 'L': 2, 'M': 3, 'H': 4, 'P': 5, 'N': 6, 'S': 7, 'I': 8, 'R': 9 }
-                for antibiotics in self.antibioticPrefixes.keys():
-                    self.headers.append(antibiotics)
-                    self.headerIndexes[antibiotics] = len(self.headers)-1
+                # for antibiotics in self.antibioticPrefixes.keys():
+                #     self.headers.append(antibiotics)
+                #     self.headerIndexes[antibiotics] = len(self.headers)-1
+            aerobic = self.model.selectPrefixes('Aerobic', '[Prefix], [Word]')
+            self.aerobicPrefixes = {}
+            self.aerobicBacteria = {}
+            self.aerobicList = []
+            self.aerobicIndex = {}
+            for i in range(0, len(aerobic)):
+                self.aerobicPrefixes[aerobic[i][0]] = aerobic[i][1]
+                self.aerobicBacteria[aerobic[i][1]] = aerobic[i][0]
+                self.aerobicList.append(aerobic[i][1])
+                self.aerobicIndex[aerobic[i][1]] = i
+            anaerobic = self.model.selectPrefixes('Anaerobic', '[Prefix], [Word]')
+            self.anaerobicPrefixes = {}
+            self.anaerobicBacteria = {}
+            self.anaerobicList = []
+            self.anaerobicIndex = {}
+            for i in range(0, len(anaerobic)):
+                self.anaerobicPrefixes[anaerobic[i][0]] = anaerobic[i][1]
+                self.anaerobicBacteria[anaerobic[i][1]] = anaerobic[i][0]
+                self.anaerobicList.append(anaerobic[i][1])
+                self.anaerobicIndex[anaerobic[i][1]] = i
+            antibiotics = self.model.selectPrefixes('Antibiotics', '[Prefix], [Word]')
+            self.antibioticPrefixes = {}
+            self.antibiotics = {}
+            self.antibioticsList = []
+            self.antibioticsIndex = {}
+            for i in range(0, len(antibiotics)):
+                self.antibioticPrefixes[antibiotics[i][0]] = antibiotics[i][1]
+                self.antibiotics[antibiotics[i][1]] = antibiotics[i][0]
+                self.antibioticsList.append(antibiotics[i][1])
+                self.antibioticsIndex[antibiotics[i][1]] = i
+                self.headers.append(antibiotics[i][0])
+                self.headerIndexes[antibiotics[i][0]] = len(self.headers)-1
             self.addRow1.clicked.connect(self.addRowAerobic)
             self.addRow2.clicked.connect(self.addRowAnaerobic)
             self.delRow1.clicked.connect(self.delRowAerobic)
@@ -1768,7 +1827,7 @@ class CultureResultForm(QMainWindow):
             self.nText.toPlainText(),
         ):
             self.handleSearchPressed()
-            self.save.setEnabled(False)
+            #self.save.setEnabled(False)
             self.clear.setEnabled(True)
             self.printP.setEnabled(True)
             self.printF.setEnabled(True)

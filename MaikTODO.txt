@@ -8,6 +8,8 @@ TODO:
     - Rejection log - rejection buttn with comment ab why
     - All orders needs to print out tech that ordered and if it was charged to quickbooks
     - Built in simplified quickbooks - simple accounting features
+    - Change print to save and print
+    - Change button label depending on culture type
 
 Questions:
     - Add Clinician - Should First Name be required field? - or only Last name and address
