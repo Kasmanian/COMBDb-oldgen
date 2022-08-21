@@ -879,7 +879,7 @@ class CultureOrderForm(QMainWindow):
     def handlePrintPressed(self): 
         if self.handleSavePressed():
             if self.type.currentText()!='Caries':
-                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template.docx'
+                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template3.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
                 clinician=self.clinDrop.currentText().split(', ')
@@ -1240,7 +1240,7 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\COMBDb\templates\duwl_label_template.docx'
+        template = str(Path().resolve())+r'\COMBDb\templates\duwl_labels.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
