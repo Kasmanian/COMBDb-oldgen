@@ -172,6 +172,14 @@
 
 8/19/22
 - More testing on DUWL Order Form
-- 
+- Finalizing forms for presentation to Shannon and Eric
+
+8/21/22
+- Changed some order forms - wrong ones were being used
+- Worked on fixing bug in DUWL Receive - list index out of range when adding, deleting, adding and deleting an order
+- Started working on a design for a global navigation toolbar
+- Updated TODO's
+- Started changing necessary "Print" buttons to "Save & Print" to prevent data mismatch
+- Started working on DUWL Result CDC/ADA autofill based on bacteria count
 
 

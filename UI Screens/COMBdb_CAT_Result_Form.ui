@@ -1062,7 +1062,7 @@ QPushButton {
 }</string>
             </property>
             <property name="text">
-             <string> Print</string>
+             <string> Save &amp;&amp; Print</string>
             </property>
            </widget>
           </item>
