@@ -182,4 +182,10 @@
 - Started changing necessary "Print" buttons to "Save & Print" to prevent data mismatch
 - Started working on DUWL Result CDC/ADA autofill based on bacteria count
 
+8/22/22
+- Fixed bug in DUWL Receive and DUWL Result - index out of range when adding, deleting, adding and deleting the same culture
+- Finished autofill of CDC/ADA autofill
+- Changed all Culture Order print functions to save before running print functionality
+
+
 

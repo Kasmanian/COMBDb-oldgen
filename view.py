@@ -1316,6 +1316,7 @@ class DUWLReceiveForm(QMainWindow):
             self.errorMessage.setText("Sample ID may only contain numbers")
             return
         self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, OperatoryID, Product, Procedure, Collected, Received')
+        #print(self.sample)
         saID = int(self.saID.text())
         if self.sample is None:
             self.saID.setText('xxxxxx')
@@ -1368,7 +1369,7 @@ class DUWLReceiveForm(QMainWindow):
                     'underline3': '__________'
                 })
                 self.printList[str(saID)] = self.currentKit-1
-                self.currentKit += 1
+                self.currentKit = len(self.kitList)+1
                 self.handleClearPressed()
                 self.save.setEnabled(False)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
@@ -1400,7 +1401,7 @@ class DUWLReceiveForm(QMainWindow):
         self.printList.clear()
         self.updateTable()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleRemovePressed(self):
         del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
         del self.printList[self.kitTWid.currentItem().text()]
@@ -1409,6 +1410,7 @@ class DUWLReceiveForm(QMainWindow):
             self.printList[key] = count
             count += 1
         self.updateTable()
+        self.currentKit = len(self.kitList)+1
         self.remove.setEnabled(False)
 
     @throwsViewableException
@@ -1834,6 +1836,7 @@ class CultureResultForm(QMainWindow):
 
     @throwsViewableException
     def handleDirectSmearPressed(self):
+        self.handleSavePressed()
         template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -1855,6 +1858,7 @@ class CultureResultForm(QMainWindow):
     
     @throwsViewableException
     def handlePreliminaryPressed(self):
+        self.handleSavePressed()
         template = str(Path().resolve())+r'\COMBDb\templates\culture_prelim_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -1885,6 +1889,7 @@ class CultureResultForm(QMainWindow):
         self.view.convertAndPrint(dst)
 
     def handlePerioPressed(self):
+        self.handleSavePressed()
         template = str(Path().resolve())+r'\COMBDb\templates\culture_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -2173,7 +2178,7 @@ class DUWLResultForm(QMainWindow):
         else:
             self.bacterialCount.setText("")
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Bacterial Count may only contain digits")
+            self.errorMessage.setText("Bacterial Count may only contain positive integers")
 
 
     @throwsViewableException
@@ -2244,8 +2249,10 @@ class DUWLResultForm(QMainWindow):
                 'cdcADA': self.cdcADA.currentText()
             })
             self.printList[str(saID)] = self.currentKit-1
-            self.currentKit += 1
+            self.currentKit = len(self.kitList)+1
             self.handleClearPressed()
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+            self.errorMessage.setText("Saved DUWL Result Form: " + str(saID)) 
             self.save.setEnabled(False)
 
     @throwsViewableException
@@ -2259,7 +2266,7 @@ class DUWLResultForm(QMainWindow):
         self.clear.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
-        self.errorMessage.setText("")
+        #self.errorMessage.setText("")
         self.updateTable()
 
     @throwsViewableException
@@ -2277,6 +2284,7 @@ class DUWLResultForm(QMainWindow):
             self.printList[key] = count
             count += 1
         self.updateTable()
+        self.currentKit = len(self.kitList)+1
         self.remove.setEnabled(False)
 
     @throwsViewableException
