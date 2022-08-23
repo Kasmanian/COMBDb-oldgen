@@ -174,6 +174,12 @@ class Model:
     return True
 
   @__usesCursor
+  def updateWaterlineOrder(self, cursor, sampleID, clinician, shipped, comments, notes):
+    query = f'UPDATE Waterlines SET [Clinician]=?, [Shipped]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
+    cursor.execute(query, clinician, self.fQtDate(shipped), comments, notes, sampleID)
+    return True
+
+  @__usesCursor
   def techLogin(self, cursor, username, password):
     query = 'SELECT Entry, First, Middle, Last, Username, Password, Active FROM Techs WHERE username=?'
     cursor.execute(query, username)

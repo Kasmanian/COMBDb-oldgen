@@ -187,5 +187,8 @@
 - Finished autofill of CDC/ADA autofill
 - Changed all Culture Order print functions to save before running print functionality
 
-
-
+8/23/22
+- Started working on Historical Results UI - will allow users to query for specific orders or results based on multiple search criteria
+- Fixed bug with Kemani on Culture Result where Anaerobic Table would throw out of index error - Database was keeping the results as a short string rather then long string
+- Changed DUWL Order so that order can be searched, edited then manually added to kit list to be printed
+- Started brainstorming for audit log and ways to write to a secure and hidden file

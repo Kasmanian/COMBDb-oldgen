@@ -1112,6 +1112,7 @@ class DUWLOrderForm(QMainWindow):
                 self.cText.setText(self.sample[1])
                 self.nText.setText(self.sample[2])
                 self.shipDate.setDate(self.view.dtToQDate(self.sample[3]))
+                """
                 if self.clinDrop.currentText():
                     if self.saID: 
                         self.saID.setText(str(saID))
@@ -1130,11 +1131,12 @@ class DUWLOrderForm(QMainWindow):
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                     self.errorMessage.setText("Please select a clinician")
+                """
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("This DUWL Order has already been added")
-            self.updateTable()
-            self.save.setEnabled(False)
+            #self.updateTable()
+            #self.save.setEnabled(False)
 
     @throwsViewableException
     def handleAddClinicianPressed(self):
@@ -1148,34 +1150,61 @@ class DUWLOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         if self.clinDrop.currentText():
-            numOrders = 1 if int(self.numOrders.text()) == None else int(self.numOrders.text())
-            for x in range(numOrders):
-                saID = self.view.model.addWaterlineOrder(
+            if self.saID.text() == "":
+                self.saID.setText("0")
+            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), 'Clinician, Comments, Notes, Shipped')
+            if self.sample is None:
+                numOrders = 1 if int(self.numOrders.text()) == None else int(self.numOrders.text())
+                for x in range(numOrders):
+                    saID = self.view.model.addWaterlineOrder(
+                        self.view.entries[self.clinDrop.currentText()]['db'],
+                        self.shipDate.date(),
+                        self.cText.toPlainText(),
+                        self.nText.toPlainText()
+                    )
+                    if saID: 
+                        self.saID.setText(str(saID))
+                        self.kitList.append({
+                            'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
+                            'clinician': self.clinDrop.currentText().split(',')[0],
+                            'opID': 'Operatory ID: ______________________',
+                            'agent': 'Cleaning Agent:  ____________________',
+                            'collected': 'Collection Date: _________'
+                        })
+                        self.printList[str(saID)] = self.currentKit-1
+                        self.currentKit = len(self.kitList)+1
+                        self.kitNum.setText(str(self.currentKit))
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Created New DUWL Order: " + str(saID))
+            else:
+                saID = self.model.updateWaterlineOrder(
+                    int(self.saID.text()),
                     self.view.entries[self.clinDrop.currentText()]['db'],
                     self.shipDate.date(),
                     self.cText.toPlainText(),
                     self.nText.toPlainText()
                 )
-                if saID: 
-                    self.saID.setText(str(saID))
+                if saID:
+                    self.saID.setText(self.saID.text())
                     self.kitList.append({
-                        'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
+                        'sampleID': f'{str(self.saID.text())[0:2]}-{str(self.saID.text())[2:]}',
                         'clinician': self.clinDrop.currentText().split(',')[0],
                         'opID': 'Operatory ID: ______________________',
                         'agent': 'Cleaning Agent:  ____________________',
                         'collected': 'Collection Date: _________'
                     })
-                    self.printList[str(saID)] = self.currentKit-1
+                    self.printList[self.saID.text()] = self.currentKit-1
                     self.currentKit = len(self.kitList)+1
                     self.kitNum.setText(str(self.currentKit))
-            self.handleClearPressed()
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-            self.errorMessage.setText("Created New DUWL Order: " + str(saID))
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Existing DUWL Order Updated: " + self.saID.text())                
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please select a clinician")
@@ -1592,7 +1621,7 @@ class CultureResultForm(QMainWindow):
         except Exception as e:
             self.view.showErrorScreen(e)
 
-    @throwsViewableException
+    #@throwsViewableException
     def initTables(self):
         self.aeTWid.setRowCount(0)
         self.aeTWid.setRowCount(len(self.aerobicTable))
@@ -1628,7 +1657,7 @@ class CultureResultForm(QMainWindow):
                 item = IndexedComboBox(i, j, self, False)
                 if i>0 and j>0:
                     item.addItems(self.options)
-                    item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]])
+                    item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]]) 
                 elif i<1 and j>0:
                     item.addItems(self.headers)
                     item.setCurrentIndex(self.headerIndexes[self.anaerobicTable[i][j]])
@@ -1645,9 +1674,13 @@ class CultureResultForm(QMainWindow):
     @throwsViewableException
     def updateTable(self, kind, row, column):
         if kind:
-            self.aerobicTable[row][column] = self.aeTWid.cellWidget(row, column).currentText() if self.aeTWid.cellWidget(row, column) else self.aerobicTable[row][column]
+            if row < len(self.aerobicTable):
+                if column < len(self.aerobicTable[row]):
+                    self.aerobicTable[row][column] = self.aeTWid.cellWidget(row, column).currentText() if self.aeTWid.cellWidget(row, column) else self.aerobicTable[row][column]
         else:
-            self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
+            if row < len(self.anaerobicTable):
+                if column < len(self.anaerobicTable[row]):
+                    self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
     @throwsViewableException
     def resultToTable(self, result):
@@ -1661,8 +1694,10 @@ class CultureResultForm(QMainWindow):
                 antibiotics = bacteria[1].split(';')
                 for j in range(0, len(antibiotics)):
                     measures = antibiotics[j].split('=')
+                    if len(measures) == 1:
+                        measures.append("NA")
                     if i<1: headers.append(measures[0])
-                    table[i+1].append(measures[1])
+                    table[i+1].append(measures[1]) 
                 if i<1: table[0] = headers
             return table
         else:
@@ -1760,7 +1795,7 @@ class CultureResultForm(QMainWindow):
             for row in self.anaerobicTable:
                 row.pop()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -1794,15 +1829,15 @@ class CultureResultForm(QMainWindow):
             self.initTables()
             self.save.setEnabled(True)
             self.clear.setEnabled(True)
-            self.printP.setEnabled(False)
-            self.printF.setEnabled(False)
-            self.printS.setEnabled(False)
+            self.printP.setEnabled(True)
+            self.printF.setEnabled(True)
+            self.printS.setEnabled(True)
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found Culture Order: " + self.saID.text())
             self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage2.setText("Found Culture Order: " + self.saID.text())
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -1834,7 +1869,7 @@ class CultureResultForm(QMainWindow):
             self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage2.setText("Saved Culture Result Form: " + self.saID.text())
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleDirectSmearPressed(self):
         self.handleSavePressed()
         template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
@@ -1856,7 +1891,7 @@ class CultureResultForm(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
     
-    @throwsViewableException
+    #@throwsViewableException
     def handlePreliminaryPressed(self):
         self.handleSavePressed()
         template = str(Path().resolve())+r'\COMBDb\templates\culture_prelim_template.docx'
