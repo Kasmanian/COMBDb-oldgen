@@ -193,3 +193,22 @@
 - Changed DUWL Order so that order can be searched, edited then manually added to kit list to be printed
 - Started brainstorming for audit log and ways to write to a secure and hidden file
 - Added DUWL Order update query
+
+8/24/22
+- Fixed bug in manage techs where program would crash when a tech was selected from the table and then a new tech was created
+- Testing DUWL Receive and DUWL Result
+
+8/25/22
+- Finding a way to allow remote updates for COMBdb - PyUpdater is a possibilty
+- Adding ability to update Clinician info in "Add Clinician" ui - drop down box will allow user to select an existing clinician and edit their information
+- Edited Add Clinician UI 
+- Created a new update query to update clinician info
+
+8/28/22
+- Added ability to update Clinician information
+- Added query to fetch all Clinician fields and added update query to change data
+- Add Clinician UI has a combo box that allows the user to select the tech they want to edit
+- Testing Add Clinician UI
+
+8/29/22
+- When adding new Clinicians, the dropdown on "Add Clinician" ui now updates the list

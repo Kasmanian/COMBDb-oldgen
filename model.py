@@ -21,7 +21,7 @@ class Model:
   
   def connect(self):
     try:
-      f = open('COMBDb\local.json')
+      f = open('local.json')
       PATH = json.load(f)['DBQ']
       CONSTR = r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ='+PATH
       f.close()
@@ -126,6 +126,12 @@ class Model:
     return cursor.fetchone()
 
   @__usesCursor
+  def findClinicianFull(self, cursor, entry):
+    query = 'SELECT [Prefix], [First], [Last], [Phone], [Fax], [Designation], [Address 1], [Address 2], [City], [State], [Zip], [Email], [Enrolled], [Comments] FROM Clinicians WHERE Entry=?'
+    cursor.execute(query, entry)
+    return cursor.fetchone() 
+
+  @__usesCursor
   def findTech(self, cursor, entry, columns):
     query = f'SELECT {columns} FROM Techs WHERE Entry=?'
     cursor.execute(query, entry)
@@ -177,6 +183,13 @@ class Model:
   def updateWaterlineOrder(self, cursor, sampleID, clinician, shipped, comments, notes):
     query = f'UPDATE Waterlines SET [Clinician]=?, [Shipped]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
     cursor.execute(query, clinician, self.fQtDate(shipped), comments, notes, sampleID)
+    return True
+
+  @__usesCursor
+  def updateClinician(self, cursor, entry, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, inactive, comments):
+    cursor = self.db.cursor()
+    query = f'UPDATE Clinicians SET [Prefix]=?, [First]=?, [Last]=?, [Designation]=?, [Phone]=?, [Fax]=?, [Email]=?, [Address 1]=?, [Address 2]=?, [City]=?, [State]=?, [Zip]=?, [Comments]=? WHERE Entry=?'
+    cursor.execute(query, prefix, first, last, designation, phone, fax, email, addr1, addr2, city, state, zip, comments, entry)
     return True
 
   @__usesCursor

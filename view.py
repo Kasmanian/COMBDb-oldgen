@@ -1,3 +1,4 @@
+from msilib import datasizemask
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
@@ -217,9 +218,9 @@ class SetFilePathScreen(QMainWindow):
         super(SetFilePathScreen, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Set_File_Path_Form.ui", self)
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Set_File_Path_Form.ui", self)
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.browse.clicked.connect(self.handleBrowsePressed)
         self.save.clicked.connect(self.handleSavePressed)
@@ -235,7 +236,7 @@ class SetFilePathScreen(QMainWindow):
 
     @throwsViewableException
     def handleSavePressed(self):
-        with open('COMBDb\local.json', 'r+') as JSON:
+        with open('local.json', 'r+') as JSON:
             data = json.load(JSON)
             data['DBQ'] = str(Path(self.filePath.text()))
             JSON.seek(0)  # rewind
@@ -252,7 +253,7 @@ class SetErrorScreen(QMainWindow):
         super(SetErrorScreen, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Error_Window.ui", self)
+        loadUi("UI Screens/COMBdb_Error_Window.ui", self)
         self.ok.clicked.connect(self.handleOKPressed)
         self.errorMessage.setText(str(message))
 
@@ -265,7 +266,7 @@ class SetConfirmationScreen(QMainWindow):
         super(SetConfirmationScreen, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Confirmation_Window.ui", self)
+        loadUi("UI Screens/COMBdb_Confirmation_Window.ui", self)
         self.Cancel.clicked.connect(self.handleCancelPressed)
 
     @throwsViewableException
@@ -277,7 +278,7 @@ class SetArchiveReminderScreen(QMainWindow):
         super(SetArchiveReminderScreen, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Archive_Prompt.ui", self)
+        loadUi("UI Screens/COMBdb_Archive_Prompt.ui", self)
         self.no.clicked.connect(self.handleNoPressed)
     
     @throwsViewableException
@@ -290,8 +291,8 @@ class AdminLoginScreen(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_Admin_Login.ui", self)
-        self.login.setIcon(QIcon('COMBDb/Icon/loginIcon.png'))
+        loadUi("UI Screens/COMBdb_Admin_Login.ui", self)
+        self.login.setIcon(QIcon('Icon/loginIcon.png'))
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.handleLoginPressed)
 
@@ -323,9 +324,9 @@ class AdminHomeScreen(QMainWindow):
         super(AdminHomeScreen, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Admin_Home_Screen.ui", self)
-        self.settings.setIcon(QIcon('COMBDb/Icon/settingsIcon.png'))
-        self.logout.setIcon(QIcon('COMBDb/Icon/logoutIcon.png'))
+        loadUi("UI Screens/COMBdb_Admin_Home_Screen.ui", self)
+        self.settings.setIcon(QIcon('Icon/settingsIcon.png'))
+        self.logout.setIcon(QIcon('Icon/logoutIcon.png'))
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
         self.resultEntry.clicked.connect(self.handleResultEntryPressed)
         self.settings.clicked.connect(self.handleSettingsPressed)
@@ -352,8 +353,8 @@ class SettingsNav(QMainWindow):
         super(SettingsNav, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
         self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
         self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
@@ -390,11 +391,11 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
-        self.addTech.setIcon(QIcon('COMBDb/Icon/addClinicianIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Settings_Manage_Technicians_Form.ui", self)
+        self.addTech.setIcon(QIcon('Icon/addClinicianIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.edit.clicked.connect(self.handleEditPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
@@ -406,7 +407,7 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.selectedTechnician = []
         self.updateTable()
 
-    @throwsViewableException
+    #@throwsViewableException
     def updateTable(self):
         techs = self.model.selectTechs('Entry, Username, Active')
         self.techTable.setRowCount(0)
@@ -420,47 +421,48 @@ class SettingsManageTechnicianForm(QMainWindow):
             self.techTable.setItem(i,1, QTableWidgetItem(techs[i][1]))
             self.techTable.setItem(i,2, QTableWidgetItem(techs[i][2]))
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleEditPressed(self):
         if len(self.selectedTechnician)>0:
             self.view.showEditTechnician(self.selectedTechnician[1])
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleTechnicianSelected(self):
         self.selectedTechnician = [
             self.techTable.currentRow(), 
-            int(self.techTable.item(self.techTable.currentRow(), 0).text()),
+            int(self.techTable.item(self.techTable.currentRow(), 0).text()), #this line is throwing the error
             self.techTable.item(self.techTable.currentRow(), 1).text(),
             self.techTable.item(self.techTable.currentRow(), 2).text(),
         ]
         self.tech.setText(self.techTable.item(self.techTable.currentRow(), 1).text())
     
-    @throwsViewableException
+    #@throwsViewableException
     def handleActivatePressed(self):
         if self.selectedTechnician[3] != 'Yes':
             if self.model.toggleTech(self.selectedTechnician[1], 'Yes'):
                 self.selectedTechnician[3] = 'Yes'
                 self.techTable.item(self.selectedTechnician[0], 2).setText('Yes')
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleDeactivatePressed(self):
         if self.selectedTechnician[3] != 'No':
             if self.model.toggleTech(self.selectedTechnician[1], 'No'):
                 self.selectedTechnician[3] = 'No'
                 self.techTable.item(self.selectedTechnician[0], 2).setText('No')
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleAddTechPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
+        self.techTable.clearSelection()
         user = self.user.text()
         if self.pswd.text()==self.confirmPswd.text() and self.pswd.text() and self.confirmPswd.text():
             if self.fName.text() and self.lName.text() and self.user.text():
@@ -476,7 +478,7 @@ class SettingsManageTechnicianForm(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Password and confirm password are required and must match")
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleClearPressed(self):
         self.fName.clear()
         self.mName.clear()
@@ -496,10 +498,10 @@ class SettingsEditTechnician(QMainWindow):
         self.model = model
         self.timer = QTimer(self)
         self.id = id
-        loadUi("COMBDb/UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Settings_Edit_Technician.ui", self)
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.tech = self.model.findTech(self.id, '[First], [Middle], [Last], [Username], [Password]')
@@ -553,10 +555,10 @@ class SettingsManageArchivesForm(QMainWindow): #TODO - incorporate archiving.
         super(SettingsManageArchivesForm, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Archives_Form.ui", self)
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Settings_Manage_Archives_Form.ui", self)
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
 
@@ -575,12 +577,12 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_Settings_Manage_Prefixes_Form.ui", self)
-        self.add.setIcon(QIcon('COMBDb/Icon/addIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Settings_Manage_Prefixes_Form.ui", self)
+        self.add.setIcon(QIcon('Icon/addIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.add.clicked.connect(self.handleAddPressed)
@@ -703,8 +705,8 @@ class CultureOrderNav(QMainWindow):
         super(CultureOrderNav, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Forms_Nav.ui", self)
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Culture_Order_Forms_Nav.ui", self)
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.culture.clicked.connect(self.handleCulturePressed)
         self.duwl.clicked.connect(self.handleDUWLPressed)
         self.back.clicked.connect(self.handleBackPressed)
@@ -729,14 +731,14 @@ class CultureOrderForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_Culture_Order_Form.ui", self)
-        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-        self.addClinician.setIcon(QIcon('COMBDb/Icon/addClinicianIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Culture_Order_Form.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.addClinician.setIcon(QIcon('Icon/addClinicianIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.print.setIcon(QIcon('Icon/printIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -751,7 +753,7 @@ class CultureOrderForm(QMainWindow):
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))        
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -776,6 +778,7 @@ class CultureOrderForm(QMainWindow):
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Sample ID not found")
         if self.sample is not None:
+            print(self.sample)
             self.chID.setText(self.sample[0])
             clinician = self.model.findClinician(self.sample[1])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -878,7 +881,7 @@ class CultureOrderForm(QMainWindow):
     def handlePrintPressed(self): 
         if self.handleSavePressed():
             if self.type.currentText()!='Caries':
-                template = str(Path().resolve())+r'\COMBDb\templates\culture_worksheet_template3.docx'
+                template = str(Path().resolve())+r'\templates\culture_worksheet_template3.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
                 clinician=self.clinDrop.currentText().split(', ')
@@ -895,7 +898,7 @@ class CultureOrderForm(QMainWindow):
                 document.write(dst)
                 self.view.convertAndPrint(dst)
             else:
-                template = str(Path().resolve())+r'\COMBDb\templates\cat_worksheet_template.docx'
+                template = str(Path().resolve())+r'\templates\cat_worksheet_template.docx'
                 dst = self.view.tempify(template)
                 document = MailMerge(template)
                 clinician=self.clinDrop.currentText().split(', ')
@@ -942,43 +945,106 @@ class AddClinician(QMainWindow):
         self.model = model
         self.timer = QTimer(self)
         self.dropdown = dropdown
-        loadUi("COMBDb/UI Screens/COMBdb_Add_New_Clinician.ui", self)
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Add_New_Clinician.ui", self)
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.clinDrop.clear()
+        self.clinDrop.addItem("")
+        self.clinDrop.addItems(self.view.names)
         self.clear.clicked.connect(self.handleClearPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
+        self.clinDrop.currentIndexChanged.connect(self.selectedClinician)
         self.enrollDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+
+    def selectedClinician(self):
+        if self.clinDrop.currentText() == "":
+            return
+        else:
+            clinician = self.model.findClinicianFull(self.view.entries[self.clinDrop.currentText()]['db'])
+            self.title.setCurrentIndex(self.title.findText(clinician[0]))
+            self.fName.setText(clinician[1])
+            self.lName.setText(clinician[2])
+            self.address1.setText(clinician[6])
+            self.address2.setText(clinician[7])
+            self.city.setText(clinician[8])
+            self.state.setCurrentIndex(self.state.findText(clinician[9]))
+            self.zip.setText(clinician[10])
+            self.phone.setText(clinician[3])
+            self.fax.setText(clinician[4])
+            self.email.setText(clinician[11])
+            self.enrollDate.setDate(self.view.dtToQDate(clinician[12]))
+            self.designation.setText(clinician[5])
+            self.cText.setText(clinician[13])
+
 
     def handleSavePressed(self): #Incorporate validation to make sure clinician is actually added to DB
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
+        title = ""
+        first = ""
+        last = ""
         if self.fName.text() and self.lName.text() and self.address1.text() and self.city.text() and self.state.currentText() and self.zip.text():
-            self.model.addClinician(
-                self.title.currentText(),
-                self.fName.text(),
-                self.lName.text(),
-                self.designation.text(),
-                self.phone.text(),
-                self.fax.text(),
-                self.email.text(),
-                self.address1.text(),
-                self.address2.text(),
-                self.city.text(),
-                self.state.currentText(),
-                self.zip.text(),
-                None,
-                None,
-                self.cText.toPlainText()
-            )
-            self.view.setClinicianList()
-            self.dropdown.clear()
-            self.dropdown.addItems(self.view.names)
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-            self.errorMessage.setText("New clinician added: " + self.title.currentText() + " " +self.fName.text() + " " + self.lName.text())
+            #self.sample = self.model.findClinicianFull(self.view.entries[self.clinDrop.currentText()]['db'])
+            if self.clinDrop.currentText() == "": #and self.sample is None:
+                self.model.addClinician(
+                    self.title.currentText(),
+                    self.fName.text(),
+                    self.lName.text(),
+                    self.designation.text(),
+                    self.phone.text(),
+                    self.fax.text(),
+                    self.email.text(),
+                    self.address1.text(),
+                    self.address2.text(),
+                    self.city.text(),
+                    self.state.currentText(),
+                    self.zip.text(),
+                    None,
+                    None,
+                    self.cText.toPlainText()
+                )
+                title = self.title.currentText()
+                first = self.fName.text()
+                last = self.lName.text()
+                self.view.setClinicianList()
+                self.clinDrop.clear()
+                self.clinDrop.addItem("")
+                self.clinDrop.addItems(self.view.names)
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("New clinician added: " + title + " " + first + " " + last)
+            else:
+                self.model.updateClinician(
+                    self.view.entries[self.clinDrop.currentText()]['db'],
+                    self.title.currentText(),
+                    self.fName.text(),
+                    self.lName.text(),
+                    self.designation.text(),
+                    self.phone.text(),
+                    self.fax.text(),
+                    self.email.text(),
+                    self.address1.text(),
+                    self.address2.text(),
+                    self.city.text(),
+                    self.state.currentText(),
+                    self.zip.text(),
+                    None,
+                    self.cText.toPlainText()
+                )
+                title = self.title.currentText()
+                first = self.fName.text()
+                last = self.lName.text()
+                self.view.setClinicianList()
+                self.clinDrop.clear()
+                self.clinDrop.addItem("")
+                self.clinDrop.addItems(self.view.names)
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Updated Existing Clinician: " + title + " " + first + " " + last)
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")
@@ -1009,6 +1075,7 @@ class AddClinician(QMainWindow):
         self.designation.clear()
         self.cText.clear()
         self.errorMessage.clear()
+        self.clinDrop.setCurrentIndex(0)
 
     @throwsViewableException
     def timerEvent(self):
@@ -1019,8 +1086,8 @@ class DUWLNav(QMainWindow):
         super(DUWLNav, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Nav.ui", self)
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_DUWL_Nav.ui", self)
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.orderCulture.clicked.connect(self.handleOrderCulturePressed)
         self.receivingCulture.clicked.connect(self.handleReceivingCulturePressed)
         self.back.clicked.connect(self.handleBackPressed)
@@ -1046,16 +1113,16 @@ class DUWLOrderForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Order_FormTest.ui", self)
-        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-        self.addClinician.setIcon(QIcon('COMBDb/Icon/addClinicianIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
-        self.clearAll.setIcon(QIcon('COMBDb/Icon/clearAllIcon.png'))
-        self.remove.setIcon(QIcon('COMBDb/Icon/removeIcon.png'))
+        loadUi("UI Screens/COMBdb_DUWL_Order_FormTest.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.addClinician.setIcon(QIcon('Icon/addClinicianIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.print.setIcon(QIcon('Icon/printIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.clearAll.setIcon(QIcon('Icon/clearAllIcon.png'))
+        self.remove.setIcon(QIcon('Icon/removeIcon.png'))
         self.currentKit = 1
         self.kitList = []
         self.printList = {}
@@ -1259,7 +1326,7 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\COMBDb\templates\duwl_labels.docx'
+        template = str(Path().resolve())+r'\templates\duwl_labels.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         x = int(self.row.value()-1)*3+int(self.col.value())-1
@@ -1291,15 +1358,15 @@ class DUWLReceiveForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
-        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
-        self.clearAll.setIcon(QIcon('COMBDb/Icon/clearAllIcon.png'))
-        self.remove.setIcon(QIcon('COMBDb/Icon/removeIcon.png'))
+        loadUi("UI Screens/COMBdb_DUWL_Receive_Form.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.print.setIcon(QIcon('Icon/printIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.clearAll.setIcon(QIcon('Icon/clearAllIcon.png'))
+        self.remove.setIcon(QIcon('Icon/removeIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -1417,7 +1484,7 @@ class DUWLReceiveForm(QMainWindow):
         self.operatory.clear()
         self.procedure.clear()
         self.product.clear()
-        self.save.setEnabled(True)
+        self.save.setEnabled(False)
         self.clear.setEnabled(True)
         self.tabWidget.setCurrentIndex(0)
         self.errorMessage.setText("")
@@ -1456,7 +1523,7 @@ class DUWLReceiveForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\COMBDb\templates\pending_duwl_cultures_template.docx'
+        template = str(Path().resolve())+r'\templates\pending_duwl_cultures_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
@@ -1473,8 +1540,8 @@ class ResultEntryNav(QMainWindow):
         super(ResultEntryNav, self).__init__()
         self.view = view
         self.model = model
-        loadUi("COMBDb/UI Screens/COMBdb_Result_Entry_Forms_Nav.ui", self)
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Result_Entry_Forms_Nav.ui", self)
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.culture.clicked.connect(self.handleCulturePressed)
         self.cat.clicked.connect(self.handleCATPressed)
         self.duwl.clicked.connect(self.handleDUWLPressed)
@@ -1505,12 +1572,12 @@ class CultureResultForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_Culture_Result_Form.ui", self)
-        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_Culture_Result_Form.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -1535,7 +1602,7 @@ class CultureResultForm(QMainWindow):
             #aerobic = self.model.selectPrefixes('Aerobic', 'Word')
             #anaerobic = self.model.selectPrefixes('Anaerobic', 'Word')
             #antibiotics = self.model.selectPrefixes('Antibiotics', 'Word')
-            with open('COMBDb\local.json', 'r+') as JSON:
+            with open('local.json', 'r+') as JSON:
                 # count = 0
                 data = json.load(JSON)
                 # self.aerobicPrefixes = data['PrefixToAerobic']
@@ -1638,6 +1705,7 @@ class CultureResultForm(QMainWindow):
         for i in range(0, len(self.aerobicTable)):
             for j in range(0, len(self.aerobicTable[0])):
                 item = IndexedComboBox(i, j, self, True)
+                #item.setFocusPolicy(Qt.ClickFocus)
                 if i>0 and j>0:
                     item.addItems(self.options)
                     item.setCurrentIndex(self.optionIndexes[self.aerobicTable[i][j]])
@@ -1655,6 +1723,7 @@ class CultureResultForm(QMainWindow):
         for i in range(0, len(self.anaerobicTable)):
             for j in range(0, len(self.anaerobicTable[0])):
                 item = IndexedComboBox(i, j, self, False)
+                #item.setFocusPolicy(Qt.ClickFocus)
                 if i>0 and j>0:
                     item.addItems(self.options)
                     item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]]) 
@@ -1722,26 +1791,32 @@ class CultureResultForm(QMainWindow):
         self.aeTWid.setRowCount(self.aeTWid.rowCount()+1)
         self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
         bacteria = IndexedComboBox(self.aeTWid.rowCount()-1, 0, self, True)
+        #bacteria.setFocusPolicy(Qt.ClickFocus)
         bacteria.addItems(self.aerobicList)
         self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, 0, bacteria)
         for i in range(1, self.aeTWid.columnCount()):
             self.aerobicTable[self.aeTWid.rowCount()-1].append('NI')
             options = IndexedComboBox(self.aeTWid.rowCount()-1, i, self, True)
+            #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, i, options)
+            #self.aeTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
 
     @throwsViewableException
     def addRowAnaerobic(self):
         self.anTWid.setRowCount(self.anTWid.rowCount()+1)
         self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
         bacteria = IndexedComboBox(self.anTWid.rowCount()-1, 0, self, False)
+        #bacteria.setFocusPolicy(Qt.ClickFocus)
         bacteria.addItems(self.anaerobicList)
         self.anTWid.setCellWidget(self.anTWid.rowCount()-1, 0, bacteria)
         for i in range(1, self.anTWid.columnCount()):
             self.anaerobicTable[self.anTWid.rowCount()-1].append('NI')
             options = IndexedComboBox(self.anTWid.rowCount()-1, i, self, False)
+            #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.anTWid.setCellWidget(self.anTWid.rowCount()-1, i, options)
+            #self.anTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
 
     @throwsViewableException
     def delRowAerobic(self):
@@ -1760,26 +1835,32 @@ class CultureResultForm(QMainWindow):
         self.aeTWid.setColumnCount(self.aeTWid.columnCount()+1)
         self.aerobicTable[0].append('Growth')
         header = IndexedComboBox(0, self.aeTWid.columnCount()-1, self, True)
+        #header.setFocusPolicy(Qt.ClickFocus)
         header.addItems(self.headers)
         self.aeTWid.setCellWidget(0, self.aeTWid.columnCount()-1, header)
         for i in range(1, self.aeTWid.rowCount()):
             self.aerobicTable[i].append('NI')
             options = IndexedComboBox(i, self.aeTWid.columnCount()-1, self, True)
+            #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.aeTWid.setCellWidget(i, self.aeTWid.columnCount()-1, options)
+            #self.aeTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
 
     @throwsViewableException
     def addColAnaerobic(self):
         self.anTWid.setColumnCount(self.anTWid.columnCount()+1)
         self.anaerobicTable[0].append('Growth')
         header = IndexedComboBox(0, self.anTWid.columnCount()-1, self, False)
+        #header.setFocusPolicy(Qt.ClickFocus)
         header.addItems(self.headers)
         self.anTWid.setCellWidget(0, self.anTWid.columnCount()-1, header)
         for i in range(1, self.anTWid.rowCount()):
             self.anaerobicTable[i].append('NI')
             options = IndexedComboBox(i, self.anTWid.columnCount()-1, self, False)
+            #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.anTWid.setCellWidget(i, self.anTWid.columnCount()-1, options)
+            #self.anTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
 
     @throwsViewableException
     def delColAerobic(self):
@@ -1872,7 +1953,7 @@ class CultureResultForm(QMainWindow):
     #@throwsViewableException
     def handleDirectSmearPressed(self):
         self.handleSavePressed()
-        template = str(Path().resolve())+r'\COMBDb\templates\culture_smear_template.docx'
+        template = str(Path().resolve())+r'\templates\culture_smear_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         clinician = self.model.findClinician(self.sample[1])
@@ -1894,7 +1975,7 @@ class CultureResultForm(QMainWindow):
     #@throwsViewableException
     def handlePreliminaryPressed(self):
         self.handleSavePressed()
-        template = str(Path().resolve())+r'\COMBDb\templates\culture_prelim_template.docx'
+        template = str(Path().resolve())+r'\templates\culture_prelim_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         clinician=self.clinDrop.currentText().split(', ')
@@ -1925,7 +2006,7 @@ class CultureResultForm(QMainWindow):
 
     def handlePerioPressed(self):
         self.handleSavePressed()
-        template = str(Path().resolve())+r'\COMBDb\templates\culture_results_template.docx'
+        template = str(Path().resolve())+r'\templates\culture_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         clinician=self.clinDrop.currentText().split(', ')
@@ -1995,13 +2076,13 @@ class CATResultForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_CAT_Result_Form.ui", self)
-        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
+        loadUi("UI Screens/COMBdb_CAT_Result_Form.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.print.setIcon(QIcon('Icon/printIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -2138,7 +2219,7 @@ class CATResultForm(QMainWindow):
     @throwsViewableException
     def handlePrintPressed(self):
         self.handleSavePressed()
-        template = str(Path().resolve())+r'\COMBDb\templates\cat_results_template.docx'
+        template = str(Path().resolve())+r'\templates\cat_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         #print(self.saID.text()[0:2] + "-" + self.saID.text()[2:6])
@@ -2169,15 +2250,15 @@ class DUWLResultForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("COMBDb/UI Screens/COMBdb_DUWL_Result_Form.ui", self)
-        self.find.setIcon(QIcon('COMBDb/Icon/searchIcon.png'))
-        self.save.setIcon(QIcon('COMBDb/Icon/saveIcon.png'))
-        self.clear.setIcon(QIcon('COMBDb/Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('COMBDb/Icon/menuIcon.png'))
-        self.print.setIcon(QIcon('COMBDb/Icon/printIcon.png'))
-        self.back.setIcon(QIcon('COMBDb/Icon/backIcon.png'))
-        self.clearAll.setIcon(QIcon('COMBDb/Icon/clearAllIcon.png'))
-        self.remove.setIcon(QIcon('COMBDb/Icon/removeIcon.png'))
+        loadUi("UI Screens/COMBdb_DUWL_Result_Form.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.save.setIcon(QIcon('Icon/saveIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.print.setIcon(QIcon('Icon/printIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.clearAll.setIcon(QIcon('Icon/clearAllIcon.png'))
+        self.remove.setIcon(QIcon('Icon/removeIcon.png'))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -2336,7 +2417,7 @@ class DUWLResultForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\COMBDb\templates\duwl_results_template.docx'
+        template = str(Path().resolve())+r'\templates\duwl_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
