@@ -212,3 +212,43 @@
 
 8/29/22
 - When adding new Clinicians, the dropdown on "Add Clinician" ui now updates the list
+- Looked into writing unit tests for COMBdb - QTest is built into PyQt5 already. Another option is PyUnit
+- Started looking at the SMS project, some discoveries include:
+	- Written in Python 2.7
+	- Used PyQt4 for front end framework
+	- Used Django for templates as well as database abstraction layer
+	- Connects to a SQL database
+	- XHTML2PDF is used to convert HTML files to PDF files
+
+8/30/22
+- Started writing unit tests for UI screens
+- Added qtest.py which contains all unit test for indiviual UI screens
+- Added qtestSIM.py which will run the application on a thread as a simulation and allow us to test the application as a whole
+
+8/31/22
+- Continued working on unit tests
+- Trying to figure out how to run the application on a thread
+- Switched from using QTest to pythons built in unit testing library
+
+9/1/22
+- Continued with testing 
+- DUWL Result bug fixed - when order is cleared, the save button is enabled
+
+9/2/22
+- Continued working on Historical Results UI
+- Created a 2nd version of settings_nav that has an extra button for historical results - used for testing currently
+
+9/3/22
+- Added rejection check box on order forms
+- Created Rejection_Log_Reason_Form.ui that will open if rejection log checkbox is selected and order is saved - prompts user to input reason the order was rejected
+- Adding Rejection log field to database for all orders
+- Continued working on Historical Results UI
+
+9/6/22
+- Working on Rejection_Log_Reason_Form - stylizing it to fit theme
+- On UI forms, if rejection log box is checked, rejcetion log reason form will appear to allow user to enter the reason for rejection
+- Fixed bug where text could be written over on kit list for DUWL Order, Receive, Result forms
+- Tested rejection button functionality
+
+9/7/22
+- 

@@ -201,7 +201,7 @@ class Model:
         self.date = date.today()
         self.tech = tech
         return True
-      return False
+    return False
 
   def encrypt(self, token):
     bsalt = bcrypt.gensalt()
