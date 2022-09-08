@@ -251,4 +251,13 @@
 - Tested rejection button functionality
 
 9/7/22
-- 
+- Added fields to order forms in database to account for rejection log
+- Worked on UI for viewing rejected orders
+- Created Github Repo for OMLSMS project and imported all the code
+
+9/8/22
+- Rejection Log prototype is working.
+- Added a new line edit to culture order form that blends in with background until rejection log check is pressed - then changes to white input box
+- Edited queries to allow for rejection log information
+- If searching for a rejected order, rejection tag will alert user
+- Change button label depending on culture type

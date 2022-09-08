@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1656</width>
-    <height>1145</height>
+    <width>1685</width>
+    <height>1122</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -43,9 +43,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-255</y>
-         <width>1619</width>
-         <height>1750</height>
+         <y>-19</y>
+         <width>1648</width>
+         <height>1766</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -826,6 +826,22 @@ border-width: 1px</string>
              </spacer>
             </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
            <widget class="QLabel" name="errorMessage2">
@@ -1870,7 +1886,7 @@ QPushButton {
 }</string>
               </property>
               <property name="text">
-               <string>Perio</string>
+               <string>Result</string>
               </property>
              </widget>
             </item>
@@ -2097,7 +2113,7 @@ QPushButton {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1656</width>
+     <width>1685</width>
      <height>21</height>
     </rect>
    </property>

@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>296</width>
-    <height>174</height>
+    <height>164</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>999</width>
+    <height>999</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Rejection Log Reason</string>
@@ -87,7 +93,7 @@ border-width: 1px</string>
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="save">
          <property name="minimumSize">
           <size>
            <width>101</width>
@@ -138,7 +144,7 @@ QPushButton {
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="cancel">
          <property name="minimumSize">
           <size>
            <width>101</width>

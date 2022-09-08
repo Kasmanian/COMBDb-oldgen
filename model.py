@@ -174,9 +174,9 @@ class Model:
     return True
 
   @__usesCursor
-  def updateCultureOrder(self, cursor, table, sampleID, chartID, clinician, first, last, collected, received, type, comments, notes):
-    query = f'UPDATE {table} SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Comments]=?, [Notes]=? WHERE [SampleID]=?'
-    cursor.execute(query, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes, sampleID)
+  def updateCultureOrder(self, cursor, table, sampleID, chartID, clinician, first, last, collected, received, type, comments, notes, rejectionDate, rejectionReason):
+    query = f'UPDATE {table} SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE [SampleID]=?'
+    cursor.execute(query, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
     return True
 
   @__usesCursor

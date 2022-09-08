@@ -37,7 +37,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-418</y>
+         <y>-66</y>
          <width>1515</width>
          <height>1750</height>
         </rect>
@@ -1854,7 +1854,7 @@ QPushButton {
 }</string>
               </property>
               <property name="text">
-               <string>Perio</string>
+               <string>Result</string>
               </property>
              </widget>
             </item>
