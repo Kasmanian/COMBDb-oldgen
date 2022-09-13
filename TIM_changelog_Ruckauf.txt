@@ -261,3 +261,8 @@
 - Edited queries to allow for rejection log information
 - If searching for a rejected order, rejection tag will alert user
 - Change button label depending on culture type
+
+9/12/22
+- Rejection logs added to all UI forms
+- Tested all rejection log forms and queries
+- Started working on new settings page where rejected orders can be viewed

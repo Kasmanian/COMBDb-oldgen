@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1685</width>
-    <height>1122</height>
+    <width>1503</width>
+    <height>1164</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -43,9 +43,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-19</y>
-         <width>1648</width>
-         <height>1766</height>
+         <y>0</y>
+         <width>1466</width>
+         <height>1772</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -76,14 +76,29 @@
              </widget>
             </item>
             <item>
+             <widget class="QLineEdit" name="rejectedMessage">
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(123, 175, 212);
+border-style: solid;
+border-width: 0px</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_52">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>1753</width>
-                <height>28</height>
+                <width>40</width>
+                <height>20</height>
                </size>
               </property>
              </spacer>
@@ -132,6 +147,32 @@ QPushButton {
             </property>
            </widget>
           </item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QLabel" name="rejectionError">
+            <property name="minimumSize">
+             <size>
+              <width>350</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: red;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
           <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
@@ -143,7 +184,7 @@ QPushButton {
             <property name="sizeHint" stdset="0">
              <size>
               <width>10</width>
-              <height>40</height>
+              <height>10</height>
              </size>
             </property>
            </spacer>
@@ -712,6 +753,9 @@ QTabBar::tab {
 border-style: solid;
 border-width: 1px</string>
                         </property>
+                        <property name="tabChangesFocus">
+                         <bool>true</bool>
+                        </property>
                         <property name="placeholderText">
                          <string>Comments</string>
                         </property>
@@ -736,6 +780,9 @@ border-width: 1px</string>
                          <string notr="true">background-color: rgb(255, 255, 255);
 border-style: solid;
 border-width: 1px</string>
+                        </property>
+                        <property name="tabChangesFocus">
+                         <bool>true</bool>
                         </property>
                         <property name="placeholderText">
                          <string>Private Notes</string>
@@ -767,6 +814,9 @@ border-width: 1px</string>
                         </property>
                         <property name="lineWidth">
                          <number>1</number>
+                        </property>
+                        <property name="tabChangesFocus">
+                         <bool>true</bool>
                         </property>
                         <property name="documentTitle">
                          <string/>
@@ -2113,7 +2163,7 @@ QPushButton {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1685</width>
+     <width>1503</width>
      <height>21</height>
     </rect>
    </property>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1360</width>
-    <height>888</height>
+    <width>1260</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -77,6 +77,21 @@
         </property>
         <property name="text">
          <string>Rejected</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="rejectedMessage">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(123, 175, 212);
+border-style: solid;
+border-width: 0px</string>
         </property>
        </widget>
       </item>
@@ -158,6 +173,48 @@ QPushButton {
         </property>
        </widget>
       </item>
+      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+       <widget class="QLabel" name="rejectionError">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: red;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -217,17 +274,167 @@ QPushButton {
             <property name="verticalSpacing">
              <number>12</number>
             </property>
-            <item row="1" column="1" alignment="Qt::AlignRight">
-             <widget class="QLabel" name="label_14">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <item row="6" column="2">
+             <widget class="QTabWidget" name="tabWidget">
+              <property name="maximumSize">
+               <size>
+                <width>210</width>
+                <height>16777215</height>
+               </size>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="styleSheet">
+               <string notr="true">QTabWidget::pane {
+	background: rgb(235, 235, 235);
+	top: -16px;
+}
+QTabWidget::tab-bar {
+	alignment: center;
+}
+QTabBar::tab {
+	height: 23px; 
+	width: 105px;
+}</string>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <property name="usesScrollButtons">
+               <bool>false</bool>
+              </property>
+              <widget class="QWidget" name="commentTab">
+               <attribute name="title">
+                <string>Comments</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="0" column="0">
+                 <widget class="QTextEdit" name="cText">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>75</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                  </property>
+                  <property name="tabChangesFocus">
+                   <bool>true</bool>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Comments</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="notesTab">
+               <attribute name="title">
+                <string>Private Notes</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="0" column="0">
+                 <widget class="QTextEdit" name="nText">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>75</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+                  </property>
+                  <property name="tabChangesFocus">
+                   <bool>true</bool>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Private Notes</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLineEdit" name="saID">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string/>
               </property>
              </widget>
             </item>
-            <item row="4" column="2">
+            <item row="1" column="2">
+             <widget class="QComboBox" name="clinDrop">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(255, 255, 255);
+border-style: solid;
+border-width: 1px</string>
+              </property>
+              <item>
+               <property name="text">
+                <string>Clinician 1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Clinician 2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Clinician 3</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="3" column="2">
              <widget class="QDateEdit" name="shipDate">
               <property name="minimumSize">
                <size>
@@ -307,34 +514,7 @@ color: rgb(180,180,180);
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QLineEdit" name="saID">
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-              </property>
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-              <property name="placeholderText">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
+            <item row="2" column="2">
              <widget class="QLineEdit" name="kitNum">
               <property name="minimumSize">
                <size>
@@ -355,82 +535,17 @@ border-width: 1px</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QComboBox" name="clinDrop">
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-              </property>
-              <item>
-               <property name="text">
-                <string>Clinician 1</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Clinician 2</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Clinician 3</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="6" column="1" colspan="3">
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>10</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="label">
+            <item row="0" column="1" alignment="Qt::AlignRight">
+             <widget class="QLabel" name="label_14">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Number of Orders:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sample ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <spacer name="verticalSpacer_8">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="3">
+            <item row="0" column="3">
              <widget class="QPushButton" name="find">
               <property name="minimumSize">
                <size>
@@ -471,17 +586,14 @@ QPushButton {
               </property>
              </widget>
             </item>
-            <item row="4" column="1" alignment="Qt::AlignRight">
-             <widget class="QLabel" name="label_15">
+            <item row="4" column="1">
+             <widget class="QLabel" name="label">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Shipping Date:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Number of Orders:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="1" alignment="Qt::AlignRight">
+            <item row="2" column="1" alignment="Qt::AlignRight">
              <widget class="QLabel" name="label_10">
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Kit Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -491,17 +603,17 @@ QPushButton {
               </property>
              </widget>
             </item>
-            <item row="2" column="1" alignment="Qt::AlignRight">
-             <widget class="QLabel" name="label_8">
+            <item row="3" column="1" alignment="Qt::AlignRight">
+             <widget class="QLabel" name="label_15">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Shipping Date:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="8" column="2">
+            <item row="7" column="2">
              <spacer name="verticalSpacer_9">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -514,7 +626,17 @@ QPushButton {
               </property>
              </spacer>
             </item>
-            <item row="5" column="2" alignment="Qt::AlignLeft">
+            <item row="1" column="1" alignment="Qt::AlignRight">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2" alignment="Qt::AlignLeft">
              <widget class="QSpinBox" name="numOrders">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -563,102 +685,21 @@ border-width: 1px</string>
               </property>
              </widget>
             </item>
-            <item row="7" column="2">
-             <widget class="QTabWidget" name="tabWidget">
-              <property name="maximumSize">
+            <item row="5" column="1" colspan="3">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>210</width>
-                <height>16777215</height>
+                <width>20</width>
+                <height>10</height>
                </size>
               </property>
-              <property name="styleSheet">
-               <string notr="true">QTabWidget::pane {
-	background: rgb(235, 235, 235);
-	top: -16px;
-}
-QTabWidget::tab-bar {
-	alignment: center;
-}
-QTabBar::tab {
-	height: 23px; 
-	width: 105px;
-}</string>
-              </property>
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <property name="usesScrollButtons">
-               <bool>false</bool>
-              </property>
-              <widget class="QWidget" name="commentTab">
-               <attribute name="title">
-                <string>Comments</string>
-               </attribute>
-               <layout class="QGridLayout" name="gridLayout_3">
-                <item row="0" column="0">
-                 <widget class="QTextEdit" name="cText">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>75</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                  </property>
-                  <property name="tabChangesFocus">
-                   <bool>false</bool>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Comments</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-              <widget class="QWidget" name="notesTab">
-               <attribute name="title">
-                <string>Private Notes</string>
-               </attribute>
-               <layout class="QGridLayout" name="gridLayout_4">
-                <item row="0" column="0">
-                 <widget class="QTextEdit" name="nText">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>75</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 255, 255);
-border-style: solid;
-border-width: 1px</string>
-                  </property>
-                  <property name="tabChangesFocus">
-                   <bool>false</bool>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Private Notes</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </widget>
+             </spacer>
             </item>
            </layout>
           </item>
