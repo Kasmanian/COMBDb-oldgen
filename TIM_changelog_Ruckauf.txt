@@ -266,3 +266,10 @@
 - Rejection logs added to all UI forms
 - Tested all rejection log forms and queries
 - Started working on new settings page where rejected orders can be viewed
+
+9/13/22
+- Started work on settings rejection log UI
+
+9/14/22
+- Working rejection log UI accessible through settings
+- New queries to be able to access rejected orders

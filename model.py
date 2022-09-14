@@ -108,6 +108,12 @@ class Model:
     return True
 
   @__usesCursor
+  def findRejections(self, cursor, table, columns):
+    query = f'SELECT {columns} FROM {table} WHERE [Rejection Date] IS NOT NULL AND [Rejection Reason] IS NOT NULL'
+    cursor.execute(query)
+    return cursor.fetchall()
+
+  @__usesCursor
   def findSample(self, cursor, table, sampleID, columns):
     query = f'SELECT {columns} FROM {table} WHERE SampleID=?'
     cursor.execute(query, sampleID)
@@ -121,7 +127,7 @@ class Model:
 
   @__usesCursor
   def findClinician(self, cursor, entry):
-    query = 'SELECT Prefix, First, Last, Designation, [Address 1], [City], [State], [Zip] FROM Clinicians WHERE Entry=?'
+    query = 'SELECT [Prefix], [First], [Last], [Designation], [Address 1], [City], [State], [Zip] FROM Clinicians WHERE Entry=?'
     cursor.execute(query, entry)
     return cursor.fetchone()
 

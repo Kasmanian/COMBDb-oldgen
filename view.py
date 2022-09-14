@@ -1,4 +1,5 @@
 from msilib import datasizemask
+from turtle import ycor
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
@@ -86,6 +87,11 @@ class View:
     def showHistoricResultsForm(self):
         historicResultsForm = HistoricResultsForm(self.model, self)
         self.widget.addWidget(historicResultsForm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
+    def showRejectionLogForm(self):
+        rejectionLogForm = RejectionLogForm(self.model, self)
+        self.widget.addWidget(rejectionLogForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showCultureOrderNav(self):
@@ -374,7 +380,7 @@ class SettingsNav(QMainWindow):
         super(SettingsNav, self).__init__()
         self.view = view
         self.model = model
-        loadUi("UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
+        loadUi("UI Screens/COMBdb_Admin_Settings_Nav2.ui", self)
         self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
         self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
@@ -382,6 +388,7 @@ class SettingsNav(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.changeDatabase.clicked.connect(self.handleChangeDatabasePressed)
         #self.historicResults.clicked.connect(self.handleHistoricResultsPressed)
+        self.rejectionLog.clicked.connect(self.handleRejectionLogPressed)
 
     @throwsViewableException
     def handleChangeDatabasePressed(self):
@@ -408,6 +415,11 @@ class SettingsNav(QMainWindow):
         #self.view.showHistoricResultsForm()
         #self.close()
 
+    @throwsViewableException
+    def handleRejectionLogPressed(self):
+        self.view.showRejectionLogForm()
+        self.close()
+    
     @throwsViewableException
     def handleBackPressed(self):
         self.close()
@@ -741,6 +753,60 @@ class HistoricResultsForm(QMainWindow):
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
+class RejectionLogForm(QMainWindow):
+    def __init__(self, model, view):
+        super(RejectionLogForm, self).__init__()
+        self.view = view
+        self.model = model
+        #self.timer = QTimer(self)
+        loadUi("UI Screens/COMBdb_Settings_Rejection_Log_Form.ui", self)
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.back.clicked.connect(self.handleBackPressed)
+        self.home.clicked.connect(self.handleReturnToMainMenuPressed)
+        rejectedCulture = self.model.findRejections('Cultures', '[SampleID], [Type], [Clinician], [Rejection Date], [Rejection Reason]')
+        rejectedCAT = self.model.findRejections('CATs', '[SampleID], [Type], [Clinician], [Rejection Date], [Rejection Reason]')
+        rejectedDUWL = self.model.findRejections('Waterlines', '[SampleID], [Clinician], [Rejection Date], [Rejection Reason]')
+        count = 0
+        for entry in rejectedDUWL:
+            entry = list(entry)
+            entry.insert(1, "Waterline")
+            entry = tuple(entry)
+            rejectedDUWL[count] = entry
+            count += 1
+        rejections = rejectedCulture + rejectedCAT + rejectedDUWL
+        count = 0
+        for tup in rejections:
+            tup = list(tup)
+            new = []
+            new.append(tup[0])
+            new.append(tup[1])
+            clinician = self.model.findClinician(tup[2])
+            new.append(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]))
+            new.append(self.view.fSlashDate(tup[3]))
+            new.append(tup[4])
+            rejections[count] = new
+            count += 1
+        print(rejections)
+        print("\n")
+        self.rejLogTable.setColumnWidth(4, 300)
+        self.rejLogTable.setRowCount(len(rejections))
+        for i in range(0, len(rejections)):
+            self.rejLogTable.setItem(i, 0, QTableWidgetItem(str(rejections[i][0])))
+            self.rejLogTable.setItem(i, 1, QTableWidgetItem(rejections[i][1]))
+            self.rejLogTable.setItem(i, 2, QTableWidgetItem(rejections[i][2]))
+            self.rejLogTable.setItem(i, 3, QTableWidgetItem(rejections[i][3]))
+            self.rejLogTable.setItem(i, 4, QTableWidgetItem(rejections[i][4]))
+        self.rejLogTable.sortItems(0,0)
+
+    #@throwsViewableException
+    def handleBackPressed(self):
+        self.view.showSettingsNav()
+
+    #@throwsViewableException
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
+
 class CultureOrderNav(QMainWindow):
     def __init__(self, model, view):
         super(CultureOrderNav, self).__init__()
@@ -867,7 +933,7 @@ class CultureOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
     
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -875,9 +941,9 @@ class CultureOrderForm(QMainWindow):
             if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
                 if self.saID.text() == "":
                     self.saID.setText("0")
-                self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+                self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date]')
                 if self.sample is None:
-                    self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes]')
+                    self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date]')
                     if self.sample is None:
                         table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
                         #Create a new db entry - either culture or CAT
@@ -905,6 +971,12 @@ class CultureOrderForm(QMainWindow):
                             self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
                             return True
                     else: #Update existing CAT Order
+                        if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
+                            rejDate = QDate.currentDate()
+                        elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
+                            rejDate = self.view.dtToQDate(self.sample[9])
+                        else:
+                            rejDate = None
                         self.model.updateCultureOrder(
                             "CATs",
                             int(self.saID.text()),
@@ -917,7 +989,7 @@ class CultureOrderForm(QMainWindow):
                             self.type.currentText(),
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
-                            QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
+                            rejDate,
                             self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                         )
                         #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
@@ -926,6 +998,12 @@ class CultureOrderForm(QMainWindow):
                         self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
                         return True 
                 else: #Update existing Culture Order
+                    if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
+                            rejDate = QDate.currentDate()
+                    elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
+                        rejDate = self.view.dtToQDate(self.sample[9])
+                    else:
+                        rejDate = None
                     self.model.updateCultureOrder(
                         "Cultures",
                         int(self.saID.text()),
@@ -938,7 +1016,7 @@ class CultureOrderForm(QMainWindow):
                         self.type.currentText(),
                         self.cText.toPlainText(),
                         self.nText.toPlainText(),
-                        QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
+                        rejDate,
                         self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                     )
                     #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
@@ -1365,13 +1443,19 @@ class DUWLOrderForm(QMainWindow):
                     self.errorMessage.setText("Created New DUWL Order: " + str(saID))
                 else:
                     sampleID = self.saID.text()
+                    if self.rejectedCheckBox.isChecked() and self.sample[4] is None:
+                        rejDate = QDate.currentDate()
+                    elif self.rejectedCheckBox.isChecked() and self.sample[4] is not None:
+                        rejDate = self.view.dtToQDate(self.sample[4])
+                    else:
+                        rejDate = None
                     saID = self.model.updateWaterlineOrder(
                         int(self.saID.text()),
                         self.view.entries[self.clinDrop.currentText()]['db'],
                         self.shipDate.date(),
                         self.cText.toPlainText(),
                         self.nText.toPlainText(),
-                        QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
+                        rejDate,
                         self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                     )
                     if saID:
@@ -1600,6 +1684,13 @@ class DUWLReceiveForm(QMainWindow):
         saID = int(self.saID.text())
         if self.clinDrop.currentText():
             if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
+                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Rejection Date]')
+                if self.rejectedCheckBox.isChecked() and self.sample[0] is None:
+                    rejDate = QDate.currentDate()
+                elif self.rejectedCheckBox.isChecked() and self.sample[0] is not None:
+                    rejDate = self.sample[0]
+                else:
+                    rejDate = None
                 if self.model.addWaterlineReceiving(
                     saID,
                     self.operatory.text(),
@@ -1610,7 +1701,7 @@ class DUWLReceiveForm(QMainWindow):
                     self.procedure.text(),
                     self.cText.toPlainText(),
                     self.nText.toPlainText(),
-                    QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
+                    rejDate,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                 ):
                     clinician = self.clinDrop.currentText().split(', ')
