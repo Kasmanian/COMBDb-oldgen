@@ -3,7 +3,7 @@ import pyodbc, json
 class Database:
   def connect(self):
     try:
-      with open('COMBDb\local.json') as f:
+      with open('local.json') as f:
         self.db = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ='+json.load(f)['DBQ'])
       return True
     except (Exception, pyodbc.Error) as e:

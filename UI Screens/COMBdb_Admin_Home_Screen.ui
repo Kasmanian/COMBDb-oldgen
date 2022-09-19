@@ -108,10 +108,6 @@
 	 background-color: rgb(210, 210, 210);
 }
 
-QPushButton:focus {
-	background-color: rgb(210, 210, 210);
-}
-
 QPushButton {
 	background-color: rgb(193, 193, 193);
 }</string>
@@ -157,10 +153,6 @@ QPushButton {
         <property name="styleSheet">
          <string notr="true">QPushButton:hover {
 	 background-color: rgb(210, 210, 210);
-}
-
-QPushButton:focus {
-	background-color: rgb(210, 210, 210);
 }
 
 QPushButton {
@@ -239,13 +231,13 @@ QPushButton {
          <widget class="QPushButton" name="settings">
           <property name="minimumSize">
            <size>
-            <width>75</width>
+            <width>85</width>
             <height>41</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>75</width>
+            <width>85</width>
             <height>41</height>
            </size>
           </property>
@@ -255,10 +247,6 @@ QPushButton {
           <property name="styleSheet">
            <string notr="true">QPushButton:hover {
 	 background-color: rgb(210, 210, 210);
-}
-
-QPushButton:focus {
-	background-color: rgb(210, 210, 210);
 }
 
 QPushButton {
@@ -280,7 +268,7 @@ QPushButton {
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>35</width>
+            <width>25</width>
             <height>20</height>
            </size>
           </property>
@@ -296,13 +284,13 @@ QPushButton {
           </property>
           <property name="minimumSize">
            <size>
-            <width>75</width>
+            <width>85</width>
             <height>41</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>75</width>
+            <width>85</width>
             <height>41</height>
            </size>
           </property>
@@ -312,10 +300,6 @@ QPushButton {
           <property name="styleSheet">
            <string notr="true">QPushButton:hover {
 	 background-color: rgb(210, 210, 210);
-}
-
-QPushButton:focus {
-	background-color: rgb(210, 210, 210);
 }
 
 QPushButton {
