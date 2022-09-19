@@ -1,13 +1,13 @@
 TODO:
-    - confirmation windows when updating existing orders
-    - Add new clinician should only require last name - first optional
-    - Should Culture Order only require last name? not first and last?
-    - DUWL Order tags need only print last name not entire clinician name
-    - global nav bar
-    - historic results
+    - Rejection log - rejection button with comment ab why - WIP
+    - All orders need to print out tech that ordered and if it was charged to quickbooks
+
+Icing:
+    - UI Overhaul (including Global Nav Bar and modernization)
+    - Built-in Simplified quickbooks
+    - Stronger HIPPA Compliant Security
+    - Audit log
     - bulk add receiving cultures
+    - historic results
+    - confirmation windows when updating existing orders
 
-
-Questions:
-    - Add Clinician - Should First Name be required field? - or only Last name and address
-    - 

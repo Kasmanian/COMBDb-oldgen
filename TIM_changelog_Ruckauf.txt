@@ -164,5 +164,112 @@
 
 8/18/22
 - Fixed DUWL Order kit number bug that resulted in app crashing
+- Added CSS for button onFocus
+- Added tabability on login screen
+- Allow tech to login by pressing "enter" on login screen
+- Started implementing kitSelected functionality on DUWL Order
+- Testing DUWL Order Form
 
+8/19/22
+- More testing on DUWL Order Form
+- Finalizing forms for presentation to Shannon and Eric
 
+8/21/22
+- Changed some order forms - wrong ones were being used
+- Worked on fixing bug in DUWL Receive - list index out of range when adding, deleting, adding and deleting an order
+- Started working on a design for a global navigation toolbar
+- Updated TODO's
+- Started changing necessary "Print" buttons to "Save & Print" to prevent data mismatch
+- Started working on DUWL Result CDC/ADA autofill based on bacteria count
+
+8/22/22
+- Fixed bug in DUWL Receive and DUWL Result - index out of range when adding, deleting, adding and deleting the same culture
+- Finished autofill of CDC/ADA autofill
+- Changed all Culture Order print functions to save before running print functionality
+
+8/23/22
+- Started working on Historical Results UI - will allow users to query for specific orders or results based on multiple search criteria
+- Fixed bug with Kemani on Culture Result where Anaerobic Table would throw out of index error - Database was keeping the results as a short string rather then long string
+- Changed DUWL Order so that order can be searched, edited then manually added to kit list to be printed
+- Started brainstorming for audit log and ways to write to a secure and hidden file
+- Added DUWL Order update query
+
+8/24/22
+- Fixed bug in manage techs where program would crash when a tech was selected from the table and then a new tech was created
+- Testing DUWL Receive and DUWL Result
+
+8/25/22
+- Finding a way to allow remote updates for COMBdb - PyUpdater is a possibilty
+- Adding ability to update Clinician info in "Add Clinician" ui - drop down box will allow user to select an existing clinician and edit their information
+- Edited Add Clinician UI 
+- Created a new update query to update clinician info
+
+8/28/22
+- Added ability to update Clinician information
+- Added query to fetch all Clinician fields and added update query to change data
+- Add Clinician UI has a combo box that allows the user to select the tech they want to edit
+- Testing Add Clinician UI
+
+8/29/22
+- When adding new Clinicians, the dropdown on "Add Clinician" ui now updates the list
+- Looked into writing unit tests for COMBdb - QTest is built into PyQt5 already. Another option is PyUnit
+- Started looking at the SMS project, some discoveries include:
+	- Written in Python 2.7
+	- Used PyQt4 for front end framework
+	- Used Django for templates as well as database abstraction layer
+	- Connects to a SQL database
+	- XHTML2PDF is used to convert HTML files to PDF files
+
+8/30/22
+- Started writing unit tests for UI screens
+- Added qtest.py which contains all unit test for indiviual UI screens
+- Added qtestSIM.py which will run the application on a thread as a simulation and allow us to test the application as a whole
+
+8/31/22
+- Continued working on unit tests
+- Trying to figure out how to run the application on a thread
+- Switched from using QTest to pythons built in unit testing library
+
+9/1/22
+- Continued with testing 
+- DUWL Result bug fixed - when order is cleared, the save button is enabled
+
+9/2/22
+- Continued working on Historical Results UI
+- Created a 2nd version of settings_nav that has an extra button for historical results - used for testing currently
+
+9/3/22
+- Added rejection check box on order forms
+- Created Rejection_Log_Reason_Form.ui that will open if rejection log checkbox is selected and order is saved - prompts user to input reason the order was rejected
+- Adding Rejection log field to database for all orders
+- Continued working on Historical Results UI
+
+9/6/22
+- Working on Rejection_Log_Reason_Form - stylizing it to fit theme
+- On UI forms, if rejection log box is checked, rejcetion log reason form will appear to allow user to enter the reason for rejection
+- Fixed bug where text could be written over on kit list for DUWL Order, Receive, Result forms
+- Tested rejection button functionality
+
+9/7/22
+- Added fields to order forms in database to account for rejection log
+- Worked on UI for viewing rejected orders
+- Created Github Repo for OMLSMS project and imported all the code
+
+9/8/22
+- Rejection Log prototype is working.
+- Added a new line edit to culture order form that blends in with background until rejection log check is pressed - then changes to white input box
+- Edited queries to allow for rejection log information
+- If searching for a rejected order, rejection tag will alert user
+- Change button label depending on culture type
+
+9/12/22
+- Rejection logs added to all UI forms
+- Tested all rejection log forms and queries
+- Started working on new settings page where rejected orders can be viewed
+
+9/13/22
+- Started work on settings rejection log UI
+
+9/14/22
+- Working rejection log UI accessible through settings
+- New queries to be able to access rejected orders
