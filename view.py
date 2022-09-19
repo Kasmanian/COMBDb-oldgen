@@ -7,7 +7,7 @@ import sys, os, datetime, json
 from mailmerge import MailMerge
 from docxtpl import DocxTemplate
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
-from PyQt5.QtCore import QUrl, Qt, QDate, pyqtSignal, QTimer
+from PyQt5.QtCore import QUrl, Qt, QDate, QTimer
 from PyQt5.QtGui import QIcon
 import bcrypt, math
 
@@ -15,14 +15,14 @@ def passPrintPrompt(boolean):
         pass
 
 class View:
-    def __init__(self, model):
+    def __init__(self, model, testMode=False):
         self.model = model
         app = QApplication(sys.argv)
         app.setApplicationDisplayName('COMBDb')
         screen = AdminLoginScreen(model, self)
         self.widget = QtWidgets.QStackedWidget()
         self.widget.addWidget(screen)
-        self.widget.setGeometry(10,10,1000,800)
+        #self.widget.setGeometry(10,10,1000,800)
         self.widget.showMaximized()
         if not self.model.connect():
             self.showSetFilePathScreen()
@@ -890,7 +890,8 @@ class CultureOrderForm(QMainWindow):
                     clinicianName = clinician[1] + " " + clinician[0],
                     patientName=f'{self.lName.text()}, {self.fName.text()}',
                     comments=self.cText.toPlainText(),
-                    notes=self.nText.toPlainText()
+                    notes=self.nText.toPlainText(),
+                    techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
                 )
                 document.write(dst)
                 self.view.convertAndPrint(dst)
@@ -905,6 +906,7 @@ class CultureOrderForm(QMainWindow):
                     chartID=self.chID.text(),
                     clinicianName = clinician[1] + " " + clinician[0],
                     patientName=f'{self.lName.text()}, {self.fName.text()}',
+                    techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
                 )
                 document.write(dst)
                 self.view.convertAndPrint(dst)
@@ -2112,7 +2114,8 @@ class CATResultForm(QMainWindow):
             smCount='{:.2e}'.format(self.sample[11]),
             lbCount='{:.2e}'.format(self.sample[12]),
             reported=self.view.fSlashDate(self.sample[4]),
-            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.',
+            comments=self.cText.toPlainText()
         )
         document.write(dst)
         self.view.convertAndPrint(dst)
