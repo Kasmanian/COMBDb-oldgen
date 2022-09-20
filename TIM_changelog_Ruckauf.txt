@@ -273,3 +273,28 @@
 9/14/22
 - Working rejection log UI accessible through settings
 - New queries to be able to access rejected orders
+
+9/16/22
+- Continued working on global navigation home screen
+	- Will reduce number of clicks required to get navigate around
+	- Modernize the UI
+	- Make the app more user friendly
+
+9/17/22
+- Continued working on Historic Results ui
+- Tested rejection log settings ui
+- Edited CSS of buttons
+- Added addtional options to settings nav to accomodate Histroic results and Rejection log
+
+9/19/22
+- Installed event filter on QComboBox on Culture Result form to prevent accidental changing of values in QTableWidget
+- Prototype advanced search feature
+- Updated Settings Nav UI
+- Created global variable to track current tech logged in
+- Updated Culture Order queries to read in tech - whenever orders or results are updated most recent tech that handled the order will be read in
+
+9/20/22
+- Updated all other orders and results to read in most recent tech that edited the order
+- Found bug that allowed user to type in sample ID and without searching, edit the contents of that sample ID - Fixed
+- Continued work on Advanced Search functionality
+

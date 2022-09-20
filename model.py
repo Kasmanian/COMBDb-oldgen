@@ -70,16 +70,16 @@ class Model:
     return (yy*10000)+count+1
 
   @__usesCursor
-  def addPatientOrder(self, cursor, table, chartID, clinician, first, last, collected, received, type, comments, notes):
+  def addPatientOrder(self, cursor, table, chartID, clinician, first, last, collected, received, type, tech, comments, notes):
     sampleID = self.genSampleID()
-    query = (f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Type, Comments, Notes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-    cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes)
+    query = (f'INSERT INTO {table}(SampleID, ChartID, Clinician, First, Last, Collected, Received, Type, Tech, Comments, Notes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    cursor.execute(query, sampleID, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, tech, comments, notes)
     return sampleID
 
   @__usesCursor
-  def addCATResult(self, cursor, sampleID, clinician, first, last, reported, type, volume, time, flow, pH, bc, sm, lb, comments, notes, rejectionDate, rejectionReason):
+  def addCATResult(self, cursor, sampleID, clinician, first, last, tech, reported, type, volume, time, flow, pH, bc, sm, lb, comments, notes, rejectionDate, rejectionReason):
     query = ('UPDATE CATs SET [Clinician]=?, [First]=?, [Last]=?, [Tech]=?, [Reported]=?, [Type]=?, [Volume (ml)]=?, [Time (min)]=?, [Flow Rate (ml/min)]=?, [Initial (pH)]=?, [Buffering Capacity (pH)]=?, [Strep Mutans (CFU/ml)]=?, [Lactobacillus (CFU/ml)]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE [SampleID]=?')
-    cursor.execute(query, clinician, first, last, self.tech[0], self.fQtDate(reported), type, volume, time, flow, pH, bc, sm, lb, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
+    cursor.execute(query, clinician, first, last, tech, self.fQtDate(reported), type, volume, time, flow, pH, bc, sm, lb, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
     return True
 
   @__usesCursor
@@ -89,22 +89,22 @@ class Model:
     return True
   
   @__usesCursor
-  def addWaterlineOrder(self, cursor, clinician, shipped, comments, notes):
+  def addWaterlineOrder(self, cursor, clinician, shipped, comments, notes, tech):
     sampleID = self.genSampleID()
-    query = ('INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments, Notes) VALUES(?, ?, ?, ?, ?)')
-    cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments, notes)
+    query = ('INSERT INTO Waterlines(SampleID, Clinician, Shipped, Comments, Notes, Tech) VALUES(?, ?, ?, ?, ?, ?)')
+    cursor.execute(query, sampleID, clinician, self.fQtDate(shipped), comments, notes, tech)
     return sampleID
 
   @__usesCursor
-  def addWaterlineReceiving(self, cursor, sampleID, operatoryID, clinician, collected, received, product, procedure, comments, notes, rejectionDate, rejectionReason):
-    query = ('UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE [SampleID]=?')
-    cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
+  def addWaterlineReceiving(self, cursor, sampleID, operatoryID, clinician, collected, received, product, procedure, comments, notes, rejectionDate, rejectionReason, tech):
+    query = ('UPDATE Waterlines SET [OperatoryID]=?, [Clinician]=?, [Collected]=?, [Received]=?, [Product]=?, [Procedure]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=?, [Tech]=? WHERE [SampleID]=?')
+    cursor.execute(query, operatoryID, clinician, self.fQtDate(collected), self.fQtDate(received), product, procedure, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, tech, sampleID)
     return True
 
   @__usesCursor
-  def addWaterlineResult(self, cursor, sampleID, clinician, reported, count, cdcada, comments, notes, rejectionDate, rejectionReason):
-    query = ('UPDATE Waterlines SET [Clinician]=?, [Reported]=?, [Bacterial Count]=?, [CDC/ADA]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE SampleID=?')
-    cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
+  def addWaterlineResult(self, cursor, sampleID, clinician, reported, count, cdcada, comments, notes, rejectionDate, rejectionReason, tech):
+    query = ('UPDATE Waterlines SET [Clinician]=?, [Reported]=?, [Bacterial Count]=?, [CDC/ADA]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=?, [Tech]=? WHERE SampleID=?')
+    cursor.execute(query, clinician, self.fQtDate(reported), count, cdcada, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, tech, sampleID)
     return True
 
   @__usesCursor
@@ -144,6 +144,12 @@ class Model:
     return cursor.fetchone()
 
   @__usesCursor
+  def currentTech(self, cursor, username, columns):
+    query = f'SELECT {columns} FROM Techs WHERE Username=?'
+    cursor.execute(query, username)
+    return cursor.fetchone()
+
+  @__usesCursor
   def findPrefix(self, cursor, prefix, columns):
     query = f'SELECT {columns} FROM Prefixes WHERE Prefix=?'
     cursor.execute(query, prefix)
@@ -180,15 +186,15 @@ class Model:
     return True
 
   @__usesCursor
-  def updateCultureOrder(self, cursor, table, sampleID, chartID, clinician, first, last, collected, received, type, comments, notes, rejectionDate, rejectionReason):
-    query = f'UPDATE {table} SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE [SampleID]=?'
-    cursor.execute(query, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
+  def updateCultureOrder(self, cursor, table, sampleID, chartID, clinician, first, last, collected, received, type, tech, comments, notes, rejectionDate, rejectionReason):
+    query = f'UPDATE {table} SET [ChartID]=?, [Clinician]=?, [First]=?, [Last]=?, [Collected]=?, [Received]=?, [Type]=?, [Tech]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE [SampleID]=?'
+    cursor.execute(query, chartID, clinician, first, last, self.fQtDate(collected), self.fQtDate(received), type, tech, comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
     return True
 
   @__usesCursor
-  def updateWaterlineOrder(self, cursor, sampleID, clinician, shipped, comments, notes, rejectionDate, rejectionReason):
-    query = f'UPDATE Waterlines SET [Clinician]=?, [Shipped]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=? WHERE [SampleID]=?'
-    cursor.execute(query, clinician, self.fQtDate(shipped), comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, sampleID)
+  def updateWaterlineOrder(self, cursor, sampleID, clinician, shipped, comments, notes, rejectionDate, rejectionReason, tech):
+    query = f'UPDATE Waterlines SET [Clinician]=?, [Shipped]=?, [Comments]=?, [Notes]=?, [Rejection Date]=?, [Rejection Reason]=?, [Tech]=? WHERE [SampleID]=?'
+    cursor.execute(query, clinician, self.fQtDate(shipped), comments, notes, self.fQtDate(rejectionDate) if rejectionDate != None else None, rejectionReason, tech, sampleID)
     return True
 
   @__usesCursor
