@@ -13,6 +13,7 @@ from PyQt5.QtCore import QUrl, Qt, QDate, QTimer
 from PyQt5.QtGui import QIcon
 import bcrypt, math
 
+
 def passPrintPrompt(boolean):
         pass
 
@@ -328,7 +329,7 @@ class AdminLoginScreen(QMainWindow):
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.handleLoginPressed)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleLoginPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -336,6 +337,8 @@ class AdminLoginScreen(QMainWindow):
             self.errorMessage.setText("Please input all fields")
         else:
             if self.model.techLogin(self.user.text(), self.pswd.text()):
+                global currentTech 
+                currentTech = list(self.model.currentTech(self.user.text(), 'Entry'))[0]
                 self.view.showAdminHomeScreen()
             else:
                 self.errorMessage.setText("Invalid username or password")
@@ -384,7 +387,7 @@ class SettingsNav(QMainWindow):
         super(SettingsNav, self).__init__()
         self.view = view
         self.model = model
-        loadUi("UI Screens/COMBdb_Admin_Settings_Nav2.ui", self)
+        loadUi("UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
         self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
         self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
@@ -747,7 +750,7 @@ class HistoricResultsForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        loadUi("UI Screens/COMBdb_Historical_Results.ui", self)
+        loadUi("UI Screens/COMBdb_Settings_Historical_Results_Form.ui", self)
         #self.home.setIcon(QIcon('Icon/menuIcon.png'))
         self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
@@ -791,8 +794,6 @@ class RejectionLogForm(QMainWindow):
             new.append(tup[4])
             rejections[count] = new
             count += 1
-        print(rejections)
-        print("\n")
         self.rejLogTable.setColumnWidth(4, 300)
         self.rejLogTable.setRowCount(len(rejections))
         for i in range(0, len(rejections)):
@@ -803,11 +804,11 @@ class RejectionLogForm(QMainWindow):
             self.rejLogTable.setItem(i, 4, QTableWidgetItem(rejections[i][4]))
         self.rejLogTable.sortItems(0,0)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
@@ -869,7 +870,7 @@ class CultureOrderForm(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -885,7 +886,7 @@ class CultureOrderForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -937,7 +938,7 @@ class CultureOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
     
-    #@throwsViewableException
+    @throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -960,6 +961,7 @@ class CultureOrderForm(QMainWindow):
                             self.colDate.date(),
                             self.recDate.date(),
                             self.type.currentText(),
+                            currentTech,
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
                         )
@@ -975,14 +977,48 @@ class CultureOrderForm(QMainWindow):
                             self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
                             return True
                     else: #Update existing CAT Order
+                        if not self.saID.isEnabled() and not self.type.isEnabled():
+                            if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
+                                rejDate = QDate.currentDate()
+                            elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
+                                rejDate = self.view.dtToQDate(self.sample[9])
+                            else:
+                                rejDate = None
+                            self.model.updateCultureOrder(
+                                "CATs",
+                                int(self.saID.text()),
+                                self.chID.text(),
+                                self.view.entries[self.clinDrop.currentText()]['db'],
+                                self.fName.text(),
+                                self.lName.text(),
+                                self.colDate.date(),
+                                self.recDate.date(),
+                                self.type.currentText(),
+                                currentTech,
+                                self.cText.toPlainText(),
+                                self.nText.toPlainText(),
+                                rejDate,
+                                self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
+                            )
+                            #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
+                            self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
+                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                            self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
+                            return True 
+                        else: 
+                            self.handleClearPressed()
+                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                            self.errorMessage.setText("Please search order to edit it")
+                else: #Update existing Culture Order
+                    if not self.saID.isEnabled() and not self.type.isEnabled():
                         if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
-                            rejDate = QDate.currentDate()
+                                rejDate = QDate.currentDate()
                         elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
                             rejDate = self.view.dtToQDate(self.sample[9])
                         else:
                             rejDate = None
                         self.model.updateCultureOrder(
-                            "CATs",
+                            "Cultures",
                             int(self.saID.text()),
                             self.chID.text(),
                             self.view.entries[self.clinDrop.currentText()]['db'],
@@ -991,43 +1027,21 @@ class CultureOrderForm(QMainWindow):
                             self.colDate.date(),
                             self.recDate.date(),
                             self.type.currentText(),
+                            currentTech,
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
                             rejDate,
                             self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                         )
                         #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
-                        self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
+                        self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                        self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
-                        return True 
-                else: #Update existing Culture Order
-                    if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
-                            rejDate = QDate.currentDate()
-                    elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
-                        rejDate = self.view.dtToQDate(self.sample[9])
-                    else:
-                        rejDate = None
-                    self.model.updateCultureOrder(
-                        "Cultures",
-                        int(self.saID.text()),
-                        self.chID.text(),
-                        self.view.entries[self.clinDrop.currentText()]['db'],
-                        self.fName.text(),
-                        self.lName.text(),
-                        self.colDate.date(),
-                        self.recDate.date(),
-                        self.type.currentText(),
-                        self.cText.toPlainText(),
-                        self.nText.toPlainText(),
-                        rejDate,
-                        self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
-                    )
-                    #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
-                    self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
-                    return True
+                        self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
+                        return True
+                    else: 
+                        self.handleClearPressed()
+                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                        self.errorMessage.setText("Please search order to edit it")
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")
@@ -1151,9 +1165,7 @@ class AddClinician(QMainWindow):
     def handleSavePressed(self): #Incorporate validation to make sure clinician is actually added to DB
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        title = ""
-        first = ""
-        last = ""
+        title, first, last = "", "", ""
         if self.fName.text() and self.lName.text() and self.address1.text() and self.city.text() and self.state.currentText() and self.zip.text():
             #self.sample = self.model.findClinicianFull(self.view.entries[self.clinDrop.currentText()]['db'])
             if self.clinDrop.currentText() == "": #and self.sample is None:
@@ -1319,7 +1331,7 @@ class DUWLOrderForm(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = ""
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -1341,11 +1353,12 @@ class DUWLOrderForm(QMainWindow):
         #print(self.kitList)
         #print(self.printList)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         self.rejectedCheckBox.setEnabled(True)
+        self.saID.setEnabled(False)
         if not self.saID.text().isdigit():
             self.saID.setText('xxxxxx')
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -1421,15 +1434,16 @@ class DUWLOrderForm(QMainWindow):
             if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
                 if self.saID.text() == "":
                     self.saID.setText("0")
-                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason]')
-                if self.sample is None:
+                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason], [Tech]')
+                if self.sample is None:                
                     numOrders = 1 if int(self.numOrders.text()) == None else int(self.numOrders.text())
                     for x in range(numOrders):
                         saID = self.view.model.addWaterlineOrder(
                             self.view.entries[self.clinDrop.currentText()]['db'],
                             self.shipDate.date(),
                             self.cText.toPlainText(),
-                            self.nText.toPlainText()
+                            self.nText.toPlainText(),
+                            currentTech
                         )
                         if saID: 
                             self.saID.setText(str(saID))
@@ -1446,40 +1460,46 @@ class DUWLOrderForm(QMainWindow):
                     self.handleClearPressed()
                     #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Created New DUWL Order: " + str(saID))
+                    self.errorMessage.setText("Created New DUWL Order: " + str(saID)) 
                 else:
-                    sampleID = self.saID.text()
-                    if self.rejectedCheckBox.isChecked() and self.sample[4] is None:
-                        rejDate = QDate.currentDate()
-                    elif self.rejectedCheckBox.isChecked() and self.sample[4] is not None:
-                        rejDate = self.view.dtToQDate(self.sample[4])
+                    if not self.saID.isEnabled():
+                        sampleID = self.saID.text()
+                        if self.rejectedCheckBox.isChecked() and self.sample[4] is None:
+                            rejDate = QDate.currentDate()
+                        elif self.rejectedCheckBox.isChecked() and self.sample[4] is not None:
+                            rejDate = self.view.dtToQDate(self.sample[4])
+                        else:
+                            rejDate = None
+                        saID = self.model.updateWaterlineOrder(
+                            int(self.saID.text()),
+                            self.view.entries[self.clinDrop.currentText()]['db'],
+                            self.shipDate.date(),
+                            self.cText.toPlainText(),
+                            self.nText.toPlainText(),
+                            rejDate,
+                            self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None,
+                            currentTech
+                        )
+                        if saID:
+                            self.saID.setText(self.saID.text())
+                            self.kitList.append({
+                                'sampleID': f'{str(self.saID.text())[0:2]}-{str(self.saID.text())[2:]}',
+                                'clinician': self.clinDrop.currentText().split(',')[0],
+                                'opID': 'Operatory ID: ______________________',
+                                'agent': 'Cleaning Agent:  ____________________',
+                                'collected': 'Collection Date: _________'
+                            })
+                            self.printList[self.saID.text()] = self.currentKit-1
+                            self.currentKit = len(self.kitList)+1
+                            self.kitNum.setText(str(self.currentKit))
+                        self.handleClearPressed()
+                        #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
+                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                        self.errorMessage.setText("Existing DUWL Order Updated: " + sampleID)  
                     else:
-                        rejDate = None
-                    saID = self.model.updateWaterlineOrder(
-                        int(self.saID.text()),
-                        self.view.entries[self.clinDrop.currentText()]['db'],
-                        self.shipDate.date(),
-                        self.cText.toPlainText(),
-                        self.nText.toPlainText(),
-                        rejDate,
-                        self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
-                    )
-                    if saID:
-                        self.saID.setText(self.saID.text())
-                        self.kitList.append({
-                            'sampleID': f'{str(self.saID.text())[0:2]}-{str(self.saID.text())[2:]}',
-                            'clinician': self.clinDrop.currentText().split(',')[0],
-                            'opID': 'Operatory ID: ______________________',
-                            'agent': 'Cleaning Agent:  ____________________',
-                            'collected': 'Collection Date: _________'
-                        })
-                        self.printList[self.saID.text()] = self.currentKit-1
-                        self.currentKit = len(self.kitList)+1
-                        self.kitNum.setText(str(self.currentKit))
-                    self.handleClearPressed()
-                    #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                    self.errorMessage.setText("Existing DUWL Order Updated: " + sampleID)  
+                        self.handleClearPressed()
+                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                        self.errorMessage.setText("Please search order to edit it")
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")            
@@ -1505,6 +1525,7 @@ class DUWLOrderForm(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.rejectionError.clear()
         self.msg = ""
+        self.saID.setEnabled(True)
         self.handleRejectedPressed()
         self.updateTable()
 
@@ -1623,7 +1644,7 @@ class DUWLReceiveForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -1677,6 +1698,7 @@ class DUWLReceiveForm(QMainWindow):
                 self.rejectedMessage.setText(self.sample[9])
                 self.msg = self.sample[9]
                 self.save.setEnabled(True)
+                self.saID.setEnabled(False)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Found DUWL Order: " + str(saID))
             else:
@@ -1687,6 +1709,7 @@ class DUWLReceiveForm(QMainWindow):
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
+        self.saID.setEnabled(True)
         saID = int(self.saID.text())
         if self.clinDrop.currentText():
             if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
@@ -1708,7 +1731,8 @@ class DUWLReceiveForm(QMainWindow):
                     self.cText.toPlainText(),
                     self.nText.toPlainText(),
                     rejDate,
-                    self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
+                    self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None,
+                    currentTech
                 ):
                     clinician = self.clinDrop.currentText().split(', ')
                     self.kitList.append({
@@ -1735,6 +1759,7 @@ class DUWLReceiveForm(QMainWindow):
     @throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
+        self.saID.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
         self.cText.clear()
         self.nText.clear()
@@ -1857,7 +1882,7 @@ class CultureResultForm(QMainWindow):
         self.printP.setEnabled(False)
         self.printF.setEnabled(False)
         self.printS.setEnabled(False)
-        self.patientName.setEnabled(False)
+        #self.patientName.setEnabled(False)
         self.anTWid.setRowCount(0)
         self.anTWid.setColumnCount(0)
         self.rejectedCheckBox.clicked.connect(self.handleRejectedPressed)
@@ -1954,7 +1979,7 @@ class CultureResultForm(QMainWindow):
         except Exception as e:
             self.view.showErrorScreen(e)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -1987,6 +2012,7 @@ class CultureResultForm(QMainWindow):
         for i in range(0, len(self.aerobicTable)):
             for j in range(0, len(self.aerobicTable[0])):
                 item = IndexedComboBox(i, j, self, True)
+                item.installEventFilter(self)
                 #item.setFocusPolicy(Qt.ClickFocus)
                 if i>0 and j>0:
                     item.addItems(self.options)
@@ -2005,6 +2031,7 @@ class CultureResultForm(QMainWindow):
         for i in range(0, len(self.anaerobicTable)):
             for j in range(0, len(self.anaerobicTable[0])):
                 item = IndexedComboBox(i, j, self, False)
+                item.installEventFilter(self)
                 #item.setFocusPolicy(Qt.ClickFocus)
                 if i>0 and j>0:
                     item.addItems(self.options)
@@ -2018,9 +2045,10 @@ class CultureResultForm(QMainWindow):
                 else: continue
                 self.anTWid.setCellWidget(i, j, item)
 
-    #def eventFilter(self, source, event): trying to resolve the problem of mousehover/scrollwheel changing value in cells - shouldn't be allowed - solution is eventFilter, just need to figure it out
-        #if source == self.
-        #return
+    def eventFilter(self, source, event):
+        if (event.type() == QtCore.QEvent.Wheel and isinstance(source, QtWidgets.QComboBox)):
+            return True
+        return super(CultureResultForm, self).eventFilter(source, event)
 
     @throwsViewableException
     def updateTable(self, kind, row, column):
@@ -2073,12 +2101,14 @@ class CultureResultForm(QMainWindow):
         self.aeTWid.setRowCount(self.aeTWid.rowCount()+1)
         self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
         bacteria = IndexedComboBox(self.aeTWid.rowCount()-1, 0, self, True)
+        bacteria.installEventFilter(self)
         #bacteria.setFocusPolicy(Qt.ClickFocus)
         bacteria.addItems(self.aerobicList)
         self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, 0, bacteria)
         for i in range(1, self.aeTWid.columnCount()):
             self.aerobicTable[self.aeTWid.rowCount()-1].append('NI')
             options = IndexedComboBox(self.aeTWid.rowCount()-1, i, self, True)
+            options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, i, options)
@@ -2089,12 +2119,14 @@ class CultureResultForm(QMainWindow):
         self.anTWid.setRowCount(self.anTWid.rowCount()+1)
         self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
         bacteria = IndexedComboBox(self.anTWid.rowCount()-1, 0, self, False)
+        bacteria.installEventFilter(self)
         #bacteria.setFocusPolicy(Qt.ClickFocus)
         bacteria.addItems(self.anaerobicList)
         self.anTWid.setCellWidget(self.anTWid.rowCount()-1, 0, bacteria)
         for i in range(1, self.anTWid.columnCount()):
             self.anaerobicTable[self.anTWid.rowCount()-1].append('NI')
             options = IndexedComboBox(self.anTWid.rowCount()-1, i, self, False)
+            options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.anTWid.setCellWidget(self.anTWid.rowCount()-1, i, options)
@@ -2117,12 +2149,14 @@ class CultureResultForm(QMainWindow):
         self.aeTWid.setColumnCount(self.aeTWid.columnCount()+1)
         self.aerobicTable[0].append('Growth')
         header = IndexedComboBox(0, self.aeTWid.columnCount()-1, self, True)
+        header.installEventFilter(self)
         #header.setFocusPolicy(Qt.ClickFocus)
         header.addItems(self.headers)
         self.aeTWid.setCellWidget(0, self.aeTWid.columnCount()-1, header)
         for i in range(1, self.aeTWid.rowCount()):
             self.aerobicTable[i].append('NI')
             options = IndexedComboBox(i, self.aeTWid.columnCount()-1, self, True)
+            options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.aeTWid.setCellWidget(i, self.aeTWid.columnCount()-1, options)
@@ -2133,12 +2167,14 @@ class CultureResultForm(QMainWindow):
         self.anTWid.setColumnCount(self.anTWid.columnCount()+1)
         self.anaerobicTable[0].append('Growth')
         header = IndexedComboBox(0, self.anTWid.columnCount()-1, self, False)
+        header.installEventFilter(self)
         #header.setFocusPolicy(Qt.ClickFocus)
         header.addItems(self.headers)
         self.anTWid.setCellWidget(0, self.anTWid.columnCount()-1, header)
         for i in range(1, self.anTWid.rowCount()):
             self.anaerobicTable[i].append('NI')
             options = IndexedComboBox(i, self.anTWid.columnCount()-1, self, False)
+            options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.anTWid.setCellWidget(i, self.anTWid.columnCount()-1, options)
@@ -2158,7 +2194,7 @@ class CultureResultForm(QMainWindow):
             for row in self.anaerobicTable:
                 row.pop()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -2187,7 +2223,9 @@ class CultureResultForm(QMainWindow):
             self.chID.setText(self.sample[0])
             clinician = self.model.findClinician(self.sample[1])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.patientName.setText(self.sample[2] + " " + self.sample[3])
+            #self.patientName.setText(self.sample[2] + " " + self.sample[3])
+            self.fName.setText(self.sample[2])
+            self.lName.setText(self.sample[3])
             self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
             self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
             self.repDate.setDate(self.view.dtToQDate(self.sample[7]))
@@ -2204,7 +2242,8 @@ class CultureResultForm(QMainWindow):
             self.printP.setEnabled(True)
             self.printF.setEnabled(True)
             self.printS.setEnabled(True)
-            self.printF.setText(self.sample[8])
+            self.saID.setEnabled(False)
+            #self.printF.setText(self.sample[8])
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found Culture Order: " + self.saID.text())
             self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
@@ -2221,9 +2260,9 @@ class CultureResultForm(QMainWindow):
                 int(self.saID.text()),
                 self.chID.text(),
                 self.view.entries[self.clinDrop.currentText()]['db'],
-                self.sample[2],
-                self.sample[3],
-                self.sample[4],
+                self.fName.text(),
+                self.lName.text(),
+                currentTech,
                 self.repDate.date(),
                 self.sample[8],
                 self.dText.toPlainText(),
@@ -2240,6 +2279,7 @@ class CultureResultForm(QMainWindow):
                 self.printP.setEnabled(True)
                 self.printF.setEnabled(True)
                 self.printS.setEnabled(True)
+                self.saID.setEnabled(True)
                 self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Saved Culture Result Form: " + self.saID.text())
@@ -2254,6 +2294,7 @@ class CultureResultForm(QMainWindow):
     @throwsViewableException
     def handleDirectSmearPressed(self):
         self.handleSavePressed()
+        self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_smear_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -2276,6 +2317,7 @@ class CultureResultForm(QMainWindow):
     @throwsViewableException
     def handlePreliminaryPressed(self):
         self.handleSavePressed()
+        self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_prelim_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -2307,6 +2349,7 @@ class CultureResultForm(QMainWindow):
 
     def handlePerioPressed(self):
         self.handleSavePressed()
+        self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -2344,7 +2387,10 @@ class CultureResultForm(QMainWindow):
     @throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
-        self.patientName.clear()
+        self.saID.setEnabled(True)
+        #self.patientName.clear()
+        self.fName.clear()
+        self.lName.clear()
         self.clinDrop.setCurrentIndex(0)
         self.chID.clear()
         self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
@@ -2355,7 +2401,7 @@ class CultureResultForm(QMainWindow):
         self.printF.setEnabled(False)
         self.printP.setEnabled(False)
         self.printS.setEnabled(False)
-        self.printF.setText("Result")
+        #self.printF.setText("Result")
         self.save.setEnabled(False)
         self.tabWidget.setCurrentIndex(0)
         self.rejectedCheckBox.setCheckState(False)
@@ -2416,7 +2462,7 @@ class CATResultForm(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -2494,6 +2540,7 @@ class CATResultForm(QMainWindow):
             self.nText.setText(self.sample[14])
             self.rejectedMessage.setText(self.sample[18])
             self.msg = self.sample[18]
+            self.saID.setEnabled(False)
             self.save.setEnabled(True)
             self.print.setEnabled(True)
             self.clear.setEnabled(True)
@@ -2512,6 +2559,7 @@ class CATResultForm(QMainWindow):
                     self.view.entries[self.clinDrop.currentText()]['db'],
                     self.fName.text(),
                     self.lName.text(),
+                    currentTech,
                     self.repDate.date(),
                     "Caries",
                     float(self.volume.text()),
@@ -2526,7 +2574,7 @@ class CATResultForm(QMainWindow):
                     QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                 ):
-                    self.handleSearchPressed()
+                    #self.handleSearchPressed()
                     self.save.setEnabled(True)
                     #self.clear.setEnabled(False)
                     self.print.setEnabled(True)
@@ -2542,6 +2590,7 @@ class CATResultForm(QMainWindow):
     @throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
+        self.saID.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
         self.fName.clear()
         self.lName.clear()
@@ -2640,7 +2689,7 @@ class DUWLResultForm(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -2680,7 +2729,7 @@ class DUWLResultForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -2698,6 +2747,7 @@ class DUWLResultForm(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Sample ID not found")
         else:
+            self.saID.setEnabled(False)
             if self.sample[7] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
@@ -2738,7 +2788,8 @@ class DUWLResultForm(QMainWindow):
                 self.cText.toPlainText(),
                 self.nText.toPlainText(),
                 QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
-                self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
+                self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None,
+                currentTech
             ):
                 self.kitList.append({
                     'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
@@ -2759,6 +2810,7 @@ class DUWLResultForm(QMainWindow):
     @throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
+        self.saID.setEnabled(True)
         self.cText.clear()
         self.nText.clear()
         self.bacterialCount.clear()

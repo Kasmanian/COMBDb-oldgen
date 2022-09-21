@@ -1,5 +1,4 @@
 TODO:
-    - Rejection log - rejection button with comment ab why - WIP
     - All orders need to print out tech that ordered and if it was charged to quickbooks
 
 Icing:

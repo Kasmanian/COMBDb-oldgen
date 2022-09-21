@@ -78,7 +78,7 @@ QPushButton {
 }</string>
           </property>
           <property name="text">
-           <string>Back</string>
+           <string> Back</string>
           </property>
          </widget>
         </item>
@@ -147,6 +147,12 @@ QPushButton {
             <width>800</width>
             <height>1000</height>
            </size>
+          </property>
+          <property name="cursor" stdset="0">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(240, 240, 240);
@@ -262,6 +268,9 @@ border-width: 1px</string>
         <height>31</height>
        </size>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton:hover {
 	 background-color: rgb(210, 210, 210);
@@ -276,7 +285,7 @@ QPushButton {
 }</string>
       </property>
       <property name="text">
-       <string>Return to Main Menu</string>
+       <string> Return to Main Menu</string>
       </property>
      </widget>
     </item>
