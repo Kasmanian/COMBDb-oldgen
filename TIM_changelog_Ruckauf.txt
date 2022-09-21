@@ -298,3 +298,6 @@
 - Found bug that allowed user to type in sample ID and without searching, edit the contents of that sample ID - Fixed
 - Continued work on Advanced Search functionality
 
+9/21/22
+-Incorporated more error handling on all forms - cannot edit a form without searching it first
+
