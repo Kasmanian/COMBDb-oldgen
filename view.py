@@ -31,7 +31,11 @@ class View:
         else:
             self.setClinicianList()
         try:
-            sys.exit(app.exec())
+            ret = app.exec()
+            if self.model:
+                if self.model.db:
+                    self.model.db.close()
+            sys.exit(ret)
         except Exception as e:
             self.showErrorScreen(e)
 
