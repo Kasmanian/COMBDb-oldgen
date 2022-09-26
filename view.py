@@ -1,5 +1,3 @@
-from msilib import datasizemask
-from turtle import ycor
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
