@@ -57,17 +57,28 @@ class Model:
     query = ('INSERT INTO Prefixes(Type, Prefix, Word) VALUES(?, ?, ?)')
     cursor.execute(query, type, prefix, word)
 
+  # @__usesCursor
+  # def genSampleID(self, cursor):
+  #   tables = ['Cultures', 'CATs', 'Waterlines']
+  #   yy = self.date.year-2000
+  #   count = 0
+  #   for table in tables:
+  #     query = (f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000')
+  #     cursor.execute(query)
+  #     catch = cursor.fetchone()
+  #     count += catch[0] if catch is not None else 0
+  #   return (yy*10000)+count+1
+
   @__usesCursor
   def genSampleID(self, cursor):
-    tables = ['Cultures', 'CATs', 'Waterlines']
     yy = self.date.year-2000
-    count = 0
-    for table in tables:
-      query = (f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000')
-      cursor.execute(query)
-      catch = cursor.fetchone()
-      count += catch[0] if catch is not None else 0
-    return (yy*10000)+count+1
+    query = (f'SELECT ID FROM SampleID')
+    cursor.execute(query)
+    fetchID = cursor.fetchone()[0]
+    catchID = (yy*10000)+1 if yy-(fetchID//10000)>0 else fetchID
+    query = (f'UPDATE SampleID SET ID=? WHERE ID=?')
+    cursor.execute(query, catchID+1, fetchID)
+    return catchID
 
   @__usesCursor
   def addPatientOrder(self, cursor, table, chartID, clinician, first, last, collected, received, type, tech, comments, notes):
