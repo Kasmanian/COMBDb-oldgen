@@ -299,5 +299,10 @@
 - Continued work on Advanced Search functionality
 
 9/21/22
--Incorporated more error handling on all forms - cannot edit a form without searching it first
+- Incorporated more error handling on all forms - cannot edit a form without searching it first
+- Testing all order forms
 
+9/22/22
+- Testing all result forms
+- Reworking how clinicians are fed into print functions
+- Redoing all print functions to pull from UI rather then from DB
