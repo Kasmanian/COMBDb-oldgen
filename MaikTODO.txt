@@ -1,6 +1,3 @@
-TODO:
-    - All orders need to print out tech that ordered and if it was charged to quickbooks
-
 Icing:
     - UI Overhaul (including Global Nav Bar and modernization)
     - Built-in Simplified quickbooks
@@ -9,4 +6,12 @@ Icing:
     - bulk add receiving cultures
     - historic results
     - confirmation windows when updating existing orders
+
+Future Implementations:
+    - Verification on SampleID length
+    - More concise input validation
+
+Needs Fixing
+    - 2 of the same exact techs can be created. If either is deactivated it will login as the other one
+    - DUWL Result when editing the clinician and saving, it doesn't update to new clinician until you remove and search and save again
 
