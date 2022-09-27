@@ -306,3 +306,10 @@
 - Testing all result forms
 - Reworking how clinicians are fed into print functions
 - Redoing all print functions to pull from UI rather then from DB
+
+9/23/22
+
+9/25/22
+
+9/27/22
+- Fixed Culture Result table cutoff - shrunk ComboBoxs and tables - will adjust dynamically

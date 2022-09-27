@@ -2024,8 +2024,8 @@ class CultureResultForm(QMainWindow):
         self.aeTWid.setColumnCount(len(self.aerobicTable[0]))
         self.anTWid.setColumnCount(0)
         self.anTWid.setColumnCount(len(self.anaerobicTable[0]))
-        self.aeTWid.setColumnWidth(0,300)
-        self.anTWid.setColumnWidth(0,300)
+        self.aeTWid.setColumnWidth(0,290)
+        self.anTWid.setColumnWidth(0,290)
         #aerobic
         self.aeTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
         for i in range(0, len(self.aerobicTable)):
@@ -2044,7 +2044,6 @@ class CultureResultForm(QMainWindow):
                     item.setCurrentIndex(self.aerobicIndex[self.aerobicTable[i][j]])
                 else: continue
                 self.aeTWid.setCellWidget(i, j, item)
-
         #anaerobic
         self.anTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
         for i in range(0, len(self.anaerobicTable)):
@@ -2063,6 +2062,8 @@ class CultureResultForm(QMainWindow):
                     item.setCurrentIndex(self.anaerobicIndex[self.anaerobicTable[i][j]])
                 else: continue
                 self.anTWid.setCellWidget(i, j, item)
+        self.aeTWid.resizeColumnsToContents()
+        self.anTWid.resizeColumnsToContents()
 
     def eventFilter(self, source, event):
         if (event.type() == QtCore.QEvent.Wheel and isinstance(source, QtWidgets.QComboBox)):
@@ -2200,6 +2201,7 @@ class CultureResultForm(QMainWindow):
             options.addItems(self.options)
             self.aeTWid.setCellWidget(i, self.aeTWid.columnCount()-1, options)
             #self.aeTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
+        self.aeTWid.resizeColumnsToContents()
 
     @throwsViewableException
     def addColAnaerobic(self):
@@ -2209,6 +2211,7 @@ class CultureResultForm(QMainWindow):
         header.installEventFilter(self)
         #header.setFocusPolicy(Qt.ClickFocus)
         header.addItems(self.headers)
+        header.adjustSize()
         self.anTWid.setCellWidget(0, self.anTWid.columnCount()-1, header)
         for i in range(1, self.anTWid.rowCount()):
             self.anaerobicTable[i].append('NI')
@@ -2218,6 +2221,7 @@ class CultureResultForm(QMainWindow):
             options.addItems(self.options)
             self.anTWid.setCellWidget(i, self.anTWid.columnCount()-1, options)
             #self.anTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
+        self.anTWid.resizeColumnsToContents()
 
     @throwsViewableException
     def delColAerobic(self):
