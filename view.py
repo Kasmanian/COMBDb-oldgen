@@ -11,6 +11,9 @@ from PyQt5.QtCore import QUrl, Qt, QDate, QTimer
 from PyQt5.QtGui import QIcon
 import bcrypt, math
 import re
+from threading import Thread
+import logging
+from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
 
 def passPrintPrompt(boolean):
@@ -820,6 +823,7 @@ class RejectionLogForm(QMainWindow):
             self.rejLogTable.setItem(i, 3, QTableWidgetItem(rejections[i][3]))
             self.rejLogTable.setItem(i, 4, QTableWidgetItem(rejections[i][4]))
         self.rejLogTable.sortItems(0,0)
+        self.rejLogTable.resizeColumnsToContents()
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -876,7 +880,8 @@ class CultureOrderForm(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
-        self.print.clicked.connect(self.handlePrintPressed)
+        #self.print.clicked.connect(self.handlePrintPressed)
+        self.print.clicked.connect(self.threader)
         self.clear.clicked.connect(self.handleClearPressed)
         #self.print.setEnabled(False)
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
@@ -886,6 +891,13 @@ class CultureOrderForm(QMainWindow):
         self.rejectedCheckBox.setEnabled(False)
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
+
+    def threader(self):
+        self.thread = QThread()
+        self.thread.started.connect(self.handlePrintPressed)
+        self.handleSavePressed()
+        self.thread.start()
+        self.thread.exit()
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -1070,12 +1082,16 @@ class CultureOrderForm(QMainWindow):
         
     @throwsViewableException
     def handlePrintPressed(self): 
-        if self.handleSavePressed():
+        #if self.handleSavePressed():
+            print("In the print function")
             if self.type.currentText()!='Caries':
+                print("Break 1")
                 template = str(Path().resolve())+r'\templates\culture_worksheet_template3.docx'
                 dst = self.view.tempify(template)
+                print("Break 2")
                 document = MailMerge(template)
                 clinician=self.clinDrop.currentText().split(', ')
+                print("Break 3")
                 document.merge(
                     saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
                     received=self.recDate.date().toString(),
@@ -1087,6 +1103,7 @@ class CultureOrderForm(QMainWindow):
                     notes=self.nText.toPlainText(),
                     techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
                 )
+                print("Break 4")
                 document.write(dst)
                 self.view.convertAndPrint(dst)
             else:
@@ -1104,8 +1121,10 @@ class CultureOrderForm(QMainWindow):
                 )
                 document.write(dst)
                 self.view.convertAndPrint(dst)
-        else:
+            print("End of print function")
             return
+       # else:
+            #return
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -1894,9 +1913,12 @@ class CultureResultForm(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.find.clicked.connect(self.handleSearchPressed)
-        self.printS.clicked.connect(self.handleDirectSmearPressed)
-        self.printP.clicked.connect(self.handlePreliminaryPressed)
-        self.printF.clicked.connect(self.handlePerioPressed)
+        #self.printS.clicked.connect(self.handleDirectSmearPressed)
+        self.printS.clicked.connect(lambda: self.threader(0))
+        #self.printP.clicked.connect(self.handlePreliminaryPressed)
+        self.printP.clicked.connect(lambda: self.threader(1))
+        #self.printF.clicked.connect(self.handlePerioPressed)
+        self.printF.clicked.connect(lambda: self.threader(2))
         self.save.setEnabled(False)
         self.printP.setEnabled(False)
         self.printF.setEnabled(False)
@@ -1997,6 +2019,17 @@ class CultureResultForm(QMainWindow):
             self.save.clicked.connect(self.handleSavePressed)
         except Exception as e:
             self.view.showErrorScreen(e)
+
+    def threader(self, arg):
+        #ui = ''
+        if arg == 0: ui = self.handleDirectSmearPressed
+        elif arg == 1: ui = self.handlePreliminaryPressed
+        else: ui = self.handlePerioPressed
+        self.thread = QThread()
+        self.thread.started.connect(ui)
+        self.handleSavePressed()
+        self.thread.start()
+        self.thread.exit()
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -2122,7 +2155,6 @@ class CultureResultForm(QMainWindow):
 
     @throwsViewableException
     def tableToResult(self, table):
-        print(table)
         if len(table)>1 and len(table[0])>1:
             result = ''
             for i in range(1, len(table)):
@@ -2131,7 +2163,6 @@ class CultureResultForm(QMainWindow):
                 for j in range(1, len(table[i])):
                     if j>1: result += ';'
                     result += f'{table[0][j]}={table[i][j]}'
-            print(result)
             return result
         else:
             return None
@@ -2340,7 +2371,7 @@ class CultureResultForm(QMainWindow):
 
     @throwsViewableException
     def handleDirectSmearPressed(self):
-        self.handleSavePressed()
+        #self.handleSavePressed()
         self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_smear_template.docx'
         dst = self.view.tempify(template)
@@ -2363,7 +2394,7 @@ class CultureResultForm(QMainWindow):
     
     @throwsViewableException
     def handlePreliminaryPressed(self):
-        self.handleSavePressed()
+        #self.handleSavePressed()
         self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_prelim_template.docx'
         dst = self.view.tempify(template)
@@ -2395,7 +2426,7 @@ class CultureResultForm(QMainWindow):
         self.view.convertAndPrint(dst)
 
     def handlePerioPressed(self):
-        self.handleSavePressed()
+        #self.handleSavePressed()
         self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_results_template.docx'
         dst = self.view.tempify(template)
@@ -2502,12 +2533,20 @@ class CATResultForm(QMainWindow):
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
         self.clear.clicked.connect(self.handleClearPressed)
-        self.print.clicked.connect(self.handlePrintPressed)
+        #self.print.clicked.connect(self.handlePrintPressed)
+        self.print.clicked.connect(self.threader)
         self.find.clicked.connect(self.handleSearchPressed)
         self.rejectedCheckBox.clicked.connect(self.handleRejectedPressed)
         self.rejectedCheckBox.setEnabled(False)
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
+
+    def threader(self):
+        self.thread = QThread()
+        self.thread.started.connect(self.handlePrintPressed)
+        self.handleSavePressed()
+        self.thread.start()
+        self.thread.exit()
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -2673,7 +2712,7 @@ class CATResultForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        self.handleSavePressed()
+        #self.handleSavePressed()
         template = str(Path().resolve())+r'\templates\cat_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)

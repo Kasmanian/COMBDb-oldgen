@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1318</width>
-    <height>1231</height>
+    <width>1617</width>
+    <height>883</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -144,8 +144,8 @@ QPushButton {
          <widget class="QTableWidget" name="rejLogTable">
           <property name="minimumSize">
            <size>
-            <width>800</width>
-            <height>1000</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
           <property name="cursor" stdset="0">

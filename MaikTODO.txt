@@ -12,6 +12,9 @@ Future Implementations:
     - More concise input validation
 
 Needs Fixing
-    - 2 of the same exact techs can be created. If either is deactivated it will login as the other one
+    - 2 of the same exact techs can be created. If either is deactivated it will login as the other one (Possible fix - query to see if user name exists upon creation of new tech, if it does say "username taken", otherwise allow)
     - DUWL Result when editing the clinician and saving, it doesn't update to new clinician until you remove and search and save again
+
+TODO:
+    Threading for print processes?
 
