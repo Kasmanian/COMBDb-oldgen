@@ -338,3 +338,7 @@
 - Experimented with running print functions on threads to alleviate workload of main thread/hold up of confirmations
 - Got a working thread function working for Culture Order (print function runs on thread)
 - Incorporated threading for print functions on Culture Order, Culture Result, CAT Result forms
+
+10/3/22
+- Started editing a joint Google Doc to better document the project (roadmap, current work, future plans, known bugs, etc.)
+- Worked on bug fixes resulting from new threading addition

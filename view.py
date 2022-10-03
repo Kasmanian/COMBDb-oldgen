@@ -894,10 +894,10 @@ class CultureOrderForm(QMainWindow):
 
     def threader(self):
         self.thread = QThread()
-        self.thread.started.connect(self.handlePrintPressed)
-        self.handleSavePressed()
-        self.thread.start()
-        self.thread.exit()
+        if self.handleSavePressed():
+            self.thread.started.connect(self.handlePrintPressed)
+            self.thread.start()
+            self.thread.exit()
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -1071,6 +1071,7 @@ class CultureOrderForm(QMainWindow):
                         self.handleClearPressed()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                         self.errorMessage.setText("Please search order to edit it")
+                        return False
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")
@@ -1083,15 +1084,11 @@ class CultureOrderForm(QMainWindow):
     @throwsViewableException
     def handlePrintPressed(self): 
         #if self.handleSavePressed():
-            print("In the print function")
             if self.type.currentText()!='Caries':
-                print("Break 1")
                 template = str(Path().resolve())+r'\templates\culture_worksheet_template3.docx'
                 dst = self.view.tempify(template)
-                print("Break 2")
                 document = MailMerge(template)
                 clinician=self.clinDrop.currentText().split(', ')
-                print("Break 3")
                 document.merge(
                     saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
                     received=self.recDate.date().toString(),
@@ -1103,7 +1100,6 @@ class CultureOrderForm(QMainWindow):
                     notes=self.nText.toPlainText(),
                     techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
                 )
-                print("Break 4")
                 document.write(dst)
                 self.view.convertAndPrint(dst)
             else:
@@ -1121,7 +1117,6 @@ class CultureOrderForm(QMainWindow):
                 )
                 document.write(dst)
                 self.view.convertAndPrint(dst)
-            print("End of print function")
             return
        # else:
             #return
@@ -2026,10 +2021,10 @@ class CultureResultForm(QMainWindow):
         elif arg == 1: ui = self.handlePreliminaryPressed
         else: ui = self.handlePerioPressed
         self.thread = QThread()
-        self.thread.started.connect(ui)
-        self.handleSavePressed()
-        self.thread.start()
-        self.thread.exit()
+        if self.handleSavePressed():
+            self.thread.started.connect(ui)
+            self.thread.start()
+            self.thread.exit()
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -2360,14 +2355,19 @@ class CultureResultForm(QMainWindow):
                     self.errorMessage.setText("Saved Culture Result Form: " + self.saID.text())
                     self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage2.setText("Saved Culture Result Form: " + self.saID.text())
+                    return True
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")
                 self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage2.setText("Please enter reason for rejection")
+                return False
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")
+            self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage2.setText("* Denotes Required Fields")
+            return False
 
     @throwsViewableException
     def handleDirectSmearPressed(self):
@@ -2486,6 +2486,8 @@ class CultureResultForm(QMainWindow):
         self.rejectedCheckBox.setEnabled(False)
         self.rejectedMessage.setEnabled(False)
         self.rejectionError.clear()
+        self.errorMessage.clear()
+        self.errorMessage2.clear()
         self.msg = ""
         self.handleRejectedPressed()
         self.aerobicTable = self.resultToTable(None)
@@ -2543,10 +2545,10 @@ class CATResultForm(QMainWindow):
 
     def threader(self):
         self.thread = QThread()
-        self.thread.started.connect(self.handlePrintPressed)
-        self.handleSavePressed()
-        self.thread.start()
-        self.thread.exit()
+        if self.handleSavePressed():
+            self.thread.started.connect(self.handlePrintPressed)
+            self.thread.start()
+            self.thread.exit()
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -2669,16 +2671,20 @@ class CATResultForm(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
+                        return True
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                     self.errorMessage.setText("Please enter reason for rejection")
+                    return False
             else:
                 self.flowRate.setText("x.xx")
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Cannot divide by 0")
+                return False
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")
+            return False
         
 
     @throwsViewableException
