@@ -342,3 +342,15 @@
 10/3/22
 - Started editing a joint Google Doc to better document the project (roadmap, current work, future plans, known bugs, etc.)
 - Worked on bug fixes resulting from new threading addition
+- Installed Qt Community Creator and Qt Design Studio to make new, modern GUI's
+
+10/4/22
+- Continued working on new home screen
+
+10/5/22
+- Started researching audit logging
+- Built a prototype audit log that writes to a text file the tech, action, saID, type, and date/time
+
+
+10/9/22
+- Created new class to handle prefix conversion w/ Kas

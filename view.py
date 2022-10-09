@@ -14,6 +14,7 @@ import re
 from threading import Thread
 import logging
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
+#from datetime import datetime
 
 
 def passPrintPrompt(boolean):
@@ -218,6 +219,12 @@ class View:
                 self.entries[self.names[i]]['list'] = i
         except Exception as e:
             self.showErrorScreen(e)
+        
+    def auditor(self, tech, action, saID, form):
+        print("In auditor function")
+        f = open("audit.txt", "a")
+        f.write(str(tech)+"."+str(action)+"."+str(saID)+"."+str(form)+"."+str(datetime.now())+"\n")
+        f.close()
 
 def throwsViewableException(func):
     def wrap(self, *args, **kwargs):
@@ -230,6 +237,69 @@ def throwsViewableException(func):
         except Exception as e:
             return self.view.showErrorScreen(e)
     return wrap
+
+class PrefixGraph():
+    def __init__(self, model):
+        self.model = model
+        self.populate()
+        
+    def translate(self, cat, key, on, to):
+        inmap = { 'entry': 0, 'prefix': 1, 'word': 2 }
+        graph = [ 1, 2, 0 ]
+        on = inmap[on]
+        to = inmap[to]
+        node = self.__nodes__[cat]
+        while (graph[on]!=to):
+            if key in node[on]: 
+                key = node[on][key]
+            else: 
+                return None
+            on = graph[on]
+        return node[on][key] if key in node[on] else None
+        
+    def populate(self):
+        antibiotics = self.model.selectPrefixes('Antibiotics', 'Entry, Prefix, Word')
+        anaerobic = self.model.selectPrefixes('Anaerobic', 'Entry, Prefix, Word')
+        aerobic = self.model.selectPrefixes('Aerobic', 'Entry, Prefix, Word')
+        abEntry, abPrefix, abWord = {}, {}, {}
+        for x in antibiotics:
+            abEntry.update({x[0]:x[1]})
+            abPrefix.update({x[1]:x[2]})
+            abWord.update({x[2]:x[0]})
+        anEntry, anPrefix, anWord = {}, {}, {}
+        for x in anaerobic:
+            anEntry.update({x[0]:x[1]})
+            anPrefix.update({x[1]:x[2]})
+            anWord.update({x[2]:x[0]})
+        aeEntry, aePrefix, aeWord = {}, {}, {}
+        for x in aerobic:
+            aeEntry.update({x[0]:x[1]})
+            aePrefix.update({x[1]:x[2]})
+            aeWord.update({x[2]:x[0]})
+
+        self.__nodes__ = { 
+            'Growth': [ {0:'NI', 1:'L', 2:'M', 3:'H'}, {'NI':'Not Isolated', 'L':'Light', 'M':'Moderate', 'H':'Heavy'}, {'Not Isolated':0, 'Light':1, 'Moderate':2, 'Heavy':3} ], 
+            'B-Lac': [ {0:'P', 1:'N'}, {'P':'Beta Lactomase Detected', 'N':'Beta Lactomase Not Detected'}, {'Beta Lactomase Detected':0, 'Beta Lactomase Not Detected':1} ],
+            'Susceptibility': [ {0:'S', 1:'I', 2:'R'}, {'S':'Susceptible', 'I':'Intermediate', 'R':'Resistant'}, {'Susceptible':0, 'Intermediate':1, 'Resistant':2} ],
+            'Antibiotics': [ abEntry, abPrefix, abWord ],
+            'Anaerobic': [ anEntry, anPrefix, anWord ],
+            'Aerobic': [ aeEntry, aePrefix, aeWord ]
+        }
+        
+        # fill with code that queries prefixes and puts them in self.__nodes__
+        # each element corresponds to a field, seen by 'inmap'
+        # for each row in prefix table...
+      
+    def get(self, cat, field):
+        inmap = { 'entry': 0, 'prefix': 1, 'word': 2 }
+        return self.__nodes__[cat][inmap[field]].keys()
+        
+# example
+#pg = PrefixGraph()
+#pg.__nodes__['Growth'][0][0] = 'AB'
+#pg.__nodes__['Growth'][1]['AB'] = 'Burn'
+#pg.__nodes__['Growth'][2]['Burn'] = 0
+#print(pg.translate('Growth', 0, 'entry', 'word'))
 
 class SetFilePathScreen(QMainWindow):
     def __init__(self, model, view):
@@ -967,7 +1037,7 @@ class CultureOrderForm(QMainWindow):
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
     
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -1004,6 +1074,7 @@ class CultureOrderForm(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
+                            #self.view.auditor(currentTech, "Create", self.saID.text(), self.type.currentText())
                             return True
                     else: #Update existing CAT Order
                         if not self.saID.isEnabled() and not self.type.isEnabled():
@@ -1033,6 +1104,7 @@ class CultureOrderForm(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
+                            #self.view.auditor(currentTech, "Save", self.saID.text(), self.type.currentText())
                             return True 
                         else: 
                             self.handleClearPressed()
@@ -1066,6 +1138,7 @@ class CultureOrderForm(QMainWindow):
                         self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
+                        #self.view.auditor(currentTech, "Save", self.saID.text(), self.type.currentText())
                         return True
                     else: 
                         self.handleClearPressed()
@@ -2042,7 +2115,7 @@ class CultureResultForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    @throwsViewableException
+    #@throwsViewableException
     def initTables(self):
         self.aeTWid.setRowCount(0)
         self.aeTWid.setRowCount(len(self.aerobicTable))
@@ -2098,7 +2171,7 @@ class CultureResultForm(QMainWindow):
             return True
         return super(CultureResultForm, self).eventFilter(source, event)
 
-    @throwsViewableException
+    #@throwsViewableException
     def updateTable(self, kind, row, column):
         if kind:
             if row < len(self.aerobicTable):
@@ -2109,8 +2182,9 @@ class CultureResultForm(QMainWindow):
                 if column < len(self.anaerobicTable[row]):
                     self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
-    @throwsViewableException
+    #@throwsViewableException
     def resultToTable(self, result):
+        #print(result)
         if result is not None:
             result = result.split('/')
             table = [[]]
@@ -2118,7 +2192,8 @@ class CultureResultForm(QMainWindow):
                 headers = ['Bacteria']
                 bacteria = result[i].split(':')
                 table.append([bacteria[0]])
-                antibiotics = bacteria[1].split(';')
+                #print(bacteria)
+                antibiotics = bacteria[1].split(';') #***********************************************
                 for j in range(0, len(antibiotics)):
                     measures = antibiotics[j].split('=')
                     if len(measures) == 1:
@@ -2148,8 +2223,9 @@ class CultureResultForm(QMainWindow):
             return None
     """
 
-    @throwsViewableException
+    #@throwsViewableException
     def tableToResult(self, table):
+        print(table)
         if len(table)>1 and len(table[0])>1:
             result = ''
             for i in range(1, len(table)):
@@ -2158,11 +2234,12 @@ class CultureResultForm(QMainWindow):
                 for j in range(1, len(table[i])):
                     if j>1: result += ';'
                     result += f'{table[0][j]}={table[i][j]}'
+            print(result)
             return result
         else:
             return None
 
-    @throwsViewableException
+    #@throwsViewableException
     def addRowAerobic(self):
         self.aeTWid.setRowCount(self.aeTWid.rowCount()+1)
         self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
@@ -2172,15 +2249,16 @@ class CultureResultForm(QMainWindow):
         bacteria.addItems(self.aerobicList)
         self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, 0, bacteria)
         for i in range(1, self.aeTWid.columnCount()):
-            self.aerobicTable[self.aeTWid.rowCount()-1].append('NI')
+            self.aerobicTable[self.aeTWid.rowCount()-1].append('NA')
             options = IndexedComboBox(self.aeTWid.rowCount()-1, i, self, True)
             options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.aeTWid.setCellWidget(self.aeTWid.rowCount()-1, i, options)
             #self.aeTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
+        self.aeTWid.resizeColumnsToContents()
 
-    @throwsViewableException
+    #@throwsViewableException
     def addRowAnaerobic(self):
         self.anTWid.setRowCount(self.anTWid.rowCount()+1)
         self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
@@ -2190,27 +2268,28 @@ class CultureResultForm(QMainWindow):
         bacteria.addItems(self.anaerobicList)
         self.anTWid.setCellWidget(self.anTWid.rowCount()-1, 0, bacteria)
         for i in range(1, self.anTWid.columnCount()):
-            self.anaerobicTable[self.anTWid.rowCount()-1].append('NI')
+            self.anaerobicTable[self.anTWid.rowCount()-1].append('NA')
             options = IndexedComboBox(self.anTWid.rowCount()-1, i, self, False)
             options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
             options.addItems(self.options)
             self.anTWid.setCellWidget(self.anTWid.rowCount()-1, i, options)
             #self.anTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
+        self.anTWid.resizeColumnsToContents()
 
-    @throwsViewableException
+    #@throwsViewableException
     def delRowAerobic(self):
         if self.aeTWid.rowCount() > 1:
             self.aeTWid.setRowCount(self.aeTWid.rowCount()-1)
             self.aerobicTable.pop()
 
-    @throwsViewableException
+    #@throwsViewableException
     def delRowAnaerobic(self):
         if self.anTWid.rowCount() > 1:
             self.anTWid.setRowCount(self.anTWid.rowCount()-1)
             self.anaerobicTable.pop()
 
-    @throwsViewableException
+    #@throwsViewableException
     def addColAerobic(self):
         self.aeTWid.setColumnCount(self.aeTWid.columnCount()+1)
         self.aerobicTable[0].append('Growth')
@@ -2220,7 +2299,7 @@ class CultureResultForm(QMainWindow):
         header.addItems(self.headers)
         self.aeTWid.setCellWidget(0, self.aeTWid.columnCount()-1, header)
         for i in range(1, self.aeTWid.rowCount()):
-            self.aerobicTable[i].append('NI')
+            self.aerobicTable[i].append('NA')
             options = IndexedComboBox(i, self.aeTWid.columnCount()-1, self, True)
             options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
@@ -2229,7 +2308,7 @@ class CultureResultForm(QMainWindow):
             #self.aeTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
         self.aeTWid.resizeColumnsToContents()
 
-    @throwsViewableException
+    #@throwsViewableException
     def addColAnaerobic(self):
         self.anTWid.setColumnCount(self.anTWid.columnCount()+1)
         self.anaerobicTable[0].append('Growth')
@@ -2240,7 +2319,7 @@ class CultureResultForm(QMainWindow):
         header.adjustSize()
         self.anTWid.setCellWidget(0, self.anTWid.columnCount()-1, header)
         for i in range(1, self.anTWid.rowCount()):
-            self.anaerobicTable[i].append('NI')
+            self.anaerobicTable[i].append('NA')
             options = IndexedComboBox(i, self.anTWid.columnCount()-1, self, False)
             options.installEventFilter(self)
             #options.setFocusPolicy(Qt.ClickFocus)
@@ -2249,21 +2328,21 @@ class CultureResultForm(QMainWindow):
             #self.anTWid.cellWidget.setFocusPolicy(Qt.ClickFocus)
         self.anTWid.resizeColumnsToContents()
 
-    @throwsViewableException
+    #@throwsViewableException
     def delColAerobic(self):
         if self.aeTWid.columnCount() > 1:
             self.aeTWid.setColumnCount(self.aeTWid.columnCount()-1)
             for row in self.aerobicTable:
                 row.pop()
 
-    @throwsViewableException
+    #@throwsViewableException
     def delColAnaerobic(self):
         if self.anTWid.columnCount() > 1:
             self.anTWid.setColumnCount(self.anTWid.columnCount()-1)
             for row in self.anaerobicTable:
                 row.pop()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -2298,7 +2377,7 @@ class CultureResultForm(QMainWindow):
             self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
             self.repDate.setDate(self.view.dtToQDate(self.sample[7]))
             self.aerobicTable = self.resultToTable(self.sample[10])
-            self.anaerobicTable = self.resultToTable(self.sample[11])
+            self.anaerobicTable = self.resultToTable(self.sample[11]) #**********************************************
             self.cText.setText(self.sample[12])
             self.nText.setText(self.sample[13])
             self.dText.setText(self.sample[9])
@@ -2318,12 +2397,17 @@ class CultureResultForm(QMainWindow):
             self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage2.setText("Found Culture Order: " + self.saID.text())
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
+        #print(self.aerobicTable)
+        #print(self.anaerobicTable)
+        #print("\n")
         aerobic = self.tableToResult(self.aerobicTable)
         anaerobic = self.tableToResult(self.anaerobicTable)
+        #print(aerobic)
+        #print(anaerobic)
         if self.fName.text() and self.lName.text() and self.clinDrop.currentText() != "":
             if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
                 if self.model.addCultureResult(
@@ -2369,7 +2453,7 @@ class CultureResultForm(QMainWindow):
             self.errorMessage2.setText("* Denotes Required Fields")
             return False
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleDirectSmearPressed(self):
         #self.handleSavePressed()
         self.saID.setEnabled(False)
@@ -2392,7 +2476,7 @@ class CultureResultForm(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
     
-    @throwsViewableException
+    #@throwsViewableException
     def handlePreliminaryPressed(self):
         #self.handleSavePressed()
         self.saID.setEnabled(False)
@@ -2462,7 +2546,7 @@ class CultureResultForm(QMainWindow):
         document.save(dst)
         self.view.convertAndPrint(dst)
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
         self.saID.setEnabled(True)
@@ -2494,15 +2578,15 @@ class CultureResultForm(QMainWindow):
         self.anaerobicTable = self.resultToTable(None)
         self.initTables()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleBackPressed(self):
         self.view.showResultEntryNav()
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    @throwsViewableException
+    #@throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")
         self.errorMessage2.setText("")
@@ -2857,6 +2941,7 @@ class DUWLResultForm(QMainWindow):
             saID = int(self.saID.text())
             saIDCheck = str(saID)[0:2]+ "-" + str(saID)[2:]
             kitListValues = [value for elem in self.kitList for value in elem.values()]
+            print(kitListValues)
             if saIDCheck not in kitListValues:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -2965,12 +3050,16 @@ class DUWLResultForm(QMainWindow):
         else:
             self.print.setEnabled(False)
 
-    @throwsViewableException
+    #@throwsViewableException
     def handlePrintPressed(self):
         template = str(Path().resolve())+r'\templates\duwl_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
+        print(self.kitList)
+        #clini = self.view.entries[self.clinDrop.currentText()]['db']
+        #print(clini)
+        #print(self.sample[0])
         clinician = self.model.findClinician(self.sample[0])
         document.merge(
             reported=self.view.fSlashDate(self.repDate.date()),
