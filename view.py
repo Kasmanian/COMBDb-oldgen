@@ -221,7 +221,7 @@ class View:
             self.showErrorScreen(e)
         
     def auditor(self, tech, action, saID, form):
-        print("In auditor function")
+        #In auditor function")
         f = open("audit.txt", "a")
         f.write(str(tech)+"."+str(action)+"."+str(saID)+"."+str(form)+"."+str(datetime.now())+"\n")
         f.close()
@@ -437,6 +437,7 @@ class AdminHomeScreen(QMainWindow):
         self.resultEntry.clicked.connect(self.handleResultEntryPressed)
         self.settings.clicked.connect(self.handleSettingsPressed)
         self.logout.clicked.connect(self.handleLogoutPressed)
+        PrefixGraph(self.model)
 
     @throwsViewableException
     def handleCultureOrderFormsPressed(self):
@@ -1965,6 +1966,7 @@ class CultureResultForm(QMainWindow):
         super(CultureResultForm, self).__init__()
         self.view = view
         self.model = model
+        self.swap = PrefixGraph(self.model)
         self.timer = QTimer(self)
         loadUi("UI Screens/COMBdb_Culture_Result_Form.ui", self)
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
@@ -2129,7 +2131,11 @@ class CultureResultForm(QMainWindow):
         self.anTWid.setColumnWidth(0,290)
         #aerobic
         self.aeTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
+        print(self.aerobicTable)
         for i in range(0, len(self.aerobicTable)):
+            if i>0:
+                prefix = self.aerobicTable[i][0]
+                self.aerobicTable[i][0] = self.swap.translate('Aerobic', prefix, 'prefix', 'word')
             for j in range(0, len(self.aerobicTable[0])):
                 item = IndexedComboBox(i, j, self, True)
                 item.installEventFilter(self)
@@ -2148,6 +2154,9 @@ class CultureResultForm(QMainWindow):
         #anaerobic
         self.anTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
         for i in range(0, len(self.anaerobicTable)):
+            if i>0:
+                prefix = self.anaerobicTable[i][0]
+                self.anaerobicTable[i][0] = self.swap.translate('Anaerobic', prefix, 'prefix', 'word')
             for j in range(0, len(self.anaerobicTable[0])):
                 item = IndexedComboBox(i, j, self, False)
                 item.installEventFilter(self)
@@ -2184,7 +2193,7 @@ class CultureResultForm(QMainWindow):
 
     #@throwsViewableException
     def resultToTable(self, result):
-        #print(result)
+        print(result)
         if result is not None:
             result = result.split('/')
             table = [[]]
@@ -2192,7 +2201,7 @@ class CultureResultForm(QMainWindow):
                 headers = ['Bacteria']
                 bacteria = result[i].split(':')
                 table.append([bacteria[0]])
-                #print(bacteria)
+                print(bacteria)
                 antibiotics = bacteria[1].split(';') #***********************************************
                 for j in range(0, len(antibiotics)):
                     measures = antibiotics[j].split('=')
@@ -2224,11 +2233,13 @@ class CultureResultForm(QMainWindow):
     """
 
     #@throwsViewableException
-    def tableToResult(self, table):
-        print(table)
+    def tableToResult(self, table, type):
+        #print(table)
         if len(table)>1 and len(table[0])>1:
             result = ''
             for i in range(1, len(table)):
+                word = table[i][0]  
+                table[i][0] = self.swap.translate(type, word, 'word', 'prefix')
                 if i>1: result += '/'
                 result += f'{table[i][0]}:'
                 for j in range(1, len(table[i])):
@@ -2404,8 +2415,8 @@ class CultureResultForm(QMainWindow):
         #print(self.aerobicTable)
         #print(self.anaerobicTable)
         #print("\n")
-        aerobic = self.tableToResult(self.aerobicTable)
-        anaerobic = self.tableToResult(self.anaerobicTable)
+        aerobic = self.tableToResult(self.aerobicTable, 'Aerobic')
+        anaerobic = self.tableToResult(self.anaerobicTable, 'Anaerobic')
         #print(aerobic)
         #print(anaerobic)
         if self.fName.text() and self.lName.text() and self.clinDrop.currentText() != "":
@@ -2941,7 +2952,7 @@ class DUWLResultForm(QMainWindow):
             saID = int(self.saID.text())
             saIDCheck = str(saID)[0:2]+ "-" + str(saID)[2:]
             kitListValues = [value for elem in self.kitList for value in elem.values()]
-            print(kitListValues)
+            #print(kitListValues)
             if saIDCheck not in kitListValues:
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -3056,7 +3067,7 @@ class DUWLResultForm(QMainWindow):
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
-        print(self.kitList)
+        #print(self.kitList)
         #clini = self.view.entries[self.clinDrop.currentText()]['db']
         #print(clini)
         #print(self.sample[0])
