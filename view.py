@@ -285,14 +285,18 @@ class PrefixGraph():
             'Anaerobic': [ anEntry, anPrefix, anWord ],
             'Aerobic': [ aeEntry, aePrefix, aeWord ]
         }
-        
+        #print(anEntry)
+        #print("\n")
+        #print(aePrefix)
+        #print("\n")
+        #print(aeWord)
         # fill with code that queries prefixes and puts them in self.__nodes__
         # each element corresponds to a field, seen by 'inmap'
         # for each row in prefix table...
       
     def get(self, cat, field):
         inmap = { 'entry': 0, 'prefix': 1, 'word': 2 }
-        return self.__nodes__[cat][inmap[field]].keys()
+        return list(self.__nodes__[cat][inmap[field]].keys())
         
 # example
 #pg = PrefixGraph()
@@ -2083,8 +2087,8 @@ class CultureResultForm(QMainWindow):
             self.addCol2.clicked.connect(self.addColAnaerobic)
             self.delCol1.clicked.connect(self.delColAerobic)
             self.delCol2.clicked.connect(self.delColAnaerobic)
-            self.aerobicTable = self.resultToTable(None)
-            self.anaerobicTable = self.resultToTable(None)
+            self.aerobicTable = self.resultToTable(None, 'Aerobic')
+            self.anaerobicTable = self.resultToTable(None, 'Anaerobic')
             self.initTables()
             self.save.clicked.connect(self.handleSavePressed)
         except Exception as e:
@@ -2131,11 +2135,15 @@ class CultureResultForm(QMainWindow):
         self.anTWid.setColumnWidth(0,290)
         #aerobic
         self.aeTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
-        print(self.aerobicTable)
+        #print(self.aerobicTable)
         for i in range(0, len(self.aerobicTable)):
+            #print(self.aerobicTable)
             if i>0:
-                prefix = self.aerobicTable[i][0]
-                self.aerobicTable[i][0] = self.swap.translate('Aerobic', prefix, 'prefix', 'word')
+                #entryList = self.swap.get('Aerobic', 'entry')
+                #print(entryList)
+                value = self.aerobicTable[i][0]
+                #if value in entryList:
+                self.aerobicTable[i][0] = self.swap.translate('Aerobic', int(value), 'entry', 'word') if value.isnumeric() else value
             for j in range(0, len(self.aerobicTable[0])):
                 item = IndexedComboBox(i, j, self, True)
                 item.installEventFilter(self)
@@ -2147,7 +2155,9 @@ class CultureResultForm(QMainWindow):
                     item.addItems(self.headers)
                     item.setCurrentIndex(self.headerIndexes[self.aerobicTable[i][j]])
                 elif i>0 and j<1:
+                    #print(self.aerobicTable)
                     item.addItems(self.aerobicList)
+                    #print(self.aerobicTable)
                     item.setCurrentIndex(self.aerobicIndex[self.aerobicTable[i][j]])
                 else: continue
                 self.aeTWid.setCellWidget(i, j, item)
@@ -2155,8 +2165,10 @@ class CultureResultForm(QMainWindow):
         self.anTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
         for i in range(0, len(self.anaerobicTable)):
             if i>0:
-                prefix = self.anaerobicTable[i][0]
-                self.anaerobicTable[i][0] = self.swap.translate('Anaerobic', prefix, 'prefix', 'word')
+                #entryList = self.swap.get('Anaerobic', 'entry')
+                value = self.anaerobicTable[i][0]
+                #if value in entryList:
+                self.anaerobicTable[i][0] = self.swap.translate('Anaerobic', int(value), 'entry', 'word') if value.isnumeric() else value
             for j in range(0, len(self.anaerobicTable[0])):
                 item = IndexedComboBox(i, j, self, False)
                 item.installEventFilter(self)
@@ -2169,6 +2181,7 @@ class CultureResultForm(QMainWindow):
                     item.setCurrentIndex(self.headerIndexes[self.anaerobicTable[i][j]])
                 elif i>0 and j<1:
                     item.addItems(self.anaerobicList)
+                    #print(self.anaerobicTable)
                     item.setCurrentIndex(self.anaerobicIndex[self.anaerobicTable[i][j]])
                 else: continue
                 self.anTWid.setCellWidget(i, j, item)
@@ -2192,16 +2205,27 @@ class CultureResultForm(QMainWindow):
                     self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
     #@throwsViewableException
-    def resultToTable(self, result):
-        print(result)
+    def resultToTable(self, result, type):
+        #print(result)
         if result is not None:
+            print(result)
+            result = result.replace(' / ', '|')
             result = result.split('/')
+            for x in range(0, len(result)):
+                print(result[x])
+                tmp = result[x].replace('|', ' / ')
+                print(tmp)
+                print("\n")
+                result[x] = tmp
             table = [[]]
+            print(result)
             for i in range(0, len(result)):
+                #if i>0:
+                    #entry = result[i][0]
+                    #result[i][0] = self.swap.translate(type, int(entry), 'entry', 'word')
                 headers = ['Bacteria']
                 bacteria = result[i].split(':')
                 table.append([bacteria[0]])
-                print(bacteria)
                 antibiotics = bacteria[1].split(';') #***********************************************
                 for j in range(0, len(antibiotics)):
                     measures = antibiotics[j].split('=')
@@ -2210,6 +2234,16 @@ class CultureResultForm(QMainWindow):
                     if i<1: headers.append(measures[0])
                     table[i+1].append(measures[1]) 
                 if i<1: table[0] = headers
+            #print(table)
+            if len(table)>0:
+                entryList = self.swap.get(type, 'entry')
+                #print(entryList)
+                for x in range(1, len(table)):
+                    value = table[x][0] 
+                    if value in entryList:            
+                        table[x][0] = self.swap.translate(type, int(value), 'entry', 'word')
+            #print("\n")
+            #print(table)
             return table
         else:
             return [['Bacteria','Growth', 'PEN', 'AMP', 'CC', 'TET', 'CEP', 'ERY']]
@@ -2239,13 +2273,13 @@ class CultureResultForm(QMainWindow):
             result = ''
             for i in range(1, len(table)):
                 word = table[i][0]  
-                table[i][0] = self.swap.translate(type, word, 'word', 'prefix')
+                table[i][0] = self.swap.translate(type, word, 'word', 'entry')
                 if i>1: result += '/'
                 result += f'{table[i][0]}:'
                 for j in range(1, len(table[i])):
                     if j>1: result += ';'
                     result += f'{table[0][j]}={table[i][j]}'
-            print(result)
+            #print(result)
             return result
         else:
             return None
@@ -2387,8 +2421,8 @@ class CultureResultForm(QMainWindow):
             self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
             self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
             self.repDate.setDate(self.view.dtToQDate(self.sample[7]))
-            self.aerobicTable = self.resultToTable(self.sample[10])
-            self.anaerobicTable = self.resultToTable(self.sample[11]) #**********************************************
+            self.aerobicTable = self.resultToTable(self.sample[10], 'Aerobic')
+            self.anaerobicTable = self.resultToTable(self.sample[11], 'Anaerobic')
             self.cText.setText(self.sample[12])
             self.nText.setText(self.sample[13])
             self.dText.setText(self.sample[9])
@@ -2585,8 +2619,8 @@ class CultureResultForm(QMainWindow):
         self.errorMessage2.clear()
         self.msg = ""
         self.handleRejectedPressed()
-        self.aerobicTable = self.resultToTable(None)
-        self.anaerobicTable = self.resultToTable(None)
+        self.aerobicTable = self.resultToTable(None, 'Aerobic')
+        self.anaerobicTable = self.resultToTable(None, 'Anaerobic')
         self.initTables()
 
     #@throwsViewableException
