@@ -2087,8 +2087,8 @@ class CultureResultForm(QMainWindow):
             self.addCol2.clicked.connect(self.addColAnaerobic)
             self.delCol1.clicked.connect(self.delColAerobic)
             self.delCol2.clicked.connect(self.delColAnaerobic)
-            self.aerobicTable = self.resultToTable(None, 'Aerobic')
-            self.anaerobicTable = self.resultToTable(None, 'Anaerobic')
+            self.aerobicTable = self.resultToTable(None)
+            self.anaerobicTable = self.resultToTable(None)
             self.initTables()
             self.save.clicked.connect(self.handleSavePressed)
         except Exception as e:
@@ -2138,12 +2138,12 @@ class CultureResultForm(QMainWindow):
         #print(self.aerobicTable)
         for i in range(0, len(self.aerobicTable)):
             #print(self.aerobicTable)
-            if i>0:
+            #if i>0:
                 #entryList = self.swap.get('Aerobic', 'entry')
                 #print(entryList)
-                value = self.aerobicTable[i][0]
+                #value = self.aerobicTable[i][0]
                 #if value in entryList:
-                self.aerobicTable[i][0] = self.swap.translate('Aerobic', int(value), 'entry', 'word') if value.isnumeric() else value
+                #self.aerobicTable[i][0] = self.swap.translate('Aerobic', int(value), 'entry', 'word') if value.isnumeric() else value
             for j in range(0, len(self.aerobicTable[0])):
                 item = IndexedComboBox(i, j, self, True)
                 item.installEventFilter(self)
@@ -2164,17 +2164,20 @@ class CultureResultForm(QMainWindow):
         #anaerobic
         self.anTWid.setItem(0,0, QTableWidgetItem('Bacteria'))
         for i in range(0, len(self.anaerobicTable)):
-            if i>0:
+            #if i>0:
                 #entryList = self.swap.get('Anaerobic', 'entry')
-                value = self.anaerobicTable[i][0]
+                #value = self.anaerobicTable[i][0]
                 #if value in entryList:
-                self.anaerobicTable[i][0] = self.swap.translate('Anaerobic', int(value), 'entry', 'word') if value.isnumeric() else value
+                #self.anaerobicTable[i][0] = self.swap.translate('Anaerobic', int(value), 'entry', 'word') if value.isnumeric() else value
             for j in range(0, len(self.anaerobicTable[0])):
                 item = IndexedComboBox(i, j, self, False)
                 item.installEventFilter(self)
                 #item.setFocusPolicy(Qt.ClickFocus)
                 if i>0 and j>0:
                     item.addItems(self.options)
+                    #print("i = " + str(i) + " and j = " + str(j))
+                    #print(self.anaerobicTable)
+                    #print(self.optionIndexes)
                     item.setCurrentIndex(self.optionIndexes[self.anaerobicTable[i][j]]) 
                 elif i<1 and j>0:
                     item.addItems(self.headers)
@@ -2205,20 +2208,20 @@ class CultureResultForm(QMainWindow):
                     self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
     #@throwsViewableException
-    def resultToTable(self, result, type):
+    def resultToTable(self, result):
         #print(result)
         if result is not None:
-            print(result)
+            #print(result)
             result = result.replace(' / ', '|')
             result = result.split('/')
             for x in range(0, len(result)):
-                print(result[x])
+                #print(result[x])
                 tmp = result[x].replace('|', ' / ')
-                print(tmp)
-                print("\n")
+                #print(tmp)
+                #print("\n")
                 result[x] = tmp
             table = [[]]
-            print(result)
+            #print(result)
             for i in range(0, len(result)):
                 #if i>0:
                     #entry = result[i][0]
@@ -2235,13 +2238,13 @@ class CultureResultForm(QMainWindow):
                     table[i+1].append(measures[1]) 
                 if i<1: table[0] = headers
             #print(table)
-            if len(table)>0:
-                entryList = self.swap.get(type, 'entry')
+            #if len(table)>0:
+                #entryList = self.swap.get(type, 'entry')
                 #print(entryList)
-                for x in range(1, len(table)):
-                    value = table[x][0] 
-                    if value in entryList:            
-                        table[x][0] = self.swap.translate(type, int(value), 'entry', 'word')
+                #for x in range(1, len(table)):
+                    #value = table[x][0] 
+                    #if value in entryList:            
+                        #table[x][0] = self.swap.translate(type, int(value), 'entry', 'word')
             #print("\n")
             #print(table)
             return table
@@ -2267,13 +2270,13 @@ class CultureResultForm(QMainWindow):
     """
 
     #@throwsViewableException
-    def tableToResult(self, table, type):
+    def tableToResult(self, table):
         #print(table)
         if len(table)>1 and len(table[0])>1:
             result = ''
             for i in range(1, len(table)):
-                word = table[i][0]  
-                table[i][0] = self.swap.translate(type, word, 'word', 'entry')
+                #word = table[i][0]  
+                #table[i][0] = self.swap.translate(type, word, 'word', 'entry')
                 if i>1: result += '/'
                 result += f'{table[i][0]}:'
                 for j in range(1, len(table[i])):
@@ -2421,8 +2424,8 @@ class CultureResultForm(QMainWindow):
             self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
             self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
             self.repDate.setDate(self.view.dtToQDate(self.sample[7]))
-            self.aerobicTable = self.resultToTable(self.sample[10], 'Aerobic')
-            self.anaerobicTable = self.resultToTable(self.sample[11], 'Anaerobic')
+            self.aerobicTable = self.resultToTable(self.sample[10])
+            self.anaerobicTable = self.resultToTable(self.sample[11])
             self.cText.setText(self.sample[12])
             self.nText.setText(self.sample[13])
             self.dText.setText(self.sample[9])
@@ -2449,8 +2452,8 @@ class CultureResultForm(QMainWindow):
         #print(self.aerobicTable)
         #print(self.anaerobicTable)
         #print("\n")
-        aerobic = self.tableToResult(self.aerobicTable, 'Aerobic')
-        anaerobic = self.tableToResult(self.anaerobicTable, 'Anaerobic')
+        aerobic = self.tableToResult(self.aerobicTable)
+        anaerobic = self.tableToResult(self.anaerobicTable)
         #print(aerobic)
         #print(anaerobic)
         if self.fName.text() and self.lName.text() and self.clinDrop.currentText() != "":
@@ -2619,8 +2622,8 @@ class CultureResultForm(QMainWindow):
         self.errorMessage2.clear()
         self.msg = ""
         self.handleRejectedPressed()
-        self.aerobicTable = self.resultToTable(None, 'Aerobic')
-        self.anaerobicTable = self.resultToTable(None, 'Anaerobic')
+        self.aerobicTable = self.resultToTable(None)
+        self.anaerobicTable = self.resultToTable(None)
         self.initTables()
 
     #@throwsViewableException
