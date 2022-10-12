@@ -1,5 +1,5 @@
 Icing:
-    - UI Overhaul (including Global Nav Bar and modernization)
+    - UI Overhaul (including Global Nav Bar and modernization) (WIP)
     - Built-in Simplified quickbooks
     - Stronger HIPPA Compliant Security
     - Audit log
@@ -8,10 +8,15 @@ Icing:
     - confirmation windows when updating existing orders
 
 Future Implementations:
-    - Verification on SampleID length
-    - More concise input validation
+    - Verification on SampleID length (done)
+    - More concise input validation (WIP)
 
 Needs Fixing
-    - 2 of the same exact techs can be created. If either is deactivated it will login as the other one
+    - 2 of the same exact techs can be created. If either is deactivated it will login as the other one (Possible fix - query to see if user name exists upon creation of new tech, if it does say "username taken", otherwise allow)
     - DUWL Result when editing the clinician and saving, it doesn't update to new clinician until you remove and search and save again
+    - Redo DUWL Result Template - Clinician info that prints in the top left corner relies heavily on proper input from the techs, maybe delete the designation line
+    - DUWL Result must only allow orders from the same clinician to be added at a time or it will only print the latest clinician on the template
+
+
+    - write class that queries all prefixes and formats data to be more usable
 

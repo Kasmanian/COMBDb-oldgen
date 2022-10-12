@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1503</width>
+    <width>1475</width>
     <height>1164</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1323</width>
+    <width>0</width>
     <height>0</height>
    </size>
   </property>
@@ -44,8 +44,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1466</width>
-         <height>1806</height>
+         <width>1455</width>
+         <height>1103</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -917,7 +917,7 @@ border-width: 1px</string>
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -959,7 +959,7 @@ color:red;</string>
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -991,19 +991,6 @@ color:red;</string>
              <size>
               <width>20</width>
               <height>30</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_22">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>15</height>
              </size>
             </property>
            </spacer>
@@ -1049,108 +1036,150 @@ color:red;</string>
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="QLabel" name="label_64">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Aerobic Organisms&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
               <item>
-               <widget class="QTableWidget" name="aeTWid">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <property name="leftMargin">
+                 <number>0</number>
                 </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1250</width>
-                  <height>450</height>
-                 </size>
+                <property name="topMargin">
+                 <number>0</number>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>1250</width>
-                  <height>450</height>
-                 </size>
+                <property name="rightMargin">
+                 <number>0</number>
                 </property>
-                <property name="focusPolicy">
-                 <enum>Qt::StrongFocus</enum>
+                <property name="bottomMargin">
+                 <number>0</number>
                 </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(240, 240, 240);
+                <item row="1" column="0">
+                 <spacer name="horizontalSpacer_8">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_64">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Aerobic Organisms&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="8">
+                 <spacer name="horizontalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="1" column="1" colspan="7">
+                 <widget class="QTableWidget" name="aeTWid">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>900</width>
+                    <height>400</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::StrongFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
 border-width: 1px</string>
-                </property>
-                <property name="lineWidth">
-                 <number>1</number>
-                </property>
-                <property name="sizeAdjustPolicy">
-                 <enum>QAbstractScrollArea::AdjustToContents</enum>
-                </property>
-                <property name="autoScroll">
-                 <bool>false</bool>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
-                </property>
-                <property name="dragDropMode">
-                 <enum>QAbstractItemView::NoDragDrop</enum>
-                </property>
-                <property name="alternatingRowColors">
-                 <bool>true</bool>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
-                <property name="verticalScrollMode">
-                 <enum>QAbstractItemView::ScrollPerItem</enum>
-                </property>
-                <property name="showGrid">
-                 <bool>true</bool>
-                </property>
-                <property name="gridStyle">
-                 <enum>Qt::SolidLine</enum>
-                </property>
-                <attribute name="horizontalHeaderCascadingSectionResizes">
-                 <bool>false</bool>
-                </attribute>
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>120</number>
-                </attribute>
-                <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-                 <bool>false</bool>
-                </attribute>
-                <attribute name="horizontalHeaderStretchLastSection">
-                 <bool>false</bool>
-                </attribute>
-                <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-                 <bool>false</bool>
-                </attribute>
-                <attribute name="verticalHeaderStretchLastSection">
-                 <bool>false</bool>
-                </attribute>
-                <row>
-                 <property name="text">
-                  <string>Bacteria 1</string>
-                 </property>
-                </row>
-                <column>
-                 <property name="text">
-                  <string>Growth</string>
-                 </property>
-                </column>
-                <item row="0" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
+                  </property>
+                  <property name="lineWidth">
+                   <number>1</number>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QAbstractScrollArea::AdjustToContents</enum>
+                  </property>
+                  <property name="autoScroll">
+                   <bool>false</bool>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
+                  </property>
+                  <property name="dragDropMode">
+                   <enum>QAbstractItemView::NoDragDrop</enum>
+                  </property>
+                  <property name="alternatingRowColors">
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::SingleSelection</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerItem</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>true</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::SolidLine</enum>
+                  </property>
+                  <attribute name="horizontalHeaderCascadingSectionResizes">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>120</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <row>
+                   <property name="text">
+                    <string>Bacteria 1</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Growth</string>
+                   </property>
+                  </column>
+                  <item row="0" column="0">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </item>
+                 </widget>
                 </item>
-               </widget>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout">
@@ -1170,9 +1199,6 @@ border-width: 1px</string>
                  <spacer name="horizontalSpacer_2">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Minimum</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1273,6 +1299,9 @@ QPushButton {
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
                   <property name="sizeHint" stdset="0">
                    <size>
                     <width>40</width>
@@ -1368,12 +1397,9 @@ QPushButton {
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_38">
+                 <spacer name="horizontalSpacer_11">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Minimum</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1459,70 +1485,112 @@ QPushButton {
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="QLabel" name="label_67">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Anaerobic Organisms&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
               <item>
-               <widget class="QTableWidget" name="anTWid">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <layout class="QGridLayout" name="gridLayout_5">
+                <property name="leftMargin">
+                 <number>0</number>
                 </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1250</width>
-                  <height>450</height>
-                 </size>
+                <property name="topMargin">
+                 <number>0</number>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>1250</width>
-                  <height>450</height>
-                 </size>
+                <property name="rightMargin">
+                 <number>0</number>
                 </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(240, 240, 240);
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item row="1" column="0">
+                 <spacer name="horizontalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="1" column="8">
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="1" column="1" colspan="7">
+                 <widget class="QTableWidget" name="anTWid">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>900</width>
+                    <height>400</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
 border-width: 1px</string>
-                </property>
-                <property name="sizeAdjustPolicy">
-                 <enum>QAbstractScrollArea::AdjustToContents</enum>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
-                </property>
-                <property name="tabKeyNavigation">
-                 <bool>true</bool>
-                </property>
-                <property name="alternatingRowColors">
-                 <bool>true</bool>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>120</number>
-                </attribute>
-                <row>
-                 <property name="text">
-                  <string>Bacteria 1</string>
-                 </property>
-                </row>
-                <column>
-                 <property name="text">
-                  <string>Growth</string>
-                 </property>
-                </column>
-               </widget>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QAbstractScrollArea::AdjustToContents</enum>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
+                  </property>
+                  <property name="tabKeyNavigation">
+                   <bool>true</bool>
+                  </property>
+                  <property name="alternatingRowColors">
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::SingleSelection</enum>
+                  </property>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>120</number>
+                  </attribute>
+                  <row>
+                   <property name="text">
+                    <string>Bacteria 1</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Growth</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_67">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Anaerobic Organisms&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1539,12 +1607,9 @@ border-width: 1px</string>
                  <number>0</number>
                 </property>
                 <item>
-                 <spacer name="horizontalSpacer_42">
+                 <spacer name="horizontalSpacer_13">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Minimum</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1645,6 +1710,9 @@ QPushButton {
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
                   <property name="sizeHint" stdset="0">
                    <size>
                     <width>40</width>
@@ -1740,12 +1808,9 @@ QPushButton {
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_43">
+                 <spacer name="horizontalSpacer_14">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Minimum</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -1806,7 +1871,7 @@ color:red;</string>
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1995,7 +2060,7 @@ QPushButton {
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -2139,7 +2204,7 @@ QPushButton {
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -2186,6 +2251,35 @@ QPushButton {
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="verticalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_7">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
      </widget>
@@ -2197,7 +2291,7 @@ QPushButton {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1503</width>
+     <width>1475</width>
      <height>21</height>
     </rect>
    </property>
@@ -2211,16 +2305,6 @@ QPushButton {
   <tabstop>chID</tabstop>
   <tabstop>recDate</tabstop>
   <tabstop>repDate</tabstop>
-  <tabstop>aeTWid</tabstop>
-  <tabstop>addRow1</tabstop>
-  <tabstop>delRow1</tabstop>
-  <tabstop>addCol1</tabstop>
-  <tabstop>delCol1</tabstop>
-  <tabstop>anTWid</tabstop>
-  <tabstop>addRow2</tabstop>
-  <tabstop>delRow2</tabstop>
-  <tabstop>addCol2</tabstop>
-  <tabstop>delCol2</tabstop>
   <tabstop>printS</tabstop>
   <tabstop>printP</tabstop>
   <tabstop>printF</tabstop>

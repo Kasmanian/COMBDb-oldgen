@@ -306,3 +306,51 @@
 - Testing all result forms
 - Reworking how clinicians are fed into print functions
 - Redoing all print functions to pull from UI rather then from DB
+
+9/23/22
+- Added checkbox on order templates to acknowledge input into quickbooks
+- Edited templates to add antibioitics to footer of Culture Result
+- Incorporated more inpute validation
+
+9/25/22
+- Tested all screens again
+- Made slight adjustment and bug fixes
+- Confirmed that edits from Shannons template walkthrough were made (kas completed this)
+- Prepared notes to present
+- Further testing on rejection log
+
+9/27/22
+- Fixed Culture Result table cutoff - shrunk ComboBoxs and tables - will adjust dynamically
+- Edited code to pull from proper templates
+- Started researching PySide as a framework to modernize GUI'safeguards
+
+9/28/22
+- More research into PySide 
+- Planned what the future of COMBdb will be
+
+9/30/22
+- Installed Qt Creator to start updating UI screens
+- Started looking into implementing threading for print process to split workload
+- Continued work on advanced search
+
+10/1/22
+- Researching threads for Python
+- Experimented with running print functions on threads to alleviate workload of main thread/hold up of confirmations
+- Got a working thread function working for Culture Order (print function runs on thread)
+- Incorporated threading for print functions on Culture Order, Culture Result, CAT Result forms
+
+10/3/22
+- Started editing a joint Google Doc to better document the project (roadmap, current work, future plans, known bugs, etc.)
+- Worked on bug fixes resulting from new threading addition
+- Installed Qt Community Creator and Qt Design Studio to make new, modern GUI's
+
+10/4/22
+- Continued working on new home screen
+
+10/5/22
+- Started researching audit logging
+- Built a prototype audit log that writes to a text file the tech, action, saID, type, and date/time
+
+
+10/9/22
+- Created new class to handle prefix conversion w/ Kas
