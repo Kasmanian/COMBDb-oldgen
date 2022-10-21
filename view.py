@@ -257,6 +257,9 @@ class PrefixGraph():
         antibiotics = self.model.selectPrefixes('Antibiotics', 'Entry, Prefix, Word')
         anaerobic = self.model.selectPrefixes('Anaerobic', 'Entry, Prefix, Word')
         aerobic = self.model.selectPrefixes('Aerobic', 'Entry, Prefix, Word')
+        growth = self.model.selectPrefixes('Growth', 'Entry, Prefix, Word')
+        blac = self.model.selectPrefixes('B-Lac', 'Entry, Prefix, Word')
+        sus = self.model.selectPrefixes('Susceptibility', 'Entry, Prefix, Word')
         abEntry, abPrefix, abWord = {}, {}, {}
         for x in antibiotics:
             abEntry.update({x[0]:x[1]})
@@ -272,11 +275,26 @@ class PrefixGraph():
             aeEntry.update({x[0]:x[1]})
             aePrefix.update({x[1]:x[2]})
             aeWord.update({x[2]:x[0]})
+        grEntry, grPrefix, grWord = {}, {}, {}
+        for x in growth:
+            grEntry.update({x[0]:x[1]})
+            grPrefix.update({x[1]:x[2]})
+            grWord.update({x[2]:x[0]})
+        blacEntry, blacPrefix, blacWord = {}, {}, {}
+        for x in blac:
+            blacEntry.update({x[0]:x[1]})
+            blacPrefix.update({x[1]:x[2]})
+            blacWord.update({x[2]:x[0]})
+        susEntry, susPrefix, susWord = {}, {}, {}
+        for x in sus:
+            susEntry.update({x[0]:x[1]})
+            susPrefix.update({x[1]:x[2]})
+            susWord.update({x[2]:x[0]})
 
         self.__nodes__ = { 
-            'Growth': [ {0:'NI', 1:'L', 2:'M', 3:'H'}, {'NI':'Not Isolated', 'L':'Light', 'M':'Moderate', 'H':'Heavy'}, {'Not Isolated':0, 'Light':1, 'Moderate':2, 'Heavy':3} ], 
-            'B-Lac': [ {0:'P', 1:'N'}, {'P':'Beta Lactomase Detected', 'N':'Beta Lactomase Not Detected'}, {'Beta Lactomase Detected':0, 'Beta Lactomase Not Detected':1} ],
-            'Susceptibility': [ {0:'S', 1:'I', 2:'R'}, {'S':'Susceptible', 'I':'Intermediate', 'R':'Resistant'}, {'Susceptible':0, 'Intermediate':1, 'Resistant':2} ],
+            'Growth': [ grEntry, grPrefix, grWord ], 
+            'B-Lac': [ blacEntry, blacPrefix, blacWord ],
+            'Susceptibility': [ susEntry, susPrefix, susWord ],
             'Antibiotics': [ abEntry, abPrefix, abWord ],
             'Anaerobic': [ anEntry, anPrefix, anWord ],
             'Aerobic': [ aeEntry, aePrefix, aeWord ]
@@ -2170,11 +2188,16 @@ class CultureResultForm(QMainWindow):
                 else:
                     table.append([bacteria[0]])
                 antibiotics = bacteria[1].split(';')
+                print(antibiotics)
                 for j in range(0, len(antibiotics)):
                     measures = antibiotics[j].split('=')
                     if len(measures) == 1:
                         measures.append("NA")
-                    if i<1: headers.append(measures[0])
+                    if i<1: 
+                        if measures[0] != 'Growth' and measures[0] != 'B-lac' and measures[0].isnumeric():
+                            abPrefix = self.swap.translate('Antibiotics', measures[0], 'entry', 'prefix') 
+                            measures[0] = abPrefix
+                        headers.append(measures[0])
                     table[i+1].append(measures[1]) 
                 if i<1: table[0] = headers
             return table
@@ -2192,7 +2215,12 @@ class CultureResultForm(QMainWindow):
                 result += f'{table[i][0]}:'
                 for j in range(1, len(table[i])):
                     if j>1: result += ';'
-                    result += f'{table[0][j]}={table[i][j]}'
+                    if table[0][j] in self.swap.get('Antibiotics', 'prefix'):
+                        tmp = self.swap.translate('Antibiotics', table[0][j], 'prefix', 'entry')
+                        table[0][j] = str(tmp)
+                    result += f'{table[0][j]}={table[i][j]}' #convert the antibiotic to the associated entry number - it was table[0][j]
+            print(result)
+            #exit()
             return result
         else:
             return None
