@@ -351,6 +351,37 @@
 - Started researching audit logging
 - Built a prototype audit log that writes to a text file the tech, action, saID, type, and date/time
 
-
 10/9/22
 - Created new class to handle prefix conversion w/ Kas
+
+10/10/22
+10/11/22
+10/12/22
+10/13/22
+10/14/22
+10/16/22
+10/17/22
+
+11/1/22
+- Adjusted rejection log UI to be more dynamic
+- Worked more on audit log, specifically researched ways to archive files
+
+11/2/22
+- Created basic Rejection Log template that will be printable - need to beautify
+- Added print button to rejection log ui
+- Added print function, but its not printing yet
+- Worked on trying to read data into template
+
+11/3/22
+- Continued working on getting the rejection log table to print to a PDF
+- Finished conversion of antibiotics to entry numbers using prefix graph functionality - condense data, easy referencing
+- Rejection log template prints to pdf successfully
+
+11/4/22
+- Formatted rejection log template to better fit contents
+- Started brainstorming QA Report functionality
+- Started coding prototype advanced search 
+
+11/7/22
+- Fixed rejection log printout printing sample id's out of order
+- started working on QA Report functionality

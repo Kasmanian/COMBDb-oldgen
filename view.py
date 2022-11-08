@@ -98,6 +98,10 @@ class View:
         self.widget.addWidget(rejectionLogForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showAdvancedSearchScreen(self):
+        self.advancedOrderScreen = AdvancedOrderScreen(self.model, self)
+        self.advancedOrderScreen.show()
+
     def showCultureOrderNav(self):
         self.cultureOrderNav = CultureOrderNav(self.model, self)
         self.cultureOrderNav.show()
@@ -873,7 +877,7 @@ class HistoricResultsForm(QMainWindow):
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
-class RejectionLogForm(QMainWindow):
+class RejectionLogForm(QMainWindow): #this still needs some work, not printing correctly
     def __init__(self, model, view):
         super(RejectionLogForm, self).__init__()
         self.view = view
@@ -883,6 +887,7 @@ class RejectionLogForm(QMainWindow):
         self.home.setIcon(QIcon('Icon/menuIcon.png'))
         self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.back.clicked.connect(self.handleBackPressed)
+        self.print.clicked.connect(self.handlePrintPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         rejectedCulture = self.model.findRejections('Cultures', '[SampleID], [Type], [Clinician], [Rejection Date], [Rejection Reason]')
         rejectedCAT = self.model.findRejections('CATs', '[SampleID], [Type], [Clinician], [Rejection Date], [Rejection Reason]')
@@ -907,18 +912,49 @@ class RejectionLogForm(QMainWindow):
             new.append(tup[4])
             rejections[count] = new
             count += 1
+        #print(rejections)
+        rejections = sorted(rejections, key=lambda x: x[0])
+        print(rejections)
         header = self.rejLogTable.horizontalHeader()
         header.setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         self.rejLogTable.setRowCount(len(rejections))
+        self.printList = []
         for i in range(0, len(rejections)):
+            self.tmpList = []
             self.rejLogTable.setItem(i, 0, QTableWidgetItem(str(rejections[i][0])))
+            self.tmpList.append(str(rejections[i][0]))
             self.rejLogTable.setItem(i, 1, QTableWidgetItem(rejections[i][1]))
+            self.tmpList.append(rejections[i][1])
             self.rejLogTable.setItem(i, 2, QTableWidgetItem(rejections[i][2]))
+            self.tmpList.append(rejections[i][2])
             self.rejLogTable.setItem(i, 3, QTableWidgetItem(rejections[i][3]))
+            self.tmpList.append(rejections[i][3])
             self.rejLogTable.setItem(i, 4, QTableWidgetItem(rejections[i][4]))
+            self.tmpList.append(rejections[i][4])
+            self.printList.append(self.tmpList)
         self.rejLogTable.sortItems(0,0)
         self.rejLogTable.resizeColumnsToContents()
+        #print(self.printList)
 
+    @throwsViewableException
+    def handlePrintPressed(self):
+        template = str(Path().resolve())+r'\templates\rejection_log_template.docx'
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        document.merge(
+            tech=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+        )
+        document.write(dst)
+        #self.view.convertAndPrint(dst)
+        context = {
+            'headers1' : ['Sample_ID', 'Type', 'Clincian', 'Rejection_Date', 'Rejection_Reason'],
+            'servers1' : self.printList
+        }
+        document = DocxTemplate(dst)
+        document.render(context)
+        document.save(dst)
+        self.view.convertAndPrint(dst)
+        
     @throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
@@ -952,6 +988,31 @@ class CultureOrderNav(QMainWindow):
     def handleBackPressed(self):
         self.close()
 
+class AdvancedOrderScreen(QMainWindow):
+    def __init__(self, model, view):
+        super(AdvancedOrderScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("UI Screens/COMBdb_Advanced_Search_Form2.ui", self)
+
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.find.clicked.connect(self.handleSearchPressed)
+        self.back.clicked.connect(self.handleBackPressed)
+
+        self.clinDrop.clear()
+        self.clinDrop.addItem("")
+        self.clinDrop.addItems(self.view.names)
+
+    @throwsViewableException
+    def handleSearchPressed(self):
+        pass
+
+    @throwsViewableException
+    def handleBackPressed(self):
+        self.view.showCultureOrderNav()
+    
+
 class CultureOrderForm(QMainWindow):
     def __init__(self, model, view):
         super(CultureOrderForm, self).__init__()
@@ -960,6 +1021,7 @@ class CultureOrderForm(QMainWindow):
         self.timer = QTimer(self)
         loadUi("UI Screens/COMBdb_Culture_Order_Form.ui", self)
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.find2.setIcon(QIcon('Icon/searchIcon.png'))
         self.addClinician.setIcon(QIcon('Icon/addClinicianIcon.png'))
         self.save.setIcon(QIcon('Icon/saveIcon.png'))
         self.print.setIcon(QIcon('Icon/printIcon.png'))
@@ -971,6 +1033,7 @@ class CultureOrderForm(QMainWindow):
         self.clinDrop.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         self.find.clicked.connect(self.handleSearchPressed)
+        self.find2.clicked.connect(self.handleAdvancedSearchPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
@@ -1052,6 +1115,10 @@ class CultureOrderForm(QMainWindow):
             #self.print.setEnabled(True)
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
+
+    @throwsViewableException
+    def handleAdvancedSearchPressed(self):
+        self.view.showAdvancedSearchScreen()
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -2188,14 +2255,13 @@ class CultureResultForm(QMainWindow):
                 else:
                     table.append([bacteria[0]])
                 antibiotics = bacteria[1].split(';')
-                print(antibiotics)
                 for j in range(0, len(antibiotics)):
                     measures = antibiotics[j].split('=')
                     if len(measures) == 1:
                         measures.append("NA")
                     if i<1: 
                         if measures[0] != 'Growth' and measures[0] != 'B-lac' and measures[0].isnumeric():
-                            abPrefix = self.swap.translate('Antibiotics', measures[0], 'entry', 'prefix') 
+                            abPrefix = self.swap.translate('Antibiotics', int(measures[0]), 'entry', 'prefix') 
                             measures[0] = abPrefix
                         headers.append(measures[0])
                     table[i+1].append(measures[1]) 
@@ -2218,9 +2284,7 @@ class CultureResultForm(QMainWindow):
                     if table[0][j] in self.swap.get('Antibiotics', 'prefix'):
                         tmp = self.swap.translate('Antibiotics', table[0][j], 'prefix', 'entry')
                         table[0][j] = str(tmp)
-                    result += f'{table[0][j]}={table[i][j]}' #convert the antibiotic to the associated entry number - it was table[0][j]
-            print(result)
-            #exit()
+                    result += f'{table[0][j]}={table[i][j]}'
             return result
         else:
             return None
@@ -2500,12 +2564,14 @@ class CultureResultForm(QMainWindow):
         )
         document.write(dst)
         #aerobic
+        #print(self.aerobicTable[0][1:])
         context = {
             'headers1' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
             'headers2' : ['Anaerobic Bacteria']+self.anaerobicTable[0][1:],
             'servers1': [],
             'servers2': []
         }
+        print(self.aerobicTable)
         for i in range(1, len(self.aerobicTable)):
             context['servers1'].append(self.aerobicTable[i])
         for i in range(1, len(self.anaerobicTable)):
