@@ -385,3 +385,37 @@
 11/7/22
 - Fixed rejection log printout printing sample id's out of order
 - started working on QA Report functionality
+
+11/9/22
+- Started working on QA Report
+- Added push button to admin home screen which opens the new QA Report screen
+- Created QA Report screen that mimics the rejection log screen
+- Added two QDateEdits to show which dates we are searching between
+
+11/10/22
+- Stated working on writing queries to pull data from access
+- Designed table to have 6 columns for all necessary information
+- Spent most of the time trying to read in dates as variables into the queries - giving me a hard time
+
+11/11/22
+- QA Report table shows all data
+- Got the query to work to be able to parse Access data based on date
+- Started working on a printable template
+- Started incorporating print functionality
+
+11/14/22
+- Added text to show current connected filepath for database in Set File Path ui
+- Continued working on Audit log functionality
+
+11/15/22
+- Continued working on Audit log functionality
+- Updated COMBdb Project Plan documentation
+- Spent time researching file compression
+
+11/16/22
+- Bug fixes on QA Report
+- Added username lookup to manage technicians that will stop the same username from being created twice
+
+11/18/22
+- Fixed a couple bugs that came with the new tech lookup
+- 

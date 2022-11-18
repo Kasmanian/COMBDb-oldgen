@@ -65,6 +65,11 @@ class View:
         self.widget.addWidget(adminHomeScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    def showQAReportScreen(self):
+        qaReportScreen = QAReportScreen(self.model, self)
+        self.widget.addWidget(qaReportScreen)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+
     def showSettingsNav(self):
         self.settingsNav = SettingsNav(self.model, self)
         self.settingsNav.show()
@@ -220,10 +225,11 @@ class View:
         except Exception as e:
             self.showErrorScreen(e)
         
-    def auditor(self, tech, action, saID, form):
-        #In auditor function")
-        f = open("audit.txt", "a")
-        f.write(str(tech)+"."+str(action)+"."+str(saID)+"."+str(form)+"."+str(datetime.now())+"\n")
+    def auditor(self, tech, action, type, form):
+        date = str(datetime.datetime.now().month) + '-' + str(datetime.datetime.now().year)
+        filename = 'audit logs/audit-' + date + '.txt'
+        f = open(filename, 'a+')
+        f.write(str(tech)+"."+str(action)+"."+str(type)+"."+str(form)+"."+str(datetime.datetime.now())+"\n")
         f.close()
 
 def throwsViewableException(func):
@@ -303,11 +309,6 @@ class PrefixGraph():
             'Anaerobic': [ anEntry, anPrefix, anWord ],
             'Aerobic': [ aeEntry, aePrefix, aeWord ]
         }
-        #print(anEntry)
-        #print("\n")
-        #print(aePrefix)
-        #print("\n")
-        #print(aeWord)
         # fill with code that queries prefixes and puts them in self.__nodes__
         # each element corresponds to a field, seen by 'inmap'
         # for each row in prefix table...
@@ -334,6 +335,10 @@ class SetFilePathScreen(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.browse.clicked.connect(self.handleBrowsePressed)
         self.save.clicked.connect(self.handleSavePressed)
+        # add what the db is currently connected too
+        with open('local.json', 'r+') as JSON:
+            self.currDBText = json.load(JSON)
+        self.currDB.setText('Current filepath: ' + self.currDBText['DBQ']) if self.currDBText['DBQ'] != "" else self.currDB.setText("Current filepath: None")
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -457,9 +462,11 @@ class AdminHomeScreen(QMainWindow):
         self.logout.setIcon(QIcon('Icon/logoutIcon.png'))
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
         self.resultEntry.clicked.connect(self.handleResultEntryPressed)
+        self.qaReport.clicked.connect(self.handleQAReportPressed)
         self.settings.clicked.connect(self.handleSettingsPressed)
         self.logout.clicked.connect(self.handleLogoutPressed)
         PrefixGraph(self.model)
+        #self.view.auditor(currentTech, "TEST", 'SAMPLE ID', 'TYPE')
 
     @throwsViewableException
     def handleCultureOrderFormsPressed(self):
@@ -469,6 +476,10 @@ class AdminHomeScreen(QMainWindow):
     def handleResultEntryPressed(self):
         self.view.showResultEntryNav()
 
+    #@throwsViewableException
+    def handleQAReportPressed(self):
+        self.view.showQAReportScreen()
+
     @throwsViewableException
     def handleSettingsPressed(self):
         self.view.showSettingsNav()
@@ -476,6 +487,93 @@ class AdminHomeScreen(QMainWindow):
     @throwsViewableException
     def handleLogoutPressed(self):
         self.view.showAdminLoginScreen()
+
+class QAReportScreen(QMainWindow): #TODO
+    def __init__(self, model, view):
+        super(QAReportScreen, self).__init__()
+        self.view = view
+        self.model = model
+        loadUi("UI Screens/COMBdb_QA_Report_Screen.ui", self)
+        self.find.setIcon(QIcon('Icon/searchIcon.png'))
+        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        #self.print.clicked.connect(self.handlePrintPressed)
+        self.find.clicked.connect(self.handleSearchPressed)
+        self.print.clicked.connect(self.handlePrintPressed)
+        self.home.clicked.connect(self.handleReturnToMainMenuPressed)
+        self.fromDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.toDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+
+    #@throwsViewableException
+    def handleSearchPressed(self):
+        fromDate = self.view.fSlashDate(self.fromDate.date())
+        toDate = self.view.fSlashDate(self.toDate.date())
+        cultureData = self.model.findSamplesQA('Cultures', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
+        catData = self.model.findSamplesQA('CATs', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
+        data = cultureData + catData
+        count = 0
+        for tup in data:
+            tup = list(tup)
+            new = []
+            new.append(tup[0])
+            new.append(tup[1])
+            clinician = self.model.findClinician(tup[2])
+            new.append(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]))
+            techName = list(self.model.findTech(tup[3], 'First, Middle, Last'))
+            new.append(techName[0] + ' ' + techName[1] + ' ' + techName[2])
+            new.append(self.view.fSlashDate(tup[4])) if tup[4] != None else new.append("None")
+            new.append(self.view.fSlashDate(tup[5])) if tup[5] != None else new.append("None")
+            data[count] = new
+            count += 1
+        data = sorted(data, key=lambda x: x[0])
+        self.qaReportTable.setRowCount(len(data))
+        self.printList = []
+        for i in range(len(data)):
+            #print(data[i])
+            self.tmpList = []
+            self.qaReportTable.setItem(i, 0, QTableWidgetItem(str(data[i][0])))
+            self.tmpList.append(str(data[i][0]))
+            self.qaReportTable.setItem(i, 1, QTableWidgetItem(data[i][1]))
+            self.tmpList.append(data[i][1])
+            self.qaReportTable.setItem(i, 2, QTableWidgetItem(data[i][2]))
+            self.tmpList.append(data[i][2])
+            self.qaReportTable.setItem(i, 3, QTableWidgetItem(data[i][3]))
+            self.tmpList.append(data[i][3])
+            self.qaReportTable.setItem(i, 4, QTableWidgetItem(data[i][5]))
+            self.tmpList.append(data[i][5])
+            #print(data[i][5])
+            #print(data[i][4])
+            if str(data[i][5]) != 'None' and str(data[i][4]) != 'None':
+                numDays = (datetime.datetime.strptime(data[i][5], '%m/%d/%Y').date() - datetime.datetime.strptime(data[i][4], '%m/%d/%Y').date()).days
+            else:
+                numDays = 'Still in Culture'
+            self.qaReportTable.setItem(i, 5, QTableWidgetItem(str(numDays)))
+            self.tmpList.append(str(numDays)) 
+            self.printList.append(self.tmpList)
+        self.qaReportTable.sortItems(0,0)
+        self.qaReportTable.resizeColumnsToContents()
+
+    @throwsViewableException
+    def handlePrintPressed(self):
+        template = str(Path().resolve())+r'\templates\qa_report_template.docx'
+        pass
+        dst = self.view.tempify(template)
+        document = MailMerge(template)
+        document.merge(
+            tech=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+        )
+        document.write(dst)
+        context = {
+            'headers1' : ['Sample_ID', 'Type', 'Clincian', 'Tech', 'Date_Reported, Days_in_Culture'],
+            'servers1' : self.printList
+        }
+        document = DocxTemplate(dst)
+        document.render(context)
+        document.save(dst)
+        self.view.convertAndPrint(dst)
+
+    @throwsViewableException
+    def handleReturnToMainMenuPressed(self):
+        self.view.showAdminHomeScreen()
 
 class SettingsNav(QMainWindow):
     def __init__(self, model, view):
@@ -545,6 +643,8 @@ class SettingsManageTechnicianForm(QMainWindow):
         self.deactivate.clicked.connect(self.handleDeactivatePressed)
         self.addTech.clicked.connect(self.handleAddTechPressed)
         self.clear.clicked.connect(self.handleClearPressed)
+        self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.confirmPswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.activate.setEnabled(False)
         self.deactivate.setEnabled(False)
         self.edit.setEnabled(False)
@@ -606,18 +706,22 @@ class SettingsManageTechnicianForm(QMainWindow):
                 self.techTable.item(self.selectedTechnician[0], 2).setText('No')
 
     @throwsViewableException
-    def handleAddTechPressed(self):
+    def handleAddTechPressed(self): #TODO - fix query to be able to see if username already exists in the database
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         self.techTable.clearSelection()
         user = self.user.text()
         if self.pswd.text()==self.confirmPswd.text() and self.pswd.text() and self.confirmPswd.text():
             if self.fName.text() and self.lName.text() and self.user.text():
-                self.model.addTech(self.fName.text(), self.mName.text(), self.lName.text(), self.user.text(), self.pswd.text())
-                self.updateTable()
-                self.handleClearPressed()
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                self.errorMessage.setText("Successfully added technician: " + user)
+                if self.model.findTechUsername(self.user.text()) == None:
+                    self.model.addTech(self.fName.text(), self.mName.text(), self.lName.text(), self.user.text(), self.pswd.text())
+                    self.updateTable()
+                    self.handleClearPressed()
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                    self.errorMessage.setText("Successfully added technician: " + user)
+                else:
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("A technician with this username already exists")
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("You must have a first name, last name, and username")
@@ -661,6 +765,9 @@ class SettingsEditTechnician(QMainWindow):
         self.mName.setText(self.tech[1])
         self.lName.setText(self.tech[2])
         self.user.setText(self.tech[3])
+        self.oldPswd.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.newPswd.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.confirmNewPswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.save.clicked.connect(self.handleSavePressed)
 
     @throwsViewableException
@@ -877,7 +984,7 @@ class HistoricResultsForm(QMainWindow):
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
-class RejectionLogForm(QMainWindow): #this still needs some work, not printing correctly
+class RejectionLogForm(QMainWindow):
     def __init__(self, model, view):
         super(RejectionLogForm, self).__init__()
         self.view = view
@@ -912,9 +1019,7 @@ class RejectionLogForm(QMainWindow): #this still needs some work, not printing c
             new.append(tup[4])
             rejections[count] = new
             count += 1
-        #print(rejections)
         rejections = sorted(rejections, key=lambda x: x[0])
-        print(rejections)
         header = self.rejLogTable.horizontalHeader()
         header.setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         self.rejLogTable.setRowCount(len(rejections))
@@ -934,7 +1039,6 @@ class RejectionLogForm(QMainWindow): #this still needs some work, not printing c
             self.printList.append(self.tmpList)
         self.rejLogTable.sortItems(0,0)
         self.rejLogTable.resizeColumnsToContents()
-        #print(self.printList)
 
     @throwsViewableException
     def handlePrintPressed(self):
@@ -945,7 +1049,6 @@ class RejectionLogForm(QMainWindow): #this still needs some work, not printing c
             tech=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
         )
         document.write(dst)
-        #self.view.convertAndPrint(dst)
         context = {
             'headers1' : ['Sample_ID', 'Type', 'Clincian', 'Rejection_Date', 'Rejection_Reason'],
             'servers1' : self.printList
@@ -1005,7 +1108,7 @@ class AdvancedOrderScreen(QMainWindow):
         self.clinDrop.addItems(self.view.names)
 
     @throwsViewableException
-    def handleSearchPressed(self):
+    def handleSearchPressed(self): #write in the queries that will handle searching with multiple parameters
         pass
 
     @throwsViewableException
@@ -1098,7 +1201,6 @@ class CultureOrderForm(QMainWindow):
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
                 self.handleRejectedPressed()
-            #print(self.sample)
             self.chID.setText(self.sample[0])
             clinician = self.model.findClinician(self.sample[1])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
@@ -1112,7 +1214,6 @@ class CultureOrderForm(QMainWindow):
             self.nText.setText(self.sample[8])
             self.rejectedMessage.setText(self.sample[10])
             self.msg = self.sample[10]
-            #self.print.setEnabled(True)
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
 
@@ -1165,7 +1266,7 @@ class CultureOrderForm(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
-                            #self.view.auditor(currentTech, "Create", self.saID.text(), self.type.currentText())
+                            self.view.auditor(currentTech, "Create", self.saID.text(), self.type.currentText() + '_Order')
                             return True
                     else: #Update existing CAT Order
                         if not self.saID.isEnabled() and not self.type.isEnabled():
@@ -1195,7 +1296,7 @@ class CultureOrderForm(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
-                            #self.view.auditor(currentTech, "Save", self.saID.text(), self.type.currentText())
+                            self.view.auditor(currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
                             return True 
                         else: 
                             self.handleClearPressed()
@@ -1229,7 +1330,7 @@ class CultureOrderForm(QMainWindow):
                         self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
-                        #self.view.auditor(currentTech, "Save", self.saID.text(), self.type.currentText())
+                        self.view.auditor(currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
                         return True
                     else: 
                         self.handleClearPressed()
@@ -1391,6 +1492,7 @@ class AddClinician(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("New clinician added: " + title + " " + first + " " + last)
+                self.view.auditor(currentTech, "Create", title + '' + first + ' ' + last, 'Clinician')
             else:
                 self.model.updateClinician(
                     self.view.entries[self.clinDrop.currentText()]['db'],
@@ -1419,6 +1521,7 @@ class AddClinician(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Updated Existing Clinician: " + title + " " + first + " " + last)
+                self.view.auditor(currentTech, "Update", title + '' + first + ' ' + last, 'Clinician')
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")
@@ -1657,6 +1760,7 @@ class DUWLOrderForm(QMainWindow):
                     #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Created New DUWL Order: " + str(saID)) 
+                    self.view.auditor(currentTech, "Create", self.saID.text(), 'DUWL_Order')
                 else:
                     if not self.saID.isEnabled():
                         sampleID = self.saID.text()
@@ -1692,6 +1796,7 @@ class DUWLOrderForm(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing DUWL Order Updated: " + sampleID)  
+                        self.view.auditor(currentTech, "Update", sampleID, 'DUWL_Order')
                     else:
                         self.handleClearPressed()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -1946,6 +2051,7 @@ class DUWLReceiveForm(QMainWindow):
                     self.save.setEnabled(False)
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Saved DUWL Order: " + str(saID))
+                    self.view.auditor(currentTech, "Update", str(saID), 'DUWL_Receive')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")
@@ -2472,6 +2578,7 @@ class CultureResultForm(QMainWindow):
                     self.errorMessage.setText("Saved Culture Result Form: " + self.saID.text())
                     self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage2.setText("Saved Culture Result Form: " + self.saID.text())
+                    self.view.auditor(currentTech, "Update", self.saID.text(), 'Culture_Result')
                     return True
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -2790,6 +2897,7 @@ class CATResultForm(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
+                        self.view.auditor(currentTech, "Update", self.saID.text(), 'CAT_Result')
                         return True
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -3027,6 +3135,7 @@ class DUWLResultForm(QMainWindow):
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Saved DUWL Result Form: " + str(saID)) 
                     self.save.setEnabled(False)
+                    self.view.auditor(currentTech, "Update", saID, 'DUWL_Result')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")

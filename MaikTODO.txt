@@ -17,6 +17,7 @@ Needs Fixing
     - Redo DUWL Result Template - Clinician info that prints in the top left corner relies heavily on proper input from the techs, maybe delete the designation line
     - DUWL Result must only allow orders from the same clinician to be added at a time or it will only print the latest clinician on the template
 
-
     - write class that queries all prefixes and formats data to be more usable
+
+TODO:
 

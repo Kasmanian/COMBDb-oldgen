@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
-    <height>268</height>
+    <width>839</width>
+    <height>338</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -98,11 +98,17 @@ QPushButton {
      </widget>
     </item>
     <item row="3" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
       <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
        <number>0</number>
       </property>
       <property name="bottomMargin">
@@ -322,6 +328,13 @@ QPushButton {
         </item>
        </layout>
       </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="currDB">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="3" column="0">
@@ -395,7 +408,7 @@ QPushButton {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>826</width>
+     <width>839</width>
      <height>21</height>
     </rect>
    </property>
