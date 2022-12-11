@@ -3,24 +3,28 @@ class ClinicianList:
         self.app = app
 
     def query(self):
-        self.table = list(self.app.db.select('[Clinicians]', (
-            '[Entry]',
-            '[Prefix]',
-            '[First]',
-            '[Last]',
-            '[Designation]',
-            '[Phone]',
-            '[Fax]',
-            '[Email]',
-            '[Address 1]',
-            '[Address 2]',
-            '[City]',
-            '[State]',
-            '[Zip]',
-            '[Enrolled]',
-            '[Inactive]',
-            '[Comments]'
-        ), None, -1))
+        self.table = list(
+            self.app.db.select(
+                '[Clinicians]', (
+                    '[Entry]',
+                    '[Prefix]',
+                    '[First]',
+                    '[Last]',
+                    '[Designation]',
+                    '[Phone]',
+                    '[Fax]',
+                    '[Email]',
+                    '[Address 1]',
+                    '[Address 2]',
+                    '[City]',
+                    '[State]',
+                    '[Zip]',
+                    '[Enrolled]',
+                    '[Inactive]',
+                    '[Comments]'
+                ), None, -1
+            )
+        )
         self.names = []
         for entry in self.table:
             self.names.append(self.fname(entry['[Prefix]'], entry['[First]'], entry['[Last]'], entry['[Designation]']), '$l, $f')
