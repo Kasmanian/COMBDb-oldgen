@@ -1,6 +1,20 @@
 import pyodbc, json
 
 class Database:
+  def __cursor(func):
+    def wrap(self, *args, **kwargs):
+        try:
+          cursor = self.db.cursor()
+          result = func(self, cursor, *args, **kwargs)
+          self.db.commit()
+          return result
+        except (Exception, pyodbc.Error) as e:
+          print(f'Error in connection: {e}')
+          return e
+        finally:
+          if cursor: cursor.close()
+    return wrap
+  
   def connect(self):
     try:
       with open('local.json') as f:
@@ -13,69 +27,41 @@ class Database:
   def close(self):
     self.db.close()
 
-  def insert(self, table: str, fields: tuple, *args: any):
-    try:
-      cursor = self.db.cursor()
-      params = ','.join(fields)
-      values = '?'
-      for _ in range(1, len(fields)):
-        values += ',?'
-      query = f'INSERT INTO {table}({params}) VALUES({values})'
-      cursor.execute(query, *args)
-    except (Exception, pyodbc.Error) as e:
-      self.Error = e
-      return False
-    finally:
-      if cursor: cursor.close()
+  @__cursor
+  def insert(self, cursor, table: str, fields: tuple, *args: any):
+    params = ','.join(fields)
+    values = '?'
+    for _ in range(1, len(fields)):
+      values += ',?'
+    query = f'INSERT INTO {table}({params}) VALUES({values})'
+    cursor.execute(query, *args)
 
-  def update(self, table: str, fields: tuple, reqs: str, *args: any):
-    try:
-      cursor = self.db.cursor()
-      params = '=? '.join(fields)
-      query = f'UPDATE {table} SET {params}WHERE {reqs}'
-      cursor.execute(query, *args)
-    except (Exception, pyodbc.Error) as e:
-      self.Error = e
-      return False
-    finally:
-      if cursor: cursor.close()
+  @__cursor
+  def update(self, cursor, table: str, fields: tuple, reqs: str, *args: any):
+    params = '=? '.join(fields)
+    query = f'UPDATE {table} SET {params}WHERE {reqs}'
+    cursor.execute(query, *args)
 
-  def select(self, table: str, fields: tuple, reqs: str, count: int):
-    try:
-      cursor = self.db.cursor()
-      params = ', '.join(fields)
-      reqs = f' WHERE {reqs}' if reqs is not None else None
-      query = f'SELECT {params} FROM {table}{reqs}'
-      cursor.execute(query)
-      if count == 1:
-        return cursor.fetchone()
-      elif count > 1 and count < float('inf'):
-        return cursor.fetchmany(count)
-      else:
-        return cursor.fetchall()
-    except (Exception, pyodbc.Error) as e:
-      self.Error = e
-      return False
-    finally:
-      if cursor: cursor.close()
-
-  def sample(self, year: int):
-    tables = ['Cultures', 'CATs', 'Waterlines']
-    cursor = self.db.cursor()
-    count = 0
-    for table in tables:
-      query = (
-        f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {year}0000 AND SampleID < {year+1}0000'
-      )
-      cursor.execute(query)
-      catch = cursor.fetchone()
-      count += catch[0] if catch is not None else 0
-    return (year*10000)+count+1
-    
-  def sample(self):
-    cursor = self.db.cursor()
-    query = f'SELECT [SampleID] FROM SampleID WHERE Entry=1'
+  @__cursor
+  def select(self, cursor, table: str, fields: tuple, reqs: str, count: int):
+    params = ', '.join(fields)
+    reqs = f' WHERE {reqs}' if reqs is not None else None
+    query = f'SELECT {params} FROM {table}{reqs}'
     cursor.execute(query)
-    sampleID = cursor.fetchone()
-    query = f'UPDATE SampleID SET [SampleID]={sampleID+1} WHERE Entry=1'
-    return sampleID
+    if count == 1:
+      return cursor.fetchone()
+    elif count > 1 and count < float('inf'):
+      return cursor.fetchmany(count)
+    else:
+      return cursor.fetchall()
+
+  @__cursor 
+  def sample(self, cursor):
+    yy = self.date.year-2000
+    query = (f'SELECT [ID] FROM [SampleID]')
+    cursor.execute(query)
+    fetchID = cursor.fetchone()[0]
+    catchID = (yy*10000)+1 if yy-(fetchID//10000)>0 else fetchID
+    query = (f'UPDATE [SampleID] SET [ID]=? WHERE [ID]=?')
+    cursor.execute(query, catchID+1, fetchID)
+    return catchID
