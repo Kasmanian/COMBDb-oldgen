@@ -247,7 +247,13 @@ def throwsViewableException(func):
 class PrefixGraph():
     def __init__(self, model):
         self.model = model
-        self.populate()
+        self.__nodes__ = {}
+        self.populate('Antibiotics')
+        self.populate('Anaerobic')
+        self.populate('Aerobic')
+        self.populate('Growth')
+        self.populate('B-Lac')
+        self.populate('Susceptibility')
         
     def translate(self, cat, key, on, to):
         inmap = { 'entry': 0, 'prefix': 1, 'word': 2 }
@@ -263,59 +269,25 @@ class PrefixGraph():
             on = graph[on]
         return node[on][key] if key in node[on] else None
         
-    def populate(self):
-        antibiotics = self.model.selectPrefixes('Antibiotics', 'Entry, Prefix, Word')
-        anaerobic = self.model.selectPrefixes('Anaerobic', 'Entry, Prefix, Word')
-        aerobic = self.model.selectPrefixes('Aerobic', 'Entry, Prefix, Word')
-        growth = self.model.selectPrefixes('Growth', 'Entry, Prefix, Word')
-        blac = self.model.selectPrefixes('B-Lac', 'Entry, Prefix, Word')
-        sus = self.model.selectPrefixes('Susceptibility', 'Entry, Prefix, Word')
-        abEntry, abPrefix, abWord = {}, {}, {}
-        for x in antibiotics:
-            abEntry.update({x[0]:x[1]})
-            abPrefix.update({x[1]:x[2]})
-            abWord.update({x[2]:x[0]})
-        anEntry, anPrefix, anWord = {}, {}, {}
-        for x in anaerobic:
-            anEntry.update({x[0]:x[1]})
-            anPrefix.update({x[1]:x[2]})
-            anWord.update({x[2]:x[0]})
-        aeEntry, aePrefix, aeWord = {}, {}, {}
-        for x in aerobic:
-            aeEntry.update({x[0]:x[1]})
-            aePrefix.update({x[1]:x[2]})
-            aeWord.update({x[2]:x[0]})
-        grEntry, grPrefix, grWord = {}, {}, {}
-        for x in growth:
-            grEntry.update({x[0]:x[1]})
-            grPrefix.update({x[1]:x[2]})
-            grWord.update({x[2]:x[0]})
-        blacEntry, blacPrefix, blacWord = {}, {}, {}
-        for x in blac:
-            blacEntry.update({x[0]:x[1]})
-            blacPrefix.update({x[1]:x[2]})
-            blacWord.update({x[2]:x[0]})
-        susEntry, susPrefix, susWord = {}, {}, {}
-        for x in sus:
-            susEntry.update({x[0]:x[1]})
-            susPrefix.update({x[1]:x[2]})
-            susWord.update({x[2]:x[0]})
-
-        self.__nodes__ = { 
-            'Growth': [ grEntry, grPrefix, grWord ], 
-            'B-Lac': [ blacEntry, blacPrefix, blacWord ],
-            'Susceptibility': [ susEntry, susPrefix, susWord ],
-            'Antibiotics': [ abEntry, abPrefix, abWord ],
-            'Anaerobic': [ anEntry, anPrefix, anWord ],
-            'Aerobic': [ aeEntry, aePrefix, aeWord ]
-        }
-        # fill with code that queries prefixes and puts them in self.__nodes__
-        # each element corresponds to a field, seen by 'inmap'
-        # for each row in prefix table...
-      
+    def populate(self, type):
+        typeList = self.model.selectPrefixes(type, 'Entry, Prefix, Word')
+        typeEntry, typePrefix, typeWord = {}, {}, {}
+        for x in typeList:
+            typeEntry.update({x[0]:x[1]})
+            typePrefix.update({x[1]:x[2]})
+            typeWord.update({x[2]:x[0]})
+        self.__nodes__[type] =  [typeEntry, typePrefix, typeWord]
+        
     def get(self, cat, field):
         inmap = { 'entry': 0, 'prefix': 1, 'word': 2 }
         return list(self.__nodes__[cat][inmap[field]].keys())
+
+    def exists(self, field, item):
+        inmap = { 'entry': 0, 'prefix': 1, 'word': 2 }
+        for cat in self.__nodes__:
+            if item in self.__nodes__[cat][inmap[field]]:
+                return True
+        return False
         
 # example
 #pg = PrefixGraph()
@@ -335,7 +307,6 @@ class SetFilePathScreen(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.browse.clicked.connect(self.handleBrowsePressed)
         self.save.clicked.connect(self.handleSavePressed)
-        # add what the db is currently connected too
         with open('local.json', 'r+') as JSON:
             self.currDBText = json.load(JSON)
         self.currDB.setText('Current filepath: ' + self.currDBText['DBQ']) if self.currDBText['DBQ'] != "" else self.currDB.setText("Current filepath: None")
@@ -493,6 +464,7 @@ class QAReportScreen(QMainWindow): #TODO
         super(QAReportScreen, self).__init__()
         self.view = view
         self.model = model
+        self.timer = QTimer(self)
         loadUi("UI Screens/COMBdb_QA_Report_Screen.ui", self)
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
         self.home.setIcon(QIcon('Icon/menuIcon.png'))
@@ -505,57 +477,58 @@ class QAReportScreen(QMainWindow): #TODO
 
     #@throwsViewableException
     def handleSearchPressed(self):
+        self.timer.timeout.connect(self.timerEvent)
+        self.timer.start(5000)
         fromDate = self.view.fSlashDate(self.fromDate.date())
         toDate = self.view.fSlashDate(self.toDate.date())
-        cultureData = self.model.findSamplesQA('Cultures', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
-        catData = self.model.findSamplesQA('CATs', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
-        data = cultureData + catData
-        count = 0
-        for tup in data:
-            tup = list(tup)
-            new = []
-            new.append(tup[0])
-            new.append(tup[1])
-            clinician = self.model.findClinician(tup[2])
-            new.append(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]))
-            techName = list(self.model.findTech(tup[3], 'First, Middle, Last'))
-            new.append(techName[0] + ' ' + techName[1] + ' ' + techName[2])
-            new.append(self.view.fSlashDate(tup[4])) if tup[4] != None else new.append("None")
-            new.append(self.view.fSlashDate(tup[5])) if tup[5] != None else new.append("None")
-            data[count] = new
-            count += 1
-        data = sorted(data, key=lambda x: x[0])
-        self.qaReportTable.setRowCount(len(data))
-        self.printList = []
-        for i in range(len(data)):
-            #print(data[i])
-            self.tmpList = []
-            self.qaReportTable.setItem(i, 0, QTableWidgetItem(str(data[i][0])))
-            self.tmpList.append(str(data[i][0]))
-            self.qaReportTable.setItem(i, 1, QTableWidgetItem(data[i][1]))
-            self.tmpList.append(data[i][1])
-            self.qaReportTable.setItem(i, 2, QTableWidgetItem(data[i][2]))
-            self.tmpList.append(data[i][2])
-            self.qaReportTable.setItem(i, 3, QTableWidgetItem(data[i][3]))
-            self.tmpList.append(data[i][3])
-            self.qaReportTable.setItem(i, 4, QTableWidgetItem(data[i][5]))
-            self.tmpList.append(data[i][5])
-            #print(data[i][5])
-            #print(data[i][4])
-            if str(data[i][5]) != 'None' and str(data[i][4]) != 'None':
-                numDays = (datetime.datetime.strptime(data[i][5], '%m/%d/%Y').date() - datetime.datetime.strptime(data[i][4], '%m/%d/%Y').date()).days
-            else:
-                numDays = 'Still in Culture'
-            self.qaReportTable.setItem(i, 5, QTableWidgetItem(str(numDays)))
-            self.tmpList.append(str(numDays)) 
-            self.printList.append(self.tmpList)
-        self.qaReportTable.sortItems(0,0)
-        self.qaReportTable.resizeColumnsToContents()
+        fromFormat = datetime.datetime.strptime(fromDate, "%m/%d/%Y").date()
+        toFormat = datetime.datetime.strptime(toDate, "%m/%d/%Y").date()
+        if fromFormat <= toFormat:
+            cultureData = self.model.findSamplesQA('Cultures', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
+            catData = self.model.findSamplesQA('CATs', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
+            data = cultureData + catData
+            count = 0
+            for tup in data:
+                tup = list(tup)
+                new = []
+                new.append(tup[0])
+                new.append(tup[1])
+                clinician = self.model.findClinician(tup[2])
+                new.append(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]))
+                if tup[3] != 0:
+                    techName = list(self.model.findTech(tup[3], 'First, Middle, Last'))
+                    new.append(techName[0] + ' ' + techName[1] + ' ' + techName[2])
+                else:
+                    new.append("")
+                new.append(self.view.fSlashDate(tup[4])) if tup[4] != None else new.append("None")
+                new.append(self.view.fSlashDate(tup[5])) if tup[5] != None else new.append("None")
+                data[count] = new
+                count += 1
+            data = sorted(data, key=lambda x: x[0])
+            self.qaReportTable.setRowCount(len(data))
+            for i in range(len(data)):
+                self.qaReportTable.setItem(i, 0, QTableWidgetItem(str(data[i][0])))
+                self.qaReportTable.setItem(i, 1, QTableWidgetItem(data[i][1]))
+                self.qaReportTable.setItem(i, 2, QTableWidgetItem(data[i][2]))
+                self.qaReportTable.setItem(i, 3, QTableWidgetItem(data[i][3]))
+                self.qaReportTable.setItem(i, 4, QTableWidgetItem(data[i][5]))
+                if str(data[i][5]) != 'None' and str(data[i][4]) != 'None':
+                    numDays = (datetime.datetime.strptime(data[i][5], '%m/%d/%Y').date() - datetime.datetime.strptime(data[i][4], '%m/%d/%Y').date()).days
+                else:
+                    numDays = 'Still in Culture'
+                self.qaReportTable.setItem(i, 5, QTableWidgetItem(str(numDays)))
+            self.qaReportTable.sortItems(0,0)
+            self.qaReportTable.resizeColumnsToContents()
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("From date must come before to date") 
 
     @throwsViewableException
     def handlePrintPressed(self):
+        self.printList = []
+        for i in range(self.qaReportTable.rowCount()):
+            self.printList.append([str(self.qaReportTable.item(i, 0).text()), self.qaReportTable.item(i, 1).text(), self.qaReportTable.item(i, 2).text(), self.qaReportTable.item(i, 3).text(), self.qaReportTable.item(i, 4).text(), self.qaReportTable.item(i, 5).text()])
         template = str(Path().resolve())+r'\templates\qa_report_template.docx'
-        pass
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge(
@@ -563,7 +536,7 @@ class QAReportScreen(QMainWindow): #TODO
         )
         document.write(dst)
         context = {
-            'headers1' : ['Sample_ID', 'Type', 'Clincian', 'Tech', 'Date_Reported, Days_in_Culture'],
+            'headers1' : ['Sample ID', 'Type', 'Clincian', 'Tech', 'Date Reported', 'Days in Culture'],
             'servers1' : self.printList
         }
         document = DocxTemplate(dst)
@@ -574,6 +547,10 @@ class QAReportScreen(QMainWindow): #TODO
     @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
+
+    @throwsViewableException
+    def timerEvent(self):
+        self.errorMessage.setText("")
 
 class SettingsNav(QMainWindow):
     def __init__(self, model, view):
@@ -706,7 +683,7 @@ class SettingsManageTechnicianForm(QMainWindow):
                 self.techTable.item(self.selectedTechnician[0], 2).setText('No')
 
     @throwsViewableException
-    def handleAddTechPressed(self): #TODO - fix query to be able to see if username already exists in the database
+    def handleAddTechPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         self.techTable.clearSelection()
@@ -835,6 +812,7 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
+        self.ref = PrefixGraph(self.model)
         loadUi("UI Screens/COMBdb_Settings_Manage_Prefixes_Form.ui", self)
         self.add.setIcon(QIcon('Icon/addIcon.png'))
         self.save.setIcon(QIcon('Icon/saveIcon.png'))
@@ -905,6 +883,7 @@ class SettingsManagePrefixesForm(QMainWindow):
                 self.pName.setEnabled(True)
             self.word.setText(keyList[1])
             self.currentPrefix = self.model.findPrefix(self.pName.text(), 'Entry, Type, Prefix, Word')
+            self.type.setEnabled(False)
             self.add.setEnabled(False)
             self.save.setEnabled(True)
 
@@ -917,36 +896,55 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
     @throwsViewableException
-    def handleAddPressed(self):  
+    def handleAddPressed(self): #add new prefix
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         prefix = self.pName.text()
         word = self.word.text()
         type = self.type.currentText()
         if self.type.currentText() and self.pName.text() and self.word.text():
-            self.model.addPrefixes(self.type.currentText(), self.pName.text(), self.word.text())
-            self.updateTable(self.type.currentText())
-            self.handleClearPressed()
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-            self.errorMessage.setText("Successfully added prefix: " + prefix + ":" + word + " to table: " + type)
+            if not self.ref.exists('prefix', prefix) and not self.ref.exists('word', word):
+                self.model.addPrefixes(self.type.currentText(), self.pName.text(), self.word.text())
+                self.ref.populate(type)
+                self.updateTable(self.type.currentText())
+                self.handleClearPressed()
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Successfully added prefix: " + prefix + ":" + word + " to table: " + type)
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("An entry with that prefix or word already exists")
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Type, Prefix and Word are required")
 
     @throwsViewableException
-    def handleSavePressed(self):
+    def handleSavePressed(self): #edit existing prefix
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         if self.pName.text() and self.word.text() and self.type.currentText():
-            self.model.updatePrefixes(
-                self.currentPrefix[0],
-                self.type.currentText(),
-                self.pName.text(),
-                self.word.text()
-            )
-            self.updateTable(self.type.currentText())
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-            self.errorMessage.setText("Successfully Updated Prefix")
+            self.selectedPrefix
+            prefixChanged = self.pName.text() not in self.selectedPrefix
+            wordChanged = self.word.text() != self.selectedPrefix.get(list(self.selectedPrefix.keys())[0])[1]
+            prefixPassed = True
+            wordPassed = True
+            if prefixChanged:
+                prefixPassed = not self.ref.exists('prefix', self.pName.text())
+            if wordChanged:
+                wordPassed = not self.ref.exists('word', self.word.text())
+            if prefixPassed and wordPassed:
+                self.model.updatePrefixes(
+                    self.currentPrefix[0],
+                    self.type.currentText(),
+                    self.pName.text(),
+                    self.word.text()
+                )
+                self.ref.populate(self.type.currentText())
+                self.updateTable(self.type.currentText())
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                self.errorMessage.setText("Successfully Updated Prefix")
+            else:
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("An entry with that prefix or word already exists")
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Type, Prefix and Word are required")
@@ -963,6 +961,7 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.add.setEnabled(True)
         self.save.setEnabled(False)
         self.pName.setEnabled(True)
+        self.type.setEnabled(True)
 
     @throwsViewableException
     def timerEvent(self):
@@ -1023,25 +1022,20 @@ class RejectionLogForm(QMainWindow):
         header = self.rejLogTable.horizontalHeader()
         header.setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         self.rejLogTable.setRowCount(len(rejections))
-        self.printList = []
         for i in range(0, len(rejections)):
-            self.tmpList = []
             self.rejLogTable.setItem(i, 0, QTableWidgetItem(str(rejections[i][0])))
-            self.tmpList.append(str(rejections[i][0]))
             self.rejLogTable.setItem(i, 1, QTableWidgetItem(rejections[i][1]))
-            self.tmpList.append(rejections[i][1])
             self.rejLogTable.setItem(i, 2, QTableWidgetItem(rejections[i][2]))
-            self.tmpList.append(rejections[i][2])
             self.rejLogTable.setItem(i, 3, QTableWidgetItem(rejections[i][3]))
-            self.tmpList.append(rejections[i][3])
             self.rejLogTable.setItem(i, 4, QTableWidgetItem(rejections[i][4]))
-            self.tmpList.append(rejections[i][4])
-            self.printList.append(self.tmpList)
         self.rejLogTable.sortItems(0,0)
         self.rejLogTable.resizeColumnsToContents()
 
     @throwsViewableException
     def handlePrintPressed(self):
+        self.printList = []
+        for i in range(self.rejLogTable.rowCount()):
+            self.printList.append([self.rejLogTable.item(i, 0).text(), self.rejLogTable.item(i, 1).text(), self.rejLogTable.item(i, 2).text(), self.rejLogTable.item(i, 3).text(), self.rejLogTable.item(i, 4).text()])
         template = str(Path().resolve())+r'\templates\rejection_log_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
@@ -1050,7 +1044,7 @@ class RejectionLogForm(QMainWindow):
         )
         document.write(dst)
         context = {
-            'headers1' : ['Sample_ID', 'Type', 'Clincian', 'Rejection_Date', 'Rejection_Reason'],
+            'headers1' : ['Sample ID', 'Type', 'Clincian', 'Rejection Date', 'Rejection Reason'],
             'servers1' : self.printList
         }
         document = DocxTemplate(dst)
@@ -1100,22 +1094,45 @@ class AdvancedOrderScreen(QMainWindow):
 
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
         self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
         self.find.clicked.connect(self.handleSearchPressed)
         self.back.clicked.connect(self.handleBackPressed)
-
+        self.clear.clicked.connect(self.handleClearPressed)
+        
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
 
     @throwsViewableException
     def handleSearchPressed(self): #write in the queries that will handle searching with multiple parameters
-        pass
+        sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+        clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+        if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "":
+            return
+        cultures = self.model.findSamples('Cultures', sampleID, self.fName.text(), self.lName.text(), clin, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+        cats = self.model.findSamples('CATs', sampleID, self.fName.text(), self.lName.text(), clin, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+        results = cultures + cats
+        results = sorted(results, key=lambda x: x[0])
+        self.searchTable.setRowCount(len(results))
+        for i in range(0, len(results)):
+            self.searchTable.setItem(i, 0, QTableWidgetItem(str(results[i][0])))
+            self.searchTable.setItem(i, 1, QTableWidgetItem(str(results[i][3]) + " " + str(results[i][4])))
+            clinician = self.model.findClinician(results[i][2])
+            self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+            self.searchTable.setItem(i, 3, QTableWidgetItem(str(results[i][5])))
 
     @throwsViewableException
     def handleBackPressed(self):
-        self.view.showCultureOrderNav()
-    
+        self.close()
 
+    @throwsViewableException
+    def handleClearPressed(self):
+        self.saID.clear()
+        self.fName.clear()
+        self.lName.clear()
+        self.clinDrop.setCurrentIndex(0)
+        self.searchTable.setRowCount(0)
+    
 class CultureOrderForm(QMainWindow):
     def __init__(self, model, view):
         super(CultureOrderForm, self).__init__()
@@ -1124,7 +1141,7 @@ class CultureOrderForm(QMainWindow):
         self.timer = QTimer(self)
         loadUi("UI Screens/COMBdb_Culture_Order_Form.ui", self)
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
-        self.find2.setIcon(QIcon('Icon/searchIcon.png'))
+        #self.find2.setIcon(QIcon('Icon/searchIcon.png'))
         self.addClinician.setIcon(QIcon('Icon/addClinicianIcon.png'))
         self.save.setIcon(QIcon('Icon/saveIcon.png'))
         self.print.setIcon(QIcon('Icon/printIcon.png'))
@@ -1136,7 +1153,7 @@ class CultureOrderForm(QMainWindow):
         self.clinDrop.addItems(self.view.names)
         self.addClinician.clicked.connect(self.handleAddNewClinicianPressed)
         self.find.clicked.connect(self.handleSearchPressed)
-        self.find2.clicked.connect(self.handleAdvancedSearchPressed)
+        #self.find2.clicked.connect(self.handleAdvancedSearchPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
@@ -1266,7 +1283,7 @@ class CultureOrderForm(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
-                            self.view.auditor(currentTech, "Create", self.saID.text(), self.type.currentText() + '_Order')
+                            #self.view.auditor(currentTech, "Create", self.saID.text(), self.type.currentText() + '_Order')
                             return True
                     else: #Update existing CAT Order
                         if not self.saID.isEnabled() and not self.type.isEnabled():
@@ -1296,7 +1313,7 @@ class CultureOrderForm(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
-                            self.view.auditor(currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
+                            #self.view.auditor(currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
                             return True 
                         else: 
                             self.handleClearPressed()
@@ -1330,7 +1347,7 @@ class CultureOrderForm(QMainWindow):
                         self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
-                        self.view.auditor(currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
+                        #self.view.auditor(currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
                         return True
                     else: 
                         self.handleClearPressed()
@@ -1348,43 +1365,40 @@ class CultureOrderForm(QMainWindow):
         
     @throwsViewableException
     def handlePrintPressed(self): 
-        #if self.handleSavePressed():
-            if self.type.currentText()!='Caries':
-                template = str(Path().resolve())+r'\templates\culture_worksheet_template3.docx'
-                dst = self.view.tempify(template)
-                document = MailMerge(template)
-                clinician=self.clinDrop.currentText().split(', ')
-                document.merge(
-                    saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
-                    received=self.recDate.date().toString(),
-                    type=self.type.currentText(),
-                    chartID=self.chID.text(),
-                    clinicianName = clinician[1] + " " + clinician[0],
-                    patientName=f'{self.lName.text()}, {self.fName.text()}',
-                    comments=self.cText.toPlainText(),
-                    notes=self.nText.toPlainText(),
-                    techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
-                )
-                document.write(dst)
-                self.view.convertAndPrint(dst)
-            else:
-                template = str(Path().resolve())+r'\templates\cat_worksheet_template.docx'
-                dst = self.view.tempify(template)
-                document = MailMerge(template)
-                clinician=self.clinDrop.currentText().split(', ')
-                document.merge(
-                    saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
-                    received=self.recDate.date().toString(),
-                    chartID=self.chID.text(),
-                    clinicianName = clinician[1] + " " + clinician[0],
-                    patientName=f'{self.lName.text()}, {self.fName.text()}',
-                    techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
-                )
-                document.write(dst)
-                self.view.convertAndPrint(dst)
-            return
-       # else:
-            #return
+        if self.type.currentText()!='Caries':
+            template = str(Path().resolve())+r'\templates\culture_worksheet_template3.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            clinician=self.clinDrop.currentText().split(', ')
+            document.merge(
+                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                received=self.recDate.date().toString(),
+                type=self.type.currentText(),
+                chartID=self.chID.text(),
+                clinicianName = clinician[1] + " " + clinician[0],
+                patientName=f'{self.lName.text()}, {self.fName.text()}',
+                comments=self.cText.toPlainText(),
+                notes=self.nText.toPlainText(),
+                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+            )
+            document.write(dst)
+            self.view.convertAndPrint(dst)
+        else:
+            template = str(Path().resolve())+r'\templates\cat_worksheet_template.docx'
+            dst = self.view.tempify(template)
+            document = MailMerge(template)
+            clinician=self.clinDrop.currentText().split(', ')
+            document.merge(
+                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                received=self.recDate.date().toString(),
+                chartID=self.chID.text(),
+                clinicianName = clinician[1] + " " + clinician[0],
+                patientName=f'{self.lName.text()}, {self.fName.text()}',
+                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+            )
+            document.write(dst)
+            self.view.convertAndPrint(dst)
+        return
 
     @throwsViewableException
     def handleClearPressed(self):
@@ -1492,7 +1506,7 @@ class AddClinician(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("New clinician added: " + title + " " + first + " " + last)
-                self.view.auditor(currentTech, "Create", title + '' + first + ' ' + last, 'Clinician')
+                #self.view.auditor(currentTech, "Create", title + '' + first + ' ' + last, 'Clinician')
             else:
                 self.model.updateClinician(
                     self.view.entries[self.clinDrop.currentText()]['db'],
@@ -1521,7 +1535,7 @@ class AddClinician(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Updated Existing Clinician: " + title + " " + first + " " + last)
-                self.view.auditor(currentTech, "Update", title + '' + first + ' ' + last, 'Clinician')
+                #self.view.auditor(currentTech, "Update", title + '' + first + ' ' + last, 'Clinician')
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")
@@ -1760,7 +1774,7 @@ class DUWLOrderForm(QMainWindow):
                     #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Created New DUWL Order: " + str(saID)) 
-                    self.view.auditor(currentTech, "Create", self.saID.text(), 'DUWL_Order')
+                    #self.view.auditor(currentTech, "Create", self.saID.text(), 'DUWL_Order')
                 else:
                     if not self.saID.isEnabled():
                         sampleID = self.saID.text()
@@ -1796,7 +1810,7 @@ class DUWLOrderForm(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing DUWL Order Updated: " + sampleID)  
-                        self.view.auditor(currentTech, "Update", sampleID, 'DUWL_Order')
+                        #self.view.auditor(currentTech, "Update", sampleID, 'DUWL_Order')
                     else:
                         self.handleClearPressed()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -2051,7 +2065,7 @@ class DUWLReceiveForm(QMainWindow):
                     self.save.setEnabled(False)
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Saved DUWL Order: " + str(saID))
-                    self.view.auditor(currentTech, "Update", str(saID), 'DUWL_Receive')
+                    #self.view.auditor(currentTech, "Update", str(saID), 'DUWL_Receive')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")
@@ -2398,7 +2412,7 @@ class CultureResultForm(QMainWindow):
     @throwsViewableException
     def addRowAerobic(self):
         self.aeTWid.setRowCount(self.aeTWid.rowCount()+1)
-        self.aerobicTable.append(['Alpha-Hemolytic Streptococcus'])
+        self.aerobicTable.append([self.swap.get('Aerobic', 'word')[0]])
         bacteria = IndexedComboBox(self.aeTWid.rowCount()-1, 0, self, True)
         bacteria.installEventFilter(self)
         bacteria.addItems(self.aerobicList)
@@ -2414,7 +2428,7 @@ class CultureResultForm(QMainWindow):
     @throwsViewableException
     def addRowAnaerobic(self):
         self.anTWid.setRowCount(self.anTWid.rowCount()+1)
-        self.anaerobicTable.append(['Actinobacillus Actinomycetemcomitians'])
+        self.anaerobicTable.append([self.swap.get('Anaerobic', 'word')[0]])
         bacteria = IndexedComboBox(self.anTWid.rowCount()-1, 0, self, False)
         bacteria.installEventFilter(self)
         bacteria.addItems(self.anaerobicList)
@@ -2578,7 +2592,7 @@ class CultureResultForm(QMainWindow):
                     self.errorMessage.setText("Saved Culture Result Form: " + self.saID.text())
                     self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage2.setText("Saved Culture Result Form: " + self.saID.text())
-                    self.view.auditor(currentTech, "Update", self.saID.text(), 'Culture_Result')
+                    #self.view.auditor(currentTech, "Update", self.saID.text(), 'Culture_Result')
                     return True
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -2595,7 +2609,6 @@ class CultureResultForm(QMainWindow):
 
     @throwsViewableException
     def handleDirectSmearPressed(self):
-        #self.handleSavePressed()
         self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_smear_template.docx'
         dst = self.view.tempify(template)
@@ -2618,7 +2631,6 @@ class CultureResultForm(QMainWindow):
     
     @throwsViewableException
     def handlePreliminaryPressed(self):
-        #self.handleSavePressed()
         self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_prelim_template.docx'
         dst = self.view.tempify(template)
@@ -2639,7 +2651,7 @@ class CultureResultForm(QMainWindow):
         )
         document.write(dst)
         context = {
-            'headers' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
+            'headers' : ['Aerotolerant Bacteria']+self.aerobicTable[0][1:],
             'servers': []
         }
         for i in range(1, len(self.aerobicTable)):
@@ -2650,7 +2662,6 @@ class CultureResultForm(QMainWindow):
         self.view.convertAndPrint(dst)
 
     def handlePerioPressed(self):
-        #self.handleSavePressed()
         self.saID.setEnabled(False)
         template = str(Path().resolve())+r'\templates\culture_results_template.docx'
         dst = self.view.tempify(template)
@@ -2670,15 +2681,12 @@ class CultureResultForm(QMainWindow):
             techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
         )
         document.write(dst)
-        #aerobic
-        #print(self.aerobicTable[0][1:])
         context = {
-            'headers1' : ['Aerobic Bacteria']+self.aerobicTable[0][1:],
+            'headers1' : ['Aerotolerant Bacteria']+self.aerobicTable[0][1:],
             'headers2' : ['Anaerobic Bacteria']+self.anaerobicTable[0][1:],
             'servers1': [],
             'servers2': []
         }
-        print(self.aerobicTable)
         for i in range(1, len(self.aerobicTable)):
             context['servers1'].append(self.aerobicTable[i])
         for i in range(1, len(self.anaerobicTable)):
@@ -2897,7 +2905,7 @@ class CATResultForm(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
-                        self.view.auditor(currentTech, "Update", self.saID.text(), 'CAT_Result')
+                        #self.view.auditor(currentTech, "Update", self.saID.text(), 'CAT_Result')
                         return True
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
@@ -2945,15 +2953,13 @@ class CATResultForm(QMainWindow):
 
     @throwsViewableException
     def handlePrintPressed(self):
-        #self.handleSavePressed()
         template = str(Path().resolve())+r'\templates\cat_results_template.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
-        #print(self.saID.text()[0:2] + "-" + self.saID.text()[2:6])
         clinician = self.clinDrop.currentText().split(', ')
         document.merge(
             saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-            patientName=f'{self.fName.text()}, {self.lName.text()}',
+            patientName=f'{self.fName.text()} {self.lName.text()}',
             clinicianName=clinician[1] + " " + clinician[0],
             collected=self.view.fSlashDate(self.sample[15]),
             received=self.view.fSlashDate(self.sample[16]),
@@ -3135,7 +3141,7 @@ class DUWLResultForm(QMainWindow):
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Saved DUWL Result Form: " + str(saID)) 
                     self.save.setEnabled(False)
-                    self.view.auditor(currentTech, "Update", saID, 'DUWL_Result')
+                    #self.view.auditor(currentTech, "Update", saID, 'DUWL_Result')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")
@@ -3200,10 +3206,6 @@ class DUWLResultForm(QMainWindow):
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
-        #print(self.kitList)
-        #clini = self.view.entries[self.clinDrop.currentText()]['db']
-        #print(clini)
-        #print(self.sample[0])
         clinician = self.model.findClinician(self.sample[0])
         document.merge(
             reported=self.view.fSlashDate(self.repDate.date()),

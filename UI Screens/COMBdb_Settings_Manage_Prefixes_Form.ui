@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1531</width>
-    <height>976</height>
+    <width>1051</width>
+    <height>811</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -260,7 +260,7 @@ border-width: 1px</string>
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
               <property name="sortingEnabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <column>
                <property name="text">
@@ -333,6 +333,9 @@ border-width: 1px</string>
               </property>
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
               </property>
               <column>
                <property name="text">
@@ -424,6 +427,9 @@ border-width: 1px</string>
               <property name="gridStyle">
                <enum>Qt::SolidLine</enum>
               </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
               <property name="cornerButtonEnabled">
                <bool>true</bool>
               </property>
@@ -434,7 +440,7 @@ border-width: 1px</string>
                <bool>true</bool>
               </attribute>
               <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-               <bool>false</bool>
+               <bool>true</bool>
               </attribute>
               <attribute name="horizontalHeaderStretchLastSection">
                <bool>false</bool>

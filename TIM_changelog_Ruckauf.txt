@@ -417,5 +417,46 @@
 - Added username lookup to manage technicians that will stop the same username from being created twice
 
 11/18/22
-- Fixed a couple bugs that came with the new tech lookup
-- 
+- Fixed a couple bugs that came with the new tech lookup query
+- Added more hashing to update tech and create tech password fields
+- Continued working on advanced search
+- Added advanced lookup queries
+
+11/21/22
+- Continued working on advanced search
+- Tweaked queries
+- Edited some ui elements as well as the lookup table
+
+11/23/22
+- Continued working on advanced search
+- Started beautifying template for rejection log
+
+11/25/22
+11/26/22
+11/28/22
+- Edited the QA Report and Rejection Log templates
+- Adjusted the way qa report is printed to allow for sorting
+- Added sorting to qa report table
+- Added sorting to rejection log table
+- Adjusted how rejection log prints to allow printout to match table if sorted
+
+11/29/22
+- Continued working on advanced lookup
+- Researched how to do query filtering
+- Tested some filtering methods for the queries in advanced lookup
+- Made some edits to culture results template
+- Made edits to DUWL template
+
+11/30/22
+- Continued work on advanced lookup
+- Researched ways of having the audit log write to a single file on a shared network
+- Started working on edits from Shannon and Eric
+
+12/1/22
+- Edited templates to fit needs of Shannon and Eric
+- Tried to recreate bacteria bug
+- Edited some UI screens
+
+12/2/22
+
+

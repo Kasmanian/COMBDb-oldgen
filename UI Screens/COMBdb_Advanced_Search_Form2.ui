@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>459</width>
-    <height>679</height>
+    <height>681</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -269,7 +269,7 @@ border-width: 1px</string>
          </widget>
         </item>
         <item row="1" column="2" colspan="2">
-         <widget class="QLineEdit" name="saIDStart">
+         <widget class="QLineEdit" name="saID">
           <property name="minimumSize">
            <size>
             <width>200</width>
@@ -307,25 +307,52 @@ border-width: 1px</string>
         </property>
        </spacer>
       </item>
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="find">
-        <property name="minimumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>81</width>
-          <height>31</height>
-         </size>
+        <property name="topMargin">
+         <number>0</number>
         </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
+        <property name="rightMargin">
+         <number>0</number>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton:hover {
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="find">
+          <property name="minimumSize">
+           <size>
+            <width>81</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>81</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover {
 	 background-color: rgb(210, 210, 210);
 }
 
@@ -336,11 +363,77 @@ QPushButton:focus {
 QPushButton {
 	background-color: rgb(193, 193, 193);
 }</string>
-        </property>
-        <property name="text">
-         <string> Search</string>
-        </property>
-       </widget>
+          </property>
+          <property name="text">
+           <string> Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="clear">
+          <property name="minimumSize">
+           <size>
+            <width>81</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>81</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover {
+	 background-color: rgb(210, 210, 210);
+}
+
+QPushButton:focus {
+	background-color: rgb(210, 210, 210);
+}
+
+QPushButton {
+	background-color: rgb(193, 193, 193);
+}</string>
+          </property>
+          <property name="text">
+           <string>Clear</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="verticalSpacer">
@@ -386,7 +479,7 @@ QPushButton {
          </spacer>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="searchTable">
           <property name="minimumSize">
            <size>
             <width>425</width>
@@ -403,6 +496,12 @@ QPushButton {
            <string notr="true">background-color: rgb(240, 240, 240);
 border-style: solid;
 border-width: 1px</string>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <column>
            <property name="text">

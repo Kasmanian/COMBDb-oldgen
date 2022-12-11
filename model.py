@@ -137,6 +137,12 @@ class Model:
     return cursor.fetchone()
 
   @__usesCursor
+  def findSamples(self, cursor, table, sampleID, first, last, clinician, columns):
+    query = f'SELECT {columns} FROM {table} WHERE SampleID=? OR First=? OR Last=? OR Clinician=?'
+    cursor.execute(query, sampleID, first, last, clinician)
+    return cursor.fetchall()
+
+  @__usesCursor
   def findSampleNumbers(self, cursor, table, columns):
     query = f'SELECT {columns} FROM {table}'
     cursor.execute(query)
