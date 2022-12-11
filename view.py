@@ -1366,7 +1366,7 @@ class CultureOrderForm(QMainWindow):
     @throwsViewableException
     def handlePrintPressed(self): 
         if self.type.currentText()!='Caries':
-            template = str(Path().resolve())+r'\templates\culture_worksheet_template3.docx'
+            template = str(Path().resolve())+r'\templates\culture_worksheet_template4.docx'
             dst = self.view.tempify(template)
             document = MailMerge(template)
             clinician=self.clinDrop.currentText().split(', ')
