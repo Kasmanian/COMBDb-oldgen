@@ -351,6 +351,112 @@
 - Started researching audit logging
 - Built a prototype audit log that writes to a text file the tech, action, saID, type, and date/time
 
-
 10/9/22
 - Created new class to handle prefix conversion w/ Kas
+
+10/10/22
+10/11/22
+10/12/22
+10/13/22
+10/14/22
+10/16/22
+10/17/22
+
+11/1/22
+- Adjusted rejection log UI to be more dynamic
+- Worked more on audit log, specifically researched ways to archive files
+
+11/2/22
+- Created basic Rejection Log template that will be printable - need to beautify
+- Added print button to rejection log ui
+- Added print function, but its not printing yet
+- Worked on trying to read data into template
+
+11/3/22
+- Continued working on getting the rejection log table to print to a PDF
+- Finished conversion of antibiotics to entry numbers using prefix graph functionality - condense data, easy referencing
+- Rejection log template prints to pdf successfully
+
+11/4/22
+- Formatted rejection log template to better fit contents
+- Started brainstorming QA Report functionality
+- Started coding prototype advanced search 
+
+11/7/22
+- Fixed rejection log printout printing sample id's out of order
+- started working on QA Report functionality
+
+11/9/22
+- Started working on QA Report
+- Added push button to admin home screen which opens the new QA Report screen
+- Created QA Report screen that mimics the rejection log screen
+- Added two QDateEdits to show which dates we are searching between
+
+11/10/22
+- Stated working on writing queries to pull data from access
+- Designed table to have 6 columns for all necessary information
+- Spent most of the time trying to read in dates as variables into the queries - giving me a hard time
+
+11/11/22
+- QA Report table shows all data
+- Got the query to work to be able to parse Access data based on date
+- Started working on a printable template
+- Started incorporating print functionality
+
+11/14/22
+- Added text to show current connected filepath for database in Set File Path ui
+- Continued working on Audit log functionality
+
+11/15/22
+- Continued working on Audit log functionality
+- Updated COMBdb Project Plan documentation
+- Spent time researching file compression
+
+11/16/22
+- Bug fixes on QA Report
+- Added username lookup to manage technicians that will stop the same username from being created twice
+
+11/18/22
+- Fixed a couple bugs that came with the new tech lookup query
+- Added more hashing to update tech and create tech password fields
+- Continued working on advanced search
+- Added advanced lookup queries
+
+11/21/22
+- Continued working on advanced search
+- Tweaked queries
+- Edited some ui elements as well as the lookup table
+
+11/23/22
+- Continued working on advanced search
+- Started beautifying template for rejection log
+
+11/25/22
+11/26/22
+11/28/22
+- Edited the QA Report and Rejection Log templates
+- Adjusted the way qa report is printed to allow for sorting
+- Added sorting to qa report table
+- Added sorting to rejection log table
+- Adjusted how rejection log prints to allow printout to match table if sorted
+
+11/29/22
+- Continued working on advanced lookup
+- Researched how to do query filtering
+- Tested some filtering methods for the queries in advanced lookup
+- Made some edits to culture results template
+- Made edits to DUWL template
+
+11/30/22
+- Continued work on advanced lookup
+- Researched ways of having the audit log write to a single file on a shared network
+- Started working on edits from Shannon and Eric
+
+12/1/22
+- Edited templates to fit needs of Shannon and Eric
+- Tried to recreate bacteria bug
+- Edited some UI screens
+
+12/2/22
+
+

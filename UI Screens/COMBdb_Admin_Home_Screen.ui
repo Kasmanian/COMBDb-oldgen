@@ -209,6 +209,57 @@ QPushButton {
         </property>
        </spacer>
       </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="qaReport">
+        <property name="minimumSize">
+         <size>
+          <width>221</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>221</width>
+          <height>41</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
+	 background-color: rgb(210, 210, 210);
+}
+
+QPushButton:focus {
+	background-color: rgb(210, 210, 210);
+}
+
+QPushButton {
+	background-color: rgb(193, 193, 193);
+}</string>
+        </property>
+        <property name="text">
+         <string>QA Report</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_9">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>8</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="topMargin">

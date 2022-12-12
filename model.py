@@ -125,10 +125,22 @@ class Model:
     return cursor.fetchall()
 
   @__usesCursor
+  def findSamplesQA(self, cursor, table, columns, fromDate, toDate):
+    query = f'SELECT {columns} FROM {table} WHERE [Received] BETWEEN #{fromDate}# AND #{toDate}#'
+    cursor.execute(query)
+    return cursor.fetchall()
+
+  @__usesCursor
   def findSample(self, cursor, table, sampleID, columns):
     query = f'SELECT {columns} FROM {table} WHERE SampleID=?'
     cursor.execute(query, sampleID)
     return cursor.fetchone()
+
+  @__usesCursor
+  def findSamples(self, cursor, table, sampleID, first, last, clinician, columns):
+    query = f'SELECT {columns} FROM {table} WHERE SampleID=? OR First=? OR Last=? OR Clinician=?'
+    cursor.execute(query, sampleID, first, last, clinician)
+    return cursor.fetchall()
 
   @__usesCursor
   def findSampleNumbers(self, cursor, table, columns):
@@ -152,6 +164,12 @@ class Model:
   def findTech(self, cursor, entry, columns):
     query = f'SELECT {columns} FROM Techs WHERE Entry=?'
     cursor.execute(query, entry)
+    return cursor.fetchone()
+
+  @__usesCursor
+  def findTechUsername(self, cursor, username):
+    query = f'SELECT Entry FROM Techs WHERE Username=?'
+    cursor.execute(query, username)
     return cursor.fetchone()
 
   @__usesCursor
