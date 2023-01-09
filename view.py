@@ -1272,6 +1272,7 @@ class CultureOrderForm(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Sample ID may only contain numbers")
             return
+        #self.sample = self.advancedSearch.queryData
         self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
         if self.sample is None:
             self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
@@ -1280,6 +1281,7 @@ class CultureOrderForm(QMainWindow):
                 self.saID.setText('xxxxxx')
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Sample ID not found")
+        #print(self.sample)
         if self.sample is not None:
             if self.sample[10] != None:
                 self.rejectionError.setText("(REJECTED)")
