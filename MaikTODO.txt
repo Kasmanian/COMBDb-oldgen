@@ -21,3 +21,24 @@ Needs Fixing
 
 TODO:
 
+Actions that should be tracked in audit log:
+
+login
+create new order
+search order
+edit existing order
+create new clinician
+edit clinician
+create new tech
+edit tech
+print order
+view rejection log
+print rejection log
+view qa report
+print qa report
+add prefix
+edit prefix
+change database path
+
+
+

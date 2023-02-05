@@ -701,6 +701,41 @@ border-width: 1px</string>
               </property>
              </spacer>
             </item>
+            <item row="1" column="3">
+             <widget class="QPushButton" name="find2">
+              <property name="minimumSize">
+               <size>
+                <width>21</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>21</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:hover {
+	 background-color: rgb(210, 210, 210);
+}
+
+QPushButton:focus {
+	background-color: rgb(210, 210, 210);
+}
+
+QPushButton {
+	background-color: rgb(193, 193, 193);
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
