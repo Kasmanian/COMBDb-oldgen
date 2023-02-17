@@ -103,8 +103,8 @@ class View:
         self.widget.addWidget(rejectionLogForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showAdvancedSearchScreen(self, cultureOrderForm):
-        self.advancedOrderScreen = AdvancedOrderScreen(self.model, self, cultureOrderForm)
+    def showAdvancedSearchScreen(self, orderForm, selector):
+        self.advancedOrderScreen = AdvancedOrderScreen(self.model, self, orderForm, selector)
         self.advancedOrderScreen.show()
 
     def showCultureOrderNav(self):
@@ -1094,12 +1094,15 @@ class CultureOrderNav(QMainWindow):
         self.close()
 
 class AdvancedOrderScreen(QMainWindow):
-    def __init__(self, model, view, cultureOrderForm):
+    def __init__(self, model, view, orderForm, selector):
         super(AdvancedOrderScreen, self).__init__()
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        self.cultureOrderForm = cultureOrderForm
+        self.orderForm = orderForm
+        self.selector = selector
+        print(self.orderForm)
+        print(self.selector)
         loadUi("UI Screens/COMBdb_Advanced_Search_Form2.ui", self)
 
         #define button icons and method invokations for buttons & table
@@ -1121,24 +1124,54 @@ class AdvancedOrderScreen(QMainWindow):
 
     @throwsViewableException
     def handleSearchPressed(self): #write in the queries that will handle searching with multiple parameters
-        sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
-        clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
-        if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "":
-            return
-        #query all orders between dates
-        inputs = {"SampleID" : sampleID if sampleID != 0 else None, "First" : self.fName.text() if self.fName.text() != "" else None, "Last" : self.lName.text() if self.lName.text() != "" else None, "Clinician" : clin if clin != 0 else None}
-        cultures = self.model.findSamples('Cultures', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-        cats = self.model.findSamples('CATs', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-        self.results = cultures + cats
-        self.results = sorted(self.results, key=lambda x: x[0])
+
+        if self.selector == "cultureOrder":
+
+            sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+            clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+            if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "": #this will fail for classes that dont use first and last name
+                return
+            #query all orders between dates
+            inputs = {"SampleID" : sampleID if sampleID != 0 else None, "First" : self.fName.text() if self.fName.text() != "" else None, "Last" : self.lName.text() if self.lName.text() != "" else None, "Clinician" : clin if clin != 0 else None}
+            cultures = self.model.findSamples('Cultures', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            cats = self.model.findSamples('CATs', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            self.results = cultures + cats
+            self.results = sorted(self.results, key=lambda x: x[0])
+            
+            #write query results into searchTable
+            self.initializeTable(self.results)
+
+        elif self.selector == "duwlOrder":
+            print("duwlOrder was added")
+        elif self.selector == "duwlReceive":
+            print("duwlReceive was added")
+        elif self.selector == "cultureResult":
+            print('cultureResult was added')
+
+            sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+            clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+            if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "": #this will fail for classes that dont use first and last name
+                return
+            inputs = {"SampleID" : sampleID if sampleID != 0 else None, "First" : self.fName.text() if self.fName.text() != "" else None, "Last" : self.lName.text() if self.lName.text() != "" else None, "Clinician" : clin if clin != 0 else None}
+            self.results = self.model.findSamples('Cultures', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Tech], [Collected], [Received], [Reported], [Type], [Direct Smear], [Aerobic Results], [Anaerobic Results], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            self.initializeTable(self.results)
+
+        elif self.selector == "catResult":
+            print("catResult was added")
+        elif self.selector == "duwlResult":
+            print("duwlResult was added")
+        else:
+            print("Could not add order")
+
+    # function that loads data into search table
+    def initializeTable(self, results):
         self.searchTable.setRowCount(len(self.results))
-        #write query results into searchTable
-        for i in range(0, len(self.results)):
-            self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][0])))
-            self.searchTable.setItem(i, 1, QTableWidgetItem(str(self.results[i][3]) + " " + str(self.results[i][4])))
-            clinician = self.model.findClinician(self.results[i][2])
+        for i in range(0, len(results)):
+            self.searchTable.setItem(i, 0, QTableWidgetItem(str(results[i][0])))
+            self.searchTable.setItem(i, 1, QTableWidgetItem(str(results[i][3]) + " " + str(results[i][4])))
+            clinician = self.model.findClinician(results[i][2])
             self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
-            self.searchTable.setItem(i, 3, QTableWidgetItem(str(self.results[i][5])))
+            self.searchTable.setItem(i, 3, QTableWidgetItem(str(results[i][5])))
 
     @throwsViewableException
     def handleOrderSelected(self):
@@ -1148,29 +1181,24 @@ class AdvancedOrderScreen(QMainWindow):
     def handleAddPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        self.cultureOrderForm.handleClearPressed()
-        self.cultureOrderForm.rejectedCheckBox.setEnabled(True)
-        self.cultureOrderForm.saID.setEnabled(False)
-        self.cultureOrderForm.type.setEnabled(False)
+
         self.sample = self.results[self.searchTable.currentRow()]
-        self.cultureOrderForm.saID.setText(str(self.sample[0]))
-        self.cultureOrderForm.chID.setText(str(self.sample[1]))
-        clinician = self.model.findClinician(self.sample[2])
-        clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-        self.cultureOrderForm.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
-        self.cultureOrderForm.fName.setText(self.sample[3])
-        self.cultureOrderForm.lName.setText(self.sample[4])
-        self.cultureOrderForm.type.setCurrentIndex(self.cultureOrderForm.type.findText(self.sample[5]))
-        self.cultureOrderForm.colDate.setDate(self.view.dtToQDate(self.sample[6]))
-        self.cultureOrderForm.recDate.setDate(self.view.dtToQDate(self.sample[7]))
-        self.cultureOrderForm.cText.setText(self.sample[8])
-        self.cultureOrderForm.nText.setText(self.sample[9])
-        self.cultureOrderForm.rejectedMessage.setText(self.sample[11])
-        self.cultureOrderForm.msg = self.sample[11]
-        if self.sample[11] != None:
-            self.cultureOrderForm.rejectionError.setText("(REJECTED)")
-            self.cultureOrderForm.rejectedCheckBox.setChecked(True)
-            self.cultureOrderForm.handleRejectedPressed()
+
+        if self.selector == "cultureOrder":
+            #CultureOrderForm.handleSearchPressed(self.sample)
+            pass
+        elif self.selector == "duwlOrder":
+            print("duwlOrder was added")
+        elif self.selector == "duwlReceive":
+            print("duwlReceive was added")
+        elif self.selector == "cultureResult":
+            print('cultureResult was added')
+        elif self.selector == "catResult":
+            print("catResult was added")
+        elif self.selector == "duwlResult":
+            print("duwlResult was added")
+        else:
+            print("Could not add order")
         self.close()
 
     @throwsViewableException
@@ -1187,7 +1215,7 @@ class AdvancedOrderScreen(QMainWindow):
 
     @throwsViewableException
     def timerEvent(self):
-        self.cultureOrderForm.errorMessage.setText("")
+        self.orderForm.errorMessage.setText("")
     
 
 class CultureOrderForm(QMainWindow):
@@ -1297,7 +1325,7 @@ class CultureOrderForm(QMainWindow):
 
     @throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self)
+        self.view.showAdvancedSearchScreen(self, "cultureOrder")
 
     @throwsViewableException
     def handleBackPressed(self):
@@ -1711,7 +1739,7 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self)
+        self.view.showAdvancedSearchScreen(self, "duwlOrder")
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -2021,7 +2049,7 @@ class DUWLReceiveForm(QMainWindow):
 
     @throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self)
+        self.view.showAdvancedSearchScreen(self, "duwlReceive")
 
     @throwsViewableException
     def activateRemove(self):
@@ -2353,7 +2381,7 @@ class CultureResultForm(QMainWindow):
 
     @throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self)
+        self.view.showAdvancedSearchScreen(self, "cultureResult")
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -2867,7 +2895,7 @@ class CATResultForm(QMainWindow):
 
     @throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self)
+        self.view.showAdvancedSearchScreen(self, "catResult")
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
@@ -3114,7 +3142,7 @@ class DUWLResultForm(QMainWindow):
 
     @throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self)
+        self.view.showAdvancedSearchScreen(self, "duwlResult")
 
     @throwsViewableException
     def handleAddNewClinicianPressed(self):
