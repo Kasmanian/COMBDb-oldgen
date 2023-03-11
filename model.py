@@ -137,9 +137,19 @@ class Model:
     return cursor.fetchone()
 
   @__usesCursor
-  def findSamples(self, cursor, table, sampleID, first, last, clinician, columns):
-    query = f'SELECT {columns} FROM {table} WHERE SampleID=? OR First=? OR Last=? OR Clinician=?'
-    cursor.execute(query, sampleID, first, last, clinician)
+  def findSamples(self, cursor, table, inputs, columns):
+    dynamicString = "WHERE "
+    counter = 0
+    for key, value in inputs.items():
+      if counter > 0:
+        dynamicString += " AND " if value is not None else ""
+      if key != "Clinician" and key != "SampleID":
+        dynamicString += f"{key}='{value}'" if value is not None else ""
+      else:
+        dynamicString += f"{key}={value}" if value is not None else ""
+      counter += 1 if value is not None else 0
+    query = f'SELECT {columns} FROM {table} {dynamicString}'
+    cursor.execute(query)
     return cursor.fetchall()
 
   @__usesCursor

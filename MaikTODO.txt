@@ -21,3 +21,57 @@ Needs Fixing
 
 TODO:
 
+Actions that should be tracked in audit log:
+
+login
+create new order
+search order
+edit existing order
+create new clinician
+edit clinician
+create new tech
+edit tech
+print order
+view rejection log
+print rejection log
+view qa report
+print qa report
+add prefix
+edit prefix
+change database paths
+
+Advanced Search
+
+- Culture Order -- COMPLETE
+    - Sample ID
+    - Clinician
+    - First Name
+    - Last Name
+
+- DUWL Order
+    - Sample ID
+    - Clinician
+
+- DUWL Receive
+    - Sample ID
+    - Clinician
+
+- Culture Receive
+    - Sample ID
+    - Clinician
+    - First Name
+    - Last Name
+
+- CAT Receive
+    - Sample ID
+    - Clinician
+    - First Name
+    - Last Name
+
+- DUWL Receive
+    - Sample ID
+    - Clinician
+
+Instead of rewriting the add functions for all classes, just call the search function of the class and pass in the results that were queried
+
+
