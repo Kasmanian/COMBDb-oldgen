@@ -16,6 +16,8 @@ import re
 def passPrintPrompt(boolean):
         pass
 
+# THIS IS A TEST COMMENT
+
 class View:
     def __init__(self, model, testMode=False):
         self.model = model
