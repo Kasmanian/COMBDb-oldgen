@@ -1101,8 +1101,6 @@ class AdvancedOrderScreen(QMainWindow):
         self.timer = QTimer(self)
         self.orderForm = orderForm
         self.selector = selector
-        print(self.orderForm)
-        print(self.selector)
         loadUi("UI Screens/COMBdb_Advanced_Search_Form2.ui", self)
 
         #define button icons and method invokations for buttons & table
@@ -1122,81 +1120,149 @@ class AdvancedOrderScreen(QMainWindow):
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
 
+        if self.selector == "duwlOrder" or self.selector == "duwlReceive" or self.selector == "duwlResult":
+            self.fName.setEnabled(False)
+            self.fName.setText("Not searchable")
+            self.lName.setEnabled(False)
+            self.lName.setText("Not searchable")
+
     @throwsViewableException
     def handleSearchPressed(self): #write in the queries that will handle searching with multiple parameters
-
         if self.selector == "cultureOrder":
-
+            #Set search parameters
             sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
             clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
-            if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "": #this will fail for classes that dont use first and last name
+            if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "":
                 return
-            #query all orders between dates
             inputs = {"SampleID" : sampleID if sampleID != 0 else None, "First" : self.fName.text() if self.fName.text() != "" else None, "Last" : self.lName.text() if self.lName.text() != "" else None, "Clinician" : clin if clin != 0 else None}
+            #Query data, join and sort
             cultures = self.model.findSamples('Cultures', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
             cats = self.model.findSamples('CATs', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
             self.results = cultures + cats
             self.results = sorted(self.results, key=lambda x: x[0])
-            
-            #write query results into searchTable
-            self.initializeTable(self.results)
+            #Initialize table
+            self.searchTable.setRowCount(len(self.results))
+            for i in range(0, len(self.results)):
+                self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][0])))
+                self.searchTable.setItem(i, 1, QTableWidgetItem(str(self.results[i][3]) + " " + str(self.results[i][4])))
+                clinician = self.model.findClinician(self.results[i][2])
+                self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+                self.searchTable.setItem(i, 3, QTableWidgetItem(str(self.results[i][5])))
 
         elif self.selector == "duwlOrder":
-            print("duwlOrder was added")
-        elif self.selector == "duwlReceive":
-            print("duwlReceive was added")
-        elif self.selector == "cultureResult":
-            print('cultureResult was added')
+            #Set search parameters
+            sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+            clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+            if sampleID == 0 and clin == 0:
+                return
+            inputs = {"SampleID" : sampleID if sampleID != 0 else None, "Clinician" : clin if clin != 0 else None}
+            #Query data, join and sort
+            self.results = self.model.findSamples('Waterlines', inputs, '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason], [SampleID]')
+            #Initialize table
+            self.searchTable.setRowCount(len(self.results))
+            for i in range(0, len(self.results)):
+                self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][6])))
+                self.searchTable.setItem(i, 1, QTableWidgetItem("N/A"))
+                clinician = self.model.findClinician(self.results[i][0])
+                self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+                self.searchTable.setItem(i, 3, QTableWidgetItem("Waterline"))
 
+        elif self.selector == "duwlReceive":
+            #Set search parameters
+            sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+            clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+            if sampleID == 0 and clin == 0:
+                return
+            inputs = {"SampleID" : sampleID if sampleID != 0 else None, "Clinician" : clin if clin != 0 else None}
+            #Query data, join and sort
+            self.results = self.model.findSamples('Waterlines', inputs, '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason], [SampleID]')
+            #Initialize table
+            self.searchTable.setRowCount(len(self.results))
+            for i in range(0, len(self.results)):
+                self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][10])))
+                self.searchTable.setItem(i, 1, QTableWidgetItem("N/A"))
+                clinician = self.model.findClinician(self.results[i][0])
+                self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+                self.searchTable.setItem(i, 3, QTableWidgetItem("Waterline"))
+
+        elif self.selector == "cultureResult":
+            #Set search parameters
             sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
             clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
             if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "": #this will fail for classes that dont use first and last name
                 return
             inputs = {"SampleID" : sampleID if sampleID != 0 else None, "First" : self.fName.text() if self.fName.text() != "" else None, "Last" : self.lName.text() if self.lName.text() != "" else None, "Clinician" : clin if clin != 0 else None}
-            self.results = self.model.findSamples('Cultures', inputs, '[SampleID], [ChartID], [Clinician], [First], [Last], [Tech], [Collected], [Received], [Reported], [Type], [Direct Smear], [Aerobic Results], [Anaerobic Results], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-            self.initializeTable(self.results)
+            #Query data
+            self.results = self.model.findSamples('Cultures', inputs, '[ChartID], [Clinician], [First], [Last], [Tech], [Collected], [Received], [Reported], [Type], [Direct Smear], [Aerobic Results], [Anaerobic Results], [Comments], [Notes], [Rejection Date], [Rejection Reason], [SampleID]')
+            #Initialize table
+            self.searchTable.setRowCount(len(self.results))
+            for i in range(0, len(self.results)):
+                self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][16])))
+                self.searchTable.setItem(i, 1, QTableWidgetItem(str(self.results[i][2]) + " " + str(self.results[i][3])))
+                clinician = self.model.findClinician(self.results[i][1])
+                self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+                self.searchTable.setItem(i, 3, QTableWidgetItem(str(self.results[i][8])))
 
         elif self.selector == "catResult":
-            print("catResult was added")
+            #Set search parameters
+            sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+            clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+            if sampleID == 0 and clin == 0 and self.fName.text() == "" and self.lName.text() == "": #this will fail for classes that dont use first and last name
+                return
+            inputs = {"SampleID" : sampleID if sampleID != 0 else None, "First" : self.fName.text() if self.fName.text() != "" else None, "Last" : self.lName.text() if self.lName.text() != "" else None, "Clinician" : clin if clin != 0 else None}
+            #Query data
+            self.results = self.model.findSamples('CATs', inputs, '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received], [Rejection Date], [Rejection Reason], [SampleID]')
+            #Initialize table
+            self.searchTable.setRowCount(len(self.results))
+            for i in range(0, len(self.results)):
+                self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][19])))
+                self.searchTable.setItem(i, 1, QTableWidgetItem(str(self.results[i][1]) + " " + str(self.results[i][2])))
+                clinician = self.model.findClinician(self.results[i][0])
+                self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+                self.searchTable.setItem(i, 3, QTableWidgetItem(str(self.results[i][5])))
+
         elif self.selector == "duwlResult":
-            print("duwlResult was added")
+            #Set search parameters
+            sampleID = int(self.saID.text()) if self.saID.text() != "" else 0
+            clin = self.view.entries[self.clinDrop.currentText()]['db'] if self.clinDrop.currentText() != "" else 0
+            if sampleID == 0 and clin == 0:
+                return
+            inputs = {"SampleID" : sampleID if sampleID != 0 else None, "Clinician" : clin if clin != 0 else None}
+            #Query data, join and sort
+            self.results = self.model.findSamples('Waterlines', inputs, '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes], [Rejection Date], [Rejection Reason], [SampleID]')
+            #Initialize table
+            self.searchTable.setRowCount(len(self.results))
+            for i in range(0, len(self.results)):
+                self.searchTable.setItem(i, 0, QTableWidgetItem(str(self.results[i][8])))
+                self.searchTable.setItem(i, 1, QTableWidgetItem("N/A"))
+                clinician = self.model.findClinician(self.results[i][0])
+                self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+                self.searchTable.setItem(i, 3, QTableWidgetItem("Waterline"))
+
         else:
             print("Could not add order")
 
-    # function that loads data into search table
-    def initializeTable(self, results):
-        self.searchTable.setRowCount(len(self.results))
-        for i in range(0, len(results)):
-            self.searchTable.setItem(i, 0, QTableWidgetItem(str(results[i][0])))
-            self.searchTable.setItem(i, 1, QTableWidgetItem(str(results[i][3]) + " " + str(results[i][4])))
-            clinician = self.model.findClinician(results[i][2])
-            self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
-            self.searchTable.setItem(i, 3, QTableWidgetItem(str(results[i][5])))
+    # # function that loads data into search table
+    # def initializeTable(self, results):
+    #     self.searchTable.setRowCount(len(self.results))
+    #     for i in range(0, len(results)):
+    #         self.searchTable.setItem(i, 0, QTableWidgetItem(str(results[i][0])))
+    #         self.searchTable.setItem(i, 1, QTableWidgetItem(str(results[i][3]) + " " + str(results[i][4])))
+    #         clinician = self.model.findClinician(results[i][2])
+    #         self.searchTable.setItem(i, 2, QTableWidgetItem(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3])))
+    #         self.searchTable.setItem(i, 3, QTableWidgetItem(str(results[i][5])))
 
     @throwsViewableException
     def handleOrderSelected(self):
         self.add.setEnabled(True)
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleAddPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-
         self.sample = self.results[self.searchTable.currentRow()]
-
-        if self.selector == "cultureOrder":
-            #CultureOrderForm.handleSearchPressed(self.sample)
-            pass
-        elif self.selector == "duwlOrder":
-            print("duwlOrder was added")
-        elif self.selector == "duwlReceive":
-            print("duwlReceive was added")
-        elif self.selector == "cultureResult":
-            print('cultureResult was added')
-        elif self.selector == "catResult":
-            print("catResult was added")
-        elif self.selector == "duwlResult":
-            print("duwlResult was added")
+        if self.selector != None:
+            self.orderForm.handleSearchPressed(self.sample)
         else:
             print("Could not add order")
         self.close()
@@ -1279,47 +1345,51 @@ class CultureOrderForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    @throwsViewableException
-    def handleSearchPressed(self):
+    #@throwsViewableException
+    def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         self.rejectedCheckBox.setEnabled(True)
         self.saID.setEnabled(False)
         self.type.setEnabled(False)
-        if not self.saID.text().isdigit():
-            self.handleClearPressed()
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID may only contain numbers")
-            return
-        #self.sample = self.advancedSearch.queryData
-        self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-        if self.sample is None:
-            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-            if self.sample is None or len(self.saID.text()) != 6:
+        if data == False:
+            if not self.saID.text().isdigit():
                 self.handleClearPressed()
                 self.saID.setText('xxxxxx')
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID not found")
-        #print(self.sample)
+                self.errorMessage.setText("Sample ID may only contain numbers")
+                return
+            #self.sample = self.advancedSearch.queryData
+            self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            if self.sample is None:
+                self.sample = self.model.findSample('CATs', int(self.saID.text()), '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+                if self.sample is None or len(self.saID.text()) != 6:
+                    self.handleClearPressed()
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID not found")
+        else:
+            self.sample = data
+            self.saID.setText(str(self.sample[0]))
+            data = None
         if self.sample is not None:
-            if self.sample[10] != None:
+            if self.sample[11] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
                 self.handleRejectedPressed()
-            self.chID.setText(self.sample[0])
-            clinician = self.model.findClinician(self.sample[1])
+            self.chID.setText(self.sample[1])
+            clinician = self.model.findClinician(self.sample[2])
             clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
             self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
-            self.fName.setText(self.sample[2])
-            self.lName.setText(self.sample[3])
-            self.type.setCurrentIndex(self.type.findText(self.sample[4]))
-            self.colDate.setDate(self.view.dtToQDate(self.sample[5]))
-            self.recDate.setDate(self.view.dtToQDate(self.sample[6]))
-            self.cText.setText(self.sample[7])
-            self.nText.setText(self.sample[8])
-            self.rejectedMessage.setText(self.sample[10])
-            self.msg = self.sample[10]
+            self.fName.setText(self.sample[3])
+            self.lName.setText(self.sample[4])
+            self.type.setCurrentIndex(self.type.findText(self.sample[5]))
+            self.colDate.setDate(self.view.dtToQDate(self.sample[6]))
+            self.recDate.setDate(self.view.dtToQDate(self.sample[7]))
+            self.cText.setText(self.sample[8])
+            self.nText.setText(self.sample[9])
+            self.rejectedMessage.setText(self.sample[11])
+            self.msg = self.sample[11]
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
 
@@ -1762,21 +1832,27 @@ class DUWLOrderForm(QMainWindow):
         self.remove.setEnabled(True)
 
     @throwsViewableException
-    def handleSearchPressed(self):
+    def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if not self.saID.text().isdigit():
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID may only contain numbers")
-            return
-        self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason]')
-        saID = int(self.saID.text())
-        if self.sample is None or len(self.saID.text()) != 6:
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID not found")
+        if data == False:
+            if not self.saID.text().isdigit():
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID may only contain numbers")
+                return
+            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason]')
+            saID = int(self.saID.text())
+            if self.sample is None or len(self.saID.text()) != 6:
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID not found")
         else:
+            self.sample = data
+            self.saID.setText(str(self.sample[6]))
+            saID = int(self.saID.text())
+            data = None
+        if self.sample is not None:
             if self.sample[5] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
@@ -2080,21 +2156,27 @@ class DUWLReceiveForm(QMainWindow):
             self.rejectedMessage.clear()
 
     @throwsViewableException
-    def handleSearchPressed(self):
+    def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if not self.saID.text().isdigit():
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID may only contain numbers")
-            return
-        self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason]')
-        saID = int(self.saID.text())
-        if self.sample is None or len(self.saID.text()) != 6:
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID not found")
+        if data == False:
+            if not self.saID.text().isdigit():
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID may only contain numbers")
+                return
+            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason]')
+            saID = int(self.saID.text())
+            if self.sample is None or len(self.saID.text()) != 6:
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID not found")
         else:
+            self.sampleID = data
+            data = None
+            self.saID.setText(str(self.sampleID[10]))
+            saID = int(self.saID.text())
+        if self.sample is not None:
             if self.sample[9] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
@@ -2399,7 +2481,7 @@ class CultureResultForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    @throwsViewableException
+    #@throwsViewableException
     def initTables(self):
         self.aeTWid.setRowCount(0)
         self.aeTWid.setRowCount(len(self.aerobicTable))
@@ -2453,7 +2535,7 @@ class CultureResultForm(QMainWindow):
             return True
         return super(CultureResultForm, self).eventFilter(source, event)
 
-    @throwsViewableException
+    #@throwsViewableException
     def updateTable(self, kind, row, column):
         if kind:
             if row < len(self.aerobicTable):
@@ -2464,7 +2546,7 @@ class CultureResultForm(QMainWindow):
                 if column < len(self.anaerobicTable[row]):
                     self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
-    @throwsViewableException
+    #@throwsViewableException
     def resultToTable(self, result, type):
         if result is not None:
             result = result.replace(' / ', '|')
@@ -2497,7 +2579,7 @@ class CultureResultForm(QMainWindow):
         else:
             return [['Bacteria','Growth', 'PEN', 'AMP', 'CC', 'TET', 'CEP', 'ERY']]
 
-    @throwsViewableException
+    #@throwsViewableException
     def tableToResult(self, table, type):
         if len(table)>1 and len(table[0])>1:
             result = ''
@@ -2608,26 +2690,31 @@ class CultureResultForm(QMainWindow):
                 row.pop()
 
     @throwsViewableException
-    def handleSearchPressed(self):
+    def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if not self.saID.text().isdigit():
-            self.handleClearPressed()
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID may only contain numbers")
-            self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage2.setText("Sample ID may only contain numbers")
-            return
-        self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Tech], [Collected], [Received], [Reported], [Type], [Direct Smear], [Aerobic Results], [Anaerobic Results], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-        if self.sample is None or len(self.saID.text()) != 6:
-            self.handleClearPressed()
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID not found")
-            self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage2.setText("Sample ID not found")
+        if data == False:
+            if not self.saID.text().isdigit():
+                self.handleClearPressed()
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID may only contain numbers")
+                self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage2.setText("Sample ID may only contain numbers")
+                return
+            self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Tech], [Collected], [Received], [Reported], [Type], [Direct Smear], [Aerobic Results], [Anaerobic Results], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            if self.sample is None or len(self.saID.text()) != 6:
+                self.handleClearPressed()
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID not found")
+                self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage2.setText("Sample ID not found")
         else:
+            self.sample = data
+            self.saID.setText(str(self.sample[16]))
+            data = None
+        if self.sample is not None:
             if self.sample[15] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
@@ -2940,20 +3027,25 @@ class CATResultForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
     @throwsViewableException
-    def handleSearchPressed(self):
+    def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if not self.saID.text().isdigit():
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID must only contain numbers")
-            return
-        self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received], [Rejection Date], [Rejection Reason]')
-        if self.sample is None or len(self.saID.text()) != 6:
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID not found")
+        if data == False:
+            if not self.saID.text().isdigit():
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID must only contain numbers")
+                return
+            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received], [Rejection Date], [Rejection Reason]')
+            if self.sample is None or len(self.saID.text()) != 6:
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID not found")
         else:
+            self.sample = data
+            self.saID.setText(str(self.sample[19]))
+            data = None
+        if self.sample is not None:
             if self.sample[18] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
@@ -3185,22 +3277,27 @@ class DUWLResultForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
     @throwsViewableException
-    def handleSearchPressed(self):
+    def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if not self.saID.text().isdigit():
-            self.handleClearPressed()
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID must only contain numbers")
-            return
-        self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-        if self.sample is None or len(self.saID.text()) != 6:
-            self.handleClearPressed()
-            self.saID.setText('xxxxxx')
-            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-            self.errorMessage.setText("Sample ID not found")
+        if data == False:
+            if not self.saID.text().isdigit():
+                self.handleClearPressed()
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID must only contain numbers")
+                return
+            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            if self.sample is None or len(self.saID.text()) != 6:
+                self.handleClearPressed()
+                self.saID.setText('xxxxxx')
+                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setText("Sample ID not found")
         else:
+            self.sample = data
+            self.saID.setText(str(self.sample[8]))
+            data = None
+        if self.sample is not None:
             self.saID.setEnabled(False)
             if self.sample[7] != None:
                 self.rejectionError.setText("(REJECTED)")
