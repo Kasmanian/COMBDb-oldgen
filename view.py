@@ -16,7 +16,7 @@ import re
 def passPrintPrompt(boolean):
         pass
 
-# THIS IS A TEST COMMENT
+# This is a feature branch for the advanced search
 
 class View:
     def __init__(self, model, testMode=False):
