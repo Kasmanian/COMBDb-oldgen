@@ -2778,7 +2778,7 @@ class CultureResultForm(QMainWindow):
                     QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                 ):
-                    self.handleSearchPressed()
+                    self.handleSearchPressed(False)
                     #self.save.setEnabled(False)
                     self.clear.setEnabled(True)
                     self.printP.setEnabled(True)
