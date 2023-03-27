@@ -162,6 +162,7 @@ class View:
         self.web.setContextMenuPolicy(Qt.ActionsContextMenu)
         printAction = QAction('Print', self.web)
         printAction.triggered.connect(lambda: self.showPrintPrompt(path))
+        #printAction.triggered.connect(self.showPrintPrompt)
         self.web.addAction(printAction)
         self.web.load(QUrl.fromLocalFile(path))
         self.web.showMaximized()
