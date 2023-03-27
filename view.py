@@ -161,15 +161,16 @@ class View:
         self.web.setWindowTitle('Print Preview')
         self.web.setContextMenuPolicy(Qt.ActionsContextMenu)
         printAction = QAction('Print', self.web)
-        printAction.triggered.connect(self.showPrintPrompt)
+        printAction.triggered.connect(lambda: self.showPrintPrompt(path))
         self.web.addAction(printAction)
         self.web.load(QUrl.fromLocalFile(path))
         self.web.showMaximized()
 
-    def showPrintPrompt(self):
-        self.dialog = QtPrintSupport.QPrintDialog()
-        if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.web.page().print(self.dialog.printer(), passPrintPrompt)
+    def showPrintPrompt(self, path):
+        # self.dialog = QtPrintSupport.QPrintDialog()
+        # if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
+        #     self.web.page().print(self.dialog.printer(), passPrintPrompt)
+        os.startfile(path, "print")
 
     def convertAndPrint(self, path):
         try:
