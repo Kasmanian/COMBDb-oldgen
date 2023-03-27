@@ -133,4 +133,4 @@ templates/temp.pdf
 local.json
 
 # audit log files
-audit logs
+audit logs/*
