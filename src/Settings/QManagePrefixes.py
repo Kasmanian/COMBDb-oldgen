@@ -111,7 +111,7 @@ class QManagePrefixes(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Successfully added prefix: " + prefix + ":" + word + " to table: " + type)
-                self.view.auditor(QAdminLogin.currentTech, 'Edit', self.user.text(), 'Settings_Edit_Technician')
+                self.view.auditor(self.model.getCurrUser(), 'Edit', self.user.text(), 'Settings_Edit_Technician')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("An entry with that prefix or word already exists")

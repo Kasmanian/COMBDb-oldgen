@@ -164,7 +164,7 @@ class QDUWLReceive(QMainWindow):
                     self.nText.toPlainText(),
                     rejDate,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None,
-                    QAdminLogin.currentTech
+                    self.model.getCurrUser()
                 ):
                     clinician = self.clinDrop.currentText().split(', ')
                     self.kitList.append({
@@ -181,7 +181,7 @@ class QDUWLReceive(QMainWindow):
                     self.save.setEnabled(False)
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Saved DUWL Order: " + str(saID))
-                    self.view.auditor(QAdminLogin.currentTech, "Update", str(saID), 'DUWL_Receive')
+                    self.view.auditor(self.model.getCurrUser(), "Update", str(saID), 'DUWL_Receive')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")

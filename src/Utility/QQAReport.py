@@ -69,7 +69,7 @@ class QQAReport(QMainWindow): #TODO
                 self.qaReportTable.setItem(i, 5, QTableWidgetItem(str(numDays)))
             self.qaReportTable.sortItems(0,0)
             self.qaReportTable.resizeColumnsToContents()
-            self.view.auditor(QAdminLogin.currentTech, 'Search', 'COMBDb', 'QAReport')
+            self.view.auditor(self.model.getCurrUser(), 'Search', 'COMBDb', 'QAReport')
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("From date must come before to date") 
@@ -94,7 +94,7 @@ class QQAReport(QMainWindow): #TODO
         document.render(context)
         document.save(dst)
         self.view.convertAndPrint(dst)
-        self.view.auditor(QAdminLogin.currentTech, 'Print', 'COMBDb', 'QAReport')
+        self.view.auditor(self.model.getCurrUser(), 'Print', 'COMBDb', 'QAReport')
 
     #@throwsViewableException
     def handleReturnToMainMenuPressed(self):

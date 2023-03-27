@@ -11,8 +11,6 @@ class QAdminLogin(QMainWindow):
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        self.currentTech = 0
-        print(self.currentTech)
         loadUi("UI Screens/COMBdb_Admin_Login.ui", self)
         self.login.setIcon(QIcon('Icon/loginIcon.png'))
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -20,16 +18,16 @@ class QAdminLogin(QMainWindow):
 
     #@throwsViewableException
     def handleLoginPressed(self):
-        print(self.currentTech)
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         if len(self.user.text())==0 or len(self.pswd.text())==0:
             self.errorMessage.setText("Please input all fields")
         else:
             if self.model.techLogin(self.user.text(), self.pswd.text()):
-                self.currentTech = list(self.model.currentTech(self.user.text(), 'Entry'))[0]
-                print(self.currentTech)
-                self.view.auditor(self.currentTech, 'Login', 'COMBDb', 'System')
+                currUser = list(self.model.currentTech(self.user.text(), 'Entry'))[0]
+                self.model.setCurrUser(currUser)
+                print(self.model.getCurrUser())
+                self.view.auditor(self.model.getCurrUser(), 'Login', 'COMBDb', 'System')
                 self.view.showAdminHomeScreen()
             else:
                 self.errorMessage.setText("Invalid username or password")

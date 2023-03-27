@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QIcon
 
 from Utility.QAdminLogin import QAdminLogin
-
 from Utility.QPrefixGraph import QPrefixGraph
 
 
@@ -21,7 +20,7 @@ class QAdminHome(QMainWindow):
         self.settings.clicked.connect(self.handleSettingsPressed)
         self.logout.clicked.connect(self.handleLogoutPressed)
         QPrefixGraph(self.model)
-        print(QAdminLogin.currentTech)
+        print(self.model.getCurrUser())
         #self.view.auditor(currentTech, "TEST", 'SAMPLE ID', 'TYPE')
 
     #@throwsViewableException

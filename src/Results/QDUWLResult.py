@@ -168,7 +168,7 @@ class QDUWLResult(QMainWindow):
                     self.nText.toPlainText(),
                     QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None,
-                    QAdminLogin.currentTech
+                    self.model.getCurrUser()
                 ):
                     self.kitList.append({
                         'sampleID': f'{str(saID)[0:2]}-{str(saID)[2:]}',
@@ -182,7 +182,7 @@ class QDUWLResult(QMainWindow):
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Saved DUWL Result Form: " + str(saID)) 
                     self.save.setEnabled(False)
-                    self.view.auditor(QAdminLogin.currentTech, "Update", saID, 'DUWL_Result')
+                    self.view.auditor(self.model.getCurrUser(), "Update", saID, 'DUWL_Result')
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                 self.errorMessage.setText("Please enter reason for rejection")

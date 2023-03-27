@@ -79,16 +79,16 @@ class QManageTechnicians(QMainWindow):
             if self.model.toggleTech(self.selectedTechnician[1], 'Yes'):
                 self.selectedTechnician[3] = 'Yes'
                 self.techTable.item(self.selectedTechnician[0], 2).setText('Yes')
-                self.view.auditor(QAdminLogin.currentTech, 'Activate', self.selectedTechnician[2], 'Settings_Edit_Technician')
+                self.view.auditor(self.model.getCurrUser(), 'Activate', self.selectedTechnician[2], 'Settings_Edit_Technician')
 
     #@throwsViewableException
     def handleDeactivatePressed(self):
-        print(QAdminLogin.currentTech)
+        print(self.model.getCurrUser())
         if self.selectedTechnician[3] != 'No':
             if self.model.toggleTech(self.selectedTechnician[1], 'No'):
                 self.selectedTechnician[3] = 'No'
                 self.techTable.item(self.selectedTechnician[0], 2).setText('No')
-                self.view.auditor(QAdminLogin.currentTech, 'Deactivate', self.selectedTechnician[2], 'Settings_Edit_Technician')
+                self.view.auditor(self.model.getCurrUser(), 'Deactivate', self.selectedTechnician[2], 'Settings_Edit_Technician')
 
     #@throwsViewableException
     def handleAddTechPressed(self):
@@ -104,7 +104,7 @@ class QManageTechnicians(QMainWindow):
                     self.handleClearPressed()
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Successfully added technician: " + user)
-                    self.view.auditor(QAdminLogin.currentTech, 'Add', user, 'Settings_Edit_Technician')
+                    self.view.auditor(self.model.getCurrUser(), 'Add', user, 'Settings_Edit_Technician')
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                     self.errorMessage.setText("A technician with this username already exists")

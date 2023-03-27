@@ -422,7 +422,7 @@ class QCultureResult(QMainWindow):
                     self.view.entries[self.clinDrop.currentText()]['db'],
                     self.fName.text(),
                     self.lName.text(),
-                    QAdminLogin.currentTech,
+                    self.model.getCurrUser(),
                     self.repDate.date(),
                     self.sample[8],
                     self.dText.toPlainText(),
@@ -433,7 +433,7 @@ class QCultureResult(QMainWindow):
                     QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                 ):
-                    self.handleSearchPressed()
+                    self.handleSearchPressed(False)
                     #self.save.setEnabled(False)
                     self.clear.setEnabled(True)
                     self.printP.setEnabled(True)
@@ -445,7 +445,7 @@ class QCultureResult(QMainWindow):
                     self.errorMessage.setText("Saved Culture Result Form: " + self.saID.text())
                     self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage2.setText("Saved Culture Result Form: " + self.saID.text())
-                    self.view.auditor(QAdminLogin.currentTech, "Update", self.saID.text(), 'Culture_Result')
+                    self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), 'Culture_Result')
                     return True
             else:
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")

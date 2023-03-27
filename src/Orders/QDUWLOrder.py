@@ -179,7 +179,7 @@ class QDUWLOrder(QMainWindow):
                             self.shipDate.date(),
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
-                            QAdminLogin.currentTech
+                            self.model.getCurrUser()
                         )
                         if saID: 
                             self.saID.setText(str(saID))
@@ -197,7 +197,7 @@ class QDUWLOrder(QMainWindow):
                     #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                     self.errorMessage.setText("Created New DUWL Order: " + str(saID)) 
-                    self.view.auditor(QAdminLogin.currentTech, "Create", self.saID.text(), 'DUWL_Order')
+                    self.view.auditor(self.model.getCurrUser(), "Create", self.saID.text(), 'DUWL_Order')
                 else:
                     if not self.saID.isEnabled():
                         sampleID = self.saID.text()
@@ -215,7 +215,7 @@ class QDUWLOrder(QMainWindow):
                             self.nText.toPlainText(),
                             rejDate,
                             self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None,
-                            QAdminLogin.currentTech
+                            self.model.getCurrUser()
                         )
                         if saID:
                             self.saID.setText(self.saID.text())
@@ -233,7 +233,7 @@ class QDUWLOrder(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing DUWL Order Updated: " + sampleID)  
-                        self.view.auditor(QAdminLogin.currentTech, "Update", sampleID, 'DUWL_Order')
+                        self.view.auditor(self.model.getCurrUser(), "Update", sampleID, 'DUWL_Order')
                     else:
                         self.handleClearPressed()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")

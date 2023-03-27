@@ -151,7 +151,7 @@ class QCultureOrder(QMainWindow):
                             self.colDate.date(),
                             self.recDate.date(),
                             self.type.currentText(),
-                            QAdminLogin.currentTech,
+                            self.model.getCurrUser(),
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
                         )
@@ -165,7 +165,7 @@ class QCultureOrder(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
-                            self.view.auditor( QAdminLogin.currentTech, "Create", self.saID.text(), self.type.currentText() + '_Order')
+                            self.view.auditor(self.model.getCurrUser(), "Create", self.saID.text(), self.type.currentText() + '_Order')
                             return True
                     else: #Update existing CAT Order
                         if not self.saID.isEnabled() and not self.type.isEnabled():
@@ -185,7 +185,7 @@ class QCultureOrder(QMainWindow):
                                 self.colDate.date(),
                                 self.recDate.date(),
                                 self.type.currentText(),
-                                QAdminLogin.currentTech,
+                                self.model.getCurrUser(),
                                 self.cText.toPlainText(),
                                 self.nText.toPlainText(),
                                 rejDate,
@@ -195,7 +195,7 @@ class QCultureOrder(QMainWindow):
                             self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                             self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
-                            self.view.auditor(QAdminLogin.currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
+                            self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), self.type.currentText() + '_Order')
                             return True 
                         else: 
                             self.handleClearPressed()
@@ -219,7 +219,7 @@ class QCultureOrder(QMainWindow):
                             self.colDate.date(),
                             self.recDate.date(),
                             self.type.currentText(),
-                            QAdminLogin.currentTech,
+                            self.model.getCurrUser(),
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
                             rejDate,
@@ -229,7 +229,7 @@ class QCultureOrder(QMainWindow):
                         self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
-                        self.view.auditor(QAdminLogin.currentTech, "Update", self.saID.text(), self.type.currentText() + '_Order')
+                        self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), self.type.currentText() + '_Order')
                         return True
                     else: 
                         self.handleClearPressed()

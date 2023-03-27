@@ -81,7 +81,7 @@ class QClinician(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("New clinician added: " + title + " " + first + " " + last)
-                self.view.auditor(QAdminLogin.currentTech, "Create", title + '' + first + ' ' + last, 'Clinician')
+                self.view.auditor(self.model.getCurrUser(), "Create", title + '' + first + ' ' + last, 'Clinician')
             else:
                 self.model.updateClinician(
                     self.view.entries[self.clinDrop.currentText()]['db'],
@@ -110,7 +110,7 @@ class QClinician(QMainWindow):
                 self.handleClearPressed()
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Updated Existing Clinician: " + title + " " + first + " " + last)
-                self.view.auditor(QAdminLogin.currentTech, "Update", title + '' + first + ' ' + last, 'Clinician')
+                self.view.auditor(self.model.getCurrUser(), "Update", title + '' + first + ' ' + last, 'Clinician')
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("* Denotes Required Fields")

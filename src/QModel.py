@@ -3,7 +3,14 @@ from datetime import date
 
 class QModel:
   def __init__(self):
+    self.currUser = 0
     pass
+
+  def setCurrUser(self, currUser):
+    self.currUser = currUser
+
+  def getCurrUser(self):
+    return self.currUser
 
   def __usesCursor(func):
     def wrap(self, *args, **kwargs):

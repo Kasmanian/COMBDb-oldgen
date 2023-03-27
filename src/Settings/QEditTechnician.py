@@ -55,7 +55,7 @@ class QEditTechnician(QMainWindow):
                         self.user.text(),
                         self.newPswd.text()
                     )
-                    self.view.auditor(QAdminLogin.currentTech, 'Edit', self.user.text(), 'Settings_Edit_Technician')
+                    self.view.auditor(self.model.getCurrUser(), 'Edit', self.user.text(), 'Settings_Edit_Technician')
                     self.close()
                 else: 
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")

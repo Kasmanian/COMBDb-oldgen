@@ -161,7 +161,7 @@ class QCATResult(QMainWindow):
                         self.view.entries[self.clinDrop.currentText()]['db'],
                         self.fName.text(),
                         self.lName.text(),
-                        QAdminLogin.currentTech,
+                        self.model.getCurrUser(),
                         self.repDate.date(),
                         "Caries",
                         float(self.volume.text()),
@@ -183,7 +183,7 @@ class QCATResult(QMainWindow):
                         #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
                         self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                         self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
-                        self.view.auditor(QAdminLogin.currentTech, "Update", self.saID.text(), 'CAT_Result')
+                        self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), 'CAT_Result')
                         return True
                 else:
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
