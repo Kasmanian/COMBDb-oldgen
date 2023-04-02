@@ -1,12 +1,16 @@
 import unittest
 from QTestAdminLoginScreen import AdminLoginTest
 from QTestAdminHomeScreen import AdminHomeTest
+from QTestCultureOrderFormNav import CultureOrderFormNavTest
+from QTestDUWLNav import DUWLNavTest
 
 class QTestRunner:
 
     testList = [
         AdminLoginTest,
-        AdminHomeTest
+        AdminHomeTest,
+        CultureOrderFormNavTest,
+        DUWLNavTest
         ]
     testLoad = unittest.TestLoader()
 

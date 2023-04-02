@@ -1,22 +1,17 @@
 import sys
 import unittest
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtTest import QTest
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication
 
 import sys
 sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
  
-from QView import QView
 from QModel import QModel
-from Utility.QAdminLogin import QAdminLogin
 from Utility.QAdminHome import QAdminHome
-from Utility.QPrefixGraph import QPrefixGraph
 
 app = QApplication(sys.argv)
 
 class AdminHomeTest(unittest.TestCase):
-    '''Test the Admin Login GUI'''
+    '''Test the Admin Home GUI'''
     def setUp(self):
         '''Create the GUI'''
         self.model = QModel()

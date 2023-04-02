@@ -1,16 +1,14 @@
 import sys
 import unittest
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtTest import QTest
 from PyQt5.QtCore import Qt
 
 import sys
 sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
  
-from QView import QView
 from QModel import QModel
 from Utility.QAdminLogin import QAdminLogin
-from Utility.QAdminHome import QAdminHome
 
 app = QApplication(sys.argv)
 

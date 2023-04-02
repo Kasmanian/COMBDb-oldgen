@@ -92,31 +92,30 @@ class QDUWLReceive(QMainWindow):
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if data == False:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID may only contain numbers")
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason]')
-            saID = int(self.saID.text())
-            if self.sample is None or len(self.saID.text()) != 6:
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID not found")
-        else:
-            self.sampleID = data
-            data = None
-            self.saID.setText(str(self.sampleID[10]))
-            saID = int(self.saID.text())
-        if self.sample is not None:
-            if self.sample[9] != None:
-                self.rejectionError.setText("(REJECTED)")
-                self.rejectedCheckBox.setChecked(True)
-                self.handleRejectedPressed()
-            saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
-            kitListValues = [value for elem in self.kitList for value in elem.values()]
-            if saIDCheck not in kitListValues:
+        saID = int(self.saID.text())
+        saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
+        kitListValues = [value for elem in self.kitList for value in elem.values()]
+        if saIDCheck not in kitListValues:
+            if data == False:
+                if not self.saID.text().isdigit():
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID may only contain numbers")
+                    return
+                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason]')
+                if self.sample is None or len(self.saID.text()) != 6:
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID not found")
+            else:
+                self.sampleID = data
+                data = None
+                self.saID.setText(str(self.sampleID[10]))
+            if self.sample is not None:
+                if self.sample[9] != None:
+                    self.rejectionError.setText("(REJECTED)")
+                    self.rejectedCheckBox.setChecked(True)
+                    self.handleRejectedPressed()
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
                 self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
@@ -134,9 +133,9 @@ class QDUWLReceive(QMainWindow):
                 self.rejectedCheckBox.setEnabled(True)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Found DUWL Order: " + str(saID))
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("This DUWL Order has already been added")
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("This DUWL Order has already been added")
 
     #@throwsViewableException
     def handleSavePressed(self):
