@@ -1,10 +1,12 @@
 import unittest
 from QTestAdminLoginScreen import AdminLoginTest
+from QTestAdminHomeScreen import AdminHomeTest
 
 class QTestRunner:
 
     testList = [
-        AdminLoginTest
+        AdminLoginTest,
+        AdminHomeTest
         ]
     testLoad = unittest.TestLoader()
 

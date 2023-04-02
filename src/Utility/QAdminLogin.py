@@ -26,7 +26,7 @@ class QAdminLogin(QMainWindow):
             if self.model.techLogin(self.user.text(), self.pswd.text()):
                 currUser = list(self.model.currentTech(self.user.text(), 'Entry'))[0]
                 self.model.setCurrUser(currUser)
-                print(self.model.getCurrUser())
+                #print(self.model.getCurrUser())
                 self.view.auditor(self.model.getCurrUser(), 'Login', 'COMBDb', 'System')
                 self.view.showAdminHomeScreen()
             else:

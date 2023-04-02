@@ -20,7 +20,7 @@ class QAdminHome(QMainWindow):
         self.settings.clicked.connect(self.handleSettingsPressed)
         self.logout.clicked.connect(self.handleLogoutPressed)
         QPrefixGraph(self.model)
-        print(self.model.getCurrUser())
+        #print(self.model.getCurrUser())
         #self.view.auditor(currentTech, "TEST", 'SAMPLE ID', 'TYPE')
 
     #@throwsViewableException

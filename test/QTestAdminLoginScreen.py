@@ -10,6 +10,7 @@ sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
 from QView import QView
 from QModel import QModel
 from Utility.QAdminLogin import QAdminLogin
+from Utility.QAdminHome import QAdminHome
 
 app = QApplication(sys.argv)
 
@@ -17,9 +18,9 @@ class AdminLoginTest(unittest.TestCase):
     '''Test the Admin Login GUI'''
     def setUp(self):
         '''Create the GUI'''
-        self.form = QAdminLogin(self, QMainWindow)
         self.model = QModel()
         self.model.connect()
+        self.form = QAdminLogin(self.model, self)
         self.techLogin = self.model.techLogin
 
     def setFormToZero(self):
@@ -84,17 +85,18 @@ class AdminLoginTest(unittest.TestCase):
 
         #Attempt to login with username and password, but the password is wrong - throws errorMessage
         self.assertEqual(self.model.techLogin(self.form.user.text(), self.form.pswd.text()), False)
-    """
+
     def test_correctLogin(self):
         '''Test the GUI with correct login'''
         self.setFormToZero()
         self.form.user.setText("Reisdorf")
         self.form.pswd.setText("Password")
 
-        #Attempt to login with correct username and password - will change screen to Admin Home Screen
-        loginButton = self.form.login
-        QTest.mouseClick(loginButton, Qt.LeftButton)
-        self.assertEqual(AdminHomeScreen.isActiveWindow, True)
-    """
+        #Attempt to login with valid username and password - returns true
+        self.assertEqual(self.model.techLogin(self.form.user.text(), self.form.pswd.text()), True)
+        #loginButton = self.form.login
+        #QTest.mouseClick(loginButton, Qt.LeftButton)
+        #self.assertEqual(QAdminHome.isActiveWindow, True)
+
 if __name__ == "__main__":
     unittest.main()
