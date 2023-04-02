@@ -131,3 +131,6 @@ dmypy.json
 # locals
 templates/temp.pdf
 local.json
+
+# audit log files
+audit logs/*
