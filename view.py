@@ -1837,31 +1837,31 @@ class DUWLOrderForm(QMainWindow):
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if data == False:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID may only contain numbers")
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason]')
-            saID = int(self.saID.text())
-            if self.sample is None or len(self.saID.text()) != 6:
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID not found")
-        else:
-            self.sample = data
-            self.saID.setText(str(self.sample[6]))
-            saID = int(self.saID.text())
-            data = None
-        if self.sample is not None:
-            if self.sample[5] != None:
-                self.rejectionError.setText("(REJECTED)")
-                self.rejectedCheckBox.setChecked(True)
-                self.handleRejectedPressed()
-            saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
-            kitListValues = [value for elem in self.kitList for value in elem.values()]
-            if saIDCheck not in kitListValues:
+        saID = int(self.saID.text())
+        saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
+        kitListValues = [value for elem in self.kitList for value in elem.values()]
+        if saIDCheck not in kitListValues:
+            if data == False:
+                if not self.saID.text().isdigit():
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID may only contain numbers")
+                    return
+                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [Shipped], [Rejection Date], [Rejection Reason]')
+                if self.sample is None or len(self.saID.text()) != 6:
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID not found")
+            else:
+                self.sample = data
+                self.saID.setText(str(self.sample[6]))
+                saID = int(self.saID.text())
+                data = False
+            if self.sample is not None:
+                if self.sample[5] != None:
+                    self.rejectionError.setText("(REJECTED)")
+                    self.rejectedCheckBox.setChecked(True)
+                    self.handleRejectedPressed()
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
                 self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
@@ -1894,9 +1894,9 @@ class DUWLOrderForm(QMainWindow):
                     self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
                     self.errorMessage.setText("Please select a clinician")
                 """
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("This DUWL Order has already been added")
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("This DUWL Order has already been added")
             #self.updateTable()
             #self.save.setEnabled(False)
 
@@ -2005,7 +2005,7 @@ class DUWLOrderForm(QMainWindow):
         self.save.setEnabled(True)
         self.clear.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
-        self.errorMessage.setText(" ")
+        self.errorMessage.setText("")
         self.tabWidget.setCurrentIndex(0)
         self.shipDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
         self.rejectedCheckBox.setCheckState(False)
@@ -2161,31 +2161,31 @@ class DUWLReceiveForm(QMainWindow):
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if data == False:
-            if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID may only contain numbers")
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason]')
-            saID = int(self.saID.text())
-            if self.sample is None or len(self.saID.text()) != 6:
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID not found")
-        else:
-            self.sampleID = data
-            data = None
-            self.saID.setText(str(self.sampleID[10]))
-            saID = int(self.saID.text())
-        if self.sample is not None:
-            if self.sample[9] != None:
-                self.rejectionError.setText("(REJECTED)")
-                self.rejectedCheckBox.setChecked(True)
-                self.handleRejectedPressed()
-            saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
-            kitListValues = [value for elem in self.kitList for value in elem.values()]
-            if saIDCheck not in kitListValues:
+        saID = int(self.saID.text())
+        saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
+        kitListValues = [value for elem in self.kitList for value in elem.values()]
+        if saIDCheck not in kitListValues:
+            if data == False:
+                if not self.saID.text().isdigit():
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID may only contain numbers")
+                    return
+                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Comments], [Notes], [OperatoryID], [Product], [Procedure], [Collected], [Received], [Rejection Date], [Rejection Reason]')
+                saID = int(self.saID.text())
+                if self.sample is None or len(self.saID.text()) != 6:
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID not found")
+            else:
+                self.sampleID = data
+                data = None
+                self.saID.setText(str(self.sampleID[10]))
+            if self.sample is not None:
+                if self.sample[9] != None:
+                    self.rejectionError.setText("(REJECTED)")
+                    self.rejectedCheckBox.setChecked(True)
+                    self.handleRejectedPressed()
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
                 self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
@@ -2203,9 +2203,9 @@ class DUWLReceiveForm(QMainWindow):
                 self.rejectedCheckBox.setEnabled(True)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Found DUWL Order: " + str(saID))
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("This DUWL Order has already been added")
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("This DUWL Order has already been added")
 
     @throwsViewableException
     def handleSavePressed(self):
@@ -3282,34 +3282,33 @@ class DUWLResultForm(QMainWindow):
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if data == False:
-            if not self.saID.text().isdigit():
-                self.handleClearPressed()
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID must only contain numbers")
-                return
-            self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
-            if self.sample is None or len(self.saID.text()) != 6:
-                self.handleClearPressed()
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("Sample ID not found")
-        else:
-            self.sample = data
-            self.saID.setText(str(self.sample[8]))
-            data = None
-        if self.sample is not None:
-            self.saID.setEnabled(False)
-            if self.sample[7] != None:
-                self.rejectionError.setText("(REJECTED)")
-                self.rejectedCheckBox.setChecked(True)
-                self.handleRejectedPressed()
-            saID = int(self.saID.text())
-            saIDCheck = str(saID)[0:2]+ "-" + str(saID)[2:]
-            kitListValues = [value for elem in self.kitList for value in elem.values()]
-            #print(kitListValues)
-            if saIDCheck not in kitListValues:
+        saID = int(self.saID.text())
+        saIDCheck = str(saID)[0:2]+ "-" + str(saID)[2:]
+        kitListValues = [value for elem in self.kitList for value in elem.values()]
+        if saIDCheck not in kitListValues:
+            if data == False:
+                if not self.saID.text().isdigit():
+                    self.handleClearPressed()
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID must only contain numbers")
+                    return
+                self.sample = self.model.findSample('Waterlines', int(self.saID.text()), '[Clinician], [Bacterial Count], [CDC/ADA], [Reported], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+                if self.sample is None or len(self.saID.text()) != 6:
+                    self.handleClearPressed()
+                    self.saID.setText('xxxxxx')
+                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setText("Sample ID not found")
+            else:
+                self.sample = data
+                self.saID.setText(str(self.sample[8]))
+                data = None
+            if self.sample is not None:
+                self.saID.setEnabled(False)
+                if self.sample[7] != None:
+                    self.rejectionError.setText("(REJECTED)")
+                    self.rejectedCheckBox.setChecked(True)
+                    self.handleRejectedPressed()
                 clinician = self.model.findClinician(self.sample[0])
                 clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
                 self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
@@ -3324,9 +3323,9 @@ class DUWLResultForm(QMainWindow):
                 self.rejectedCheckBox.setEnabled(True)
                 self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
                 self.errorMessage.setText("Found DUWL Order: " + self.saID.text())
-            else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
-                self.errorMessage.setText("This DUWL Order has already been added")                
+        else:
+            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+            self.errorMessage.setText("This DUWL Order has already been added")                
 
     @throwsViewableException
     def handleSavePressed(self):
@@ -3379,7 +3378,7 @@ class DUWLResultForm(QMainWindow):
         self.clear.setEnabled(True)
         self.clinDrop.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
-        #self.errorMessage.setText("")
+        self.errorMessage.setText("")
         self.rejectedCheckBox.setCheckState(False)
         self.rejectedCheckBox.setEnabled(False)
         self.rejectedMessage.setEnabled(False)
