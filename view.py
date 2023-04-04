@@ -168,11 +168,10 @@ class View:
         self.web.showMaximized()
 
     def showPrintPrompt(self):
-        printer = QPrinter(QPrinter.HighResolution)
-        self.dialog = QPrintDialog(printer, self)
+        self.printer = QPrinter(QPrinter.HighResolution)
+        self.dialog = QPrintDialog(self.printer)
         if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.web.page().print(self.dialog.printer(), passPrintPrompt)
-        # os.startfile(path, "print")
 
     def convertAndPrint(self, path):
         try:
