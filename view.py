@@ -1,6 +1,7 @@
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
+from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 from PyQt5.QtWidgets import *
 import win32com.client as win32
 import sys, os, datetime, json
@@ -161,17 +162,17 @@ class View:
         self.web.setWindowTitle('Print Preview')
         self.web.setContextMenuPolicy(Qt.ActionsContextMenu)
         printAction = QAction('Print', self.web)
-        printAction.triggered.connect(lambda: self.showPrintPrompt(path))
-        #printAction.triggered.connect(self.showPrintPrompt)
+        printAction.triggered.connect(self.showPrintPrompt)
         self.web.addAction(printAction)
         self.web.load(QUrl.fromLocalFile(path))
         self.web.showMaximized()
 
-    def showPrintPrompt(self, path):
-        # self.dialog = QtPrintSupport.QPrintDialog()
-        # if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
-        #     self.web.page().print(self.dialog.printer(), passPrintPrompt)
-        os.startfile(path, "print")
+    def showPrintPrompt(self):
+        printer = QPrinter(QPrinter.HighResolution)
+        self.dialog = QPrintDialog(printer, self)
+        if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
+            self.web.page().print(self.dialog.printer(), passPrintPrompt)
+        # os.startfile(path, "print")
 
     def convertAndPrint(self, path):
         try:
