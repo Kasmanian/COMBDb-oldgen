@@ -94,10 +94,10 @@ class View:
         self.widget.addWidget(settingsManagePrefixesForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showHistoricResultsForm(self):
-        historicResultsForm = HistoricResultsForm(self.model, self)
-        self.widget.addWidget(historicResultsForm)
-        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+    # def showHistoricResultsForm(self):
+    #     historicResultsForm = HistoricResultsForm(self.model, self)
+    #     self.widget.addWidget(historicResultsForm)
+    #     self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showRejectionLogForm(self):
         rejectionLogForm = RejectionLogForm(self.model, self)
@@ -412,8 +412,7 @@ class AdminLoginScreen(QMainWindow):
         else:
             if self.model.techLogin(self.user.text(), self.pswd.text()):
                 global currentTech 
-                currentTech = list(self.model.currentTech(self.user.text(), 'Entry'))[0]
-                print(type(currentTech))
+                currentTech = list(self.model.currentTech(self.user.text(), 'Entry'))[0]     
                 self.view.auditor(currentTech, 'Login', 'COMBDb', 'System')
                 self.view.showAdminHomeScreen()
             else:
@@ -453,7 +452,7 @@ class AdminHomeScreen(QMainWindow):
     def handleResultEntryPressed(self):
         self.view.showResultEntryNav()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleQAReportPressed(self):
         self.view.showQAReportScreen()
 
@@ -465,7 +464,7 @@ class AdminHomeScreen(QMainWindow):
     def handleLogoutPressed(self):
         self.view.showAdminLoginScreen()
 
-class QAReportScreen(QMainWindow): #TODO
+class QAReportScreen(QMainWindow): 
     def __init__(self, model, view):
         super(QAReportScreen, self).__init__()
         self.view = view
@@ -474,7 +473,6 @@ class QAReportScreen(QMainWindow): #TODO
         loadUi("UI Screens/COMBdb_QA_Report_Screen.ui", self)
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
         self.home.setIcon(QIcon('Icon/menuIcon.png'))
-        #self.print.clicked.connect(self.handlePrintPressed)
         self.find.clicked.connect(self.handleSearchPressed)
         self.print.clicked.connect(self.handlePrintPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
@@ -810,6 +808,21 @@ class SettingsEditTechnician(QMainWindow):
 #         self.back.clicked.connect(self.handleBackPressed)
 #         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
 
+
+
+            # this can be used when archiving bc it calls a macro that turns the AuditLog table into a txt file ... need to then delete the table and recreate it and re-initilize it
+            # strDbName = r"C:\\Users\\Hoboburger\\Desktop\\COMB.accdb"
+            # ac = win32.Dispatch("Access.Application")
+            # ac.Visible = False
+        
+            
+            # ac.OpenCurrentDatabase(strDbName)
+            # ac.DoCmd.RunMacro('ExportAuditLogMacro')
+            # ac.DoCmd.CloseDatabase  
+
+
+
+
 #     @throwsViewableException
 #     def handleBackPressed(self):
 #         self.view.showSettingsNav()
@@ -908,7 +921,7 @@ class SettingsManagePrefixesForm(QMainWindow):
         self.view.showAdminHomeScreen()
 
     @throwsViewableException
-    def handleAddPressed(self): #add new prefix
+    def handleAddPressed(self): 
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         prefix = self.pName.text()
@@ -931,7 +944,7 @@ class SettingsManagePrefixesForm(QMainWindow):
             self.errorMessage.setText("Type, Prefix and Word are required")
 
     @throwsViewableException
-    def handleSavePressed(self): #edit existing prefix
+    def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         if self.pName.text() and self.word.text() and self.type.currentText():
@@ -980,21 +993,21 @@ class SettingsManagePrefixesForm(QMainWindow):
     def timerEvent(self):
         self.errorMessage.setText("")
 
-class HistoricResultsForm(QMainWindow):
-    def __init__(self, model, view):
-        super(HistoricResultsForm, self).__init__()
-        self.view = view
-        self.model = model
-        self.timer = QTimer(self)
-        loadUi("UI Screens/COMBdb_Settings_Historical_Results_Form.ui", self)
-        #self.home.setIcon(QIcon('Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('Icon/backIcon.png'))
-        self.back.clicked.connect(self.handleBackPressed)
-        #self.home.clicked.connect(self.handleReturnToMainMenuPressed)
+# class HistoricResultsForm(QMainWindow):
+#     def __init__(self, model, view):
+#         super(HistoricResultsForm, self).__init__()
+#         self.view = view
+#         self.model = model
+#         self.timer = QTimer(self)
+#         loadUi("UI Screens/COMBdb_Settings_Historical_Results_Form.ui", self)
+#         #self.home.setIcon(QIcon('Icon/menuIcon.png'))
+#         self.back.setIcon(QIcon('Icon/backIcon.png'))
+#         self.back.clicked.connect(self.handleBackPressed)
+#         #self.home.clicked.connect(self.handleReturnToMainMenuPressed)
 
-    @throwsViewableException
-    def handleBackPressed(self):
-        self.view.showSettingsNav()
+#     @throwsViewableException
+#     def handleBackPressed(self):
+#         self.view.showSettingsNav()
 
 class RejectionLogForm(QMainWindow):
     def __init__(self, model, view):
@@ -1107,8 +1120,6 @@ class AdvancedOrderScreen(QMainWindow):
         self.orderForm = orderForm
         self.selector = selector
         loadUi("UI Screens/COMBdb_Advanced_Search_Form2.ui", self)
-
-        #define button icons and method invokations for buttons & table
         self.find.setIcon(QIcon('Icon/searchIcon.png'))
         self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.clear.setIcon(QIcon('Icon/clearIcon.png'))
@@ -1132,7 +1143,7 @@ class AdvancedOrderScreen(QMainWindow):
             self.lName.setText("Not searchable")
 
     @throwsViewableException
-    def handleSearchPressed(self): #write in the queries that will handle searching with multiple parameters
+    def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
         if self.saID.text() != "":
@@ -1275,7 +1286,7 @@ class AdvancedOrderScreen(QMainWindow):
     def handleOrderSelected(self):
         self.add.setEnabled(True)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -1337,8 +1348,7 @@ class CultureOrderForm(QMainWindow):
         self.clear.clicked.connect(self.handleClearPressed)
         #self.print.setEnabled(False)
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))   
-        #print(str(QDate.currentDate()) + " " + str(QTime.currentTime()))  
+        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))    
         self.rejectedCheckBox.clicked.connect(self.handleRejectedPressed)
         self.rejectedCheckBox.setEnabled(False)
         self.rejectedMessage.setEnabled(False)
@@ -1369,7 +1379,7 @@ class CultureOrderForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -2505,7 +2515,7 @@ class CultureResultForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @throwsViewableException
     def initTables(self):
         self.aeTWid.setRowCount(0)
         self.aeTWid.setRowCount(len(self.aerobicTable))
@@ -2559,7 +2569,7 @@ class CultureResultForm(QMainWindow):
             return True
         return super(CultureResultForm, self).eventFilter(source, event)
 
-    #@throwsViewableException
+    @throwsViewableException
     def updateTable(self, kind, row, column):
         if kind:
             if row < len(self.aerobicTable):
@@ -2570,7 +2580,7 @@ class CultureResultForm(QMainWindow):
                 if column < len(self.anaerobicTable[row]):
                     self.anaerobicTable[row][column] = self.anTWid.cellWidget(row, column).currentText() if self.anTWid.cellWidget(row, column) else self.anaerobicTable[row][column]
 
-    #@throwsViewableException
+    @throwsViewableException
     def resultToTable(self, result, type):
         if result is not None:
             result = result.replace(' / ', '|')
@@ -2603,7 +2613,7 @@ class CultureResultForm(QMainWindow):
         else:
             return [['Bacteria','Growth', 'PEN', 'AMP', 'CC', 'TET', 'CEP', 'ERY']]
 
-    #@throwsViewableException
+    @throwsViewableException
     def tableToResult(self, table, type):
         if len(table)>1 and len(table[0])>1:
             result = ''
@@ -3256,14 +3266,15 @@ class DUWLResultForm(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAdvancedSearchPressed(self):
         self.view.showAdvancedSearchScreen(self, "duwlResult")
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
+    @throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
             self.rejectedMessage.setStyleSheet("background-color: rgb(255, 255, 255); border-style: solid; border-width: 1px")
@@ -3276,7 +3287,7 @@ class DUWLResultForm(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @throwsViewableException
     def lineEdited(self):
         if self.bacterialCount.text().isdigit():
             if int(self.bacterialCount.text()) < 500:
@@ -3288,19 +3299,19 @@ class DUWLResultForm(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Bacterial Count may only contain positive integers")
 
-    #@throwsViewableException
+    @throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleBackPressed(self):
         self.view.showResultEntryNav()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -3362,7 +3373,7 @@ class DUWLResultForm(QMainWindow):
             self.errorMessage.setText("This DUWL Order has already been added")  
             return              
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -3402,7 +3413,7 @@ class DUWLResultForm(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please select a clinician")
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
         self.saID.setEnabled(True)
@@ -3423,14 +3434,14 @@ class DUWLResultForm(QMainWindow):
         self.handleRejectedPressed()
         self.updateTable()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleClearAllPressed(self):
         self.kitList.clear()
         self.currentKit = 1
         self.printList.clear()
         self.updateTable()
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleRemovePressed(self):
         del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
         del self.printList[self.kitTWid.currentItem().text()]
@@ -3442,7 +3453,7 @@ class DUWLResultForm(QMainWindow):
         self.currentKit = len(self.kitList)+1
         self.remove.setEnabled(False)
 
-    #@throwsViewableException
+    @throwsViewableException
     def updateTable(self):
         self.kitTWid.setRowCount(len(self.printList.keys()))
         count = 0
@@ -3454,7 +3465,7 @@ class DUWLResultForm(QMainWindow):
         else:
             self.print.setEnabled(False)
 
-    #@throwsViewableException
+    @throwsViewableException
     def handlePrintPressed(self):
         template = str(Path().resolve())+r'\templates\duwl_results_template.docx'
         dst = self.view.tempify(template)
@@ -3473,7 +3484,7 @@ class DUWLResultForm(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
     
-    #@throwsViewableException
+    @throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")
 
