@@ -1405,7 +1405,7 @@ class CultureOrderForm(QMainWindow):
         else:
             self.sample = data
             self.saID.setText(str(self.sample[0]))
-            data = None
+            data = False
         if self.sample is not None:
             if self.sample[11] != None:
                 self.rejectionError.setText("(REJECTED)")
@@ -2203,9 +2203,9 @@ class DUWLReceiveForm(QMainWindow):
                 self.errorMessage.setText("Sample ID not found")
                 return
         else:
-            self.sampleID = data
-            data = None
-            self.saID.setText(str(self.sampleID[10]))
+            self.sample = data
+            data = False
+            self.saID.setText(str(self.sample[10]))
                 
         saID = int(self.saID.text())
         saIDCheck = str(saID)[0:2]+ "-" +str(saID)[2:]
@@ -2747,7 +2747,7 @@ class CultureResultForm(QMainWindow):
         else:
             self.sample = data
             self.saID.setText(str(self.sample[16]))
-            data = None
+            data = False
         if self.sample is not None:
             if self.sample[15] != None:
                 self.rejectionError.setText("(REJECTED)")
@@ -2783,7 +2783,7 @@ class CultureResultForm(QMainWindow):
             self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage2.setText("Found Culture Order: " + self.saID.text())
 
-    @throwsViewableException
+    #@throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -2808,7 +2808,7 @@ class CultureResultForm(QMainWindow):
                     QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
                     self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
                 ):
-                    self.handleSearchPressed()
+                    self.handleSearchPressed(False)
                     #self.save.setEnabled(False)
                     self.clear.setEnabled(True)
                     self.printP.setEnabled(True)
@@ -3078,7 +3078,7 @@ class CATResultForm(QMainWindow):
         else:
             self.sample = data
             self.saID.setText(str(self.sample[19]))
-            data = None
+            data = False
         if self.sample is not None:
             if self.sample[18] != None:
                 self.rejectionError.setText("(REJECTED)")
