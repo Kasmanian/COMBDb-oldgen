@@ -1,6 +1,7 @@
 from PyQt5.uic import loadUi
 from pathlib import Path
 from PyQt5 import QtWidgets, QtPrintSupport, QtCore
+from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 from PyQt5.QtWidgets import *
 import win32com.client as win32
 import sys, os, datetime, json
@@ -166,7 +167,8 @@ class View:
         self.web.showMaximized()
 
     def showPrintPrompt(self):
-        self.dialog = QtPrintSupport.QPrintDialog()
+        self.printer = QPrinter(QPrinter.HighResolution)
+        self.dialog = QPrintDialog(self.printer)
         if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.web.page().print(self.dialog.printer(), passPrintPrompt)
 
