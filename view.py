@@ -3473,15 +3473,16 @@ class DUWLResultForm(QMainWindow):
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
-        clinician = self.model.findClinician(self.sample[0])
+        clinician = self.model.findClinicianFull(self.sample[0])
         document.merge(
             reported=self.view.fSlashDate(self.repDate.date()),
-            clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
-            designation=clinician[3],
-            address=clinician[4],
-            city=clinician[5],
-            state=clinician[6],
-            zip=str(clinician[7])
+            clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[5]),
+            designation=clinician[5],
+            address=clinician[6],
+            address2=clinician[7],
+            city=clinician[8],
+            state=clinician[9],
+            zip=str(clinician[10])
         )
         document.write(dst)
         self.view.convertAndPrint(dst)
