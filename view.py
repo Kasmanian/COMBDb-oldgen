@@ -1111,6 +1111,7 @@ class CultureOrderNav(QMainWindow):
 
     @throwsViewableException
     def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
         self.close()
 
 class AdvancedOrderScreen(QMainWindow):
@@ -1929,7 +1930,7 @@ class DUWLOrderForm(QMainWindow):
 
     @throwsViewableException
     def handleBackPressed(self):
-        self.view.showCultureOrderNav()
+        self.view.showDUWLNav()
 
     @throwsViewableException
     def handleReturnToMainMenuPressed(self):
@@ -2158,7 +2159,7 @@ class DUWLReceiveForm(QMainWindow):
 
     @throwsViewableException
     def handleBackPressed(self):
-        self.view.showCultureOrderNav()
+        self.view.showDUWLNav()
 
     @throwsViewableException
     def handleReturnToMainMenuPressed(self):
