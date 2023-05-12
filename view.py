@@ -319,6 +319,7 @@ class SetFilePathScreen(QMainWindow):
 
     @throwsViewableException
     def handleBackPressed(self):
+        self.view.showSettingsNav()
         self.close()
 
     @throwsViewableException
@@ -607,6 +608,7 @@ class SettingsNav(QMainWindow):
     
     @throwsViewableException
     def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
         self.close()
 
 class SettingsManageTechnicianForm(QMainWindow):
@@ -2389,6 +2391,7 @@ class ResultEntryNav(QMainWindow):
 
     @throwsViewableException
     def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
         self.close()
 
 class CultureResultForm(QMainWindow):
