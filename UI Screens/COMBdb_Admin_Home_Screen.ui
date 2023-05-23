@@ -419,7 +419,7 @@ QPushButton {
      </spacer>
     </item>
     <item row="3" column="0" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="header">
+     <widget class="QLabel" name="label_2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>

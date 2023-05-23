@@ -111,7 +111,7 @@ border-width: 1px</string>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="passwordTag">
+       <widget class="QLabel" name="label_10">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -156,7 +156,7 @@ border-width: 1px</string>
        </spacer>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="usernameTag">
+       <widget class="QLabel" name="label_9">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -295,7 +295,7 @@ QPushButton {
      </widget>
     </item>
     <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-     <widget class="QLabel" name="description">
+     <widget class="QLabel" name="label_8">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -340,7 +340,7 @@ QPushButton {
      </spacer>
     </item>
     <item row="1" column="0" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="title">
+     <widget class="QLabel" name="label_6">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -348,12 +348,12 @@ QPushButton {
        </sizepolicy>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Welcome to COMBDb&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Welcome to COMBdb&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
     <item row="2" column="0" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="combDBIcon">
+     <widget class="QLabel" name="label_7">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>

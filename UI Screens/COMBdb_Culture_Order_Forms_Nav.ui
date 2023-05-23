@@ -105,7 +105,7 @@ QPushButton {
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="header">
+       <widget class="QLabel" name="label">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:22pt; font-weight:600;&quot;&gt;Culture Order Form&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -212,7 +212,7 @@ QPushButton {
          </spacer>
         </item>
         <item row="1" column="3" alignment="Qt::AlignHCenter|Qt::AlignTop">
-         <widget class="QLabel" name="duwlTesting">
+         <widget class="QLabel" name="label_17">
           <property name="minimumSize">
            <size>
             <width>50</width>
@@ -239,14 +239,14 @@ QPushButton {
            <number>0</number>
           </property>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="candidaCultures">
+           <widget class="QLabel" name="label_12">
             <property name="text">
              <string>Candida Cultures</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="cariesActivityTesting">
+           <widget class="QLabel" name="label_13">
             <property name="text">
              <string>Caries Activity Testing</string>
             </property>
@@ -256,35 +256,35 @@ QPushButton {
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="endoCultures">
+           <widget class="QLabel" name="label_14">
             <property name="text">
              <string>Endo Cultures</string>
             </property>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="perioCultures">
+           <widget class="QLabel" name="label_15">
             <property name="text">
              <string>Perio Cultures</string>
             </property>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="researchCultures">
+           <widget class="QLabel" name="label_3">
             <property name="text">
              <string>Research Cultures</string>
             </property>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="surgicalCultures">
+           <widget class="QLabel" name="label_16">
             <property name="text">
              <string>Surgical Cultures</string>
             </property>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-           <widget class="QLabel" name="tongueCultures">
+           <widget class="QLabel" name="label_2">
             <property name="text">
              <string>Tongue Cultures</string>
             </property>
