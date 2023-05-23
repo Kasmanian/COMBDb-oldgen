@@ -21,6 +21,7 @@ class QFilePath(QMainWindow):
 
     #@throwsViewableException
     def handleBackPressed(self):
+        self.view.showSettingsNav()
         self.close()
 
     #@throwsViewableException

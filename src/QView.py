@@ -1,5 +1,6 @@
 import datetime
 from PyQt5 import QtWidgets, QtPrintSupport
+from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QUrl, Qt, QDate
 from PyQt5.QtWidgets import QApplication, QAction
@@ -105,20 +106,20 @@ class QView:
         self.settingsEditTechnician = QEditTechnician(self.model, self, id)
         self.settingsEditTechnician.show()
 
-    def showSettingsManageArchivesForm(self):
-        settingsManageArchivesForm = QManageArchives(self.model, self)
-        self.widget.addWidget(settingsManageArchivesForm)
-        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+    # def showSettingsManageArchivesForm(self):
+    #     settingsManageArchivesForm = QManageArchives(self.model, self)
+    #     self.widget.addWidget(settingsManageArchivesForm)
+    #     self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showSettingsManagePrefixesForm(self):
         settingsManagePrefixesForm = QManagePrefixes(self.model, self)
         self.widget.addWidget(settingsManagePrefixesForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-    def showHistoricResultsForm(self):
-        historicResultsForm = QHistoricResults(self.model, self)
-        self.widget.addWidget(historicResultsForm)
-        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
+    # def showHistoricResultsForm(self):
+    #     historicResultsForm = QHistoricResults(self.model, self)
+    #     self.widget.addWidget(historicResultsForm)
+    #     self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     def showRejectionLogForm(self):
         rejectionLogForm = QRejectionLog(self.model, self)
@@ -187,9 +188,10 @@ class QView:
         self.web.showMaximized()
 
     def showPrintPrompt(self):
-        self.dialog = QtPrintSupport.QPrintDialog()
+        self.printer = QPrinter(QPrinter.HighResolution)
+        self.dialog = QPrintDialog(self.printer)
         if self.dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.web.page().print(self.dialog.printer(), QView.passPrintPrompt)
+            self.web.page().print(self.dialog.printer(), self.passPrintPrompt())
 
     def convertAndPrint(self, path):
         try:
@@ -247,12 +249,10 @@ class QView:
         except Exception as e:
             self.showErrorScreen(e)
         
-    def auditor(self, tech, action, type, form):
-        date = str(datetime.datetime.now().month) + '-' + str(datetime.datetime.now().year)
-        filename = 'audit logs/audit-' + date + '.txt'
-        f = open(filename, 'a+')
-        f.write(str(tech)+"."+str(action)+"."+str(type)+"."+str(form)+"."+str(datetime.datetime.now())+"\n")
-        f.close()
+    def auditor(self, tech, action, app, form):
+        date = str(datetime.datetime.now())
+        self.model.auditor(tech, action, app, form, date)
+        return
 
     def passPrintPrompt(boolean):
             pass

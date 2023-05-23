@@ -66,7 +66,7 @@ class QDUWLReceive(QMainWindow):
 
     #@throwsViewableException
     def handleBackPressed(self):
-        self.view.showCultureOrderNav()
+        self.view.showDUWLNav()
 
     #@throwsViewableException
     def handleReturnToMainMenuPressed(self):

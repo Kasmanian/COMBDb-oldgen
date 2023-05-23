@@ -26,4 +26,5 @@ class QOrderNav(QMainWindow):
 
     ##@throwsViewableException
     def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
         self.close()

@@ -32,4 +32,5 @@ class QResultNav(QMainWindow):
 
     #@throwsViewableException
     def handleBackPressed(self):
+        self.view.showAdminHomeScreen()
         self.close()

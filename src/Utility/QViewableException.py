@@ -1,7 +1,6 @@
 import QView
 
 class QViewableException():
-
     def throwsViewableException(func):
         def wrap(self, *args, **kwargs):
             try:

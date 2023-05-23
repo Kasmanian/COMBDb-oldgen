@@ -7,6 +7,7 @@ from PyQt5.QtCore import QDate, QTimer
 from PyQt5.QtGui import QIcon
 
 from Utility.QAdminLogin import QAdminLogin
+from Utility.QViewableException import QViewableException
 
 class QDUWLResult(QMainWindow):
     def __init__(self, model, view):
@@ -65,6 +66,7 @@ class QDUWLResult(QMainWindow):
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
+    #@throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
             self.rejectedMessage.setStyleSheet("background-color: rgb(255, 255, 255); border-style: solid; border-width: 1px")
@@ -217,6 +219,7 @@ class QDUWLResult(QMainWindow):
         self.printList.clear()
         self.updateTable()
 
+    #@throwsViewableException
     def handleRemovePressed(self):
         del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
         del self.printList[self.kitTWid.currentItem().text()]
@@ -246,17 +249,30 @@ class QDUWLResult(QMainWindow):
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge_rows('sampleID', self.kitList)
-        clinician = self.model.findClinician(self.sample[0])
+        clinician = self.model.findClinicianFull(self.sample[0])
+        clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[5])
         document.merge(
             reported=self.view.fSlashDate(self.repDate.date()),
-            clinicianName=self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]),
-            designation=clinician[3],
-            address=clinician[4],
-            city=clinician[5],
-            state=clinician[6],
-            zip=str(clinician[7])
         )
+        #####################
+        
+        addressData = {
+            'clinicianAddress' : '',
+            'clinicianName' : clinicianName + "\n" if clinicianName is not None else '',
+            'designation' : clinician[5] + "\n" if (clinician[5] != '' and clinician[5] is not None) else '',
+            'address1' : clinician[6] + "\n" if (clinician[6] != '' and clinician[6] is not None) else '',
+            'address2' : clinician[7] + "\n" if (clinician[7] != '' and clinician[7] is not None) else '',
+            'cityStateZip' : clinician[8] + ", " + clinician[9] + " " + str(clinician[10]) if (clinician[8] != '' and clinician[8] is not None and clinician[9] != '' and clinician[9] is not None and str(clinician[10]) != '' and str(clinician[10]) is not None) else ''
+            }
+        addressDataCopy = addressData.copy()
+        for x in addressData:
+            if addressData.get(x) != "" and x != 'clinicianAddress': addressDataCopy['clinicianAddress'] = addressDataCopy.get('clinicianAddress') + addressDataCopy.get(x)
+        addressDataList = [addressDataCopy]
+        document.merge_rows('clinicianAddress', addressDataList)
+        
         document.write(dst)
+        
+        #####################
         self.view.convertAndPrint(dst)
     
     #@throwsViewableException

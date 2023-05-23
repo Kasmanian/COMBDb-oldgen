@@ -248,6 +248,12 @@ class QModel:
         self.tech = tech
         return True
     return False
+  
+  @__usesCursor
+  def auditor(self, cursor, tech, action, type, form, timestamp):
+    query = ('INSERT INTO AuditLog([Tech], [Action], [Type], [Form], [Timestamp]) VALUES (?, ?, ?, ?, ?)')
+    cursor.execute(query, tech, action, type, form, timestamp)
+    return True
 
   def encrypt(self, token):
     bsalt = bcrypt.gensalt()
