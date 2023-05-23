@@ -10,7 +10,7 @@ class QSettingsNav(QMainWindow):
         loadUi("UI Screens/COMBdb_Admin_Settings_Nav.ui", self)
         self.back.setIcon(QIcon('Icon/backIcon.png'))
         self.technicianSettings.clicked.connect(self.handleTechnicianSettingsPressed)
-        self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
+        #self.manageArchives.clicked.connect(self.handleManageArchivesPressed)
         self.managePrefixes.clicked.connect(self.handleManagePrefixesPressed)
         self.back.clicked.connect(self.handleBackPressed)
         self.changeDatabase.clicked.connect(self.handleChangeDatabasePressed)
@@ -28,9 +28,9 @@ class QSettingsNav(QMainWindow):
         self.close()
 
     #@throwsViewableException
-    def handleManageArchivesPressed(self):
-        self.view.showSettingsManageArchivesForm()
-        self.close()
+    # def handleManageArchivesPressed(self):
+    #     self.view.showSettingsManageArchivesForm()
+    #     self.close()
 
     #@throwsViewableException
     def handleManagePrefixesPressed(self):
