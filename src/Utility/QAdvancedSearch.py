@@ -175,11 +175,16 @@ class QAdvancedSearch(QMainWindow):
 
     #@throwsViewableException
     def handleClearPressed(self):
-        self.saID.clear()
-        self.fName.clear()
-        self.lName.clear()
-        self.clinDrop.setCurrentIndex(0)
-        self.searchTable.setRowCount(0)
+        if self.selector == "duwlOrder" or self.selector == "duwlReceive" or self.selector == "duwlResult":
+            self.saID.clear()
+            self.clinDrop.setCurrentIndex(0)
+            self.searchTable.setRowCount(0)
+        else:
+            self.saID.clear()
+            self.fName.clear()
+            self.lName.clear()
+            self.clinDrop.setCurrentIndex(0)
+            self.searchTable.setRowCount(0)
 
     #@throwsViewableException
     def timerEvent(self):
