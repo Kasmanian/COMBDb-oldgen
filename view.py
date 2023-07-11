@@ -177,12 +177,12 @@ class View:
             word = win32.DispatchEx('Word.Application')
             document = word.Documents.Open(path)
             tempPath = path.split('.')[0] + '.pdf'
-            document.SaveAs(tempPath, 17)
+            document.SaveAs(word, 17)
             document.Close()
-            # word.ActiveDocument()
-            os.remove(path)
-            word.Quit()
-            self.showPrintPreview(tempPath)
+            #word.ActiveDocument()
+            #os.remove(path)
+            #word.Quit()
+            self.showPrintPreview(word)
         except Exception as e:
             self.showErrorScreen(e)
 
