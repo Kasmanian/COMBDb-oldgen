@@ -2081,21 +2081,33 @@ class DUWLOrderForm(QMainWindow):
         template = str(Path().resolve())+r'\templates\duwl_labels.docx'
         dst = self.view.tempify(template)
         document = MailMerge(template)
-        x = int(self.row.value()-1)*3+int(self.col.value())-1
-        numRows = math.ceil((len(self.kitList)+x)/3)
-        labelList = [None]*numRows
-        k = 0
-        keys = ['sampleID', 'clinician', 'opID', 'agent', 'collected']
-        for i in range(0, numRows):
+        #numLabelBlanks = int(self.row.value()-1)*3+int(self.col.value())-1
+        numLabelBlanks = int(self.col.value()-1)*10+int(self.row.value())-1
+        #numRowsToPrint = math.ceil((len(self.kitList)+numLabelBlanks)/3)
+        numTotalLabels = len(self.kitList)+numLabelBlanks
+        numFullPagesToPrint = numTotalLabels//30
+        numRowsToPrint = (numFullPagesToPrint)*10+min(numTotalLabels-30*numFullPagesToPrint, 10)
+        labelList = [None]*numRowsToPrint
+        # k = 0
+        mergeFields = ['sampleID', 'clinician', 'opID', 'agent', 'collected']
+        # for i in range(0, numRows):
+        #     labelList[i] = {}
+        #     for j in range(0, 10):
+        #         for key in keys:
+        #             if x>0:
+        #                 labelList[i][key+str(j+1)] = None
+        #             else:
+        #                 labelList[i][key+str(j+1)] = None if k>= len(self.kitList) else self.kitList[k][key]
+        #         k = k if x>0 else k+1
+        #         x-=1
+        for i in range(0, numRowsToPrint):
             labelList[i] = {}
             for j in range(0, 3):
-                for key in keys:
-                    if x>0:
-                        labelList[i][key+str(j+1)] = None
-                    else:
-                        labelList[i][key+str(j+1)] = None if k>= len(self.kitList) else self.kitList[k][key]
-                k = k if x>0 else k+1
-                x-=1
+                #kitListIndex = (i//10*30+(j*10+i)%30)-numLabelBlanks
+                kitListIndex = (i//10*30)+(i%10)+(j*10)-numLabelBlanks
+                indexAtBlankLabel = kitListIndex < 0 or kitListIndex >= len(self.kitList)
+                for mergeField in mergeFields:
+                    labelList[i][mergeField+str(j+1)] = None if indexAtBlankLabel else self.kitList[kitListIndex][mergeField]
         document.merge_rows('sampleID1', labelList)
         document.write(dst)
         self.view.convertAndPrint(dst)
@@ -2789,7 +2801,7 @@ class CultureResultForm(QMainWindow):
             self.errorMessage2.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage2.setText("Found Culture Order: " + self.saID.text())
 
-    #@throwsViewableException
+    @throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)

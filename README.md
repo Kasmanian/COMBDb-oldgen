@@ -3,3 +3,12 @@ The Clinical Oral Microbiology Database (COMBDb) is a desktop application design
 
 DOWNLOADING THE APPLICATION
 There is a file called COMBDb containing the executable, its necessary directories, and a COMBDb.accdb file that was used for testing. A new accdb file can be created and import the necessary tables from the test file. Downloading the zip will give you access to COMBDb.
+
+Packages:
+- pip install PyQt5
+- pip install pywin32
+- pip install docx-mailmerge
+- pip install docxtpl
+- pip install PyQtWebEngine
+- pip install bcrypt
+- pip install pyodbc
