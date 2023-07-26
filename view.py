@@ -192,13 +192,17 @@ class View:
             document = word.Documents.Open(wordPath)
             pdfPath = wordPath.split(".")[0] + ".pdf"
             document.SaveAs(pdfPath, 17)
-            document.Close()
             # word.ActiveDocument()
             # os.remove(path)
-            word.Quit()
             self.showPrintPreview(wordPath, pdfPath)
         except Exception as e:
             self.showErrorScreen(e)
+        finally:
+            if document:
+                document.Close()
+            if word:
+                word.Quit()
+            
 
     def tempify(self, path):
         tempPath = path.split("\\")
