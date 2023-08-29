@@ -270,10 +270,10 @@ class Model:
   
   def setTechName(self, tech):
     self.tech = ''
-    if tech[1] != '':
+    if tech[1] != '' and tech[1] is not None:
       self.tech = self.tech + tech[1][0] + '.'
-    if tech[2] != '':
+    if tech[2] != '' and tech[1] is not None:
       self.tech = self.tech + tech[2][0] + '.'
-    if tech[3] != '':
+    if tech[3] != '' and tech[1] is not None:
       self.tech = self.tech + tech[3][0] + '.'
       
