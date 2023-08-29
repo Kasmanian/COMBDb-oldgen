@@ -251,7 +251,6 @@ class Model:
       if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
         self.date = date.today()
         self.setTechName(tech)
-        print(self.tech)
         return True
     return False
   
