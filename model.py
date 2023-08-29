@@ -250,7 +250,8 @@ class Model:
     for tech in cursor.fetchall():
       if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
         self.date = date.today()
-        self.tech = tech
+        self.setTechName(tech)
+        print(self.tech)
         return True
     return False
   
@@ -267,3 +268,13 @@ class Model:
 
   def fQtDate(self, qtDate):
     return date(qtDate.year(), qtDate.month(), qtDate.day())
+  
+  def setTechName(self, tech):
+    self.tech = ''
+    if tech[1] != '':
+      self.tech = self.tech + tech[1][0] + '.'
+    if tech[2] != '':
+      self.tech = self.tech + tech[2][0] + '.'
+    if tech[3] != '':
+      self.tech = self.tech + tech[3][0] + '.'
+      
