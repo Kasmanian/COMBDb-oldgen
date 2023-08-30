@@ -628,7 +628,7 @@ class QAReportScreen(QMainWindow):
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge(
-            tech=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}."
+            tech=self.model.tech
         )
         document.write(dst)
         context = {
@@ -1294,7 +1294,7 @@ class RejectionLogForm(QMainWindow):
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge(
-            tech=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}."
+            tech=self.model.tech
         )
         document.write(dst)
         context = {
@@ -2093,7 +2093,7 @@ class CultureOrderForm(QMainWindow):
                 patientName=f"{self.lName.text()}, {self.fName.text()}",
                 comments=self.cText.toPlainText(),
                 notes=self.nText.toPlainText(),
-                techName=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.",
+                techName=self.model.tech,
             )
             document.write(dst)
             self.view.convertAndPrint(dst)
@@ -2108,7 +2108,7 @@ class CultureOrderForm(QMainWindow):
                 chartID=self.chID.text(),
                 clinicianName=clinician[1] + " " + clinician[0],
                 patientName=f"{self.lName.text()}, {self.fName.text()}",
-                techName=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.",
+                techName=self.model.tech,
             )
             document.write(dst)
             self.view.convertAndPrint(dst)
@@ -3624,7 +3624,7 @@ class CultureResultForm(QMainWindow):
             cultureType=self.sample[8],
             comments=self.cText.toPlainText(),
             directSmear=self.dText.toPlainText(),
-            techName=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.",
+            techName=self.model.tech,
         )
         document.write(dst)
         self.view.convertAndPrint(dst)
@@ -3647,7 +3647,7 @@ class CultureResultForm(QMainWindow):
             comments=self.cText.toPlainText(),
             cultureType=self.sample[8],
             directSmear=self.dText.toPlainText(),
-            techName=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.",
+            techName=self.model.tech,
         )
         document.write(dst)
         context = {
@@ -3678,7 +3678,7 @@ class CultureResultForm(QMainWindow):
             comments=self.cText.toPlainText(),
             cultureType=self.sample[8],
             directSmear=self.dText.toPlainText(),
-            techName=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.",
+            techName=self.model.tech,
         )
         document.write(dst)
         context = {
@@ -4032,7 +4032,7 @@ class CATResultForm(QMainWindow):
             smCount="{:.2e}".format(int(self.strepMutansCount.text())),
             lbCount="{:.2e}".format(int(self.lactobacillusCount.text())),
             reported=self.view.fSlashDate(self.repDate.date()),
-            techName=f"{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.",
+            techName=self.model.tech,
             comments=self.cText.toPlainText(),
         )
         document.write(dst)
