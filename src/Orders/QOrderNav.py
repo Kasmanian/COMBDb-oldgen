@@ -14,17 +14,17 @@ class QOrderNav(QMainWindow):
         self.duwl.clicked.connect(self.handleDUWLPressed)
         self.back.clicked.connect(self.handleBackPressed)
 
-    ##@throwsViewableException
+    #@throwsViewableException
     def handleCulturePressed(self):
         self.view.showCultureOrderForm()
         self.close()
 
-    ##@throwsViewableException
+    #@throwsViewableException
     def handleDUWLPressed(self):
         self.view.showDUWLNav()
         self.close()
 
-    ##@throwsViewableException
+    #@throwsViewableException
     def handleBackPressed(self):
         self.view.showAdminHomeScreen()
         self.close()

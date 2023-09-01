@@ -1,0 +1,10 @@
+Copy code:
+[x] - Order
+[] - Results
+[] - Settings
+[] - Utilities
+    - AdminHome (completed)
+    - AdminLogin (completed)
+[x] - Main
+[x] - Model
+[x] - View

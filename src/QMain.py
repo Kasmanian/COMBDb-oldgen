@@ -6,5 +6,5 @@ class QMain():
     def main():
         QView(QModel())
 
-    if __name__=="__main__":
+    if __name__== "__main__":
         main()

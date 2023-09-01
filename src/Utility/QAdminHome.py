@@ -12,16 +12,14 @@ class QAdminHome(QMainWindow):
         self.view = view
         self.model = model
         loadUi("UI Screens/COMBdb_Admin_Home_Screen.ui", self)
-        self.settings.setIcon(QIcon('Icon/settingsIcon.png'))
-        self.logout.setIcon(QIcon('Icon/logoutIcon.png'))
+        self.settings.setIcon(QIcon("Icon/settingsIcon.png"))
+        self.logout.setIcon(QIcon("Icon/logoutIcon.png"))
         self.cultureOrder.clicked.connect(self.handleCultureOrderFormsPressed)
         self.resultEntry.clicked.connect(self.handleResultEntryPressed)
         self.qaReport.clicked.connect(self.handleQAReportPressed)
         self.settings.clicked.connect(self.handleSettingsPressed)
         self.logout.clicked.connect(self.handleLogoutPressed)
         QPrefixGraph(self.model)
-        #print(self.model.getCurrUser())
-        #self.view.auditor(currentTech, "TEST", 'SAMPLE ID', 'TYPE')
 
     #@throwsViewableException
     def handleCultureOrderFormsPressed(self):

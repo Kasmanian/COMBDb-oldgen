@@ -31,13 +31,10 @@ class QCultureOrder(QMainWindow):
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
-        #self.print.clicked.connect(self.handlePrintPressed)
         self.print.clicked.connect(self.threader)
         self.clear.clicked.connect(self.handleClearPressed)
-        #self.print.setEnabled(False)
         self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))   
-        #print(str(QDate.currentDate()) + " " + str(QTime.currentTime()))  
+        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))    
         self.rejectedCheckBox.clicked.connect(self.handleRejectedPressed)
         self.rejectedCheckBox.setEnabled(False)
         self.rejectedMessage.setEnabled(False)
@@ -78,23 +75,35 @@ class QCultureOrder(QMainWindow):
         if data == False:
             if not self.saID.text().isdigit():
                 self.handleClearPressed()
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.saID.setText("xxxxxx")
+                self.errorMessage.setStyleSheet(
+                    "font: 12pt 'MS Shell Dlg 2'; color: red"
+                )
                 self.errorMessage.setText("Sample ID may only contain numbers")
                 return
-            #self.sample = self.advancedSearch.queryData
-            self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+            # self.sample = self.advancedSearch.queryData
+            self.sample = self.model.findSample(
+                "Cultures",
+                int(self.saID.text()),
+                "[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]",
+            )
             if self.sample is None:
-                self.sample = self.model.findSample('CATs', int(self.saID.text()), '[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]')
+                self.sample = self.model.findSample(
+                    "CATs",
+                    int(self.saID.text()),
+                    "[SampleID], [ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date], [Rejection Reason]",
+                )
                 if self.sample is None or len(self.saID.text()) != 6:
                     self.handleClearPressed()
-                    self.saID.setText('xxxxxx')
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.saID.setText("xxxxxx")
+                    self.errorMessage.setStyleSheet(
+                        "font: 12pt 'MS Shell Dlg 2'; color: red"
+                    )
                     self.errorMessage.setText("Sample ID not found")
         else:
             self.sample = data
             self.saID.setText(str(self.sample[0]))
-            data = None
+            data = False
         if self.sample is not None:
             if self.sample[11] != None:
                 self.rejectionError.setText("(REJECTED)")
@@ -102,8 +111,10 @@ class QCultureOrder(QMainWindow):
                 self.handleRejectedPressed()
             self.chID.setText(self.sample[1])
             clinician = self.model.findClinician(self.sample[2])
-            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
+            clinicianName = self.view.fClinicianName(
+                clinician[0], clinician[1], clinician[2], clinician[3]
+            )
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]["list"] + 1)
             self.fName.setText(self.sample[3])
             self.lName.setText(self.sample[4])
             self.type.setCurrentIndex(self.type.findText(self.sample[5]))
@@ -132,46 +143,82 @@ class QCultureOrder(QMainWindow):
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if self.fName.text() and self.lName.text() and self.type.currentText() and self.clinDrop.currentText() != "":
-            if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
+        if (
+            self.fName.text()
+            and self.lName.text()
+            and self.type.currentText()
+            and self.clinDrop.currentText() != ""
+        ):
+            if (
+                self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != ""
+            ) or not self.rejectedCheckBox.isChecked():
                 if self.saID.text() == "":
                     self.saID.setText("0")
-                self.sample = self.model.findSample('Cultures', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date]')
+                self.sample = self.model.findSample(
+                    "Cultures",
+                    int(self.saID.text()),
+                    "[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date]",
+                )
                 if self.sample is None:
-                    self.sample = self.model.findSample('CATs', int(self.saID.text()), '[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date]')
+                    self.sample = self.model.findSample(
+                        "CATs",
+                        int(self.saID.text()),
+                        "[ChartID], [Clinician], [First], [Last], [Type], [Collected], [Received], [Comments], [Notes], [Rejection Date]",
+                    )
                     if self.sample is None:
-                        table = 'CATs' if self.type.currentText()=='Caries' else 'Cultures'
-                        #Create a new db entry - either culture or CAT
+                        table = (
+                            "CATs"
+                            if self.type.currentText() == "Caries"
+                            else "Cultures"
+                        )
+                        # Create a new db entry - either culture or CAT
                         saID = self.view.model.addPatientOrder(
                             table,
                             self.chID.text(),
-                            self.view.entries[self.clinDrop.currentText()]['db'],
+                            self.view.entries[self.clinDrop.currentText()]["db"],
                             self.fName.text(),
                             self.lName.text(),
                             self.colDate.date(),
                             self.recDate.date(),
                             self.type.currentText(),
-                            self.model.getCurrUser(),
+                            self.view.currentTech,
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
                         )
                         if saID:
                             self.saID.setText(str(saID))
-                            #self.save.setEnabled(False)
+                            # self.save.setEnabled(False)
                             self.print.setEnabled(True)
                             self.saID.setEnabled(False)
                             self.type.setEnabled(False)
                             self.rejectedCheckBox.setEnabled(True)
-                            self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
-                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                            self.errorMessage.setText("Successfully saved order: " + str(self.saID.text()))
-                            self.view.auditor(self.model.getCurrUser(), "Create", self.saID.text(), self.type.currentText() + '_Order')
+                            self.rejectionError.setText(
+                                "(REJECTED)"
+                            ) if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
+                            self.errorMessage.setStyleSheet(
+                                "font: 12pt 'MS Shell Dlg 2'; color: green"
+                            )
+                            self.errorMessage.setText(
+                                "Successfully saved order: " + str(self.saID.text())
+                            )
+                            self.view.auditor(
+                                self.view.currentTech,
+                                "Create",
+                                self.saID.text(),
+                                self.type.currentText() + "_Order",
+                            )
                             return True
-                    else: #Update existing CAT Order
+                    else:  # Update existing CAT Order
                         if not self.saID.isEnabled() and not self.type.isEnabled():
-                            if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
+                            if (
+                                self.rejectedCheckBox.isChecked()
+                                and self.sample[9] is None
+                            ):
                                 rejDate = QDate.currentDate()
-                            elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
+                            elif (
+                                self.rejectedCheckBox.isChecked()
+                                and self.sample[9] is not None
+                            ):
                                 rejDate = self.view.dtToQDate(self.sample[9])
                             else:
                                 rejDate = None
@@ -179,33 +226,51 @@ class QCultureOrder(QMainWindow):
                                 "CATs",
                                 int(self.saID.text()),
                                 self.chID.text(),
-                                self.view.entries[self.clinDrop.currentText()]['db'],
+                                self.view.entries[self.clinDrop.currentText()]["db"],
                                 self.fName.text(),
                                 self.lName.text(),
                                 self.colDate.date(),
                                 self.recDate.date(),
                                 self.type.currentText(),
-                                self.model.getCurrUser(),
+                                self.view.currentTech,
                                 self.cText.toPlainText(),
                                 self.nText.toPlainText(),
                                 rejDate,
-                                self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
+                                self.rejectedMessage.text()
+                                if self.rejectedCheckBox.isChecked()
+                                else None,
                             )
-                            #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
-                            self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
-                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                            self.errorMessage.setText("Existing CAT Order Updated: " + str(self.saID.text())) 
-                            self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), self.type.currentText() + '_Order')
-                            return True 
-                        else: 
+                            # self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
+                            self.rejectionError.setText(
+                                "(REJECTED)"
+                            ) if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
+                            self.errorMessage.setStyleSheet(
+                                "font: 12pt 'MS Shell Dlg 2'; color: green"
+                            )
+                            self.errorMessage.setText(
+                                "Existing CAT Order Updated: " + str(self.saID.text())
+                            )
+                            self.view.auditor(
+                                self.view.currentTech,
+                                "Update",
+                                self.saID.text(),
+                                self.type.currentText() + "_Order",
+                            )
+                            return True
+                        else:
                             self.handleClearPressed()
-                            self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                            self.errorMessage.setStyleSheet(
+                                "font: 12pt 'MS Shell Dlg 2'; color: red"
+                            )
                             self.errorMessage.setText("Please search order to edit it")
-                else: #Update existing Culture Order
+                else:  # Update existing Culture Order
                     if not self.saID.isEnabled() and not self.type.isEnabled():
                         if self.rejectedCheckBox.isChecked() and self.sample[9] is None:
-                                rejDate = QDate.currentDate()
-                        elif self.rejectedCheckBox.isChecked() and self.sample[9] is not None:
+                            rejDate = QDate.currentDate()
+                        elif (
+                            self.rejectedCheckBox.isChecked()
+                            and self.sample[9] is not None
+                        ):
                             rejDate = self.view.dtToQDate(self.sample[9])
                         else:
                             rejDate = None
@@ -213,31 +278,48 @@ class QCultureOrder(QMainWindow):
                             "Cultures",
                             int(self.saID.text()),
                             self.chID.text(),
-                            self.view.entries[self.clinDrop.currentText()]['db'],
+                            self.view.entries[self.clinDrop.currentText()]["db"],
                             self.fName.text(),
                             self.lName.text(),
                             self.colDate.date(),
                             self.recDate.date(),
                             self.type.currentText(),
-                            self.model.getCurrUser(),
+                            self.view.currentTech,
                             self.cText.toPlainText(),
                             self.nText.toPlainText(),
                             rejDate,
-                            self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
+                            self.rejectedMessage.text()
+                            if self.rejectedCheckBox.isChecked()
+                            else None,
                         )
-                        #self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
-                        self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear() 
-                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
-                        self.errorMessage.setText("Existing Culture Order Updated: " + str(self.saID.text()))
-                        self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), self.type.currentText() + '_Order')
+                        # self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
+                        self.rejectionError.setText(
+                            "(REJECTED)"
+                        ) if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
+                        self.errorMessage.setStyleSheet(
+                            "font: 12pt 'MS Shell Dlg 2'; color: green"
+                        )
+                        self.errorMessage.setText(
+                            "Existing Culture Order Updated: " + str(self.saID.text())
+                        )
+                        self.view.auditor(
+                            self.view.currentTech,
+                            "Update",
+                            self.saID.text(),
+                            self.type.currentText() + "_Order",
+                        )
                         return True
-                    else: 
+                    else:
                         self.handleClearPressed()
-                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                        self.errorMessage.setStyleSheet(
+                            "font: 12pt 'MS Shell Dlg 2'; color: red"
+                        )
                         self.errorMessage.setText("Please search order to edit it")
                         return False
             else:
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setStyleSheet(
+                    "font: 12pt 'MS Shell Dlg 2'; color: red"
+                )
                 self.errorMessage.setText("Please enter reason for rejection")
                 return False
         else:
@@ -246,37 +328,39 @@ class QCultureOrder(QMainWindow):
             return False
         
     #@throwsViewableException
-    def handlePrintPressed(self): 
-        if self.type.currentText()!='Caries':
-            template = str(Path().resolve())+r'\templates\culture_worksheet_template4.docx'
+    def handlePrintPressed(self):
+        if self.type.currentText() != "Caries":
+            template = (
+                str(Path().resolve()) + r"\templates\culture_worksheet_template4.docx"
+            )
             dst = self.view.tempify(template)
             document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
+            clinician = self.clinDrop.currentText().split(", ")
             document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                saID=f"{self.saID.text()[0:2]}-{self.saID.text()[2:]}",
                 received=self.recDate.date().toString(),
                 type=self.type.currentText(),
                 chartID=self.chID.text(),
-                clinicianName = clinician[1] + " " + clinician[0],
-                patientName=f'{self.lName.text()}, {self.fName.text()}',
+                clinicianName=clinician[1] + " " + clinician[0],
+                patientName=f"{self.lName.text()}, {self.fName.text()}",
                 comments=self.cText.toPlainText(),
                 notes=self.nText.toPlainText(),
-                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+                techName=self.model.tech,
             )
             document.write(dst)
             self.view.convertAndPrint(dst)
         else:
-            template = str(Path().resolve())+r'\templates\cat_worksheet_template.docx'
+            template = str(Path().resolve()) + r"\templates\cat_worksheet_template.docx"
             dst = self.view.tempify(template)
             document = MailMerge(template)
-            clinician=self.clinDrop.currentText().split(', ')
+            clinician = self.clinDrop.currentText().split(", ")
             document.merge(
-                saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:]}',
+                saID=f"{self.saID.text()[0:2]}-{self.saID.text()[2:]}",
                 received=self.recDate.date().toString(),
                 chartID=self.chID.text(),
-                clinicianName = clinician[1] + " " + clinician[0],
-                patientName=f'{self.lName.text()}, {self.fName.text()}',
-                techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+                clinicianName=clinician[1] + " " + clinician[0],
+                patientName=f"{self.lName.text()}, {self.fName.text()}",
+                techName=self.model.tech,
             )
             document.write(dst)
             self.view.convertAndPrint(dst)
@@ -286,8 +370,12 @@ class QCultureOrder(QMainWindow):
     def handleClearPressed(self):
         self.fName.clear()
         self.lName.clear()
-        self.colDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-        self.recDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.colDate.setDate(
+            QDate(self.model.date.year, self.model.date.month, self.model.date.day)
+        )
+        self.recDate.setDate(
+            QDate(self.model.date.year, self.model.date.month, self.model.date.day)
+        )
         self.saID.clear()
         self.chID.clear()
         self.cText.clear()
@@ -295,7 +383,6 @@ class QCultureOrder(QMainWindow):
         self.clinDrop.setCurrentIndex(0)
         self.type.setCurrentIndex(0)
         self.save.setEnabled(True)
-        #self.print.setEnabled(False)
         self.clear.setEnabled(True)
         self.errorMessage.setText("")
         self.tabWidget.setCurrentIndex(0)
