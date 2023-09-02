@@ -9,7 +9,7 @@ class QResultNav(QMainWindow):
         self.view = view
         self.model = model
         loadUi("UI Screens/COMBdb_Result_Entry_Forms_Nav.ui", self)
-        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.back.setIcon(QIcon("Icon/backIcon.png"))
         self.culture.clicked.connect(self.handleCulturePressed)
         self.cat.clicked.connect(self.handleCATPressed)
         self.duwl.clicked.connect(self.handleDUWLPressed)

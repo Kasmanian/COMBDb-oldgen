@@ -15,13 +15,13 @@ class QCATResult(QMainWindow):
         self.model = model
         self.timer = QTimer(self)
         loadUi("UI Screens/COMBdb_CAT_Result_Form.ui", self)
-        self.find.setIcon(QIcon('Icon/searchIcon.png'))
-        self.find2.setIcon(QIcon('Icon/filterIcon.png'))
-        self.save.setIcon(QIcon('Icon/saveIcon.png'))
-        self.print.setIcon(QIcon('Icon/printIcon.png'))
-        self.clear.setIcon(QIcon('Icon/clearIcon.png'))
-        self.home.setIcon(QIcon('Icon/menuIcon.png'))
-        self.back.setIcon(QIcon('Icon/backIcon.png'))
+        self.find.setIcon(QIcon("Icon/searchIcon.png"))
+        self.find2.setIcon(QIcon("Icon/filterIcon.png"))
+        self.save.setIcon(QIcon("Icon/saveIcon.png"))
+        self.print.setIcon(QIcon("Icon/printIcon.png"))
+        self.clear.setIcon(QIcon("Icon/clearIcon.png"))
+        self.home.setIcon(QIcon("Icon/menuIcon.png"))
+        self.back.setIcon(QIcon("Icon/backIcon.png"))
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
@@ -32,12 +32,13 @@ class QCATResult(QMainWindow):
         self.collectionTime.editingFinished.connect(lambda: self.lineEdited(False))
         self.save.setEnabled(False)
         self.print.setEnabled(False)
-        self.repDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.repDate.setDate(
+            QDate(self.model.date.year, self.model.date.month, self.model.date.day)
+        )
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
         self.save.clicked.connect(self.handleSavePressed)
         self.clear.clicked.connect(self.handleClearPressed)
-        #self.print.clicked.connect(self.handlePrintPressed)
         self.print.clicked.connect(self.threader)
         self.find.clicked.connect(self.handleSearchPressed)
         self.find2.clicked.connect(self.handleAdvancedSearchPressed)
@@ -46,6 +47,7 @@ class QCATResult(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
+    #@throwsViewableException
     def threader(self):
         self.thread = QThread()
         if self.handleSavePressed():
@@ -61,14 +63,19 @@ class QCATResult(QMainWindow):
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
+    #@throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
-            self.rejectedMessage.setStyleSheet("background-color: rgb(255, 255, 255); border-style: solid; border-width: 1px")
+            self.rejectedMessage.setStyleSheet(
+                "background-color: rgb(255, 255, 255); border-style: solid; border-width: 1px"
+            )
             self.rejectedMessage.setPlaceholderText("Reason?")
             self.rejectedMessage.setEnabled(True)
             self.rejectedMessage.setText(self.msg)
         else:
-            self.rejectedMessage.setStyleSheet("background-color: rgb(123, 175, 212); border-style: solid; border-width: 0px")
+            self.rejectedMessage.setStyleSheet(
+                "background-color: rgb(123, 175, 212); border-style: solid; border-width: 0px"
+            )
             self.rejectedMessage.setPlaceholderText("")
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
@@ -76,7 +83,7 @@ class QCATResult(QMainWindow):
     #@throwsViewableException
     def lineEdited(self, arg):
         lineEdit = self.volume if arg else self.collectionTime
-        pattern = re.compile('^[0-9\.]*$')
+        pattern = re.compile("^[0-9\.]*$")
         if lineEdit.text() != "" and pattern.match(lineEdit.text()):
             if float(self.collectionTime.text()) != 0:
                 vol = float(self.volume.text())
@@ -84,7 +91,7 @@ class QCATResult(QMainWindow):
                 value = str(vol if arg else colTime)
                 rate = round(vol / colTime, 2)
                 lineEdit.setText(value)
-                self.flowRate.setText(str(rate)) 
+                self.flowRate.setText(str(rate))
                 self.errorMessage.setText(None)
             else:
                 self.flowRate.setText("0.00")
@@ -105,37 +112,61 @@ class QCATResult(QMainWindow):
         self.timer.start(5000)
         if data == False:
             if not self.saID.text().isdigit():
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.saID.setText("xxxxxx")
+                self.errorMessage.setStyleSheet(
+                    "font: 12pt 'MS Shell Dlg 2'; color: red"
+                )
                 self.errorMessage.setText("Sample ID must only contain numbers")
                 return
-            self.sample = self.model.findSample('CATs', int(self.saID.text()), '[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received], [Rejection Date], [Rejection Reason]')
+            self.sample = self.model.findSample(
+                "CATs",
+                int(self.saID.text()),
+                "[Clinician], [First], [Last], [Tech], [Reported], [Type], [Volume (ml)], [Time (min)], [Initial (pH)], [Flow Rate (ml/min)], [Buffering Capacity (pH)], [Strep Mutans (CFU/ml)], [Lactobacillus (CFU/ml)], [Comments], [Notes], [Collected], [Received], [Rejection Date], [Rejection Reason]",
+            )
             if self.sample is None or len(self.saID.text()) != 6:
-                self.saID.setText('xxxxxx')
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.saID.setText("xxxxxx")
+                self.errorMessage.setStyleSheet(
+                    "font: 12pt 'MS Shell Dlg 2'; color: red"
+                )
                 self.errorMessage.setText("Sample ID not found")
         else:
             self.sample = data
             self.saID.setText(str(self.sample[19]))
-            data = None
+            data = False
         if self.sample is not None:
             if self.sample[18] != None:
                 self.rejectionError.setText("(REJECTED)")
                 self.rejectedCheckBox.setChecked(True)
                 self.handleRejectedPressed()
             clinician = self.model.findClinician(self.sample[0])
-            clinicianName = self.view.fClinicianName(clinician[0], clinician[1], clinician[2], clinician[3])
-            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]['list']+1)
+            clinicianName = self.view.fClinicianName(
+                clinician[0], clinician[1], clinician[2], clinician[3]
+            )
+            self.clinDrop.setCurrentIndex(self.view.entries[clinicianName]["list"] + 1)
             self.fName.setText(self.sample[1])
             self.lName.setText(self.sample[2])
             self.repDate.setDate(self.view.dtToQDate(self.sample[4]))
-            self.volume.setText(str(self.sample[6]) if self.sample[12] is not None else None)
-            self.collectionTime.setText(str(self.sample[7]) if self.sample[12] is not None else None)
-            self.initialPH.setText(str(self.sample[8]) if self.sample[12] is not None else None)
-            self.flowRate.setText(str(self.sample[9]) if self.sample[12] is not None else None)
-            self.bufferingCapacityPH.setText(str(self.sample[10]) if self.sample[12] is not None else None)
-            self.strepMutansCount.setText(str(self.sample[11]) if self.sample[12] is not None else None)
-            self.lactobacillusCount.setText(str(self.sample[12]) if self.sample[12] is not None else None)
+            self.volume.setText(
+                str(self.sample[6]) if self.sample[12] is not None else None
+            )
+            self.collectionTime.setText(
+                str(self.sample[7]) if self.sample[12] is not None else None
+            )
+            self.initialPH.setText(
+                str(self.sample[8]) if self.sample[12] is not None else None
+            )
+            self.flowRate.setText(
+                str(self.sample[9]) if self.sample[12] is not None else None
+            )
+            self.bufferingCapacityPH.setText(
+                str(self.sample[10]) if self.sample[12] is not None else None
+            )
+            self.strepMutansCount.setText(
+                str(self.sample[11]) if self.sample[12] is not None else None
+            )
+            self.lactobacillusCount.setText(
+                str(self.sample[12]) if self.sample[12] is not None else None
+            )
             self.cText.setText(self.sample[13])
             self.nText.setText(self.sample[14])
             self.rejectedMessage.setText(self.sample[18])
@@ -152,16 +183,23 @@ class QCATResult(QMainWindow):
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
-        if self.fName.text() and self.lName.text() and self.clinDrop.currentText() != "":
+        if (
+            self.fName.text()
+            and self.lName.text()
+            and self.clinDrop.currentText() != ""
+        ):
             if float(self.collectionTime.text()) != 0:
-                if (self.rejectedCheckBox.isChecked() and self.rejectedMessage.text() != "") or not self.rejectedCheckBox.isChecked():
+                if (
+                    self.rejectedCheckBox.isChecked()
+                    and self.rejectedMessage.text() != ""
+                ) or not self.rejectedCheckBox.isChecked():
                     saID = int(self.saID.text())
                     if self.model.addCATResult(
                         saID,
-                        self.view.entries[self.clinDrop.currentText()]['db'],
+                        self.view.entries[self.clinDrop.currentText()]["db"],
                         self.fName.text(),
                         self.lName.text(),
-                        self.model.getCurrUser(),
+                        self.view.currentTech,
                         self.repDate.date(),
                         "Caries",
                         float(self.volume.text()),
@@ -173,25 +211,34 @@ class QCATResult(QMainWindow):
                         int(self.lactobacillusCount.text()),
                         self.cText.toPlainText(),
                         self.nText.toPlainText(),
-                        QDate.currentDate() if self.rejectedCheckBox.isChecked() else None,
-                        self.rejectedMessage.text() if self.rejectedCheckBox.isChecked() else None
+                        QDate.currentDate()
+                        if self.rejectedCheckBox.isChecked()
+                        else None,
+                        self.rejectedMessage.text()
+                        if self.rejectedCheckBox.isChecked()
+                        else None,
                     ):
-                        #self.handleSearchPressed()
                         self.save.setEnabled(True)
-                        #self.clear.setEnabled(False)
                         self.print.setEnabled(True)
-                        #self.rejectionError.setText("(REJECTED)") if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
-                        self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
+                        self.errorMessage.setStyleSheet(
+                            "font: 12pt 'MS Shell Dlg 2'; color: green"
+                        )
                         self.errorMessage.setText("Saved CAT Result Form: " + str(saID))
-                        self.view.auditor(self.model.getCurrUser(), "Update", self.saID.text(), 'CAT_Result')
+                        self.view.auditor(
+                            self.view.currentTech, "Update", self.saID.text(), "CAT_Result"
+                        )
                         return True
                 else:
-                    self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                    self.errorMessage.setStyleSheet(
+                        "font: 12pt 'MS Shell Dlg 2'; color: red"
+                    )
                     self.errorMessage.setText("Please enter reason for rejection")
                     return False
             else:
                 self.flowRate.setText("x.xx")
-                self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
+                self.errorMessage.setStyleSheet(
+                    "font: 12pt 'MS Shell Dlg 2'; color: red"
+                )
                 self.errorMessage.setText("Cannot divide by 0")
                 return False
         else:
@@ -231,23 +278,23 @@ class QCATResult(QMainWindow):
 
     #@throwsViewableException
     def handlePrintPressed(self):
-        template = str(Path().resolve())+r'\templates\cat_results_template.docx'
+        template = str(Path().resolve()) + r"\templates\cat_results_template.docx"
         dst = self.view.tempify(template)
         document = MailMerge(template)
-        clinician = self.clinDrop.currentText().split(', ')
+        clinician = self.clinDrop.currentText().split(", ")
         document.merge(
-            saID=f'{self.saID.text()[0:2]}-{self.saID.text()[2:6]}',
-            patientName=f'{self.fName.text()} {self.lName.text()}',
+            saID=f"{self.saID.text()[0:2]}-{self.saID.text()[2:6]}",
+            patientName=f"{self.fName.text()} {self.lName.text()}",
             clinicianName=clinician[1] + " " + clinician[0],
             collected=self.view.fSlashDate(self.sample[15]),
             received=self.view.fSlashDate(self.sample[16]),
             flowRate=str(self.flowRate.text()),
             bufferingCapacity=str(self.bufferingCapacityPH.text()),
-            smCount='{:.2e}'.format(int(self.strepMutansCount.text())),
-            lbCount='{:.2e}'.format(int(self.lactobacillusCount.text())),
+            smCount="{:.2e}".format(int(self.strepMutansCount.text())),
+            lbCount="{:.2e}".format(int(self.lactobacillusCount.text())),
             reported=self.view.fSlashDate(self.repDate.date()),
-            techName=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.',
-            comments=self.cText.toPlainText()
+            techName=self.model.tech,
+            comments=self.cText.toPlainText(),
         )
         document.write(dst)
         self.view.convertAndPrint(dst)
