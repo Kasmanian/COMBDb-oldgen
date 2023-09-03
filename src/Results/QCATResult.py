@@ -6,7 +6,7 @@ from PyQt5.QtCore import QDate, QTimer, QThread
 from PyQt5.QtGui import QIcon
 import re
 
-from Utility.QAdminLogin import QAdminLogin
+from Utility.QViewableException import QViewableException
 
 class QCATResult(QMainWindow):
     def __init__(self, model, view):
@@ -47,7 +47,7 @@ class QCATResult(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def threader(self):
         self.thread = QThread()
         if self.handleSavePressed():
@@ -55,15 +55,15 @@ class QCATResult(QMainWindow):
             self.thread.start()
             self.thread.exit()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
         self.view.showAdvancedSearchScreen(self, "catResult")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
             self.rejectedMessage.setStyleSheet(
@@ -80,7 +80,7 @@ class QCATResult(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def lineEdited(self, arg):
         lineEdit = self.volume if arg else self.collectionTime
         pattern = re.compile("^[0-9\.]*$")
@@ -98,15 +98,15 @@ class QCATResult(QMainWindow):
         else:
             lineEdit.setText("0.00")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showResultEntryNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -179,7 +179,7 @@ class QCATResult(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found CAT Order: " + self.saID.text())
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -247,7 +247,7 @@ class QCATResult(QMainWindow):
             return False
         
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
         self.saID.setEnabled(True)
@@ -276,7 +276,7 @@ class QCATResult(QMainWindow):
         self.msg = ""
         self.handleRejectedPressed()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePrintPressed(self):
         template = str(Path().resolve()) + r"\templates\cat_results_template.docx"
         dst = self.view.tempify(template)
@@ -299,6 +299,6 @@ class QCATResult(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")

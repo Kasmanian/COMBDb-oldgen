@@ -5,7 +5,7 @@ from mailmerge import MailMerge
 from PyQt5.QtCore import QDate, QTimer, QThread
 from PyQt5.QtGui import QIcon
 
-from Utility.QAdminLogin import QAdminLogin
+from Utility.QViewableException import QViewableException
 
 class QCultureOrder(QMainWindow):
     def __init__(self, model, view):
@@ -40,7 +40,7 @@ class QCultureOrder(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def threader(self):
         self.thread = QThread()
         if self.handleSavePressed():
@@ -48,11 +48,11 @@ class QCultureOrder(QMainWindow):
             self.thread.start()
             self.thread.exit()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
             self.rejectedMessage.setStyleSheet("background-color: rgb(255, 255, 255); border-style: solid; border-width: 1px")
@@ -65,7 +65,7 @@ class QCultureOrder(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -127,19 +127,19 @@ class QCultureOrder(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: green")
             self.errorMessage.setText("Found previous order: " + self.saID.text())
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
         self.view.showAdvancedSearchScreen(self, "cultureOrder")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showCultureOrderNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
     
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -292,7 +292,6 @@ class QCultureOrder(QMainWindow):
                             if self.rejectedCheckBox.isChecked()
                             else None,
                         )
-                        # self.view.showConfirmationScreen("Are you sure you want to update an existing culture order?")
                         self.rejectionError.setText(
                             "(REJECTED)"
                         ) if self.rejectedCheckBox.isChecked() else self.rejectionError.clear()
@@ -327,7 +326,7 @@ class QCultureOrder(QMainWindow):
             self.errorMessage.setText("* Denotes Required Fields")
             return False
         
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePrintPressed(self):
         if self.type.currentText() != "Caries":
             template = (
@@ -366,7 +365,7 @@ class QCultureOrder(QMainWindow):
             self.view.convertAndPrint(dst)
         return
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearPressed(self):
         self.fName.clear()
         self.lName.clear()
@@ -395,6 +394,6 @@ class QCultureOrder(QMainWindow):
         self.msg = ""
         self.handleRejectedPressed()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")

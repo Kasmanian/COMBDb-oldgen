@@ -10,5 +10,6 @@ class QViewableException():
                 result = func(self, *args, **kwargs)
                 return result
             except Exception as e:
-                return QView.showErrorScreen(e)
+                return self.view.showErrorScreen(e)
+
         return wrap

@@ -6,8 +6,7 @@ from mailmerge import MailMerge
 from PyQt5.QtCore import QDate, QTimer
 from PyQt5.QtGui import QIcon
 
-from Utility.QAdminLogin import QAdminLogin
-
+from Utility.QViewableException import QViewableException
 
 class QDUWLReceive(QMainWindow):
     def __init__(self, model, view):
@@ -60,27 +59,27 @@ class QDUWLReceive(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = "" 
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
         self.view.showAdvancedSearchScreen(self, "duwlReceive")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showDUWLNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
             self.rejectedMessage.setStyleSheet(
@@ -97,7 +96,7 @@ class QDUWLReceive(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -174,7 +173,7 @@ class QDUWLReceive(QMainWindow):
             self.errorMessage.setText("This DUWL Order has already been added")
             return
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -239,7 +238,7 @@ class QDUWLReceive(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please select a clinician")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
         self.saID.setEnabled(True)
@@ -261,14 +260,14 @@ class QDUWLReceive(QMainWindow):
         self.handleRejectedPressed()
         self.updateTable()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearAllPressed(self):
         self.kitList.clear()
         self.currentKit = 1
         self.printList.clear()
         self.updateTable()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleRemovePressed(self):
         del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
         del self.printList[self.kitTWid.currentItem().text()]
@@ -280,7 +279,7 @@ class QDUWLReceive(QMainWindow):
         self.currentKit = len(self.kitList) + 1
         self.remove.setEnabled(False)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def updateTable(self):
         self.kitTWid.setRowCount(len(self.printList.keys()))
         count = 0
@@ -292,7 +291,7 @@ class QDUWLReceive(QMainWindow):
         else:
             self.print.setEnabled(False)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePrintPressed(self):
         template = str(Path().resolve())+r'\templates\pending_duwl_cultures_template.docx'
         dst = self.view.tempify(template)
@@ -302,6 +301,6 @@ class QDUWLReceive(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")

@@ -2,8 +2,8 @@ from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QIcon
 
-from Utility.QAdminLogin import QAdminLogin
 from Utility.QPrefixGraph import QPrefixGraph
+from Utility.QViewableException import QViewableException
 
 
 class QAdminHome(QMainWindow):
@@ -21,22 +21,22 @@ class QAdminHome(QMainWindow):
         self.logout.clicked.connect(self.handleLogoutPressed)
         QPrefixGraph(self.model)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleCultureOrderFormsPressed(self):
         self.view.showCultureOrderNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleResultEntryPressed(self):
         self.view.showResultEntryNav()
 
-    ##@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleQAReportPressed(self):
         self.view.showQAReportScreen()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSettingsPressed(self):
         self.view.showSettingsNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleLogoutPressed(self):
         self.view.showAdminLoginScreen()

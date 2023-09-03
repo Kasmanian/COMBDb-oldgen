@@ -2,6 +2,7 @@ from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QIcon
 
+from Utility.QViewableException import QViewableException
 
 class QOrderNav(QMainWindow):
     def __init__(self, model, view):
@@ -14,17 +15,17 @@ class QOrderNav(QMainWindow):
         self.duwl.clicked.connect(self.handleDUWLPressed)
         self.back.clicked.connect(self.handleBackPressed)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleCulturePressed(self):
         self.view.showCultureOrderForm()
         self.close()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleDUWLPressed(self):
         self.view.showDUWLNav()
         self.close()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showAdminHomeScreen()
         self.close()

@@ -2,6 +2,8 @@ from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QIcon
 
+from Utility.QViewableException import QViewableException
+
 class QManageArchives(QMainWindow): #TODO - incorporate archiving.
     def __init__(self, model, view):
         super(QManageArchives, self).__init__()
@@ -14,10 +16,10 @@ class QManageArchives(QMainWindow): #TODO - incorporate archiving.
         self.back.clicked.connect(self.handleBackPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showSettingsNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()

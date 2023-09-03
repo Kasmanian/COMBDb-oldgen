@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QIcon
 
+from Utility.QViewableException import QViewableException
+
 
 class QAdminLogin(QMainWindow):
     def __init__(self, model, view):
@@ -16,7 +18,7 @@ class QAdminLogin(QMainWindow):
         self.pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.handleLoginPressed)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleLoginPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -31,11 +33,11 @@ class QAdminLogin(QMainWindow):
             else:
                 self.errorMessage.setText("Invalid username or password")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def event(self, event):
         if event.type() == QtCore.QEvent.KeyPress:
             if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):

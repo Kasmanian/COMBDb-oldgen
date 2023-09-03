@@ -5,9 +5,9 @@ from PyQt5.QtWidgets import QMainWindow
 from mailmerge import MailMerge
 from PyQt5.QtCore import QDate, QTimer
 from PyQt5.QtGui import QIcon
-import math
 
 from Utility.QAdminLogin import QAdminLogin
+from Utility.QViewableException import QViewableException
 
 class QDUWLOrder(QMainWindow):
     def __init__(self, model, view):
@@ -61,11 +61,11 @@ class QDUWLOrder(QMainWindow):
         self.rejectedMessage.setEnabled(False)
         self.msg = ""
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
         self.view.showAdvancedSearchScreen(self, "duwlOrder")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
@@ -85,11 +85,11 @@ class QDUWLOrder(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def activateRemove(self):
         self.remove.setEnabled(True)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -161,19 +161,19 @@ class QDUWLOrder(QMainWindow):
             self.errorMessage.setText("This DUWL Order has already been added")
             return
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAddClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showDUWLNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -289,7 +289,7 @@ class QDUWLOrder(QMainWindow):
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("Please select a clinician")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearPressed(self):
         self.kitNum.setText(str(self.currentKit))
         self.saID.clear()
@@ -313,7 +313,7 @@ class QDUWLOrder(QMainWindow):
         self.handleRejectedPressed()
         self.updateTable()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearAllPressed(self):
         self.kitList.clear()
         self.currentKit = 1
@@ -322,7 +322,7 @@ class QDUWLOrder(QMainWindow):
         self.updateTable()
         self.save.setEnabled(True)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleRemovePressed(self):
         del self.kitList[self.printList[self.kitTWid.currentItem().text()]]
         del self.printList[self.kitTWid.currentItem().text()]
@@ -335,7 +335,7 @@ class QDUWLOrder(QMainWindow):
         self.kitNum.setText(str(self.currentKit))
         self.remove.setEnabled(False)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def updateTable(self):
         self.kitTWid.setRowCount(len(self.printList.keys()))
         count = 0
@@ -347,7 +347,7 @@ class QDUWLOrder(QMainWindow):
         else:
             self.print.setEnabled(False)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePrintPressed(self):
         template = str(Path().resolve()) + r"\templates\duwl_labels.docx"
         dst = self.view.tempify(template)
@@ -377,6 +377,6 @@ class QDUWLOrder(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")

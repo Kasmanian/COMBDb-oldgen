@@ -21,9 +21,7 @@ from Results.QDUWLResult import QDUWLResult
 from Settings.QSettingsNav import QSettingsNav
 from Settings.QManageTechnicians import QManageTechnicians
 from Settings.QEditTechnician import QEditTechnician
-from Settings.QManageArchives import QManageArchives
 from Settings.QManagePrefixes import QManagePrefixes
-from Settings.QHistoricResults import QHistoricResults
 
 from Utility.QError import QError
 from Utility.QConfirmation import QConfirmation
@@ -35,6 +33,7 @@ from Utility.QFilePath import QFilePath
 from Utility.QRejectionLog import QRejectionLog
 from Utility.QAdvancedSearch import QAdvancedSearch
 from Utility.QClinician import QClinician
+from Utility.QViewableException import QViewableException
 
 class QView:
     def __init__(self, model):
@@ -58,37 +57,45 @@ class QView:
         except Exception as e:
             self.showErrorScreen(e)
 
+    @QViewableException.throwsViewableException
     def showSetFilePathScreen(self):
         self.setFilePathScreen = QFilePath(self.model, self)
         self.setFilePathScreen.show()
 
+    @QViewableException.throwsViewableException
     def showErrorScreen(self, message):
         self.setErrorScreen = QError(self.model, self, message)
         self.setErrorScreen.show()
 
+    @QViewableException.throwsViewableException
     def showConfirmationScreen(self):
         self.setConfirmationScreen = QConfirmation(self.model, self)
         self.setConfirmationScreen.show()
 
+    @QViewableException.throwsViewableException
     def showArchiveReminderScreen(self):
         self.setArchiveReminderScreen = QArchiveReminder(self.model, self)
         self.setArchiveReminderScreen.show()
 
+    @QViewableException.throwsViewableException
     def showAdminLoginScreen(self):
         adminLoginScreen = QAdminLogin(self.model, self)
         self.widget.addWidget(adminLoginScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showAdminHomeScreen(self):
         adminHomeScreen = QAdminHome(self.model, self)
         self.widget.addWidget(adminHomeScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showQAReportScreen(self):
         qaReportScreen = QQAReport(self.model, self)
         self.widget.addWidget(qaReportScreen)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showSettingsNav(self):
         self.settingsNav = QSettingsNav(self.model, self)
         self.settingsNav.show()
@@ -98,71 +105,85 @@ class QView:
         self.widget.addWidget(settingsManageTechnicianForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showEditTechnician(self, id):
         self.settingsEditTechnician = QEditTechnician(self.model, self, id)
         self.settingsEditTechnician.show()
 
+    @QViewableException.throwsViewableException
     def showSettingsManagePrefixesForm(self):
         settingsManagePrefixesForm = QManagePrefixes(self.model, self)
         self.widget.addWidget(settingsManagePrefixesForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
-
+    @QViewableException.throwsViewableException
     def showRejectionLogForm(self):
         rejectionLogForm = QRejectionLog(self.model, self)
         self.widget.addWidget(rejectionLogForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showAdvancedSearchScreen(self, orderForm, selector):
         self.advancedOrderScreen = QAdvancedSearch(self.model, self, orderForm, selector)
         self.advancedOrderScreen.show()
 
+    @QViewableException.throwsViewableException
     def showCultureOrderNav(self):
         self.cultureOrderNav = QOrderNav(self.model, self)
         self.cultureOrderNav.show()
 
+    @QViewableException.throwsViewableException
     def showCultureOrderForm(self):
         cultureOrderForm = QCultureOrder(self.model, self)
         self.widget.addWidget(cultureOrderForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showAddClinicianScreen(self, dropdown):
         self.addClinician = QClinician(self.model, self, dropdown)
         self.addClinician.show()
 
+    @QViewableException.throwsViewableException
     def showDUWLNav(self):
         self.duwlNav = QDUWLNav(self.model, self)
         self.duwlNav.show()
 
+    @QViewableException.throwsViewableException
     def showDUWLOrderForm(self):
         duwlOrderForm = QDUWLOrder(self.model, self)
         self.widget.addWidget(duwlOrderForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showDUWLReceiveForm(self):
         duwlReceiveForm = QDUWLReceive(self.model, self)
         self.widget.addWidget(duwlReceiveForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showResultEntryNav(self):
         self.resultEntryNav = QResultNav(self.model, self)
         self.resultEntryNav.show()
 
+    @QViewableException.throwsViewableException
     def showCultureResultForm(self):
         cultureResultForm = QCultureResult(self.model, self)
         self.widget.addWidget(cultureResultForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showCATResultForm(self):
         catResultForm = QCATResult(self.model, self)
         self.widget.addWidget(catResultForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showDUWLResultForm(self):
         duwlResultForm = QDUWLResult(self.model, self)
         self.widget.addWidget(duwlResultForm)
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
+    @QViewableException.throwsViewableException
     def showPrintPreview(self, wordPath, pdfPath):
         self.web = QWebEngineView()
         self.web.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
@@ -174,6 +195,7 @@ class QView:
         self.web.load(QUrl.fromLocalFile(pdfPath))
         self.web.showMaximized()
 
+    @QViewableException.throwsViewableException
     def showPrintPrompt(self, wordPath):
         word = win32.Dispatch("Word.Application")
         word.Documents.Open(wordPath)
@@ -182,6 +204,7 @@ class QView:
         word.ActiveDocument.Close()
         word.Quit()
 
+    @QViewableException.throwsViewableException
     def convertAndPrint(self, wordPath):
         try:
             word = win32.DispatchEx("Word.Application")
@@ -197,12 +220,14 @@ class QView:
             if word:
                 word.Quit()
 
+    @QViewableException.throwsViewableException
     def tempify(self, path):
         tempPath = path.split("\\")
         tempPath[len(tempPath) - 1] = "temp.docx"
         tempPath = "\\".join(tempPath)
         return tempPath
 
+    @QViewableException.throwsViewableException
     def fClinicianName(self, prefix, first, last, designation):
         em = ""
         comma = ", " if first is not None else ""
@@ -213,6 +238,7 @@ class QView:
             else designation or ""
         )
 
+    @QViewableException.throwsViewableException
     def fClinicianNameNormal(self, prefix, first, last, designation):
         em = ""
         prefix = prefix + " " if prefix is not None else prefix
@@ -223,12 +249,14 @@ class QView:
             else designation or ""
         )
 
+    @QViewableException.throwsViewableException
     def fSlashDate(self, date):
         if isinstance(date, datetime.datetime):
             return date.strftime("%m/%d/%Y")
         else:
             return f"{date.month()}/{date.day()}/{date.year()}"
 
+    @QViewableException.throwsViewableException
     def dtToQDate(self, date):
         return (
             QDate(date.year, date.month, date.day)
@@ -236,6 +264,7 @@ class QView:
             else QDate(self.model.date.year, self.model.date.month, self.model.date.day)
         )
 
+    @QViewableException.throwsViewableException
     def setClinicianList(self):
         try:
             self.clinicians = self.model.selectClinicians(
@@ -255,6 +284,7 @@ class QView:
         except Exception as e:
             self.showErrorScreen(e)
         
+    @QViewableException.throwsViewableException
     def auditor(self, tech, action, app, form):
         date = str(datetime.datetime.now())
         self.model.auditor(tech, action, app, form, date)

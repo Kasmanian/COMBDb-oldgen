@@ -8,7 +8,7 @@ from docxtpl import DocxTemplate
 from PyQt5.QtCore import QDate, QTimer, QThread
 from PyQt5.QtGui import QIcon
 
-from Utility.QAdminLogin import QAdminLogin
+from Utility.QViewableException import QViewableException
 from Utility.QIndexedComboBox import QIndexedComboBox
 from Utility.QPrefixGraph import QPrefixGraph
 
@@ -127,7 +127,7 @@ class QCultureResult(QMainWindow):
         except Exception as e:
             self.view.showErrorScreen(e)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def threader(self, arg):
         if arg == 0:
             ui = self.handleDirectSmearPressed
@@ -141,15 +141,15 @@ class QCultureResult(QMainWindow):
             self.thread.start()
             self.thread.exit()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
         self.view.showAdvancedSearchScreen(self, "cultureResult")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):
         self.view.showAddClinicianScreen(self.clinDrop)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleRejectedPressed(self):
         if self.rejectedCheckBox.isChecked():
             self.rejectedMessage.setStyleSheet(
@@ -166,7 +166,7 @@ class QCultureResult(QMainWindow):
             self.rejectedMessage.setEnabled(False)
             self.rejectedMessage.clear()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def initTables(self):
         self.aeTWid.setRowCount(0)
         self.aeTWid.setRowCount(len(self.aerobicTable))
@@ -217,13 +217,13 @@ class QCultureResult(QMainWindow):
         self.aeTWid.resizeColumnsToContents()
         self.anTWid.resizeColumnsToContents()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def eventFilter(self, source, event):
         if (event.type() == QtCore.QEvent.Wheel and isinstance(source, QtWidgets.QComboBox)):
             return True
         return super(QCultureResult, self).eventFilter(source, event)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def updateTable(self, kind, row, column):
         if kind:
             if row < len(self.aerobicTable):
@@ -242,7 +242,7 @@ class QCultureResult(QMainWindow):
                         else self.anaerobicTable[row][column]
                     )
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def resultToTable(self, result, type):
         if result is not None:
             result = result.replace(" / ", "|")
@@ -284,7 +284,7 @@ class QCultureResult(QMainWindow):
         else:
             return [["Bacteria", "Growth", "PEN", "AMP", "CC", "TET", "CEP", "ERY"]]
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def tableToResult(self, table, type):
         if len(table) > 1 and len(table[0]) > 1:
             result = ""
@@ -307,7 +307,7 @@ class QCultureResult(QMainWindow):
         else:
             return None
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def addRowAerobic(self):
         self.aeTWid.setRowCount(self.aeTWid.rowCount() + 1)
         self.aerobicTable.append([self.swap.get("Aerobic", "word")[0]])
@@ -323,7 +323,7 @@ class QCultureResult(QMainWindow):
             self.aeTWid.setCellWidget(self.aeTWid.rowCount() - 1, i, options)
         self.aeTWid.resizeColumnsToContents()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def addRowAnaerobic(self):
         self.anTWid.setRowCount(self.anTWid.rowCount() + 1)
         self.anaerobicTable.append([self.swap.get("Anaerobic", "word")[0]])
@@ -339,19 +339,19 @@ class QCultureResult(QMainWindow):
             self.anTWid.setCellWidget(self.anTWid.rowCount() - 1, i, options)
         self.anTWid.resizeColumnsToContents()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def delRowAerobic(self):
         if self.aeTWid.rowCount() > 1:
             self.aeTWid.setRowCount(self.aeTWid.rowCount() - 1)
             self.aerobicTable.pop()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def delRowAnaerobic(self):
         if self.anTWid.rowCount() > 1:
             self.anTWid.setRowCount(self.anTWid.rowCount() - 1)
             self.anaerobicTable.pop()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def addColAerobic(self):
         self.aeTWid.setColumnCount(self.aeTWid.columnCount() + 1)
         self.aerobicTable[0].append("Growth")
@@ -367,7 +367,7 @@ class QCultureResult(QMainWindow):
             self.aeTWid.setCellWidget(i, self.aeTWid.columnCount() - 1, options)
         self.aeTWid.resizeColumnsToContents()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def addColAnaerobic(self):
         self.anTWid.setColumnCount(self.anTWid.columnCount() + 1)
         self.anaerobicTable[0].append("Growth")
@@ -384,21 +384,21 @@ class QCultureResult(QMainWindow):
             self.anTWid.setCellWidget(i, self.anTWid.columnCount() - 1, options)
         self.anTWid.resizeColumnsToContents()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def delColAerobic(self):
         if self.aeTWid.columnCount() > 1:
             self.aeTWid.setColumnCount(self.aeTWid.columnCount() - 1)
             for row in self.aerobicTable:
                 row.pop()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def delColAnaerobic(self):
         if self.anTWid.columnCount() > 1:
             self.anTWid.setColumnCount(self.anTWid.columnCount() - 1)
             for row in self.anaerobicTable:
                 row.pop()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSearchPressed(self, data):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -472,7 +472,7 @@ class QCultureResult(QMainWindow):
             )
             self.errorMessage2.setText("Found Culture Order: " + self.saID.text())
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSavePressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -548,7 +548,7 @@ class QCultureResult(QMainWindow):
             self.errorMessage2.setText("* Denotes Required Fields")
             return False
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleDirectSmearPressed(self):
         self.saID.setEnabled(False)
         template = str(Path().resolve()) + r"\templates\culture_smear_template.docx"
@@ -572,7 +572,7 @@ class QCultureResult(QMainWindow):
         document.write(dst)
         self.view.convertAndPrint(dst)
     
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePreliminaryPressed(self):
         self.saID.setEnabled(False)
         template = str(Path().resolve()) + r"\templates\culture_prelim_template.docx"
@@ -604,7 +604,7 @@ class QCultureResult(QMainWindow):
         document.save(dst)
         self.view.convertAndPrint(dst)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePerioPressed(self):
         self.saID.setEnabled(False)
         template = str(Path().resolve()) + r"\templates\culture_results_template.docx"
@@ -640,7 +640,7 @@ class QCultureResult(QMainWindow):
         document.save(dst)
         self.view.convertAndPrint(dst)
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleClearPressed(self):
         self.saID.clear()
         self.saID.setEnabled(True)
@@ -674,15 +674,15 @@ class QCultureResult(QMainWindow):
         self.anaerobicTable = self.resultToTable(None, "Anaerobic")
         self.initTables()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleBackPressed(self):
         self.view.showResultEntryNav()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")
         self.errorMessage2.setText("")

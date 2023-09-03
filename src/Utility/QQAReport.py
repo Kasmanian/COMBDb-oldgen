@@ -7,7 +7,7 @@ from docxtpl import DocxTemplate
 from PyQt5.QtCore import QDate, QTimer
 from PyQt5.QtGui import QIcon
 
-from Utility.QAdminLogin import QAdminLogin
+from Utility.QViewableException import QViewableException
 
 class QQAReport(QMainWindow): #TODO
     def __init__(self, model, view):
@@ -16,15 +16,19 @@ class QQAReport(QMainWindow): #TODO
         self.model = model
         self.timer = QTimer(self)
         loadUi("UI Screens/COMBdb_QA_Report_Screen.ui", self)
-        self.find.setIcon(QIcon('Icon/searchIcon.png'))
-        self.home.setIcon(QIcon('Icon/menuIcon.png'))
+        self.find.setIcon(QIcon("Icon/searchIcon.png"))
+        self.home.setIcon(QIcon("Icon/menuIcon.png"))
         self.find.clicked.connect(self.handleSearchPressed)
         self.print.clicked.connect(self.handlePrintPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
-        self.fromDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
-        self.toDate.setDate(QDate(self.model.date.year, self.model.date.month, self.model.date.day))
+        self.fromDate.setDate(
+            QDate(self.model.date.year, self.model.date.month, self.model.date.day)
+        )
+        self.toDate.setDate(
+            QDate(self.model.date.year, self.model.date.month, self.model.date.day)
+        )
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleSearchPressed(self):
         self.timer.timeout.connect(self.timerEvent)
         self.timer.start(5000)
@@ -33,8 +37,18 @@ class QQAReport(QMainWindow): #TODO
         fromFormat = datetime.datetime.strptime(fromDate, "%m/%d/%Y").date()
         toFormat = datetime.datetime.strptime(toDate, "%m/%d/%Y").date()
         if fromFormat <= toFormat:
-            cultureData = self.model.findSamplesQA('Cultures', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
-            catData = self.model.findSamplesQA('CATs', '[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]', fromDate, toDate)
+            cultureData = self.model.findSamplesQA(
+                "Cultures",
+                "[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]",
+                fromDate,
+                toDate,
+            )
+            catData = self.model.findSamplesQA(
+                "CATs",
+                "[SampleID], [Type], [Clinician], [Tech], [Received], [Reported]",
+                fromDate,
+                toDate,
+            )
             data = cultureData + catData
             count = 0
             for tup in data:
@@ -43,14 +57,22 @@ class QQAReport(QMainWindow): #TODO
                 new.append(tup[0])
                 new.append(tup[1])
                 clinician = self.model.findClinician(tup[2])
-                new.append(self.view.fClinicianNameNormal(clinician[0], clinician[1], clinician[2], clinician[3]))
+                new.append(
+                    self.view.fClinicianNameNormal(
+                        clinician[0], clinician[1], clinician[2], clinician[3]
+                    )
+                )
                 if tup[3] != 0:
-                    techName = list(self.model.findTech(tup[3], 'First, Middle, Last'))
-                    new.append(techName[0] + ' ' + techName[1] + ' ' + techName[2])
+                    techName = list(self.model.findTech(tup[3], "First, Middle, Last"))
+                    new.append(techName[0] + " " + techName[1] + " " + techName[2])
                 else:
                     new.append("")
-                new.append(self.view.fSlashDate(tup[4])) if tup[4] != None else new.append("None")
-                new.append(self.view.fSlashDate(tup[5])) if tup[5] != None else new.append("None")
+                new.append(self.view.fSlashDate(tup[4])) if tup[
+                    4
+                ] != None else new.append("None")
+                new.append(self.view.fSlashDate(tup[5])) if tup[
+                    5
+                ] != None else new.append("None")
                 data[count] = new
                 count += 1
             data = sorted(data, key=lambda x: x[0])
@@ -61,44 +83,63 @@ class QQAReport(QMainWindow): #TODO
                 self.qaReportTable.setItem(i, 2, QTableWidgetItem(data[i][2]))
                 self.qaReportTable.setItem(i, 3, QTableWidgetItem(data[i][3]))
                 self.qaReportTable.setItem(i, 4, QTableWidgetItem(data[i][5]))
-                if str(data[i][5]) != 'None' and str(data[i][4]) != 'None':
-                    numDays = (datetime.datetime.strptime(data[i][5], '%m/%d/%Y').date() - datetime.datetime.strptime(data[i][4], '%m/%d/%Y').date()).days
+                if str(data[i][5]) != "None" and str(data[i][4]) != "None":
+                    numDays = (
+                        datetime.datetime.strptime(data[i][5], "%m/%d/%Y").date()
+                        - datetime.datetime.strptime(data[i][4], "%m/%d/%Y").date()
+                    ).days
                 else:
-                    numDays = 'Still in Culture'
+                    numDays = "Still in Culture"
                 self.qaReportTable.setItem(i, 5, QTableWidgetItem(str(numDays)))
-            self.qaReportTable.sortItems(0,0)
+            self.qaReportTable.sortItems(0, 0)
             self.qaReportTable.resizeColumnsToContents()
-            self.view.auditor(self.model.getCurrUser(), 'Search', 'COMBDb', 'QAReport')
+            self.view.auditor(self.view.currentTech, "Search", "COMBDb", "QAReport")
         else:
             self.errorMessage.setStyleSheet("font: 12pt 'MS Shell Dlg 2'; color: red")
             self.errorMessage.setText("From date must come before to date") 
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handlePrintPressed(self):
         self.printList = []
         for i in range(self.qaReportTable.rowCount()):
-            self.printList.append([str(self.qaReportTable.item(i, 0).text()), self.qaReportTable.item(i, 1).text(), self.qaReportTable.item(i, 2).text(), self.qaReportTable.item(i, 3).text(), self.qaReportTable.item(i, 4).text(), self.qaReportTable.item(i, 5).text()])
-        template = str(Path().resolve())+r'\templates\qa_report_template.docx'
+            self.printList.append(
+                [
+                    str(self.qaReportTable.item(i, 0).text()),
+                    self.qaReportTable.item(i, 1).text(),
+                    self.qaReportTable.item(i, 2).text(),
+                    self.qaReportTable.item(i, 3).text(),
+                    self.qaReportTable.item(i, 4).text(),
+                    self.qaReportTable.item(i, 5).text(),
+                ]
+            )
+        template = str(Path().resolve()) + r"\templates\qa_report_template.docx"
         dst = self.view.tempify(template)
         document = MailMerge(template)
         document.merge(
-            tech=f'{self.model.tech[1][0]}.{self.model.tech[2][0]}.{self.model.tech[3][0]}.'
+            tech=self.model.tech
         )
         document.write(dst)
         context = {
-            'headers1' : ['Sample ID', 'Type', 'Clincian', 'Tech', 'Date Reported', 'Days in Culture'],
-            'servers1' : self.printList
+            "headers1": [
+                "Sample ID",
+                "Type",
+                "Clincian",
+                "Tech",
+                "Date Reported",
+                "Days in Culture",
+            ],
+            "servers1": self.printList,
         }
         document = DocxTemplate(dst)
         document.render(context)
         document.save(dst)
         self.view.convertAndPrint(dst)
-        self.view.auditor(self.model.getCurrUser(), 'Print', 'COMBDb', 'QAReport')
+        self.view.auditor(self.view.currentTech, "Print", "COMBDb", "QAReport")
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleReturnToMainMenuPressed(self):
         self.view.showAdminHomeScreen()
 
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def timerEvent(self):
         self.errorMessage.setText("")
