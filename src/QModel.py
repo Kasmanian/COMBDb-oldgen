@@ -3,14 +3,7 @@ from datetime import date
 
 class QModel:
   def __init__(self):
-    self.currUser = 0
     pass
-
-  def setCurrUser(self, currUser):
-    self.currUser = currUser
-
-  def getCurrUser(self):
-    return self.currUser
 
   def __usesCursor(func):
     def wrap(self, *args, **kwargs):
@@ -64,6 +57,18 @@ class QModel:
     query = ('INSERT INTO Prefixes(Type, Prefix, Word) VALUES(?, ?, ?)')
     cursor.execute(query, type, prefix, word)
 
+  # @__usesCursor
+  # def genSampleID(self, cursor):
+  #   tables = ['Cultures', 'CATs', 'Waterlines']
+  #   yy = self.date.year-2000
+  #   count = 0
+  #   for table in tables:
+  #     query = (f'SELECT COUNT(*) FROM {table} WHERE SampleID >= {yy}0000 AND SampleID < {yy+1}0000')
+  #     cursor.execute(query)
+  #     catch = cursor.fetchone()
+  #     count += catch[0] if catch is not None else 0
+  #   return (yy*10000)+count+1
+  
   @__usesCursor
   def genSampleID(self, cursor):
     yy = self.date.year-2000
@@ -199,7 +204,7 @@ class QModel:
   def selectTechs(self, cursor, columns):
     query = f'SELECT {columns} FROM Techs'
     cursor.execute(query)
-    return cursor.fetchall()
+    return cursor.fetchall() 
 
   @__usesCursor
   def selectPrefixes(self, cursor, type, columns):
@@ -245,7 +250,7 @@ class QModel:
     for tech in cursor.fetchall():
       if bcrypt.checkpw(password.encode('utf-8'), tech[5].encode('utf-8')) and tech[6] == 'Yes':
         self.date = date.today()
-        self.tech = tech
+        self.setTechName(tech)
         return True
     return False
   
@@ -261,3 +266,12 @@ class QModel:
 
   def fQtDate(self, qtDate):
     return date(qtDate.year(), qtDate.month(), qtDate.day())
+  
+  def setTechName(self, tech):
+    self.tech = ''
+    if tech[1] != '' and tech[1] is not None:
+      self.tech = self.tech + tech[1][0] + '.'
+    if tech[2] != '' and tech[1] is not None:
+      self.tech = self.tech + tech[2][0] + '.'
+    if tech[3] != '' and tech[1] is not None:
+      self.tech = self.tech + tech[3][0] + '.'

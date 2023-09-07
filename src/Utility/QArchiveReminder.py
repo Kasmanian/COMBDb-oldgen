@@ -1,6 +1,7 @@
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QMainWindow
 
+from Utility.QViewableException import QViewableException
 
 class QArchiveReminder(QMainWindow):
     def __init__(self, model, view):
@@ -10,6 +11,6 @@ class QArchiveReminder(QMainWindow):
         loadUi("UI Screens/COMBdb_Archive_Prompt.ui", self)
         self.no.clicked.connect(self.handleNoPressed)
     
-    #@throwsViewableException
+    @QViewableException.throwsViewableException
     def handleNoPressed(self):
         self.close()
