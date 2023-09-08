@@ -111,7 +111,7 @@ border-width: 1px</string>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="passwordTag">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -156,7 +156,7 @@ border-width: 1px</string>
        </spacer>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="usernameTag">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -295,7 +295,7 @@ QPushButton {
      </widget>
     </item>
     <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-     <widget class="QLabel" name="label_8">
+     <widget class="QLabel" name="description">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -340,7 +340,7 @@ QPushButton {
      </spacer>
     </item>
     <item row="1" column="0" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="label_6">
+     <widget class="QLabel" name="title">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>

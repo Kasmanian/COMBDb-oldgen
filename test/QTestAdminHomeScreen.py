@@ -1,9 +1,10 @@
 import sys
 import unittest
 from PyQt5.QtWidgets import QApplication
+from __TestConstants import FILEPATH
 
 import sys
-sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
+sys.path.insert(0, FILEPATH)
  
 from QModel import QModel
 from Utility.QAdminHome import QAdminHome
