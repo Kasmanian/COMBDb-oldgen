@@ -3,9 +3,10 @@ import unittest
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtTest import QTest
 from PyQt5.QtCore import Qt
+from __TestConstants import FILEPATH
 
 import sys
-sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
+sys.path.insert(0, FILEPATH)
  
 from QModel import QModel
 from Utility.QAdminLogin import QAdminLogin
@@ -29,7 +30,7 @@ class AdminLoginTest(unittest.TestCase):
     def test_defaults(self):
         '''Test the GUI in its default state'''
         #Default state of Admin Login UI is all empty
-        self.assertTrue("Welcome to COMBDb" in self.form.title.text())
+        self.assertTrue("Welcome to COMBdb" in self.form.title.text())
         self.assertTrue("Admin Login" in self.form.description.text())
         self.assertTrue("Username:" in self.form.usernameTag.text())
         self.assertEqual(self.form.user.text(), "")

@@ -1,12 +1,14 @@
 import sys
 import unittest
 from PyQt5.QtWidgets import QApplication
+from __TestConstants import FILEPATH
 
 import sys
 
-sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
+sys.path.insert(0, FILEPATH)
  
 from Orders.QDUWLNav import QDUWLNav
+from QModel import QModel
 
 app = QApplication(sys.argv)
 
@@ -14,7 +16,10 @@ class DUWLNavTest(unittest.TestCase):
     '''Test the DUWL Nav GUI'''
     def setUp(self):
         '''Create the GUI'''
-        self.form = QDUWLNav(self)
+        self.model = QModel()
+        self.model.connect()
+        self.form = QDUWLNav(self.model, self)
+        self.techLogin = self.model.techLogin
 
     def test_defaults(self):
         '''Test the GUI in its default state'''

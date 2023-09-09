@@ -1,12 +1,14 @@
 import sys
 import unittest
 from PyQt5.QtWidgets import QApplication
+from __TestConstants import FILEPATH
 
 import sys
 
-sys.path.insert(0, r'C:\Users\Hoboburger\Desktop\COMBDb\src')
+sys.path.insert(0, FILEPATH)
  
 from Orders.QOrderNav import QOrderNav
+from QModel import QModel
 
 app = QApplication(sys.argv)
 
@@ -14,7 +16,10 @@ class CultureOrderFormNavTest(unittest.TestCase):
     '''Test the Culture Order Nav GUI'''
     def setUp(self):
         '''Create the GUI'''
-        self.form = QOrderNav(self)
+        self.model = QModel()
+        self.model.connect()
+        self.form = QOrderNav(self.model, self)
+        self.techLogin = self.model.techLogin
 
     def test_defaults(self):
         '''Test the GUI in its default state'''
