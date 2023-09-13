@@ -146,7 +146,7 @@ QPushButton {
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="clinDropLabel">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Edit Clinician:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -258,7 +258,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_6">
+           <widget class="QLabel" name="fNameLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*First Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -268,7 +268,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="3" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_39">
+           <widget class="QLabel" name="enrollDateLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Enrollment Date:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -278,7 +278,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_41">
+           <widget class="QLabel" name="titleLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Title:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -288,7 +288,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="1" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_10">
+           <widget class="QLabel" name="faxLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Fax Number:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -298,7 +298,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_42">
+           <widget class="QLabel" name="emailLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;E-mail:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -335,7 +335,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="2" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_43">
+           <widget class="QLabel" name="lNameLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*Last Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -399,7 +399,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="4" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_40">
+           <widget class="QLabel" name="address2Label">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Address 2:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -409,7 +409,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="3" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_45">
+           <widget class="QLabel" name="address1Label">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*Address 1:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -446,7 +446,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="0" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_50">
+           <widget class="QLabel" name="phoneLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Phone:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -456,7 +456,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="6" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_49">
+           <widget class="QLabel" name="stateLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*State:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -493,7 +493,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="7" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_48">
+           <widget class="QLabel" name="zipLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*Zip Code:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -503,7 +503,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="5" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_38">
+           <widget class="QLabel" name="cTextLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Comment:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -540,7 +540,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="4" column="2" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="dentistIDLabel">
+           <widget class="QLabel" name="designationLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Practice Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -577,7 +577,7 @@ border-width: 1px</string>
            </widget>
           </item>
           <item row="5" column="0" alignment="Qt::AlignRight">
-           <widget class="QLabel" name="label_47">
+           <widget class="QLabel" name="cityLabel">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;*City:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
