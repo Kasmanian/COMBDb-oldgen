@@ -5,6 +5,7 @@ from QTestAdminLoginScreen import AdminLoginTest
 from QTestAdminHomeScreen import AdminHomeTest
 from QTestCultureOrderFormNav import CultureOrderFormNavTest
 from QTestDUWLNav import DUWLNavTest
+from QTestAddNewClinician import AddNewClinicianTest
 
 class QTestRunner:
 
@@ -12,7 +13,8 @@ class QTestRunner:
         AdminLoginTest,
         AdminHomeTest,
         CultureOrderFormNavTest,
-        DUWLNavTest
+        DUWLNavTest,
+        AddNewClinicianTest
         ]
     testLoad = unittest.TestLoader()
     TestList = []

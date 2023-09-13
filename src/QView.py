@@ -139,8 +139,8 @@ class QView:
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     @QViewableException.throwsViewableException
-    def showAddClinicianScreen(self, dropdown):
-        self.addClinician = QClinician(self.model, self, dropdown)
+    def showAddClinicianScreen(self):
+        self.addClinician = QClinician(self.model, self)
         self.addClinician.show()
 
     @QViewableException.throwsViewableException

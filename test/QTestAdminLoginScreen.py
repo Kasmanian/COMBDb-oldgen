@@ -5,7 +5,6 @@ from PyQt5.QtTest import QTest
 from PyQt5.QtCore import Qt
 from __TestConstants import FILEPATH
 
-import sys
 sys.path.insert(0, FILEPATH)
  
 from QModel import QModel

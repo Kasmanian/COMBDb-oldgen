@@ -6,12 +6,11 @@ from PyQt5.QtGui import QIcon
 from Utility.QViewableException import QViewableException
 
 class QClinician(QMainWindow):
-    def __init__(self, model, view, dropdown):
+    def __init__(self, model, view):
         super(QClinician, self).__init__()
         self.view = view
         self.model = model
         self.timer = QTimer(self)
-        self.dropdown = dropdown
         loadUi("UI Screens/COMBdb_Add_New_Clinician.ui", self)
         self.save.setIcon(QIcon("Icon/saveIcon.png"))
         self.clear.setIcon(QIcon("Icon/clearIcon.png"))
