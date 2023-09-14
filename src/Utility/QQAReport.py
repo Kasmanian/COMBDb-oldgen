@@ -18,6 +18,7 @@ class QQAReport(QMainWindow): #TODO
         loadUi("UI Screens/COMBdb_QA_Report_Screen.ui", self)
         self.find.setIcon(QIcon("Icon/searchIcon.png"))
         self.home.setIcon(QIcon("Icon/menuIcon.png"))
+        self.print.setIcon(QIcon("Icon/printIcon.png"))
         self.find.clicked.connect(self.handleSearchPressed)
         self.print.clicked.connect(self.handlePrintPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)

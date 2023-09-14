@@ -16,6 +16,7 @@ class QRejectionLog(QMainWindow):
         loadUi("UI Screens/COMBdb_Settings_Rejection_Log_Form.ui", self)
         self.home.setIcon(QIcon("Icon/menuIcon.png"))
         self.back.setIcon(QIcon("Icon/backIcon.png"))
+        self.print.setIcon(QIcon("Icon/printIcon.png"))
         self.back.clicked.connect(self.handleBackPressed)
         self.print.clicked.connect(self.handlePrintPressed)
         self.home.clicked.connect(self.handleReturnToMainMenuPressed)
