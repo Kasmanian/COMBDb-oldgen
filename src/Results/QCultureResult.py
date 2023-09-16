@@ -143,7 +143,7 @@ class QCultureResult(QMainWindow):
 
     @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self, "cultureResult")
+        self.view.showAdvancedSearchScreen(self, "cultureResult", True)
 
     @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):

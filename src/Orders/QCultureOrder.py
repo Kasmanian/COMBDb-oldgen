@@ -129,7 +129,7 @@ class QCultureOrder(QMainWindow):
 
     @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self, "cultureOrder")
+        self.view.showAdvancedSearchScreen(self, "cultureOrder" ,True)
 
     @QViewableException.throwsViewableException
     def handleBackPressed(self):

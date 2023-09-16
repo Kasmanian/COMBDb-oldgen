@@ -299,7 +299,7 @@ QPushButton {
 }</string>
       </property>
       <property name="text">
-       <string>Print</string>
+       <string> Print</string>
       </property>
      </widget>
     </item>

@@ -63,7 +63,7 @@ class QDUWLOrder(QMainWindow):
 
     @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self, "duwlOrder")
+        self.view.showAdvancedSearchScreen(self, "duwlOrder", False)
 
     @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):

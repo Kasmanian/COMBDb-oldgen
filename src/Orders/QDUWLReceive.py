@@ -61,7 +61,7 @@ class QDUWLReceive(QMainWindow):
 
     @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self, "duwlReceive")
+        self.view.showAdvancedSearchScreen(self, "duwlReceive", False)
 
     @QViewableException.throwsViewableException
     def activateRemove(self):

@@ -6,14 +6,17 @@ from PyQt5.QtGui import QIcon
 from Utility.QViewableException import QViewableException
 
 class QAdvancedSearch(QMainWindow):
-    def __init__(self, model, view, orderForm, selector):
+    def __init__(self, model, view, orderForm, selector, hi):
         super(QAdvancedSearch, self).__init__()
         self.view = view
         self.model = model
         self.timer = QTimer(self)
         self.orderForm = orderForm
         self.selector = selector
-        loadUi("UI Screens/COMBdb_Advanced_Search_Form2.ui", self)
+        if hi == True: 
+            loadUi("UI Screens/COMBdb_Advanced_Search_Form2.ui", self)
+        else:
+            loadUi("UI Screens/COMBdb_Advanced_Search_Form2 - Copy.ui", self)
         self.find.setIcon(QIcon("Icon/searchIcon.png"))
         self.back.setIcon(QIcon("Icon/backIcon.png"))
         self.clear.setIcon(QIcon("Icon/clearIcon.png"))
@@ -29,15 +32,6 @@ class QAdvancedSearch(QMainWindow):
         self.clinDrop.clear()
         self.clinDrop.addItem("")
         self.clinDrop.addItems(self.view.names)
-        if (
-            self.selector == "duwlOrder"
-            or self.selector == "duwlReceive"
-            or self.selector == "duwlResult"
-        ):
-            self.fName.setEnabled(False)
-            self.fName.setText("Not searchable")
-            self.lName.setEnabled(False)
-            self.lName.setText("Not searchable")
 
     @QViewableException.throwsViewableException
     def handleSearchPressed(self):

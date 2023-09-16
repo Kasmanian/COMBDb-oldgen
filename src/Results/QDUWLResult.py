@@ -61,7 +61,7 @@ class QDUWLResult(QMainWindow):
 
     @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self, "duwlResult")
+        self.view.showAdvancedSearchScreen(self, "duwlResult", False)
 
     @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):

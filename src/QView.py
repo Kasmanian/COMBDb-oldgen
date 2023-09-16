@@ -123,8 +123,8 @@ class QView:
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
     @QViewableException.throwsViewableException
-    def showAdvancedSearchScreen(self, orderForm, selector):
-        self.advancedOrderScreen = QAdvancedSearch(self.model, self, orderForm, selector)
+    def showAdvancedSearchScreen(self, orderForm, selector, hi):
+        self.advancedOrderScreen = QAdvancedSearch(self.model, self, orderForm, selector, hi)
         self.advancedOrderScreen.show()
 
     @QViewableException.throwsViewableException

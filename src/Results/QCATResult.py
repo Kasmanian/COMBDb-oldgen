@@ -57,7 +57,7 @@ class QCATResult(QMainWindow):
 
     @QViewableException.throwsViewableException
     def handleAdvancedSearchPressed(self):
-        self.view.showAdvancedSearchScreen(self, "catResult")
+        self.view.showAdvancedSearchScreen(self, "catResult", True)
 
     @QViewableException.throwsViewableException
     def handleAddNewClinicianPressed(self):
